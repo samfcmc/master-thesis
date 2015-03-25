@@ -1,5 +1,10 @@
 package com.sam.smartplacesclientapp.ui;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.RemoteException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +26,9 @@ import java.util.Collection;
 public class MainActivity extends ActionBarActivity implements BeaconConsumer {
 
     private BeaconManager iBeaconManager;
+    private BluetoothAdapter bluetoothAdapter;
     private Region region;
+    private static final int REQUEST_ENABLE_BT = 0xFF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,32 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
         setContentView(R.layout.activity_main);
         this.iBeaconManager = IBeaconManager.getInstance(this);
         this.region = new Region("myRegion", null, null, null);
+        initBluetooth();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.iBeaconManager.unbind(this);
+    }
+
+    private void initBluetooth() {
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        this.bluetoothAdapter = bluetoothManager.getAdapter();
+
+        if(this.bluetoothAdapter == null || !this.bluetoothAdapter.isEnabled()) {
+            askToTurnOnBluetooth();
+        }
+        startBeaconScan();
+    }
+
+    private void startBeaconScan() {
+        this.iBeaconManager.bind(this);
+    }
+
+    private void askToTurnOnBluetooth() {
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(intent, REQUEST_ENABLE_BT);
     }
 
 
@@ -54,21 +87,34 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
         return super.onOptionsItemSelected(item);
     }
 
-    private void logToDisplay(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    private void logToDisplay(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
     public void onBeaconServiceConnect() {
+        logToDisplay("Beacon Manager Bind");
         this.iBeaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                logToDisplay("Beacons range");
                 if(beacons.size() > 0) {
                     onBeaconsDetected(beacons);
                 }
 
             }
         });
+        try {
+            this.iBeaconManager.startRangingBeaconsInRegion(this.region);
+        } catch (RemoteException e) {
+            logToDisplay("Exception " + e.getMessage());
+        }
     }
 
     private void onBeaconsDetected(Collection<Beacon> beacons) {
