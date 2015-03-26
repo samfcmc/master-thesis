@@ -6,6 +6,7 @@ import com.parse.ParseQuery;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 
 import org.altbeacon.beacon.Beacon;
+import org.json.JSONObject;
 
 /**
  *
@@ -16,6 +17,7 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     private static final String UUID = "uuid";
     private static final String MAJOR = "major";
     private static final String MINOR = "minor";
+    private static final String OBJECT = "object";
 
     static {
         ParseObject.registerSubclass(BeaconParseObject.class);
@@ -60,6 +62,16 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     @Override
     public void setMinor(int minor) {
         put(MINOR, minor);
+    }
+
+    @Override
+    public JSONObject getObject() {
+        return getJSONObject(OBJECT);
+    }
+
+    @Override
+    public void setObject(JSONObject object) {
+        put(OBJECT, object);
     }
 
     public static ParseQuery<BeaconParseObject> getQuery() {
