@@ -1,4 +1,4 @@
-package com.sam.smartplacesclientapp.bluetooth;
+package com.sam.smartplacesclientapp.bluetooth.ibeacon;
 
 import org.altbeacon.beacon.BeaconParser;
 
