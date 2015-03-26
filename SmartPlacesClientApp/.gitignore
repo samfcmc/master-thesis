@@ -47,3 +47,6 @@ Thumbs.db
 .idea/tasks.xml
 .idea/datasources.xml
 .idea/dataSources.ids
+
+# App specific files
+parse.json

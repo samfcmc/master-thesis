@@ -3,10 +3,15 @@ package com.sam.smartplacesclientapp;
 import android.app.Application;
 import android.widget.Toast;
 
+import com.sam.smartplacesclientapp.datastore.DataStore;
+import com.sam.smartplacesclientapp.datastore.ParseDataStore;
+
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
+
+import java.io.IOException;
 
 /**
  *
@@ -16,13 +21,31 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
     private Region region;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
+    private DataStore dataStore;
 
     public void onCreate() {
         super.onCreate();
+        initBeaconLib();
+        initDataStore();
+    }
+
+    private void initBeaconLib() {
         this.region = new Region("backgroundRegion", null, null, null);
         this.regionBootstrap = new RegionBootstrap(this, region);
         this.backgroundPowerSaver = new BackgroundPowerSaver(this);
+    }
 
+    private void initDataStore() {
+        try {
+            this.dataStore = ParseDataStore.fromRawJsonResource(this, R.raw.parse);
+        } catch (IOException e) {
+            logToDisplay("Error creating data store object");
+            throw new CannotFindParseJsonFile();
+        }
+    }
+
+    public DataStore getDataStore() {
+        return this.dataStore;
     }
 
     @Override

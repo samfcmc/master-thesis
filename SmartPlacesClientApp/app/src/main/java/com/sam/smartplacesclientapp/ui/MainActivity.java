@@ -12,7 +12,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.smartplacesclientapp.R;
+import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.IBeaconManager;
+import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
+import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -29,6 +32,7 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     private BluetoothAdapter bluetoothAdapter;
     private Region region;
     private static final int REQUEST_ENABLE_BT = 0xFF;
+    private SmartPlacesApplication application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,14 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
         setContentView(R.layout.activity_main);
         this.iBeaconManager = IBeaconManager.getInstance(this);
         this.region = new Region("myRegion", null, null, null);
+        this.application = (SmartPlacesApplication) getApplication();
         initBluetooth();
+        this.application.getDataStore().createDummy("test", new DummyCallback() {
+            @Override
+            public void done(DummyObject object) {
+                logToDisplay("Dummy created " + object.getName());
+            }
+        });
     }
 
     @Override
