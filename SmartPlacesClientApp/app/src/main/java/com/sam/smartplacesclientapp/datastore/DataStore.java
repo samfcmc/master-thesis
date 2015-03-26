@@ -1,5 +1,6 @@
 package com.sam.smartplacesclientapp.datastore;
 
+import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
 
 /**
@@ -8,5 +9,6 @@ import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
 public interface DataStore {
 
     void createDummy(String name, DummyCallback callback);
+    void getBeaon(String uuid, int major, int minor, BeaconCallback callback);
 
 }

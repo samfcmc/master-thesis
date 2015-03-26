@@ -5,5 +5,5 @@ import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 /**
  *
  */
-public abstract class DummyCallback implements DataStoreCallback<DummyObject> {
+public interface DummyCallback extends DataStoreCallback<DummyObject> {
 }

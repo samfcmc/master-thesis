@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.IBeaconManager;
+import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
+import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -111,6 +113,7 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     @Override
     public void onBeaconServiceConnect() {
         logToDisplay("Beacon Manager Bind");
+
         this.iBeaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
@@ -121,6 +124,7 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
 
             }
         });
+
         try {
             this.iBeaconManager.startRangingBeaconsInRegion(this.region);
         } catch (RemoteException e) {
@@ -129,8 +133,22 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     }
 
     private void onBeaconsDetected(Collection<Beacon> beacons) {
+        try {
+            this.iBeaconManager.stopRangingBeaconsInRegion(this.region);
+        } catch (RemoteException e) {
+            logToDisplay("Error stoping ranging beacons");
+        }
         Beacon beacon = getNearestBeacon(beacons);
-        logToDisplay("Detected beacon " + beacon.getId1());
+        String uuid = beacon.getId1().toHexString();
+        int major = beacon.getId2().toInt();
+        int minor = beacon.getId3().toInt();
+        this.application.getDataStore().getBeaon(uuid, major, minor, new BeaconCallback() {
+            @Override
+            public void done(BeaconObject object) {
+                logToDisplay("Got beacon from backend " + object.getUUID());
+            }
+        });
+        logToDisplay("Detected beacon " + beacon.getId1().toHexString());
 
     }
 
