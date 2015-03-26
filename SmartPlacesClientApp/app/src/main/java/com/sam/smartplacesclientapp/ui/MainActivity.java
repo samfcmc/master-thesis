@@ -145,6 +145,7 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
 
     private void updateText(BeaconObject beaconObject) {
         TextView textView = (TextView) findViewById(R.id.main_hello_textview);
-        textView.setText(beaconObject.getObject().toString());
+        String text = beaconObject.getId() + " " + beaconObject.getObject().toString();
+        textView.setText(text);
     }
 }

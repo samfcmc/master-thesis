@@ -11,4 +11,8 @@ import com.sam.smartplacesclientapp.datastore.object.DataStoreObject;
  */
 public abstract class AbstractParseObject extends ParseObject implements DataStoreObject{
 
+    @Override
+    public String getId() {
+        return getObjectId();
+    }
 }
