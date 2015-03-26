@@ -4,33 +4,32 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.RemoteException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
-import com.sam.smartplacesclientapp.bluetooth.IBeaconManager;
+import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
+import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 
 import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.util.Collection;
 
 
-public class MainActivity extends ActionBarActivity implements BeaconConsumer {
+public class MainActivity extends ActionBarActivity implements IBeaconScanCallback {
 
-    private BeaconManager iBeaconManager;
+    private BeaconsManager beaconsManager;
     private BluetoothAdapter bluetoothAdapter;
     private Region region;
     private static final int REQUEST_ENABLE_BT = 0xFF;
@@ -40,8 +39,8 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.iBeaconManager = IBeaconManager.getInstance(this);
-        this.region = new Region("myRegion", null, null, null);
+        this.beaconsManager = new IBeaconsManager(this);
+
         this.application = (SmartPlacesApplication) getApplication();
         initBluetooth();
         this.application.getDataStore().createDummy("test", new DummyCallback() {
@@ -55,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.iBeaconManager.unbind(this);
+        this.beaconsManager.unbind();
     }
 
     private void initBluetooth() {
@@ -69,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
     }
 
     private void startBeaconScan() {
-        this.iBeaconManager.bind(this);
+        this.beaconsManager.startScan(this);
     }
 
     private void askToTurnOnBluetooth() {
@@ -110,34 +109,21 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
 
     }
 
+    private Beacon getNearestBeacon(Collection<Beacon> beacons) {
+        //TODO: Get the real nearest beacon
+        return beacons.iterator().next();
+    }
+
     @Override
-    public void onBeaconServiceConnect() {
-        logToDisplay("Beacon Manager Bind");
-
-        this.iBeaconManager.setRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                logToDisplay("Beacons range");
-                if(beacons.size() > 0) {
-                    onBeaconsDetected(beacons);
-                }
-
-            }
-        });
-
-        try {
-            this.iBeaconManager.startRangingBeaconsInRegion(this.region);
-        } catch (RemoteException e) {
-            logToDisplay("Exception " + e.getMessage());
+    public void beaconsFound(Collection<Beacon> beacons) {
+        if(beacons.size() > 0) {
+            onBeaconsFound(beacons);
         }
     }
 
-    private void onBeaconsDetected(Collection<Beacon> beacons) {
-        try {
-            this.iBeaconManager.stopRangingBeaconsInRegion(this.region);
-        } catch (RemoteException e) {
-            logToDisplay("Error stoping ranging beacons");
-        }
+    private void onBeaconsFound(Collection<Beacon> beacons) {
+        this.beaconsManager.stopScan();
+        logToDisplay("Error stoping ranging beacons");
         Beacon beacon = getNearestBeacon(beacons);
         String uuid = beacon.getId1().toHexString();
         int major = beacon.getId2().toInt();
@@ -145,15 +131,20 @@ public class MainActivity extends ActionBarActivity implements BeaconConsumer {
         this.application.getDataStore().getBeaon(uuid, major, minor, new BeaconCallback() {
             @Override
             public void done(BeaconObject object) {
-                logToDisplay("Got beacon from backend " + object.getUUID());
+                if(object == null) {
+                    logToDisplay("Beacon not found");
+                }
+                else {
+                    updateText(object);
+                }
+
             }
         });
         logToDisplay("Detected beacon " + beacon.getId1().toHexString());
-
     }
 
-    private Beacon getNearestBeacon(Collection<Beacon> beacons) {
-        //TODO: Get the real nearest beacon
-        return beacons.iterator().next();
+    private void updateText(BeaconObject beaconObject) {
+        TextView textView = (TextView) findViewById(R.id.main_hello_textview);
+        textView.setText(beaconObject.getUUID());
     }
 }
