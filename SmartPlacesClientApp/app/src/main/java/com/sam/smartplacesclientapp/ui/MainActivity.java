@@ -8,9 +8,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
@@ -24,6 +33,7 @@ import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -33,7 +43,11 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
     private BluetoothAdapter bluetoothAdapter;
     private Region region;
     private static final int REQUEST_ENABLE_BT = 0xFF;
+    private static final int REQUEST_LOGIN = SmartPlacesApplication.REQUEST_LOGIN;
     private SmartPlacesApplication application;
+
+    //UI
+    private LoginButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +57,25 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
 
         this.application = (SmartPlacesApplication) getApplication();
         initBluetooth();
-        this.application.getDataStore().createDummy("test", new DummyCallback() {
+        initUI();
+    }
+
+    private void initUI() {
+        this.loginButton = (LoginButton) findViewById(R.id.main_login_button);
+        this.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(DummyObject object) {
-                logToDisplay("Dummy created " + object.getName());
+            public void onClick(View v) {
+                loginWithFacebook();
+            }
+        });
+    }
+
+    private void loginWithFacebook() {
+        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, new ArrayList<String>(), new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                //TODO: Go to next activity
+                logToDisplay("User logged id " + parseUser.getUsername());
             }
         });
     }
@@ -110,8 +139,13 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
     }
 
     private Beacon getNearestBeacon(Collection<Beacon> beacons) {
-        //TODO: Get the real nearest beacon
-        return beacons.iterator().next();
+        Beacon nearestBeacon = null;
+        for(Beacon beacon : beacons) {
+            if(beacon == null || beacon.getDistance() < nearestBeacon.getDistance()) {
+                nearestBeacon = beacon;
+            }
+        }
+        return nearestBeacon;
     }
 
     @Override
@@ -147,5 +181,15 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
         TextView textView = (TextView) findViewById(R.id.main_hello_textview);
         String text = beaconObject.getId() + " " + beaconObject.getObject().toString();
         textView.setText(text);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == REQUEST_LOGIN) {
+                ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+            }
+        }
     }
 }

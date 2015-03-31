@@ -3,6 +3,7 @@ package com.sam.smartplacesclientapp;
 import android.app.Application;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.sam.smartplacesclientapp.datastore.DataStore;
 import com.sam.smartplacesclientapp.datastore.ParseDataStore;
 
@@ -22,6 +23,8 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private DataStore dataStore;
+
+    public static final int REQUEST_LOGIN = 2;
 
     public void onCreate() {
         super.onCreate();

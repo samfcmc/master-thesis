@@ -1,4 +1,5 @@
 {
 "appId": "<app id>",
-"clientKey": "<client key>"
+"clientKey": "<client key>",
+"facebookAppId": "<facebook app id>"
 }
