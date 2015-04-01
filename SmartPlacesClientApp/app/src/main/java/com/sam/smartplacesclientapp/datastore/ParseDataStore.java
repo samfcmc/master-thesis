@@ -15,6 +15,7 @@ import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
+import com.sam.smartplacesclientapp.datastore.login.LoginStrategy;
 import com.sam.smartplacesclientapp.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplacesclientapp.datastore.object.parse.DummyParseObject;
 
@@ -24,7 +25,7 @@ import java.io.InputStream;
 /**
  * DataStore implementation to work Parse.com BaaS
  */
-public class ParseDataStore implements DataStore {
+public class ParseDataStore extends AbstractDataStore {
 
     public static ParseDataStore fromRawJsonResource(Application application, int jsonRawResId) throws IOException {
         InputStream inputStream = application.getResources().openRawResource(R.raw.parse);

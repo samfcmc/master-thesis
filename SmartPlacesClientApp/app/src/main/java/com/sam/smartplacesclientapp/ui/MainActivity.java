@@ -27,6 +27,9 @@ import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
+import com.sam.smartplacesclientapp.datastore.login.LoginCallback;
+import com.sam.smartplacesclientapp.datastore.login.LoginStrategy;
+import com.sam.smartplacesclientapp.datastore.login.parse.ParseFacebookLoginStrategy;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 import com.sam.smartplacesclientapp.datastore.object.DummyObject;
 
@@ -56,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
         this.beaconsManager = new IBeaconsManager(this);
 
         this.application = (SmartPlacesApplication) getApplication();
-        initBluetooth();
+        //initBluetooth();
         initUI();
     }
 
@@ -71,11 +74,10 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
     }
 
     private void loginWithFacebook() {
-        ParseFacebookUtils.logInWithReadPermissionsInBackground(this, new ArrayList<String>(), new LogInCallback() {
+        this.application.getDataStore().login(new ParseFacebookLoginStrategy(this), new LoginCallback<ParseUser, ParseException>() {
             @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                //TODO: Go to next activity
-                logToDisplay("User logged id " + parseUser.getUsername());
+            public void done(ParseUser user, ParseException exception) {
+                logToDisplay("User logged in " + user.getUsername());
             }
         });
     }
@@ -188,7 +190,8 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK) {
             if(requestCode == REQUEST_LOGIN) {
-                ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+                this.application.getDataStore().afterLoginOnActivityResult(requestCode,
+                        resultCode, data);
             }
         }
     }
