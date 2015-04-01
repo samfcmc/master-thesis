@@ -40,12 +40,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class MainActivity extends ActionBarActivity implements IBeaconScanCallback {
+public class MainActivity extends ActionBarActivity {
 
-    private BeaconsManager beaconsManager;
-    private BluetoothAdapter bluetoothAdapter;
     private Region region;
-    private static final int REQUEST_ENABLE_BT = 0xFF;
     private static final int REQUEST_LOGIN = SmartPlacesApplication.REQUEST_LOGIN;
     private SmartPlacesApplication application;
 
@@ -56,10 +53,11 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.beaconsManager = new IBeaconsManager(this);
 
         this.application = (SmartPlacesApplication) getApplication();
-        //initBluetooth();
+        if(this.application.getDataStore().isUserLoggedIn()) {
+            goToAskToTurnOnBluetoothActivity();
+        }
         initUI();
     }
 
@@ -73,40 +71,24 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
         });
     }
 
-    private void loginWithFacebook() {
-        this.application.getDataStore().login(new ParseFacebookLoginStrategy(this), new LoginCallback<ParseUser, ParseException>() {
+    private void login(LoginStrategy loginStrategy) {
+        this.application.getDataStore().login(loginStrategy, new LoginCallback<ParseUser, ParseException>() {
             @Override
             public void done(ParseUser user, ParseException exception) {
                 logToDisplay("User logged in " + user.getUsername());
+                goToAskToTurnOnBluetoothActivity();
             }
         });
+    }
+
+    private void loginWithFacebook() {
+        login(new ParseFacebookLoginStrategy(this));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.beaconsManager.unbind();
     }
-
-    private void initBluetooth() {
-        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        this.bluetoothAdapter = bluetoothManager.getAdapter();
-
-        if(this.bluetoothAdapter == null || !this.bluetoothAdapter.isEnabled()) {
-            askToTurnOnBluetooth();
-        }
-        startBeaconScan();
-    }
-
-    private void startBeaconScan() {
-        this.beaconsManager.startScan(this);
-    }
-
-    private void askToTurnOnBluetooth() {
-        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(intent, REQUEST_ENABLE_BT);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,24 +122,7 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
 
     }
 
-    private Beacon getNearestBeacon(Collection<Beacon> beacons) {
-        Beacon nearestBeacon = null;
-        for(Beacon beacon : beacons) {
-            if(beacon == null || beacon.getDistance() < nearestBeacon.getDistance()) {
-                nearestBeacon = beacon;
-            }
-        }
-        return nearestBeacon;
-    }
-
-    @Override
-    public void beaconsFound(Collection<Beacon> beacons) {
-        if(beacons.size() > 0) {
-            onBeaconsFound(beacons);
-        }
-    }
-
-    private void onBeaconsFound(Collection<Beacon> beacons) {
+    /*private void onBeaconsFound(Collection<Beacon> beacons) {
         this.beaconsManager.stopScan();
         logToDisplay("Error stoping ranging beacons");
         Beacon beacon = getNearestBeacon(beacons);
@@ -177,13 +142,7 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
             }
         });
         logToDisplay("Detected beacon " + beacon.getId1().toHexString());
-    }
-
-    private void updateText(BeaconObject beaconObject) {
-        TextView textView = (TextView) findViewById(R.id.main_hello_textview);
-        String text = beaconObject.getId() + " " + beaconObject.getObject().toString();
-        textView.setText(text);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -194,5 +153,10 @@ public class MainActivity extends ActionBarActivity implements IBeaconScanCallba
                         resultCode, data);
             }
         }
+    }
+
+    private void goToAskToTurnOnBluetoothActivity() {
+        Intent intent = new Intent(this, TurnOnBluetoothActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.sam.smartplacesclientapp;
+package com.sam.smartplacesclientapp.exception;
 
 /**
  *

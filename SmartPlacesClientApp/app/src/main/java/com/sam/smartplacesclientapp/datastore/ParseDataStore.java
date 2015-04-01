@@ -6,16 +6,18 @@ import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.parse.GetCallback;
+import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
-import com.sam.smartplacesclientapp.datastore.login.LoginStrategy;
+import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
 import com.sam.smartplacesclientapp.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplacesclientapp.datastore.object.parse.DummyParseObject;
 
@@ -23,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * DataStore implementation to work Parse.com BaaS
+ * DataStore implementation to work with Parse.com BaaS
  */
-public class ParseDataStore extends AbstractDataStore {
+public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException> {
 
     public static ParseDataStore fromRawJsonResource(Application application, int jsonRawResId) throws IOException {
         InputStream inputStream = application.getResources().openRawResource(R.raw.parse);
@@ -71,6 +73,26 @@ public class ParseDataStore extends AbstractDataStore {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
                 callback.done(beaconParseObject);
+            }
+        });
+    }
+
+    @Override
+    public ParseUser getCurrentUser() {
+        return ParseUser.getCurrentUser();
+    }
+
+    @Override
+    public boolean isUserLoggedIn() {
+        return getCurrentUser() != null;
+    }
+
+    @Override
+    public void logout(final LogoutCallback<ParseException> callback) {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                callback.done(e);
             }
         });
     }

@@ -3,9 +3,9 @@ package com.sam.smartplacesclientapp;
 import android.app.Application;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
 import com.sam.smartplacesclientapp.datastore.DataStore;
 import com.sam.smartplacesclientapp.datastore.ParseDataStore;
+import com.sam.smartplacesclientapp.exception.CannotFindParseJsonFile;
 
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;

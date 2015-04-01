@@ -8,12 +8,12 @@ import com.sam.smartplacesclientapp.datastore.login.LoginStrategy;
 /**
  *
  */
-public abstract class AbstractDataStore implements DataStore {
+public abstract class AbstractDataStore<UserType, ExceptionType> implements DataStore<UserType, ExceptionType> {
 
     private LoginStrategy loginStrategy;
 
     @Override
-    public <UserType, ExceptionType> void login(LoginStrategy<UserType, ExceptionType> loginStrategy,
+    public void login(LoginStrategy<UserType, ExceptionType> loginStrategy,
                                                 LoginCallback<UserType, ExceptionType> callback) {
         this.loginStrategy = loginStrategy;
         this.loginStrategy.login(callback);

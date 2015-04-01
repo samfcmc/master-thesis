@@ -21,7 +21,7 @@ import java.util.Collection;
 /**
  *
  */
-public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
+public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
 
     private BeaconManager beaconManager;
     private Region region;
@@ -68,7 +68,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     }
 
     @Override
-    public void startScan(BeaconScanCallback callback) {
+    public void startScan(BeaconScanCallback<Beacon> callback) {
         this.scanCallback = callback;
         this.beaconManager.bind(this);
     }
@@ -85,6 +85,19 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     @Override
     public void unbind() {
         this.beaconManager.unbind(this);
+    }
+
+    @Override
+    public Beacon getNearestBeacon(Collection<Beacon> beacons) {
+        Beacon nearestBeacon = null;
+
+        for(Beacon beacon : beacons) {
+            if(nearestBeacon == null || (beacon.getDistance() < nearestBeacon.getDistance())) {
+                nearestBeacon = beacon;
+            }
+        }
+
+        return nearestBeacon;
     }
 
 }
