@@ -1,5 +1,6 @@
 package com.sam.smartplacesclientapp.bluetooth.ibeacon;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -26,14 +27,15 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
     private BeaconManager beaconManager;
     private Region region;
     private Context context;
+    private Activity activity;
     private BeaconScanCallback scanCallback;
 
     public IBeaconsManager(Context context) {
         this.beaconManager = BeaconManager.getInstanceForApplication(context);
         BeaconParser parser = new IBeaconParser();
-        beaconManager.getBeaconParsers().add(parser);
         this.region = new Region("myRegion", null, null, null);
         this.context = context;
+        beaconManager.getBeaconParsers().add(parser);
     }
 
     @Override
@@ -54,22 +56,23 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
 
     @Override
     public Context getApplicationContext() {
-        return context.getApplicationContext();
+        return activity.getApplicationContext();
     }
 
     @Override
     public void unbindService(ServiceConnection serviceConnection) {
-        context.unbindService(serviceConnection);
+        activity.unbindService(serviceConnection);
     }
 
     @Override
     public boolean bindService(Intent intent, ServiceConnection serviceConnection, int i) {
-        return context.bindService(intent, serviceConnection, i);
+        return activity.bindService(intent, serviceConnection, i);
     }
 
     @Override
-    public void startScan(BeaconScanCallback<Beacon> callback) {
+    public void startScan(Activity activity, BeaconScanCallback<Beacon> callback) {
         this.scanCallback = callback;
+        this.activity = activity;
         this.beaconManager.bind(this);
     }
 

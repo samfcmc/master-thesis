@@ -42,7 +42,6 @@ import java.util.Collection;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Region region;
     private static final int REQUEST_LOGIN = SmartPlacesApplication.REQUEST_LOGIN;
     private SmartPlacesApplication application;
 

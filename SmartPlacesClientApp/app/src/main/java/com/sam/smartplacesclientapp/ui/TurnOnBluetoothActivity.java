@@ -10,17 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.bluetooth.BeaconScanCallback;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
-
-import org.altbeacon.beacon.Beacon;
-
-import java.util.Collection;
 
 public class TurnOnBluetoothActivity extends ActionBarActivity {
 
     private BluetoothAdapter bluetoothAdapter;
-    private BeaconsManager beaconsManager;
 
     private static final int REQUEST_ENABLE_BT = 1;
 
@@ -34,7 +28,6 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.beaconsManager.unbind();
     }
 
     @Override
@@ -68,8 +61,7 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
             askToTurnOnBluetooth();
         }
         else {
-            // Bluetooth turned on
-            //TODO:
+            goToScanActivity();
         }
     }
 
@@ -83,8 +75,13 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK) {
             if(requestCode == REQUEST_ENABLE_BT) {
-                //TODO:
+                goToScanActivity();
             }
         }
+    }
+
+    private void goToScanActivity() {
+        Intent intent = new Intent(this, BeaconScanActivity.class);
+        startActivity(intent);
     }
 }

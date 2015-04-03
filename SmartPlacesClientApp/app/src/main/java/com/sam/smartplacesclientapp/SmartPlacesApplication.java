@@ -3,10 +3,13 @@ package com.sam.smartplacesclientapp;
 import android.app.Application;
 import android.widget.Toast;
 
+import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
+import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.DataStore;
 import com.sam.smartplacesclientapp.datastore.ParseDataStore;
 import com.sam.smartplacesclientapp.exception.CannotFindParseJsonFile;
 
+import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
@@ -24,10 +27,13 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
     private BackgroundPowerSaver backgroundPowerSaver;
     private DataStore dataStore;
 
+    private BeaconsManager<Beacon> beaconsManager;
+
     public static final int REQUEST_LOGIN = 2;
 
     public void onCreate() {
         super.onCreate();
+        this.beaconsManager = new IBeaconsManager(this);
         initBeaconLib();
         initDataStore();
     }
@@ -68,5 +74,9 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
 
     private void logToDisplay(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public BeaconsManager<Beacon> getBeaconsManager() {
+        return beaconsManager;
     }
 }

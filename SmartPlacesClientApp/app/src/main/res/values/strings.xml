@@ -6,4 +6,7 @@
     <string name="login">Login</string>
     <string name="title_activity_turn_on_bluetooth">TurnOnBluetoothActivity</string>
     <string name="ask_turn_on_bluetooth">In order to enjoy the full experience you need to turn on Bluetooth</string>
+    <string name="title_activity_beacon_scan">BeaconScanActivity</string>
+    <string name="beacon_scan_message">You can leave the app now. When a beacon is scanned you will know</string>
+    <string name="action_turn_of_bt">Turn off</string>
 </resources>

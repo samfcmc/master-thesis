@@ -39,6 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sam.smartplacesclientapp.ui.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.BeaconScanActivity"
+            android:label="@string/title_activity_beacon_scan" >
+        </activity>
     </application>
 
 </manifest>
