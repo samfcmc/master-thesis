@@ -1,0 +1,29 @@
+
+<head>
+  <title>demo-web</title>
+</head>
+
+<body>
+  <h1>Welcome!</h1>
+
+</body>
+
+<template name="client">
+  <button id="clientButton">Click</button>
+  {{objectFound}}
+</template>
+
+<template name="checkIns">
+  <ul>
+    {{#each checkIns}}
+      {{> check}}
+      <button class="delete">Delete</button>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="check">
+  <li>
+    On table {{table}}
+  </li>
+</template>
