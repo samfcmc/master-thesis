@@ -9,4 +9,5 @@
     <string name="title_activity_beacon_scan">BeaconScanActivity</string>
     <string name="beacon_scan_message">You can leave the app now. When a beacon is scanned you will know</string>
     <string name="action_turn_of_bt">Turn off</string>
+    <string name="title_activity_beacon_content">BeaconContentActivity</string>
 </resources>

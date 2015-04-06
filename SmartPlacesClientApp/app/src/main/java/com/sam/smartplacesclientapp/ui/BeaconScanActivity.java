@@ -1,5 +1,12 @@
 package com.sam.smartplacesclientapp.ui;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,8 +65,8 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     public void beaconsFound(Collection<Beacon> beacons) {
         BeaconsManager<Beacon> beaconsManager = this.application.getBeaconsManager();
         if(!beacons.isEmpty()) {
+            this.application.getBeaconsManager().stopScan();
             Beacon beacon = beaconsManager.getNearestBeacon(beacons);
-            logToDisplay("Error stoping ranging beacons");
             String uuid = beacon.getId1().toHexString();
             int major = beacon.getId2().toInt();
             int minor = beacon.getId3().toInt();
@@ -70,7 +77,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
                         logToDisplay("Beacon not found");
                     }
                     else {
-                        logToDisplay(object.getObject().toString());
+                        createNotification(object);
                     }
 
                 }
@@ -92,5 +99,24 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     protected void onDestroy() {
         super.onDestroy();
         this.application.getBeaconsManager().unbind();
+    }
+
+    private void createNotification(BeaconObject beaconObject) {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        notificationBuilder.setSmallIcon(android.R.drawable.stat_notify_more);
+        notificationBuilder.setContentTitle("Something for you");
+        notificationBuilder.setContentText(beaconObject.getObject().toString());
+        notificationBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, BeaconContentActivity.class);
+        resultIntent.putExtra("url", "http://samfcmc.github.io/beacons-client-app/");
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(BeaconContentActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(50, notificationBuilder.build());
     }
 }
