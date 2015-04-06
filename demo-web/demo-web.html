@@ -9,21 +9,67 @@
 </body>
 
 <template name="client">
-  <button id="clientButton">Click</button>
-  {{table}}
+  <p>
+    You are on table {{table}}
+  </p>
+  <p>
+    Click on the button...
+  </p>
+
+  <button
+  class="btn btn-default"
+  id="clientButton">
+    Click
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="confirmation" 
+  role="dialog" 
+  aria-labelledby="confirmationLabel" 
+  aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" 
+          data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">
+              &times;
+            </span>
+          </button>
+          <h4 class="modal-title" 
+          id="myModalLabel">
+            Just wait...
+          </h4>
+        </div>
+        <div class="modal-body">
+          Wait. Someone will come and take care of you ;)
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+          data-dismiss="modal" 
+          class="btn btn-primary">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="checkIns">
   <ul>
     {{#each checkIns}}
       {{> check}}
-      <button class="delete">Delete</button>
-    {{/each}}
+      <button 
+      class="btn btn-danger delete">
+        Delete
+      </button>
+      {{/each}}
   </ul>
 </template>
 
 <template name="check">
   <li>
-    On table {{table}}
+    On table {{table}} at {{created}}
   </li>
 </template>
