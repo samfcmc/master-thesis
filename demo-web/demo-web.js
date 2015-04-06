@@ -2,11 +2,6 @@ CheckIns = new Mongo.Collection('checkIns');
 
 if (Meteor.isClient) {
 
-  window.onObjectFound = function(obj) {
-    console.log(obj);
-    window.object = obj;
-  }
-
   Template.checkIns.helpers({
     checkIns: function () {
       return CheckIns.find({});
@@ -15,13 +10,20 @@ if (Meteor.isClient) {
 
   Template.checkIns.events({
     'click .delete': function() {
+      console.log(this);
       CheckIns.remove({'_id': this._id});
     }
   });
 
   Template.client.events({
-    'click #clientButton': function () {
-      CheckIns.insert({table: 3})
+    'click #clientButton': function (event) {
+      var table = this.table;
+      if(table) {
+        CheckIns.insert({table: table});
+      }
+      else {
+        throw "No table number";
+      }
     }
   });
 
@@ -45,10 +47,8 @@ if (Meteor.isServer) {
 Router.route('/', function() {
   this.render('client', {
     data: function() {
-      var obj = this.params.query.obj;
-      var str = JSON.parse(obj);
-      console.log(str);
-      return {objectFound: obj};
+      var table = this.params.query.table;
+      return {table: table};
     }
   });
 });
