@@ -7,8 +7,8 @@
     tools:context="com.sam.smartplacesclientapp.ui.BeaconContentActivity">
 
     <WebView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/beacon_content_webView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
