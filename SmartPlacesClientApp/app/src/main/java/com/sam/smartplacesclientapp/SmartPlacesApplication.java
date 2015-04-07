@@ -3,6 +3,8 @@ package com.sam.smartplacesclientapp;
 import android.app.Application;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
 import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.DataStore;
@@ -25,7 +27,7 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
     private Region region;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private DataStore dataStore;
+    private DataStore<ParseUser, ParseException> dataStore;
 
     private BeaconsManager<Beacon> beaconsManager;
 
@@ -53,7 +55,7 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
         }
     }
 
-    public DataStore getDataStore() {
+    public DataStore<ParseUser, ParseException> getDataStore() {
         return this.dataStore;
     }
 

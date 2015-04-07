@@ -29,6 +29,7 @@ import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
 import com.sam.smartplacesclientapp.datastore.login.LoginCallback;
 import com.sam.smartplacesclientapp.datastore.login.LoginStrategy;
+import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
 import com.sam.smartplacesclientapp.datastore.login.parse.ParseFacebookLoginStrategy;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 import com.sam.smartplacesclientapp.datastore.object.DummyObject;
@@ -107,8 +108,24 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id == R.id.action_logout) {
+            logout();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+            @Override
+            public void done(ParseException exception) {
+                if(exception == null) {
+                    logToDisplay("Log out");
+                    finish();
+                }
+            }
+        });
     }
 
     private void logToDisplay(final String message) {
@@ -120,28 +137,6 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
-
-    /*private void onBeaconsFound(Collection<Beacon> beacons) {
-        this.beaconsManager.stopScan();
-        logToDisplay("Error stoping ranging beacons");
-        Beacon beacon = getNearestBeacon(beacons);
-        String uuid = beacon.getId1().toHexString();
-        int major = beacon.getId2().toInt();
-        int minor = beacon.getId3().toInt();
-        this.application.getDataStore().getBeaon(uuid, major, minor, new BeaconCallback() {
-            @Override
-            public void done(BeaconObject object) {
-                if(object == null) {
-                    logToDisplay("Beacon not found");
-                }
-                else {
-                    updateText(object);
-                }
-
-            }
-        });
-        logToDisplay("Detected beacon " + beacon.getId1().toHexString());
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

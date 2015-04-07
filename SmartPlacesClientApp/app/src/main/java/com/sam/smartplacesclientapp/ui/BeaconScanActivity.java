@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
 import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
+import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -58,8 +60,23 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
             this.application.getBeaconsManager().stopScan();
             return true;
         }
+        else if(id == R.id.action_logout) {
+            logout();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+            @Override
+            public void done(ParseException exception) {
+                if(exception == null) {
+                    finish();
+                }
+            }
+        });
     }
 
     @Override

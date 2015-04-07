@@ -7,16 +7,21 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
+import com.sam.smartplacesclientapp.SmartPlacesApplication;
+import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
 
 public class BeaconContentActivity extends ActionBarActivity {
 
     private WebView webView;
+    private SmartPlacesApplication application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_content);
+        this.application = (SmartPlacesApplication) getApplication();
         initUI();
         loadURL();
     }
@@ -58,7 +63,22 @@ public class BeaconContentActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id == R.id.action_logout) {
+            logout();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+            @Override
+            public void done(ParseException exception) {
+                if(exception == null) {
+                    finish();
+                }
+            }
+        });
     }
 }
