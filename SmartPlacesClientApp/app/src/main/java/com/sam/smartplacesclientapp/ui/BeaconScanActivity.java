@@ -1,6 +1,5 @@
 package com.sam.smartplacesclientapp.ui;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -17,13 +16,15 @@ import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
 import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
-import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 
 import org.altbeacon.beacon.Beacon;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 
 public class BeaconScanActivity extends ActionBarActivity implements IBeaconScanCallback {
@@ -109,7 +110,8 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         notificationBuilder.setAutoCancel(true);
 
         Intent resultIntent = new Intent(this, BeaconContentActivity.class);
-        resultIntent.putExtra("url", "http://samfcmc.github.io/beacons-client-app/");
+        String url = buildUrl("http://beacons-demo.meteor.com/", beaconObject.getObject());
+        resultIntent.putExtra("url", url);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(BeaconContentActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -118,5 +120,19 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         notificationBuilder.setContentIntent(resultPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(50, notificationBuilder.build());
+    }
+
+    private String buildUrl(String baseUrl, JSONObject jsonObject) {
+        String finalUrl = baseUrl + "?";
+        Iterator<String> keys = jsonObject.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            try {
+                finalUrl += key + "=" + jsonObject.get(key).toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return finalUrl;
     }
 }
