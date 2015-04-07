@@ -9,11 +9,14 @@ if (Meteor.isClient) {
 
   Template.checkIns.helpers({
     checkIns: function () {
-      return CheckIns.find({});
+      return CheckIns.find({}, {sort: {created: -1}});
     },
+  });
+
+  Template.check.helpers({
     createdMoment: function() {
       console.log(this);
-      return 'this._id';
+      return moment(this.created).fromNow();
     }
   });
 

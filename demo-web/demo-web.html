@@ -73,19 +73,21 @@
 </template>
 
 <template name="checkIns">
-  <ul>
-    {{#each checkIns}}
-      {{> check}}
-      <button 
-      class="btn btn-danger delete">
-        Delete
-      </button>
-      {{/each}}
-  </ul>
+  <div class="row">
+    <ul>
+      {{#each checkIns}}
+        {{> check}}
+        <button 
+        class="btn btn-danger delete">
+          Delete
+        </button>
+        {{/each}}
+    </ul>
+  </div>
 </template>
 
 <template name="check">
   <li>
-    On table {{table}} at {{created}}
+    On table {{table}} : {{createdMoment}}
   </li>
 </template>
