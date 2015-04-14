@@ -5,24 +5,33 @@ import android.app.Application;
 import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
 import com.sam.smartplacesclientapp.datastore.callback.DummyCallback;
+import com.sam.smartplacesclientapp.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
+import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
+import com.sam.smartplacesclientapp.datastore.object.SmartPlaceObject;
 import com.sam.smartplacesclientapp.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplacesclientapp.datastore.object.parse.DummyParseObject;
+import com.sam.smartplacesclientapp.datastore.object.parse.SmartPlaceParseObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DataStore implementation to work with Parse.com BaaS
@@ -67,12 +76,38 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
     }
 
     @Override
-    public void getBeaon(final String uuid, final int major, final int minor, final BeaconCallback callback) {
+    public void getBeacon(final String uuid, final int major, final int minor, final BeaconCallback callback) {
         ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery().whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
         query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
                 callback.done(beaconParseObject);
+            }
+        });
+    }
+
+    @Override
+    public void getSmartPlaces(String uuid, int major, int minor, final SmartPlacesCallback callback) {
+        ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery().whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
+        query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
+            @Override
+            public void done(BeaconParseObject beaconParseObject, ParseException e) {
+                ParseRelation<ParseObject> relation = beaconParseObject.getSmartPlacesRelation();
+                ParseQuery<ParseObject> query = relation.getQuery();
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        List<SmartPlaceObject> smartPlaces = new ArrayList<SmartPlaceObject>(objects.size());
+                        for(ParseObject parseObject: objects) {
+                            String name = parseObject.getString("name");
+                            String url = parseObject.getString("url");
+                            String message = parseObject.getString("message");
+                            SmartPlaceObject newObject = new SmartPlaceParseObject(name, url, message);
+                            smartPlaces.add(newObject);
+                        }
+                        callback.done(smartPlaces);
+                    }
+                });
             }
         });
     }

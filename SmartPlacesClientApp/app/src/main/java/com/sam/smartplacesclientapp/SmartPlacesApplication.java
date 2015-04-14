@@ -1,6 +1,13 @@
 package com.sam.smartplacesclientapp;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -10,6 +17,7 @@ import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.DataStore;
 import com.sam.smartplacesclientapp.datastore.ParseDataStore;
 import com.sam.smartplacesclientapp.exception.CannotFindParseJsonFile;
+import com.sam.smartplacesclientapp.ui.BeaconContentActivity;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
@@ -80,5 +88,22 @@ public class SmartPlacesApplication extends Application implements BootstrapNoti
 
     public BeaconsManager<Beacon> getBeaconsManager() {
         return beaconsManager;
+    }
+
+    public void createNotification(Context context, String title, String text, Intent resultIntent, Class<? extends Activity> activityClass) {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+        notificationBuilder.setSmallIcon(android.R.drawable.stat_notify_more);
+        notificationBuilder.setContentTitle(title);
+        notificationBuilder.setContentText(text);
+        notificationBuilder.setAutoCancel(true);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(activityClass);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(50, notificationBuilder.build());
     }
 }

@@ -3,6 +3,7 @@ package com.sam.smartplacesclientapp.datastore.object.parse;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -18,6 +19,7 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     private static final String MAJOR = "major";
     private static final String MINOR = "minor";
     private static final String OBJECT = "object";
+    private static final String SMART_PLACES = "smartPlaces";
 
     static {
         ParseObject.registerSubclass(BeaconParseObject.class);
@@ -76,5 +78,9 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
 
     public static ParseQuery<BeaconParseObject> getQuery() {
         return ParseQuery.getQuery(BeaconParseObject.class);
+    }
+
+    public ParseRelation<ParseObject> getSmartPlacesRelation() {
+        return getRelation(SMART_PLACES);
     }
 }

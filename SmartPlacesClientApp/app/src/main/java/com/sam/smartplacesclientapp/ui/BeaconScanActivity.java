@@ -18,8 +18,10 @@ import com.sam.smartplacesclientapp.SmartPlacesApplication;
 import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
 import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
+import com.sam.smartplacesclientapp.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
 import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
+import com.sam.smartplacesclientapp.datastore.object.SmartPlaceObject;
 
 import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class BeaconScanActivity extends ActionBarActivity implements IBeaconScanCallback {
@@ -88,16 +91,11 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
             String uuid = beacon.getId1().toHexString();
             int major = beacon.getId2().toInt();
             int minor = beacon.getId3().toInt();
-            this.application.getDataStore().getBeaon(uuid, major, minor, new BeaconCallback() {
+            this.application.getDataStore().getSmartPlaces(uuid, major, minor, new SmartPlacesCallback() {
                 @Override
-                public void done(BeaconObject object) {
-                    if(object == null) {
-                        logToDisplay("Beacon not found");
-                    }
-                    else {
-                        createNotification(object);
-                    }
-
+                public void done(List<SmartPlaceObject> objects) {
+                    logToDisplay("Found smart places " + objects.size());
+                    notifyAboutSmartPlaces(objects);
                 }
             });
             logToDisplay("Detected beacon " + beacon.getId1().toHexString());
@@ -117,6 +115,17 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     protected void onDestroy() {
         super.onDestroy();
         this.application.getBeaconsManager().unbind();
+    }
+
+    private void notifyAboutSmartPlaces(List<SmartPlaceObject> smartPlaces) {
+        for(SmartPlaceObject smartPlace : smartPlaces) {
+            Intent resultIntent = new Intent(this, BeaconContentActivity.class);
+            String url = smartPlace.getUrl();
+            resultIntent.putExtra("url", url);
+            // TODO: Go to an activity that will scan for beacons but this time to map them to objects
+            // TODO: Requires some changes in the backend
+            this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, BeaconContentActivity.class);
+        }
     }
 
     private void createNotification(BeaconObject beaconObject) {

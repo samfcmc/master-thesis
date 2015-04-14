@@ -2,10 +2,10 @@ package com.sam.smartplacesclientapp.datastore.callback;
 
 import com.sam.smartplacesclientapp.datastore.object.DataStoreObject;
 
+import java.util.List;
+
 /**
  *
  */
-public interface DataStoreCallback<T> {
-
-    public abstract void done(T object);
+public interface ListDataStoreCallback<T> extends DataStoreCallback<List<T>>{
 }
