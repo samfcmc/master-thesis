@@ -1,5 +1,6 @@
 package com.sam.smartplacesclientapp.ui;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -113,52 +114,22 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
 
     @Override
     protected void onDestroy() {
+        //this.application.getBeaconsManager().unbind();
         super.onDestroy();
-        this.application.getBeaconsManager().unbind();
     }
 
     private void notifyAboutSmartPlaces(List<SmartPlaceObject> smartPlaces) {
         for(SmartPlaceObject smartPlace : smartPlaces) {
-            Intent resultIntent = new Intent(this, BeaconContentActivity.class);
+            Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
             String url = smartPlace.getUrl();
-            resultIntent.putExtra("url", url);
+            String name = smartPlace.getName();
+            String message = smartPlace.getMessage();
+            resultIntent.putExtra(SmartPlaceActivity.URL_KEY, url);
+            resultIntent.putExtra(SmartPlaceActivity.NAME_KEY, name);
+            resultIntent.putExtra(SmartPlaceActivity.MESSAGE_KEY, message);
             // TODO: Go to an activity that will scan for beacons but this time to map them to objects
             // TODO: Requires some changes in the backend
-            this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, BeaconContentActivity.class);
+            this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, SmartPlaceActivity.class);
         }
-    }
-
-    private void createNotification(BeaconObject beaconObject) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setSmallIcon(android.R.drawable.stat_notify_more);
-        notificationBuilder.setContentTitle("Something for you");
-        notificationBuilder.setContentText(beaconObject.getObject().toString());
-        notificationBuilder.setAutoCancel(true);
-
-        Intent resultIntent = new Intent(this, BeaconContentActivity.class);
-        String url = buildUrl("http://beacons-demo.meteor.com/", beaconObject.getObject());
-        resultIntent.putExtra("url", url);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(BeaconContentActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        notificationBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(50, notificationBuilder.build());
-    }
-
-    private String buildUrl(String baseUrl, JSONObject jsonObject) {
-        String finalUrl = baseUrl + "?";
-        Iterator<String> keys = jsonObject.keys();
-        while(keys.hasNext()) {
-            String key = keys.next();
-            try {
-                finalUrl += key + "=" + jsonObject.get(key).toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return finalUrl;
     }
 }

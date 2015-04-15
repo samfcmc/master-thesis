@@ -87,7 +87,9 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
 
     @Override
     public void unbind() {
-        this.beaconManager.unbind(this);
+        if(this.beaconManager.isBound(this)) {
+            this.beaconManager.unbind(this);
+        }
     }
 
     @Override
@@ -101,6 +103,22 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
         }
 
         return nearestBeacon;
+    }
+
+    @Override
+    public void startScan(BeaconScanCallback<Beacon> callback) {
+        this.scanCallback = callback;
+        this.beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                IBeaconsManager.this.scanCallback.beaconsFound(beacons);
+            }
+        });
+        try {
+            this.beaconManager.startRangingBeaconsInRegion(this.region);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -17,6 +17,8 @@ public class BeaconContentActivity extends ActionBarActivity {
     private WebView webView;
     private SmartPlacesApplication application;
 
+    public static final String URL_KEY = "url";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class BeaconContentActivity extends ActionBarActivity {
     }
 
     private void loadURL() {
-        String url = getIntent().getStringExtra("url");
+        String url = getIntent().getStringExtra(URL_KEY);
         String trimUrl = url.trim();
         String finalUrl = trimUrl;
 

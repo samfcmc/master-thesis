@@ -21,13 +21,16 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     }
 
     public SmartPlaceParseObject() {
-
     }
 
     public SmartPlaceParseObject(String name, String url, String message) {
         setName(name);
         setUrl(url);
         setMessage(message);
+    }
+
+    public SmartPlaceParseObject(ParseObject parseObject) {
+        this(parseObject.getString(NAME), parseObject.getString(URL), parseObject.getString(MESSAGE));
     }
 
     @Override

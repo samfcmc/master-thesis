@@ -11,4 +11,5 @@
     <string name="action_turn_of_bt">Turn off</string>
     <string name="title_activity_beacon_content">Object found</string>
     <string name="action_logout">Logout</string>
+    <string name="title_activity_smart_place">SmartPlaceActivity</string>
 </resources>

@@ -47,6 +47,10 @@
             android:name=".ui.BeaconContentActivity"
             android:label="@string/title_activity_beacon_content" >
         </activity>
+        <activity
+            android:name=".ui.SmartPlaceActivity"
+            android:label="@string/title_activity_smart_place" >
+        </activity>
     </application>
 
 </manifest>

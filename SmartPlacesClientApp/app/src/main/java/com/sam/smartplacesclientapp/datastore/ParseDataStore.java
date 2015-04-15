@@ -99,10 +99,7 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
                     public void done(List<ParseObject> objects, ParseException e) {
                         List<SmartPlaceObject> smartPlaces = new ArrayList<SmartPlaceObject>(objects.size());
                         for(ParseObject parseObject: objects) {
-                            String name = parseObject.getString("name");
-                            String url = parseObject.getString("url");
-                            String message = parseObject.getString("message");
-                            SmartPlaceObject newObject = new SmartPlaceParseObject(name, url, message);
+                            SmartPlaceObject newObject = new SmartPlaceParseObject(parseObject);
                             smartPlaces.add(newObject);
                         }
                         callback.done(smartPlaces);

@@ -12,4 +12,5 @@ public interface BeaconsManager<BeaconType> {
     public void stopScan();
     public void unbind();
     public BeaconType getNearestBeacon(Collection<BeaconType> beacons);
+    public void startScan(BeaconScanCallback<BeaconType> callback);
 }
