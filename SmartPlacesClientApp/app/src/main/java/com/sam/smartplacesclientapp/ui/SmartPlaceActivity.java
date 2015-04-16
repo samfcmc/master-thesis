@@ -31,6 +31,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
 
     private SmartPlacesApplication application;
 
+    private String name;
     private String url;
 
     @Override
@@ -45,12 +46,12 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     private void initUI() {
         this.messageTextView = (TextView) findViewById(R.id.smart_place_message_textview);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(NAME_KEY);
-        String title = intent.getStringExtra(MESSAGE_KEY);
+        String message = intent.getStringExtra(MESSAGE_KEY);
+        this.name = intent.getStringExtra(NAME_KEY);
         this.url = intent.getStringExtra(URL_KEY);
 
         this.messageTextView.setText(message);
-        setTitle(title);
+        setTitle(this.name);
     }
 
     private void scanForNearbyObjects() {
@@ -101,7 +102,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
         String url = buildUrl(this.url, beaconObject.getObject());
         Intent intent = new Intent(this, BeaconContentActivity.class);
         intent.putExtra(BeaconContentActivity.URL_KEY, url);
-        this.application.createNotification(this, "On something", "something", intent, BeaconContentActivity.class);
+        this.application.createNotification(this, this.name, beaconObject.getMessage(), intent, BeaconContentActivity.class);
     }
 
     private String buildUrl(String baseUrl, JSONObject jsonObject) {

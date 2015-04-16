@@ -20,16 +20,18 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     private static final String MINOR = "minor";
     private static final String OBJECT = "object";
     private static final String SMART_PLACES = "smartPlaces";
+    private static final String MESSAGE = "message";
 
     static {
         ParseObject.registerSubclass(BeaconParseObject.class);
     }
 
-    public BeaconParseObject(String uuid, int major, int minor) {
+    public BeaconParseObject(String uuid, int major, int minor, String message) {
         this();
         setUUID(uuid);
         setMajor(major);
         setMinor(minor);
+        setMessage(message);
     }
 
     public BeaconParseObject() {
@@ -74,6 +76,16 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     @Override
     public void setObject(JSONObject object) {
         put(OBJECT, object);
+    }
+
+    @Override
+    public String getMessage() {
+        return getString(MESSAGE);
+    }
+
+    @Override
+    public void setMessage(String message) {
+        put(MESSAGE, message);
     }
 
     public static ParseQuery<BeaconParseObject> getQuery() {

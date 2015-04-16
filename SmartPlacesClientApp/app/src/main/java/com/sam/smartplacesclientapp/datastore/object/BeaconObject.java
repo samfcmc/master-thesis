@@ -16,4 +16,6 @@ public interface BeaconObject extends DataStoreObject {
     public void setMinor(int minor);
     public JSONObject getObject();
     public void setObject(JSONObject object);
+    public String getMessage();
+    public void setMessage(String message);
 }
