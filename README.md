@@ -27,9 +27,12 @@ For more information check the
 ```
 cp SmartPlacesClientApp/app/src/main/res/raw/parse_template.json SmartPlacesClientApp/app/src/main/res/raw/parse.json
 ```
-  * TODO: This should be easier...
+
+TODO: This should be easier...
 * Populate your Parse.com backend with some data
-  * TODO: This should be also easier to do... With some script or some s*** like that
+
+TODO: This should be also easier to do... With some script or some s*** like that
+
 * Connect your Android device through USB (Android emulator does not emulate bluetooth, that's why you need a real device)
 * In the Android Studio, press <kbd>Shift</kbd> + <kbd>F10</kbd> to run the app
 * Have fun ;)
