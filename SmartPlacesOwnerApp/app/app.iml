@@ -97,6 +97,6 @@
     <orderEntry type="library" exported="" name="android-beacon-library-2.1.4" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
     <orderEntry type="library" exported="" name="ParseFacebookUtilsV4-1.9.0" level="project" />
-    <orderEntry type="module" module-name="facebook" exported="" />
+    <orderEntry type="module" module-name="lib" exported="" />
   </component>
 </module>

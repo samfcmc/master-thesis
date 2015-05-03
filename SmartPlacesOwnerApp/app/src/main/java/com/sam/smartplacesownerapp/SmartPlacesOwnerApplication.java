@@ -5,11 +5,11 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.sam.smartplacesownerapp.bluetooth.BeaconsManager;
-import com.sam.smartplacesownerapp.bluetooth.ibeacon.IBeaconsManager;
-import com.sam.smartplacesownerapp.datastore.DataStore;
-import com.sam.smartplacesownerapp.datastore.ParseDataStore;
-import com.sam.smartplacesownerapp.exception.CannotFindParseJsonFile;
+import com.sam.smartplaceslib.bluetooth.BeaconsManager;
+import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconsManager;
+import com.sam.smartplaceslib.datastore.DataStore;
+import com.sam.smartplaceslib.datastore.ParseDataStore;
+import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
