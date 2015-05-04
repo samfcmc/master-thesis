@@ -1,6 +1,8 @@
 package com.sam.smartplaceslib.bluetooth.ibeacon;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -118,6 +120,20 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isBluetoothTurnedOn(Context context) {
+        final BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+
+        return (bluetoothAdapter != null && bluetoothAdapter.isEnabled());
+    }
+
+    @Override
+    public void askToTurnBluetoothOn(Activity activity, int requestCode) {
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        activity.startActivityForResult(intent, requestCode);
     }
 
 }

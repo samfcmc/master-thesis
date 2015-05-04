@@ -1,6 +1,7 @@
 package com.sam.smartplaceslib.bluetooth.mocked;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
@@ -48,5 +49,16 @@ public class MockedBeaconsManager implements BeaconsManager<Beacon> {
     @Override
     public void startScan(BeaconScanCallback<Beacon> callback) {
 
+    }
+
+    @Override
+    public boolean isBluetoothTurnedOn(Context context) {
+        // TODO
+        return false;
+    }
+
+    @Override
+    public void askToTurnBluetoothOn(Activity activity, int requestCode) {
+        // TODO
     }
 }

@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  *
  */
-public class SmartPlacesApplication extends Application implements BootstrapNotifier {
+public class SmartPlacesClientApplication extends Application implements BootstrapNotifier {
 
     private Region region;
     private RegionBootstrap regionBootstrap;

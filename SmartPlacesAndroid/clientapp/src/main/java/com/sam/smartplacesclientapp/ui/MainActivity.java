@@ -12,7 +12,7 @@ import com.facebook.login.widget.LoginButton;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.SmartPlacesApplication;
+import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
@@ -20,8 +20,8 @@ import com.sam.smartplaceslib.datastore.login.parse.ParseFacebookLoginStrategy;
 
 public class MainActivity extends ActionBarActivity {
 
-    private static final int REQUEST_LOGIN = SmartPlacesApplication.REQUEST_LOGIN;
-    private SmartPlacesApplication application;
+    private static final int REQUEST_LOGIN = SmartPlacesClientApplication.REQUEST_LOGIN;
+    private SmartPlacesClientApplication application;
 
     //UI
     private LoginButton loginButton;
@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.application = (SmartPlacesApplication) getApplication();
+        this.application = (SmartPlacesClientApplication) getApplication();
         if(this.application.getDataStore().isUserLoggedIn()) {
             goToAskToTurnOnBluetoothActivity();
         }

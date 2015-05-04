@@ -1,12 +1,6 @@
 package com.sam.smartplacesclientapp.ui;
 
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,7 +9,7 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.SmartPlacesApplication;
+import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
@@ -30,13 +24,13 @@ import java.util.List;
 
 public class BeaconScanActivity extends ActionBarActivity implements IBeaconScanCallback {
 
-    private SmartPlacesApplication application;
+    private SmartPlacesClientApplication application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
-        this.application = (SmartPlacesApplication) getApplication();
+        this.application = (SmartPlacesClientApplication) getApplication();
         this.application.getBeaconsManager().startScan(this, this);
     }
 

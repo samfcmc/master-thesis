@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.SmartPlacesApplication;
+import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
@@ -28,7 +28,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
 
     private TextView messageTextView;
 
-    private SmartPlacesApplication application;
+    private SmartPlacesClientApplication application;
 
     private String name;
     private String url;
@@ -37,7 +37,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smart_place);
-        this.application = (SmartPlacesApplication) getApplication();
+        this.application = (SmartPlacesClientApplication) getApplication();
         initUI();
         scanForNearbyObjects();
     }

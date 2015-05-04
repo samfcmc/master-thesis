@@ -9,13 +9,13 @@ import android.webkit.WebViewClient;
 
 import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.SmartPlacesApplication;
+import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 
 public class BeaconContentActivity extends ActionBarActivity {
 
     private WebView webView;
-    private SmartPlacesApplication application;
+    private SmartPlacesClientApplication application;
 
     public static final String URL_KEY = "url";
 
@@ -23,7 +23,7 @@ public class BeaconContentActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_content);
-        this.application = (SmartPlacesApplication) getApplication();
+        this.application = (SmartPlacesClientApplication) getApplication();
         initUI();
         loadURL();
     }
