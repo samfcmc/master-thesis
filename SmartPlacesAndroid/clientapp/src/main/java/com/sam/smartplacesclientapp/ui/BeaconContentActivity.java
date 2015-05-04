@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
-import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 
 public class BeaconContentActivity extends ActionBarActivity {
 

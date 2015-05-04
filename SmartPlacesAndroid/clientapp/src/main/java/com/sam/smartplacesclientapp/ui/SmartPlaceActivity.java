@@ -9,10 +9,9 @@ import android.widget.TextView;
 
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
-import com.sam.smartplacesclientapp.bluetooth.BeaconScanCallback;
-import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
-import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
-import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
 import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;

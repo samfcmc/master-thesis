@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sam.smartplacesclientapp.R;
-import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
 
 public class TurnOnBluetoothActivity extends ActionBarActivity {
 

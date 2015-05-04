@@ -25,6 +25,5 @@ repositories {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'org.altbeacon:android-beacon-library:2+@aar'
     compile project(':smartplaceslib')
 }

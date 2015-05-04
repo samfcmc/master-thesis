@@ -16,20 +16,15 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesApplication;
-import com.sam.smartplacesclientapp.bluetooth.BeaconsManager;
-import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconScanCallback;
-import com.sam.smartplacesclientapp.datastore.callback.BeaconCallback;
-import com.sam.smartplacesclientapp.datastore.callback.SmartPlacesCallback;
-import com.sam.smartplacesclientapp.datastore.login.LogoutCallback;
-import com.sam.smartplacesclientapp.datastore.object.BeaconObject;
-import com.sam.smartplacesclientapp.datastore.object.SmartPlaceObject;
+import com.sam.smartplaceslib.bluetooth.BeaconsManager;
+import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
+import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import org.altbeacon.beacon.Beacon;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 
