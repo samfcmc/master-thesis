@@ -11,7 +11,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/clientapp" />
-            <option value="$PROJECT_DIR$/clientapp/libs/facebook-android-sdk-4.0.0/facebook" />
+            <option value="$PROJECT_DIR$/ownersapp" />
+            <option value="$PROJECT_DIR$/smartplaceslib" />
+            <option value="$PROJECT_DIR$/smartplaceslib/libs/facebook-android-sdk-4.0.0/facebook" />
           </set>
         </option>
       </GradleProjectSettings>

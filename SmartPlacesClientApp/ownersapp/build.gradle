@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.sam.smartplacesclientapp"
+        applicationId "com.sam.smartplacesownersapp"
         minSdkVersion 18
         targetSdkVersion 21
         versionCode 1
@@ -19,12 +19,7 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'org.altbeacon:android-beacon-library:2+@aar'
-    compile project(':smartplaceslib')
 }
