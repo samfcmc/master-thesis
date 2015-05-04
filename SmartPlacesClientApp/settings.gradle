@@ -1,2 +1,2 @@
-include ':app', ':facebook'
-project(':facebook').projectDir = new File('app/libs/facebook-android-sdk-4.0.0/facebook')
+include ':clientapp', ':facebook'
+project(':facebook').projectDir = new File('clientapp/libs/facebook-android-sdk-4.0.0/facebook')

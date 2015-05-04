@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartPlacesClientApp.iml" filepath="$PROJECT_DIR$/SmartPlacesClientApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/libs/facebook-android-sdk-4.0.0/facebook/facebook.iml" filepath="$PROJECT_DIR$/app/libs/facebook-android-sdk-4.0.0/facebook/facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clientapp/clientapp.iml" filepath="$PROJECT_DIR$/clientapp/clientapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clientapp/libs/facebook-android-sdk-4.0.0/facebook/facebook.iml" filepath="$PROJECT_DIR$/clientapp/libs/facebook-android-sdk-4.0.0/facebook/facebook.iml" />
     </modules>
   </component>
 </project>

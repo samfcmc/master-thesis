@@ -17,7 +17,6 @@ import com.sam.smartplacesclientapp.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplacesclientapp.datastore.DataStore;
 import com.sam.smartplacesclientapp.datastore.ParseDataStore;
 import com.sam.smartplacesclientapp.exception.CannotFindParseJsonFile;
-import com.sam.smartplacesclientapp.ui.BeaconContentActivity;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
