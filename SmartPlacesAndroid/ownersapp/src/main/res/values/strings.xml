@@ -8,4 +8,8 @@
     <string name="beacon_major_label">major</string>
     <string name="beacon_minor_label">minor</string>
     <string name="beacon_distance_label">distance</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="table_label">table</string>
 </resources>

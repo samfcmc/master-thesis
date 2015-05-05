@@ -15,7 +15,7 @@ import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
 
-public class MainActivity extends ActionBarActivity implements BeaconObjectFragment.OnBeaconObjectFragmentInteractionListener{
+public class MainActivity extends ActionBarActivity implements BeaconListFragment.OnBeaconListFragmentInteractionListener, BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener {
 
     SmartPlacesOwnerApplication application;
 
@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity implements BeaconObjectFragm
             //TODO: Check if user has bluetooth turned on
             logToDisplay("User already logged in");
             if(this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
-                replaceFragment(new BeaconObjectFragment());
+                replaceFragment(new BeaconListFragment());
             }
             else {
                 this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
@@ -111,7 +111,8 @@ public class MainActivity extends ActionBarActivity implements BeaconObjectFragm
     }
 
     @Override
-    public void onBeaconSelected(String id) {
-        logToDisplay("Selected beacon " + id);
+    public void onBeaconSelected(String uuid, int major, int minor) {
+        logToDisplay("Selected beacon " + uuid);
+        replaceFragment(BeaconConfigFragment.newInstance(uuid, major, minor));
     }
 }

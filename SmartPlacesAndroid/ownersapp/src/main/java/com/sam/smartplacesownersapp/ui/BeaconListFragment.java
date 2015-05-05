@@ -18,7 +18,6 @@ import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplacesownersapp.R;
 
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
-import com.sam.smartplacesownersapp.ui.dummy.DummyContent;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -32,12 +31,12 @@ import java.util.List;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnBeaconObjectFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnBeaconListFragmentInteractionListener}
  * interface.
  */
-public class BeaconObjectFragment extends Fragment implements AbsListView.OnItemClickListener, BeaconScanCallback<Beacon> {
+public class BeaconListFragment extends Fragment implements AbsListView.OnItemClickListener, BeaconScanCallback<Beacon> {
 
-    private OnBeaconObjectFragmentInteractionListener mListener;
+    private OnBeaconListFragmentInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -54,8 +53,8 @@ public class BeaconObjectFragment extends Fragment implements AbsListView.OnItem
 
     private SmartPlacesOwnerApplication application;
 
-    public static BeaconObjectFragment newInstance() {
-        BeaconObjectFragment fragment = new BeaconObjectFragment();
+    public static BeaconListFragment newInstance() {
+        BeaconListFragment fragment = new BeaconListFragment();
         return fragment;
     }
 
@@ -63,7 +62,7 @@ public class BeaconObjectFragment extends Fragment implements AbsListView.OnItem
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public BeaconObjectFragment() {
+    public BeaconListFragment() {
     }
 
     @Override
@@ -100,7 +99,7 @@ public class BeaconObjectFragment extends Fragment implements AbsListView.OnItem
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnBeaconObjectFragmentInteractionListener) activity;
+            mListener = (OnBeaconListFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -118,7 +117,11 @@ public class BeaconObjectFragment extends Fragment implements AbsListView.OnItem
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onBeaconSelected(this.beacons.get(position).getId1().toHexString());
+            Beacon beacon = this.beacons.get(position);
+            String uuid = beacon.getId1().toHexString();
+            int major = beacon.getId2().toInt();
+            int minor = beacon.getId3().toInt();
+            mListener.onBeaconSelected(uuid, major, minor);
         }
     }
 
@@ -166,8 +169,8 @@ public class BeaconObjectFragment extends Fragment implements AbsListView.OnItem
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnBeaconObjectFragmentInteractionListener {
-        public void onBeaconSelected(String id);
+    public interface OnBeaconListFragmentInteractionListener {
+        public void onBeaconSelected(String uuid, int major, int minor);
     }
 
     private class BeaconObjectListAdapter extends ArrayAdapter<Beacon> {
