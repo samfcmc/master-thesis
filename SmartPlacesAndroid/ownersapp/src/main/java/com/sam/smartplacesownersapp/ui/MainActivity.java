@@ -15,12 +15,12 @@ import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements BeaconObjectFragment.OnBeaconObjectFragmentInteractionListener{
 
     SmartPlacesOwnerApplication application;
 
     private static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
-    private static final int TURN_BT_ON = 3;
+    private static final int TURN_BT_ON_REQUEST = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,10 @@ public class MainActivity extends ActionBarActivity {
             //TODO: Check if user has bluetooth turned on
             logToDisplay("User already logged in");
             if(this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
-                //TODO: Go to next "screen"
+                replaceFragment(new BeaconObjectFragment());
             }
             else {
-                this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON);
+                this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
             }
         }
         else {
@@ -99,10 +99,19 @@ public class MainActivity extends ActionBarActivity {
             if(requestCode == LOGIN_REQUEST) {
                 this.application.getDataStore().afterLoginOnActivityResult(requestCode, resultCode, data);
             }
+            else if(requestCode == TURN_BT_ON_REQUEST) {
+                logToDisplay("Bluetooth turned on");
+                selectFragment();
+            }
         }
     }
 
     public void afterLogin() {
         selectFragment();
+    }
+
+    @Override
+    public void onBeaconSelected(String id) {
+        logToDisplay("Selected beacon " + id);
     }
 }

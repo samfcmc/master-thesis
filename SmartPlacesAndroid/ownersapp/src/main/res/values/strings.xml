@@ -4,4 +4,8 @@
     <string name="action_settings">Settings</string>
     <string name="login_message">You have to login first to use this app</string>
     <string name="action_logout">Logout</string>
+    <string name="beacon_uuid_label">UUID</string>
+    <string name="beacon_major_label">major</string>
+    <string name="beacon_minor_label">minor</string>
+    <string name="beacon_distance_label">distance</string>
 </resources>
