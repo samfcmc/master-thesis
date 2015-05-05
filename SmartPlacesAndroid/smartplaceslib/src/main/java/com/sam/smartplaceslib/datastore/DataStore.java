@@ -8,6 +8,7 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
 /**
  * Interface to fetch and send data to the backend
@@ -23,5 +24,6 @@ public interface DataStore<UserType, ExceptionType> {
     public void logout(LogoutCallback<ExceptionType> callback);
     public void getBeacon(String uuid, int major, int minor, BeaconCallback callback);
     public void getSmartPlaces(String uuid, int major, int minor, SmartPlacesCallback callback);
+    public void saveBeacon(BeaconObject beaconObject, BeaconCallback callback);
 
 }

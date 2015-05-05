@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -38,6 +39,12 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     private int minor;
 
     private SmartPlacesOwnerApplication application;
+
+    private TextView uuidTextView;
+    private TextView majorTextView;
+    private TextView minorTextView;
+    private EditText tableEditText;
+    private Button saveButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -81,6 +88,11 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.application.getDataStore().getBeacon(this.uuid, this.major, this.minor, this);
+        this.uuidTextView = (TextView) view.findViewById(R.id.beacon_config_uuid_textView);
+        this.majorTextView = (TextView) view.findViewById(R.id.beacon_config_major_textView);
+        this.minorTextView = (TextView) view.findViewById(R.id.beacon_config_minor_textView);
+        this.tableEditText = (EditText) view.findViewById(R.id.beacon_config_table_editText);
+        this.saveButton = (Button) view.findViewById(R.id.beacon_config_save_button);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -118,11 +130,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
         }
     }
 
-    private void refreshView(BeaconObject object) {
-        TextView uuidTextView = (TextView) getView().findViewById(R.id.beacon_config_uuid_textView);
-        TextView majorTextView = (TextView) getView().findViewById(R.id.beacon_config_major_textView);
-        TextView minorTextView = (TextView) getView().findViewById(R.id.beacon_config_minor_textView);
-        EditText tableEditText = (EditText) getView().findViewById(R.id.beacon_config_table_editText);
+    private void refreshView(final BeaconObject object) {
         uuidTextView.setText(object.getUUID());
         majorTextView.setText(object.getMajor() + "");
         minorTextView.setText(object.getMinor() + "");
@@ -135,7 +143,32 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
                 e.printStackTrace();
             }
         }
+        this.saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    saveBeacon(object);
+                } catch (JSONException e) {
+                    //TODO: Change this...
+                    e.printStackTrace();
+                }
+            }
+        });
 
+    }
+
+    private void saveBeacon(BeaconObject object) throws JSONException {
+        String tableText = this.tableEditText.getText().toString();
+        int tableNumber = Integer.parseInt(tableText);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("table", tableNumber);
+        object.setObject(jsonObject);
+        this.application.getDataStore().saveBeacon(object, new BeaconCallback() {
+            @Override
+            public void done(BeaconObject object) {
+                mListener.onSaveBeacon(object);
+            }
+        });
     }
 
     /**
@@ -149,6 +182,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnBeaconConfigFragmentInteractionListener {
+        public void onSaveBeacon(BeaconObject object);
     }
 
 }

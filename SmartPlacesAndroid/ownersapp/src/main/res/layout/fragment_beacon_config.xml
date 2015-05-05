@@ -78,4 +78,12 @@
         android:layout_alignTop="@+id/beacon_config_table_label_textView"
         android:layout_alignStart="@+id/beacon_config_minor_textView" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/beacon_config_save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

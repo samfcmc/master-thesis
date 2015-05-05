@@ -20,10 +20,13 @@ import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DummyCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.DummyParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,6 +105,25 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
                             smartPlaces.add(newObject);
                         }
                         callback.done(smartPlaces);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void saveBeacon(final BeaconObject beaconObject, final BeaconCallback callback) {
+        ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery();
+
+        query.getInBackground(beaconObject.getId(), new GetCallback<BeaconParseObject>() {
+            @Override
+            public void done(final BeaconParseObject beaconParseObject, ParseException e) {
+                // Update object
+                beaconParseObject.setObject(beaconObject.getObject());
+                beaconParseObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        callback.done(beaconParseObject);
                     }
                 });
             }

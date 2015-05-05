@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.sam.smartplaceslib.datastore.ParseDataStore;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -114,5 +115,11 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
     public void onBeaconSelected(String uuid, int major, int minor) {
         logToDisplay("Selected beacon " + uuid);
         replaceFragment(BeaconConfigFragment.newInstance(uuid, major, minor));
+    }
+
+    @Override
+    public void onSaveBeacon(BeaconObject object) {
+        logToDisplay("Saved changes");
+        selectFragment();
     }
 }
