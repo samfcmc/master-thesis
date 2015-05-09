@@ -18,8 +18,18 @@ For more information check the
 ## Requirements:
 * An Android device
 * Android Studio
-* BLE Beacons or a Bluetooth USB dongle (if you use this you need a script to make your dongle act like an ibeacon. You can use [this one](https://github.com/samfcmc/linux-ibeacon))
+* BLE Beacons or a Bluetooth USB dongle (if you use this you need a script to make your dongle act like an ibeacon.
 * An account in [Parse.com](https://parse.com/). That's right, we didn't implement the backend ourselves ;)
+
+## Use a Bluetooth USB dongle to simulate an ibeacon
+### Linux
+In linux you can use the following python script:
+* [linux-ibeacon](https://github.com/samfcmc/linux-ibeacon)
+
+### Mac OS
+There are solutions for Mavericks, but if you are using Yosemite, this can be tricky.
+If you have XCode installed, you can use the following solution:
+* [yosemite-as-an-ibeacon-swift](https://updatemycode.com/2014/11/29/yosemite-as-an-ibeacon-swift/)
 
 ## First steps:
 * Import the Android project (SmartPlacesClientApp) to Android studio
