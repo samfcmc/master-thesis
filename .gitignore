@@ -26,3 +26,8 @@ proguard/
 *.log
 
 parse.json
+
+.DS_Store
+
+*.iml
+.idea/
