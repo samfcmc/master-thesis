@@ -142,6 +142,7 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
     @Override
     public void beaconsFound(Collection<Beacon> beacons) {
         if(!beacons.isEmpty()) {
+            this.beacons.clear();
             logToDisplay("Beacons found");
             this.application.getBeaconsManager().stopScan();
             for(Beacon beacon : beacons) {
