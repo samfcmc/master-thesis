@@ -110,6 +110,7 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        this.application.getBeaconsManager().unbind();
     }
 
     @Override
