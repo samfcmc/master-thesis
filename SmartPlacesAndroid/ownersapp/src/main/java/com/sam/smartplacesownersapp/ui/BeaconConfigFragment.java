@@ -87,11 +87,12 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.application.getDataStore().getBeacon(this.uuid, this.major, this.minor, this);
         this.uuidTextView = (TextView) view.findViewById(R.id.beacon_config_uuid_textView);
         this.majorTextView = (TextView) view.findViewById(R.id.beacon_config_major_textView);
         this.minorTextView = (TextView) view.findViewById(R.id.beacon_config_minor_textView);
         this.tableEditText = (EditText) view.findViewById(R.id.beacon_config_table_editText);
+        this.application.showProgressDialog(getActivity());
+        this.application.getDataStore().getBeacon(this.uuid, this.major, this.minor, this);
         this.saveButton = (Button) view.findViewById(R.id.beacon_config_save_button);
     }
 
@@ -120,6 +121,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
 
     @Override
     public void done(final BeaconObject object) {
+        this.application.dismissProgressDialog(getActivity());
         if(object != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -163,9 +165,11 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("table", tableNumber);
         object.setObject(jsonObject);
+        this.application.showProgressDialog(getActivity());
         this.application.getDataStore().saveBeacon(object, new BeaconCallback() {
             @Override
             public void done(BeaconObject object) {
+                application.dismissProgressDialog(getActivity());
                 mListener.onSaveBeacon(object);
             }
         });
@@ -182,7 +186,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnBeaconConfigFragmentInteractionListener {
-        public void onSaveBeacon(BeaconObject object);
+        void onSaveBeacon(BeaconObject object);
     }
 
 }

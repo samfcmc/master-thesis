@@ -75,6 +75,7 @@
         android:text="@string/beacon_distance_label"
         android:id="@+id/beacon_distance_textView"
         android:layout_alignTop="@+id/beacon_distance_label_textView"
-        android:layout_alignStart="@+id/beacon_uuid_textView" />
+        android:layout_alignStart="@+id/beacon_uuid_textView"
+        android:layout_marginLeft="10dp"/>
 
 </RelativeLayout>

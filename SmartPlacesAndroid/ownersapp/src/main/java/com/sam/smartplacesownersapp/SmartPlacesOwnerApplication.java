@@ -1,6 +1,8 @@
 package com.sam.smartplacesownersapp;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -30,6 +32,8 @@ public class SmartPlacesOwnerApplication extends Application implements Bootstra
     private DataStore<ParseUser, ParseException> dataStore;
 
     private BeaconsManager<Beacon> beaconsManager;
+
+    private ProgressDialog progressDialog;
 
     public static final int REQUEST_LOGIN = 2;
 
@@ -80,5 +84,32 @@ public class SmartPlacesOwnerApplication extends Application implements Bootstra
     @Override
     public void didDetermineStateForRegion(int i, Region region) {
 
+    }
+
+    public void showProgressDialog(final Activity activity, final String title, final String message) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog = ProgressDialog.show(activity, title, message);
+            }
+        });
+    }
+
+    public void showProgressDialog(final Activity activity, final String title) {
+        showProgressDialog(activity, title, title);
+    }
+
+    public void showProgressDialog(final Activity activity) {
+        String loadingStr = getString(R.string.loading);
+        showProgressDialog(activity, loadingStr, loadingStr);
+    }
+
+    public void dismissProgressDialog(Activity activity) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        });
     }
 }
