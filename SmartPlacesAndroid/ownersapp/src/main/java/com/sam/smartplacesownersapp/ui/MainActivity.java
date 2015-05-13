@@ -29,6 +29,8 @@ public class MainActivity extends ActionBarActivity implements
     private static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
     private static final int TURN_BT_ON_REQUEST = 3;
 
+    private SmartPlaceConfigurationObject smartPlaceConfigurationObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +43,27 @@ public class MainActivity extends ActionBarActivity implements
         final String smartPlaceId = "uWE3R6EDOv";
         if(this.application.getDataStore().isUserLoggedIn()) {
             if(this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
-                showLoading();
                 // Defined for the restaurant...
-                this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
-                    @Override
-                    public void done(SmartPlaceConfigurationObject object) {
-                        stopLoading();
-                        if(object == null) {
-                            replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
+                if(this.smartPlaceConfigurationObject == null) {
+                    showLoading();
+                    this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
+                        @Override
+                        public void done(SmartPlaceConfigurationObject object) {
+                            stopLoading();
+                            if(object == null) {
+                                replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
+                            }
+                            else {
+                                replaceFragment(BeaconListFragment.newInstance());
+                                setSmartPlaceConfigurationObject(object);
+                            }
                         }
-                        else {
-                            replaceFragment(BeaconListFragment.newInstance());
-                        }
-                    }
-                });
+                    });
+                }
+                else {
+                    replaceFragment(BeaconListFragment.newInstance());
+                }
+
                 //replaceFragment(new BeaconListFragment());
             }
             else {
@@ -64,6 +73,10 @@ public class MainActivity extends ActionBarActivity implements
         else {
             replaceFragment(new MainFragment());
         }
+    }
+
+    private void setSmartPlaceConfigurationObject(SmartPlaceConfigurationObject object) {
+        this.smartPlaceConfigurationObject = object;
     }
 
     private void showLoading() {
@@ -145,7 +158,8 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onBeaconSelected(String uuid, int major, int minor) {
         logToDisplay("Selected beacon " + uuid);
-        replaceFragment(BeaconConfigFragment.newInstance(uuid, major, minor));
+        replaceFragment(BeaconConfigFragment.newInstance(uuid, major, minor,
+                this.smartPlaceConfigurationObject.getId()));
     }
 
     @Override
@@ -155,7 +169,8 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onSmartPlaceConfigurationSaved() {
-        replaceFragment(BeaconListFragment.newInstance());
+    public void onSmartPlaceConfigurationSaved(SmartPlaceConfigurationObject object) {
+        setSmartPlaceConfigurationObject(object);
+        selectFragment();
     }
 }

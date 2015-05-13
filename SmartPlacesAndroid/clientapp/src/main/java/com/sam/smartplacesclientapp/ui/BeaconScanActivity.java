@@ -12,6 +12,7 @@ import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
@@ -62,9 +63,9 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void logout() {
-        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+        this.application.getDataStore().logout(new LogoutCallback() {
             @Override
-            public void done(ParseException exception) {
+            public void done(DataStoreException exception) {
                 if(exception == null) {
                     finish();
                 }

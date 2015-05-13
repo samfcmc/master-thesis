@@ -89,14 +89,14 @@ public class SmartPlaceConfigurationFragment extends Fragment {
                 new SmartPlaceConfigurationCallback() {
                     @Override
                     public void done(SmartPlaceConfigurationObject object) {
-                        onSaveSmartPlaceConfiguration();
+                        onSaveSmartPlaceConfiguration(object);
                     }
                 });
     }
 
-    private void onSaveSmartPlaceConfiguration() {
+    private void onSaveSmartPlaceConfiguration(SmartPlaceConfigurationObject object) {
         this.application.dismissProgressDialog(getActivity());
-        mListener.onSmartPlaceConfigurationSaved();
+        mListener.onSmartPlaceConfigurationSaved(object);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onSmartPlaceConfigurationSaved();
+        void onSmartPlaceConfigurationSaved(SmartPlaceConfigurationObject object);
     }
 
 }

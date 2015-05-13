@@ -33,6 +33,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     private static final String UUID = "uuid";
     private static final String MAJOR = "major";
     private static final String MINOR= "minor";
+    private static final String CONFIGURATION = "configuration";
 
     private String uuid;
     private int major;
@@ -52,12 +53,14 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
      *
      * @return A new instance of fragment BeaconConfigFragment.
      */
-    public static BeaconConfigFragment newInstance(String uuid, int major, int minor) {
+    public static BeaconConfigFragment newInstance(String uuid, int major, int minor,
+                                                   String smartPlaceConfigurationId) {
         BeaconConfigFragment fragment = new BeaconConfigFragment();
         Bundle bundle = new Bundle();
         bundle.putString(UUID, uuid);
         bundle.putInt(MAJOR, major);
         bundle.putInt(MINOR, minor);
+        bundle.putString(CONFIGURATION, smartPlaceConfigurationId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -94,12 +97,6 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
         this.application.showProgressDialog(getActivity());
         this.application.getDataStore().getBeacon(this.uuid, this.major, this.minor, this);
         this.saveButton = (Button) view.findViewById(R.id.beacon_config_save_button);
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -163,10 +160,12 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
         String tableText = this.tableEditText.getText().toString();
         int tableNumber = Integer.parseInt(tableText);
         JSONObject jsonObject = new JSONObject();
+        String smartPlaceConfiguationId = getArguments().getString(CONFIGURATION);
         jsonObject.put("table", tableNumber);
         object.setObject(jsonObject);
         this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().saveBeacon(object, new BeaconCallback() {
+        this.application.getDataStore().saveBeacon(object, smartPlaceConfiguationId,
+                new BeaconCallback() {
             @Override
             public void done(BeaconObject object) {
                 application.dismissProgressDialog(getActivity());

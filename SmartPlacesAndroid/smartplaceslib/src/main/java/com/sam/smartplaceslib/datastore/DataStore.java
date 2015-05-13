@@ -28,7 +28,8 @@ public interface DataStore {
     void logout(final LogoutCallback callback);
     void getBeacon(String uuid, int major, int minor, final BeaconCallback callback);
     void getSmartPlaces(String uuid, int major, int minor, final SmartPlacesCallback callback);
-    void saveBeacon(BeaconObject beaconObject, final BeaconCallback callback);
+    void saveBeacon(BeaconObject beaconObject, String smartPlaceConfigurationId,
+                    final BeaconCallback callback);
     void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
     void createSmartPlaceConfiguration(String smartPlaceId, String name, String message, SmartPlaceConfigurationCallback callback);
 

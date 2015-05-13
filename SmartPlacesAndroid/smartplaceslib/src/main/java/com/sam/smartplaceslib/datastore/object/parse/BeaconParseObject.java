@@ -19,6 +19,7 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     private static final String MINOR = "minor";
     private static final String OBJECT = "object";
     private static final String SMART_PLACES = "smartPlaces";
+    private static final String SMART_PLACES_CONFIGURATION = "smartPlacesConfiguration";
     private static final String MESSAGE = "message";
 
     public BeaconParseObject(String uuid, int major, int minor, String message) {
@@ -85,5 +86,9 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
 
     public ParseRelation<ParseObject> getSmartPlacesRelation() {
         return getRelation(SMART_PLACES);
+    }
+
+    public ParseRelation<SmartPlaceConfigurationParseObject> getSmartPlacesConfigurationRelation() {
+        return getRelation(SMART_PLACES_CONFIGURATION);
     }
 }
