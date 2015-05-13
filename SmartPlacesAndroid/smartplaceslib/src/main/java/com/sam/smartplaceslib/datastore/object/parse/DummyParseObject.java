@@ -27,10 +27,6 @@ public class DummyParseObject extends AbstractParseObject implements DummyObject
         setName(name);
     }
 
-    public static ParseQuery<DummyParseObject> getQuery() {
-        return ParseQuery.getQuery(DummyParseObject.class);
-    }
-
     @Override
     public String getName() {
         return getString(NAME);

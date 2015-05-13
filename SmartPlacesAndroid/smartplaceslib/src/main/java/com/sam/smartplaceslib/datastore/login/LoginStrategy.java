@@ -5,7 +5,7 @@ import android.content.Intent;
 /**
  *
  */
-public interface LoginStrategy<UserType, ExceptionType> {
-    public void login(LoginCallback<UserType, ExceptionType> callback);
+public interface LoginStrategy {
+    public void login(LoginCallback callback);
     public void onActivityResult(int requestCode, int resultCode, Intent data);
 }

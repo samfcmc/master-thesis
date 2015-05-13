@@ -4,26 +4,33 @@ import android.content.Intent;
 
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DummyCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
+import com.sam.smartplaceslib.datastore.object.UserObject;
+import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceConfigurationParseObject;
 
 /**
  * Interface to fetch and send data to the backend
  */
-public interface DataStore<UserType, ExceptionType> {
+public interface DataStore {
 
-    public void createDummy(String name, DummyCallback callback);
-    public void login(LoginStrategy<UserType, ExceptionType> loginStrategy,
-                      LoginCallback<UserType, ExceptionType> callback);
-    public void afterLoginOnActivityResult(int requestCode, int resultCode, Intent data);
-    public UserType getCurrentUser();
-    public boolean isUserLoggedIn();
-    public void logout(LogoutCallback<ExceptionType> callback);
-    public void getBeacon(String uuid, int major, int minor, BeaconCallback callback);
-    public void getSmartPlaces(String uuid, int major, int minor, SmartPlacesCallback callback);
-    public void saveBeacon(BeaconObject beaconObject, BeaconCallback callback);
+    void createDummy(String name, final DummyCallback callback);
+    void login(LoginStrategy loginStrategy,
+                      LoginCallback callback);
+    void afterLoginOnActivityResult(int requestCode, int resultCode, Intent data);
+    UserObject getCurrentUser();
+    boolean isUserLoggedIn();
+    void logout(final LogoutCallback callback);
+    void getBeacon(String uuid, int major, int minor, final BeaconCallback callback);
+    void getSmartPlaces(String uuid, int major, int minor, final SmartPlacesCallback callback);
+    void saveBeacon(BeaconObject beaconObject, final BeaconCallback callback);
+    void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
+    void createSmartPlaceConfiguration(String smartPlaceId, String name, String message, SmartPlaceConfigurationCallback callback);
+
 
 }

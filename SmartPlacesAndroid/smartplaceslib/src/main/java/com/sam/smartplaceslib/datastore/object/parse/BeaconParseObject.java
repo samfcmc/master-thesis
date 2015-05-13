@@ -21,10 +21,6 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     private static final String SMART_PLACES = "smartPlaces";
     private static final String MESSAGE = "message";
 
-    static {
-        ParseObject.registerSubclass(BeaconParseObject.class);
-    }
-
     public BeaconParseObject(String uuid, int major, int minor, String message) {
         this();
         setUUID(uuid);
@@ -85,10 +81,6 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     @Override
     public void setMessage(String message) {
         put(MESSAGE, message);
-    }
-
-    public static ParseQuery<BeaconParseObject> getQuery() {
-        return ParseQuery.getQuery(BeaconParseObject.class);
     }
 
     public ParseRelation<ParseObject> getSmartPlacesRelation() {

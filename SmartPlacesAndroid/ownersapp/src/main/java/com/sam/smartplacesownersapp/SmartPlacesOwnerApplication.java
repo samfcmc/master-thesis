@@ -29,7 +29,7 @@ public class SmartPlacesOwnerApplication extends Application implements Bootstra
     private Region region;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private DataStore<ParseUser, ParseException> dataStore;
+    private DataStore dataStore;
 
     private BeaconsManager<Beacon> beaconsManager;
 
@@ -63,7 +63,7 @@ public class SmartPlacesOwnerApplication extends Application implements Bootstra
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public DataStore<ParseUser, ParseException> getDataStore() {
+    public DataStore getDataStore() {
         return dataStore;
     }
 

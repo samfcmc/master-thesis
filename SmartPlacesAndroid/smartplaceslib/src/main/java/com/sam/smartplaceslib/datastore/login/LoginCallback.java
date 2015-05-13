@@ -1,8 +1,11 @@
 package com.sam.smartplaceslib.datastore.login;
 
+import com.sam.smartplaceslib.datastore.DataStoreException;
+import com.sam.smartplaceslib.datastore.object.UserObject;
+
 /**
  *
  */
-public interface LoginCallback<UserType, ExceptionType> {
-    public void done(UserType user, ExceptionType exception);
+public interface LoginCallback {
+    public void done(UserObject user, DataStoreException exception);
 }

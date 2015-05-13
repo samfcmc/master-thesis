@@ -7,15 +7,17 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
+import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 
 import java.util.ArrayList;
 
 /**
  *
  */
-public class ParseFacebookLoginStrategy implements LoginStrategy<ParseUser, ParseException> {
+public class ParseFacebookLoginStrategy implements LoginStrategy {
     private Activity activity;
 
     public ParseFacebookLoginStrategy(Activity activity) {
@@ -23,11 +25,14 @@ public class ParseFacebookLoginStrategy implements LoginStrategy<ParseUser, Pars
     }
 
     @Override
-    public void login(final LoginCallback<ParseUser, ParseException> callback) {
+    public void login(final LoginCallback callback) {
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this.activity, new ArrayList<String>(), new LogInCallback() {
+
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                callback.done(parseUser, e);
+                UserParseObject userParseObject = new UserParseObject(parseUser);
+                DataStoreException exception = new DataStoreException(e);
+                callback.done(userParseObject, exception);
             }
         });
     }

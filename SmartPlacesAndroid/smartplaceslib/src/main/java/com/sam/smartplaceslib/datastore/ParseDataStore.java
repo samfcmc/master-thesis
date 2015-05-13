@@ -18,14 +18,19 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DummyCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
+import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.DummyParseObject;
+import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceConfigurationParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
+import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -36,7 +41,7 @@ import java.util.List;
 /**
  * DataStore implementation to work with Parse.com BaaS
  */
-public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException> {
+public class ParseDataStore extends AbstractDataStore {
 
     public static int REQUEST_LOGIN = 2;
 
@@ -61,9 +66,20 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
     public ParseDataStore(Application application, String applicationId, String clientKey, String facebookAppId) {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(application);
+        registerSubclasses();
         Parse.initialize(application, applicationId, clientKey);
         FacebookSdk.setApplicationId(facebookAppId);
         ParseFacebookUtils.initialize(application, REQUEST_LOGIN);
+    }
+
+    private void registerSubclasses() {
+        ParseObject.registerSubclass(BeaconParseObject.class);
+        ParseObject.registerSubclass(SmartPlaceConfigurationParseObject.class);
+        ParseObject.registerSubclass(SmartPlaceParseObject.class);
+    }
+
+    private <T extends ParseObject> ParseQuery<T> getQuery(Class<T> clazz) {
+        return ParseQuery.getQuery(clazz);
     }
 
     @Override
@@ -79,7 +95,7 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
 
     @Override
     public void getBeacon(final String uuid, final int major, final int minor, final BeaconCallback callback) {
-        ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery().whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
+        ParseQuery<BeaconParseObject> query = getQuery(BeaconParseObject.class).whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
         query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
@@ -90,7 +106,7 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
 
     @Override
     public void getSmartPlaces(String uuid, int major, int minor, final SmartPlacesCallback callback) {
-        ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery().whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
+        ParseQuery<BeaconParseObject> query = getQuery(BeaconParseObject.class).whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
         query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
@@ -113,7 +129,7 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
 
     @Override
     public void saveBeacon(final BeaconObject beaconObject, final BeaconCallback callback) {
-        ParseQuery<BeaconParseObject> query = BeaconParseObject.getQuery();
+        ParseQuery<BeaconParseObject> query = getQuery(BeaconParseObject.class);
 
         query.getInBackground(beaconObject.getId(), new GetCallback<BeaconParseObject>() {
             @Override
@@ -131,8 +147,46 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
     }
 
     @Override
-    public ParseUser getCurrentUser() {
-        return ParseUser.getCurrentUser();
+    public void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback) {
+        ParseQuery<SmartPlaceConfigurationParseObject> query = getQuery(SmartPlaceConfigurationParseObject.class);
+        ParseUser user = ParseUser.getCurrentUser();
+        SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
+                SmartPlaceParseObject.class, smartPlaceId);
+        query = query.whereEqualTo("owner", user);
+        query = query.whereEqualTo("smartPlace", smartPlaceParseObject);
+        query.getFirstInBackground(new GetCallback<SmartPlaceConfigurationParseObject>() {
+            @Override
+            public void done(SmartPlaceConfigurationParseObject smartPlaceConfigurationParseObject, ParseException e) {
+                callback.done(smartPlaceConfigurationParseObject);
+            }
+        });
+    }
+
+    @Override
+    public void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
+                                              final SmartPlaceConfigurationCallback callback) {
+        ParseUser user = ParseUser.getCurrentUser();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", name);
+            jsonObject.put("message", message);
+        } catch (JSONException e) {
+            // Now we just do not care
+        }
+
+        final SmartPlaceConfigurationParseObject smartPlaceConfiguration =
+                new SmartPlaceConfigurationParseObject(user.getObjectId(), smartPlaceId, jsonObject);
+        smartPlaceConfiguration.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                callback.done(smartPlaceConfiguration);
+            }
+        });
+    }
+
+    @Override
+    public UserObject getCurrentUser() {
+        return new UserParseObject(ParseUser.getCurrentUser());
     }
 
     @Override
@@ -141,11 +195,12 @@ public class ParseDataStore extends AbstractDataStore<ParseUser, ParseException>
     }
 
     @Override
-    public void logout(final LogoutCallback<ParseException> callback) {
+    public void logout(final LogoutCallback callback) {
         ParseUser.logOutInBackground(new LogOutCallback() {
             @Override
             public void done(ParseException e) {
-                callback.done(e);
+                DataStoreException exception = new DataStoreException(e);
+                callback.done(exception);
             }
         });
     }

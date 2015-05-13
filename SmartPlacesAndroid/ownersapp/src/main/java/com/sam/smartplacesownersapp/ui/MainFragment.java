@@ -11,9 +11,11 @@ import android.widget.Toast;
 import com.facebook.login.widget.LoginButton;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.parse.ParseFacebookLoginStrategy;
+import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -55,15 +57,15 @@ public class MainFragment extends Fragment {
     }
 
     private void login(LoginStrategy loginStrategy) {
-        this.application.getDataStore().login(loginStrategy, new LoginCallback<ParseUser, ParseException>() {
+        this.application.getDataStore().login(loginStrategy, new LoginCallback() {
             @Override
-            public void done(ParseUser user, ParseException exception) {
+            public void done(UserObject user, DataStoreException exception) {
                 afterLogin(user);
             }
         });
     }
 
-    private void afterLogin(ParseUser user) {
+    private void afterLogin(UserObject user) {
         logToDisplay("User logged in " + user.getUsername());
         MainActivity activity = (MainActivity) getActivity();
         activity.afterLogin();

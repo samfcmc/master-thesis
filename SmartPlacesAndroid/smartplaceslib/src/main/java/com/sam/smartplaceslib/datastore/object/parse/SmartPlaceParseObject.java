@@ -15,10 +15,6 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     private static final String URL = "url";
     private static final String MESSAGE = "message";
 
-    static {
-        ParseObject.registerSubclass(SmartPlaceParseObject.class);
-    }
-
     public SmartPlaceParseObject() {
     }
 
@@ -29,7 +25,10 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     }
 
     public SmartPlaceParseObject(ParseObject parseObject) {
-        this(parseObject.getString(NAME), parseObject.getString(URL), parseObject.getString(MESSAGE));
+        super(parseObject);
+        setName(parseObject.getString(NAME));
+        setUrl(parseObject.getString(URL));
+        setMessage(parseObject.getString(MESSAGE));
     }
 
     @Override
@@ -60,10 +59,6 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     @Override
     public void setMessage(String message) {
         put(MESSAGE, message);
-    }
-
-    public static ParseQuery<SmartPlaceParseObject> getQuery() {
-        return ParseQuery.getQuery(SmartPlaceParseObject.class);
     }
 
 }

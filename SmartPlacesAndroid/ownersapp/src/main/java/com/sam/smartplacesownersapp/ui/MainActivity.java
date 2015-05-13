@@ -9,14 +9,20 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.ParseDataStore;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
 
-public class MainActivity extends ActionBarActivity implements BeaconListFragment.OnBeaconListFragmentInteractionListener, BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements
+        BeaconListFragment.OnBeaconListFragmentInteractionListener,
+        BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener,
+        SmartPlaceConfigurationFragment.OnFragmentInteractionListener{
 
     SmartPlacesOwnerApplication application;
 
@@ -32,11 +38,24 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
     }
 
     private void selectFragment() {
+        final String smartPlaceId = "uWE3R6EDOv";
         if(this.application.getDataStore().isUserLoggedIn()) {
-            //TODO: Check if user has bluetooth turned on
-            logToDisplay("User already logged in");
             if(this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
-                replaceFragment(new BeaconListFragment());
+                showLoading();
+                // Defined for the restaurant...
+                this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
+                    @Override
+                    public void done(SmartPlaceConfigurationObject object) {
+                        stopLoading();
+                        if(object == null) {
+                            replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
+                        }
+                        else {
+                            replaceFragment(BeaconListFragment.newInstance());
+                        }
+                    }
+                });
+                //replaceFragment(new BeaconListFragment());
             }
             else {
                 this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
@@ -47,6 +66,13 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
         }
     }
 
+    private void showLoading() {
+        this.application.showProgressDialog(this);
+    }
+
+    private void stopLoading() {
+        this.application.dismissProgressDialog(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,9 +93,9 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
             return true;
         }
         else if(id == R.id.action_logout) {
-            this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+            this.application.getDataStore().logout(new LogoutCallback() {
                 @Override
-                public void done(ParseException exception) {
+                public void done(DataStoreException exception) {
                     logToDisplay("User logged out");
                     selectFragment();
                 }
@@ -80,8 +106,13 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
         return super.onOptionsItemSelected(item);
     }
 
-    private void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
+    private void replaceFragment(final Fragment fragment) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
+            }
+        });
     }
 
     private void logToDisplay(final String message) {
@@ -121,5 +152,10 @@ public class MainActivity extends ActionBarActivity implements BeaconListFragmen
     public void onSaveBeacon(BeaconObject object) {
         logToDisplay("Saved changes");
         selectFragment();
+    }
+
+    @Override
+    public void onSmartPlaceConfigurationSaved() {
+        replaceFragment(BeaconListFragment.newInstance());
     }
 }
