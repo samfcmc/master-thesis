@@ -29,41 +29,90 @@
       </p>
     </div>
 
-    <div>
+    <div class="row">
       <button
       class="btn btn-default"
       id="clientButton">
-        Click
+        Click to call a waiter
       </button>
     </div>
 
+    {{#unless menu}}
+    <div class="row">
+      <button class="btn btn-default"
+      id="menuButton">
+        Show menu
+      </button>
+    </div>
+    {{/unless}}
+
+    <div class="row">
+      <ul>
+        {{#each menu}}
+          {{> item}}
+        {{/each}}
+      </ul>
+    </div>
+
     <!-- Modal -->
-    <div class="modal fade" id="confirmation" 
-    role="dialog" 
-    aria-labelledby="confirmationLabel" 
+    <div class="modal fade" id="confirmation"
+    role="dialog"
+    aria-labelledby="confirmationLabel"
     aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" 
+            <button type="button" class="close"
             data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">
                 &times;
               </span>
             </button>
-            <h4 class="modal-title" 
+            <h4 class="modal-title"
             id="myModalLabel">
               Just wait...
             </h4>
           </div>
           <div class="modal-body">
             Welcome to this restaurant.
-            Today we have good chicken.
             A waiter will come to serve you ;)
           </div>
           <div class="modal-footer">
             <button type="button"
-            data-dismiss="modal" 
+            data-dismiss="modal"
+            class="btn btn-primary">
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order confirmation modal -->
+    <div class="modal fade" id="oderConfirmation"
+    role="dialog"
+    aria-labelledby="confirmationLabel"
+    aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close"
+            data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                &times;
+              </span>
+            </button>
+            <h4 class="modal-title"
+            id="myModalLabel">
+              Order placed
+            </h4>
+          </div>
+          <div class="modal-body">
+            Your order has just been placed
+          </div>
+          <div class="modal-footer">
+            <button type="button"
+            data-dismiss="modal"
             class="btn btn-primary">
               OK
             </button>
@@ -79,7 +128,7 @@
     <ul>
       {{#each checkIns}}
         {{> check}}
-        <button 
+        <button
         class="btn btn-danger delete">
           Delete
         </button>
@@ -88,8 +137,43 @@
   </div>
 </template>
 
+<template name="orders">
+  <div class="row">
+    <ul>
+      {{#each orders}}
+        {{> order}}
+        <button
+        class="btn btn-danger delete">
+          Delete
+        </button>
+      {{/each}}
+    </ul>
+
+  </div>
+
+</template>
+
+<template name="order">
+  <li>
+    On table {{table}}
+    {{name}}
+    {{createdMoment}}
+  </li>
+
+</template>
+
 <template name="check">
   <li>
     On table {{table}} : {{createdMoment}}
   </li>
+</template>
+
+<template name="item">
+  <li>
+    {{name}} Price: {{price}}€
+    <button class="btn btn-default order">
+      Order
+    </button>
+  </li>
+
 </template>

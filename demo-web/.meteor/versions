@@ -36,7 +36,7 @@ minifiers@1.1.5
 minimongo@1.0.8
 mizzao:bootstrap-3@3.3.1_1
 mobile-status-bar@1.0.3
-momentjs:moment@2.9.0
+momentjs:moment@2.10.3
 mongo@1.1.0
 observe-sequence@1.0.6
 ordered-dict@1.0.3
@@ -50,6 +50,7 @@ session@1.1.0
 spacebars@1.0.6
 spacebars-compiler@1.0.6
 templating@1.1.1
+timmyg13:parse-sdk@1.0.1
 tracker@1.0.7
 ui@1.0.6
 underscore@1.0.3
