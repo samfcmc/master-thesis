@@ -104,7 +104,7 @@ public class ParseDataStore extends AbstractDataStore {
         });
     }
 
-    @Override
+    /*@Override
     public void getSmartPlaces(String uuid, int major, int minor, final SmartPlacesCallback callback) {
         ParseQuery<BeaconParseObject> query = getQuery(BeaconParseObject.class).whereEqualTo("uuid", uuid).whereEqualTo("major", major).whereEqualTo("minor", minor);
         query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
@@ -123,6 +123,20 @@ public class ParseDataStore extends AbstractDataStore {
                         callback.done(smartPlaces);
                     }
                 });
+            }
+        });
+    }*/
+
+    @Override
+    public void getSmartPlaces(BeaconObject beaconObject, final SmartPlacesCallback callback) {
+        BeaconParseObject beaconParseObject = ParseObject.createWithoutData(BeaconParseObject.class,
+                beaconObject.getId());
+        ParseRelation<SmartPlaceParseObject> relation = beaconParseObject.getSmartPlacesRelation();
+        relation.getQuery().findInBackground(new FindCallback<SmartPlaceParseObject>() {
+            @Override
+            public void done(List<SmartPlaceParseObject> list, ParseException e) {
+                List<SmartPlaceObject> smartPlaces = new ArrayList<SmartPlaceObject>(list);
+                callback.done(smartPlaces);
             }
         });
     }
@@ -192,7 +206,14 @@ public class ParseDataStore extends AbstractDataStore {
 
     @Override
     public UserObject getCurrentUser() {
-        return new UserParseObject(ParseUser.getCurrentUser());
+        ParseUser user = ParseUser.getCurrentUser();
+        if(user == null) {
+            return null;
+        }
+        else {
+            return new UserParseObject(user);
+        }
+
     }
 
     @Override

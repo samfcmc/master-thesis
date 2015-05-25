@@ -13,8 +13,10 @@ import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.DataStoreException;
+import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -82,15 +84,30 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
             String uuid = beacon.getId1().toHexString();
             int major = beacon.getId2().toInt();
             int minor = beacon.getId3().toInt();
-            this.application.getDataStore().getSmartPlaces(uuid, major, minor, new SmartPlacesCallback() {
+            /*this.application.getDataStore().getSmartPlaces(uuid, major, minor, new SmartPlacesCallback() {
                 @Override
                 public void done(List<SmartPlaceObject> objects) {
                     logToDisplay("Found smart places " + objects.size());
                     notifyAboutSmartPlaces(objects);
                 }
+            });*/
+            this.application.getDataStore().getBeacon(uuid, major, minor, new BeaconCallback() {
+                @Override
+                public void done(BeaconObject object) {
+                    beaconFetched(object);
+                }
             });
             logToDisplay("Detected beacon " + beacon.getId1().toHexString());
         }
+    }
+
+    private void beaconFetched(BeaconObject object) {
+        this.application.getDataStore().getSmartPlaces(object, new SmartPlacesCallback() {
+            @Override
+            public void done(List<SmartPlaceObject> object) {
+                logToDisplay("Found smart places");
+            }
+        });
     }
 
     private void logToDisplay(final String message) {

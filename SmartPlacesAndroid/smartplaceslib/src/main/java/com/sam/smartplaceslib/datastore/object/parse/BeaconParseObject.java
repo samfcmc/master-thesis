@@ -1,8 +1,6 @@
 package com.sam.smartplaceslib.datastore.object.parse;
 
 import com.parse.ParseClassName;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
@@ -84,7 +82,7 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
         put(MESSAGE, message);
     }
 
-    public ParseRelation<ParseObject> getSmartPlacesRelation() {
+    public ParseRelation<SmartPlaceParseObject> getSmartPlacesRelation() {
         return getRelation(SMART_PLACES);
     }
 

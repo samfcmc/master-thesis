@@ -1,14 +1,13 @@
 package com.sam.smartplacesownersapp.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.parse.ParseException;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.ParseDataStore;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
@@ -22,12 +21,13 @@ import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 public class MainActivity extends ActionBarActivity implements
         BeaconListFragment.OnBeaconListFragmentInteractionListener,
         BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener,
-        SmartPlaceConfigurationFragment.OnFragmentInteractionListener{
+        SmartPlaceConfigurationFragment.OnFragmentInteractionListener,
+        ConfigMenuFragment.OnFragmentInteractionListener {
 
     SmartPlacesOwnerApplication application;
 
-    private static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
-    private static final int TURN_BT_ON_REQUEST = 3;
+    public static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
+    public static final int TURN_BT_ON_REQUEST = 3;
 
     private SmartPlaceConfigurationObject smartPlaceConfigurationObject;
 
@@ -41,36 +41,27 @@ public class MainActivity extends ActionBarActivity implements
 
     private void selectFragment() {
         final String smartPlaceId = "uWE3R6EDOv";
-        if(this.application.getDataStore().isUserLoggedIn()) {
-            if(this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
-                // Defined for the restaurant...
-                if(this.smartPlaceConfigurationObject == null) {
-                    showLoading();
-                    this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
-                        @Override
-                        public void done(SmartPlaceConfigurationObject object) {
-                            stopLoading();
-                            if(object == null) {
-                                replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
-                            }
-                            else {
-                                replaceFragment(BeaconListFragment.newInstance());
-                                setSmartPlaceConfigurationObject(object);
-                            }
+        if (this.application.getDataStore().isUserLoggedIn()) {
+            // Defined for the restaurant...
+            if (this.smartPlaceConfigurationObject == null) {
+                showLoading();
+                this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
+                    @Override
+                    public void done(SmartPlaceConfigurationObject object) {
+                        stopLoading();
+                        if (object == null) {
+                            replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
+                        } else {
+                            setSmartPlaceConfigurationObject(object);
+                            replaceFragment(ConfigMenuFragment.newInstance());
                         }
-                    });
-                }
-                else {
-                    replaceFragment(BeaconListFragment.newInstance());
-                }
+                    }
+                });
+            } else {
+                replaceFragment(ConfigMenuFragment.newInstance());
 
-                //replaceFragment(new BeaconListFragment());
             }
-            else {
-                this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
-            }
-        }
-        else {
+        } else {
             replaceFragment(new MainFragment());
         }
     }
@@ -104,8 +95,7 @@ public class MainActivity extends ActionBarActivity implements
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             this.application.getDataStore().logout(new LogoutCallback() {
                 @Override
                 public void done(DataStoreException exception) {
@@ -140,13 +130,11 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            if(requestCode == LOGIN_REQUEST) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == LOGIN_REQUEST) {
                 this.application.getDataStore().afterLoginOnActivityResult(requestCode, resultCode, data);
-            }
-            else if(requestCode == TURN_BT_ON_REQUEST) {
-                logToDisplay("Bluetooth turned on");
-                selectFragment();
+            } else if (requestCode == TURN_BT_ON_REQUEST) {
+                replaceFragment(BeaconListFragment.newInstance());
             }
         }
     }
@@ -172,5 +160,19 @@ public class MainActivity extends ActionBarActivity implements
     public void onSmartPlaceConfigurationSaved(SmartPlaceConfigurationObject object) {
         setSmartPlaceConfigurationObject(object);
         selectFragment();
+    }
+
+    @Override
+    public void onMenuButtonClick() {
+
+    }
+
+    @Override
+    public void onTablesButtonClick() {
+        if (this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
+            replaceFragment(BeaconListFragment.newInstance());
+        } else {
+            this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
+        }
     }
 }

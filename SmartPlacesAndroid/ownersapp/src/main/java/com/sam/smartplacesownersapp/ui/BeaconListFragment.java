@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplacesownersapp.R;
-
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
 import org.altbeacon.beacon.Beacon;
@@ -141,11 +140,11 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
 
     @Override
     public void beaconsFound(Collection<Beacon> beacons) {
-        if(!beacons.isEmpty()) {
+        if (!beacons.isEmpty()) {
             this.beacons.clear();
             logToDisplay("Beacons found");
             this.application.getBeaconsManager().stopScan();
-            for(Beacon beacon : beacons) {
+            for (Beacon beacon : beacons) {
                 this.beacons.add(beacon);
             }
             refreshBeaconsList();
@@ -183,7 +182,7 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null) {
+            if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext()
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.beacon_list_item, parent, false);
