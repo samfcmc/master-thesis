@@ -19,4 +19,5 @@
     <string name="message">Message</string>
     <string name="menu">Menu</string>
     <string name="tables">Tables</string>
+    <string name="category">Category</string>
 </resources>

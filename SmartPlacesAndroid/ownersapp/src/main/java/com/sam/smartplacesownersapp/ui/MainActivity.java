@@ -14,6 +14,7 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplacesownersapp.CategoryMenuFragment;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -22,7 +23,8 @@ public class MainActivity extends ActionBarActivity implements
         BeaconListFragment.OnBeaconListFragmentInteractionListener,
         BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener,
         SmartPlaceConfigurationFragment.OnFragmentInteractionListener,
-        ConfigMenuFragment.OnFragmentInteractionListener {
+        ConfigMenuFragment.OnFragmentInteractionListener,
+        CategoryMenuFragment.OnFragmentInteractionListener {
 
     SmartPlacesOwnerApplication application;
 
@@ -30,6 +32,9 @@ public class MainActivity extends ActionBarActivity implements
     public static final int TURN_BT_ON_REQUEST = 3;
 
     private SmartPlaceConfigurationObject smartPlaceConfigurationObject;
+
+    //FIXME Should not be hardcoded!!!
+    private final String smartPlaceId = "uWE3R6EDOv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,6 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     private void selectFragment() {
-        final String smartPlaceId = "uWE3R6EDOv";
         if (this.application.getDataStore().isUserLoggedIn()) {
             // Defined for the restaurant...
             if (this.smartPlaceConfigurationObject == null) {
@@ -164,7 +168,7 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onMenuButtonClick() {
-
+        replaceFragment(CategoryMenuFragment.newInstance(smartPlaceId));
     }
 
     @Override
@@ -174,5 +178,10 @@ public class MainActivity extends ActionBarActivity implements
         } else {
             this.application.getBeaconsManager().askToTurnBluetoothOn(this, TURN_BT_ON_REQUEST);
         }
+    }
+
+    @Override
+    public void onCategoryClicked(String category) {
+
     }
 }
