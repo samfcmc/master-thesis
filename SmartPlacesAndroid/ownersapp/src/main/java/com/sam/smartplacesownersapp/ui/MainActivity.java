@@ -3,6 +3,7 @@ package com.sam.smartplacesownersapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +24,8 @@ public class MainActivity extends ActionBarActivity implements
         BeaconConfigFragment.OnBeaconConfigFragmentInteractionListener,
         SmartPlaceConfigurationFragment.OnFragmentInteractionListener,
         ConfigMenuFragment.OnFragmentInteractionListener,
-        CategoryMenuFragment.OnFragmentInteractionListener {
+        CategoryMenuFragment.OnFragmentInteractionListener,
+        MenuFragment.OnFragmentInteractionListener {
 
     SmartPlacesOwnerApplication application;
 
@@ -116,7 +118,10 @@ public class MainActivity extends ActionBarActivity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, fragment).commit();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_fragment_container, fragment);
+                transaction.addToBackStack(fragment.getClass().getSimpleName());
+                transaction.commit();
             }
         });
     }
@@ -181,6 +186,7 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onCategoryClicked(String category) {
-        
+        logToDisplay(category);
+        replaceFragment(MenuFragment.newInstance(this.smartPlaceId, category));
     }
 }

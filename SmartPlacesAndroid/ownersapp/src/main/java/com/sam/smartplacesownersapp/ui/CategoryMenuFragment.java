@@ -110,14 +110,16 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String smartPlaceId = getArguments().getString(SMART_PLACE_ID);
-        this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId,
-                new SmartPlaceConfigurationCallback() {
-                    @Override
-                    public void done(SmartPlaceConfigurationObject object) {
-                        loadCategories(object);
-                    }
-                });
+        if (this.smartPlaceConfiguration == null) {
+            this.application.showProgressDialog(getActivity());
+            this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId,
+                    new SmartPlaceConfigurationCallback() {
+                        @Override
+                        public void done(SmartPlaceConfigurationObject object) {
+                            loadCategories(object);
+                        }
+                    });
+        }
 
         AddFloatingActionButton addButton = (AddFloatingActionButton) view.findViewById(R.id.categorymenu_add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +186,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
     private void loadCategories(SmartPlaceConfigurationObject object) {
         this.application.dismissProgressDialog(getActivity());
         this.smartPlaceConfiguration = object;
+        this.categories.clear();
         JSONObject configuration = object.getObject();
         if (configuration != null) {
             if (configuration.has("menu")) {
