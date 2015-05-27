@@ -22,6 +22,7 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
@@ -205,12 +206,30 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
+    public void saveSmartPlaceConfiguration(final SmartPlaceConfigurationObject object,
+                                            final SmartPlaceConfigurationCallback callback) {
+        ParseQuery<SmartPlaceConfigurationParseObject> query = getQuery(SmartPlaceConfigurationParseObject.class);
+        query.getInBackground(object.getId(), new GetCallback<SmartPlaceConfigurationParseObject>() {
+            @Override
+            public void done(final SmartPlaceConfigurationParseObject
+                                     smartPlaceConfigurationParseObject, ParseException e) {
+                smartPlaceConfigurationParseObject.update(object);
+                smartPlaceConfigurationParseObject.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        callback.done(smartPlaceConfigurationParseObject);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
     public UserObject getCurrentUser() {
         ParseUser user = ParseUser.getCurrentUser();
-        if(user == null) {
+        if (user == null) {
             return null;
-        }
-        else {
+        } else {
             return new UserParseObject(user);
         }
 

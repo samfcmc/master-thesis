@@ -14,7 +14,6 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
-import com.sam.smartplacesownersapp.CategoryMenuFragment;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -182,6 +181,6 @@ public class MainActivity extends ActionBarActivity implements
 
     @Override
     public void onCategoryClicked(String category) {
-
+        
     }
 }

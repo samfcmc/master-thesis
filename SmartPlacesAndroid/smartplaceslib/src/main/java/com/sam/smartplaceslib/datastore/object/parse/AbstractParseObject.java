@@ -13,8 +13,13 @@ public abstract class AbstractParseObject extends ParseObject implements DataSto
     }
 
     public AbstractParseObject(ParseObject object) {
-        super();
+        this();
         setObjectId(object.getObjectId());
+    }
+
+    public AbstractParseObject(DataStoreObject object) {
+        this();
+        setObjectId(object.getId());
     }
 
     @Override

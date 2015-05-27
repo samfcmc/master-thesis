@@ -34,6 +34,13 @@ public class SmartPlaceConfigurationParseObject extends AbstractParseObject impl
         setObject(object);
     }
 
+    public SmartPlaceConfigurationParseObject(SmartPlaceConfigurationObject object) {
+        super(object);
+        setOwner(object.getOwner().getId());
+        setSmartPlace(object.getSmartPlace().getId());
+        setObject(object.getObject());
+    }
+
     @Override
     public UserObject getOwner() {
         return new UserParseObject(getParseUser(OWNER));
@@ -74,6 +81,10 @@ public class SmartPlaceConfigurationParseObject extends AbstractParseObject impl
     @Override
     public void setObject(JSONObject object) {
         put(OBJECT, object);
+    }
+
+    public void update(SmartPlaceConfigurationObject object) {
+        setObject(object.getObject());
     }
 
 }

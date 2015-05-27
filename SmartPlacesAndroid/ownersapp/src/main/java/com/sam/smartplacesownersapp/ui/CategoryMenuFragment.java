@@ -1,7 +1,8 @@
-package com.sam.smartplacesownersapp;
+package com.sam.smartplacesownersapp.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,9 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplacesownersapp.R;
+import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +58,10 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
 
     private static final String SMART_PLACE_ID = "smartPlaceId";
 
+    private static final int ADD_CATEGORY_REQUEST = 2;
+
+    private SmartPlaceConfigurationObject smartPlaceConfiguration;
+
     public static CategoryMenuFragment newInstance(String smartPlaceId) {
         CategoryMenuFragment fragment = new CategoryMenuFragment();
         Bundle args = new Bundle();
@@ -87,6 +96,8 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
+        TextView emptyView = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(emptyView);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
@@ -107,25 +118,106 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
                         loadCategories(object);
                     }
                 });
+
+        AddFloatingActionButton addButton = (AddFloatingActionButton) view.findViewById(R.id.categorymenu_add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addButtonClicked();
+            }
+        });
+    }
+
+    private void addButtonClicked() {
+        Intent intent = new Intent(getActivity(), NewCategoryActivity.class);
+        startActivityForResult(intent, ADD_CATEGORY_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == ADD_CATEGORY_REQUEST) {
+                if (data != null) {
+                    String name = data.getStringExtra(NewCategoryActivity.CATEGORY_NAME);
+                    logToDisplay("Add category worked " + name);
+                    addCategory(name);
+                }
+            }
+        }
+    }
+
+    private void addCategory(final String name) {
+        JSONObject object = this.smartPlaceConfiguration.getObject();
+        if (object == null) {
+            object = new JSONObject();
+            this.smartPlaceConfiguration.setObject(object);
+        }
+
+        try {
+            if (!object.has("menu")) {
+                JSONArray menuJsonArray = new JSONArray();
+                object.put("menu", menuJsonArray);
+            }
+            JSONArray menu = object.getJSONArray("menu");
+            JSONObject categoryJsonObject = new JSONObject();
+            categoryJsonObject.put("category", name);
+            menu.put(categoryJsonObject);
+            this.application.getDataStore().saveSmartPlaceConfiguration(this.smartPlaceConfiguration,
+                    new SmartPlaceConfigurationCallback() {
+                        @Override
+                        public void done(SmartPlaceConfigurationObject object) {
+                            categories.add(name);
+                            refreshList();
+                        }
+                    });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void logToDisplay(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void loadCategories(SmartPlaceConfigurationObject object) {
         this.application.dismissProgressDialog(getActivity());
+        this.smartPlaceConfiguration = object;
         JSONObject configuration = object.getObject();
         if (configuration != null) {
             if (configuration.has("menu")) {
                 try {
                     JSONArray menu = configuration.getJSONArray("menu");
-                    for (int i = 0; i < menu.length(); i++) {
-                        JSONObject category = menu.getJSONObject(i);
-                        String categoryName = category.getString("category");
-                        this.categories.add(categoryName);
+                    if (menu.length() > 0) {
+                        for (int i = 0; i < menu.length(); i++) {
+                            JSONObject category = menu.getJSONObject(i);
+                            String categoryName = category.getString("category");
+                            this.categories.add(categoryName);
+                        }
+                        refreshList();
+                    } else {
+                        listEmpty();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else {
+                listEmpty();
             }
+        } else {
+            listEmpty();
         }
+    }
+
+    private void refreshList() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mListView.setAdapter(mAdapter);
+            }
+        });
+
     }
 
     @Override
@@ -162,6 +254,17 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+    }
+
+    private void listEmpty() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String emptyMessage = getString(R.string.categories_empty);
+                setEmptyText(emptyMessage);
+            }
+        });
+
     }
 
     /**

@@ -2,7 +2,6 @@ package com.sam.smartplaceslib.datastore.object.parse;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 /**

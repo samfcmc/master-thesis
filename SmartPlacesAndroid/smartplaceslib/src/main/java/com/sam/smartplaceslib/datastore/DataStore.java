@@ -10,6 +10,7 @@ import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
 
 /**
@@ -18,18 +19,32 @@ import com.sam.smartplaceslib.datastore.object.UserObject;
 public interface DataStore {
 
     void createDummy(String name, final DummyCallback callback);
+
     void login(LoginStrategy loginStrategy,
-                      LoginCallback callback);
+               LoginCallback callback);
+
     void afterLoginOnActivityResult(int requestCode, int resultCode, Intent data);
+
     UserObject getCurrentUser();
+
     boolean isUserLoggedIn();
+
     void logout(final LogoutCallback callback);
+
     void getBeacon(String uuid, int major, int minor, final BeaconCallback callback);
+
     void getSmartPlaces(BeaconObject beaconObject, final SmartPlacesCallback callback);
+
     void saveBeacon(BeaconObject beaconObject, String smartPlaceConfigurationId,
                     final BeaconCallback callback);
+
     void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
-    void createSmartPlaceConfiguration(String smartPlaceId, String name, String message, SmartPlaceConfigurationCallback callback);
+
+    void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
+                                       SmartPlaceConfigurationCallback callback);
+
+    void saveSmartPlaceConfiguration(SmartPlaceConfigurationObject object,
+                                     SmartPlaceConfigurationCallback callback);
 
 
 }
