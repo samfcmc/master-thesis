@@ -127,6 +127,22 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.category.events({
+    'click #categoryLink': function(event) {
+      console.log(this);
+    },
+    'click #orderButton': function(event) {
+      console.log(this);
+      var table = Session.get('table');
+      console.log(table);
+      var order = this;
+      order.table = table;
+      order.created = new Date();
+      Orders.insert(order);
+      $('#oderConfirmation').modal('show');
+    }
+  });
+
 }
 
 if (Meteor.isServer) {

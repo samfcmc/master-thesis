@@ -47,11 +47,14 @@
     {{/unless}}
 
     <div class="row">
-      <ul>
-        {{#each menu}}
-          {{> item}}
-        {{/each}}
-      </ul>
+      <div class="col-lg-6">
+        <h3>Menu</h3>
+        <ul>
+          {{#each menu}}
+            {{> category}}
+          {{/each}}
+        </ul>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -119,6 +122,29 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</template>
+
+<template name="category">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{category}}
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+        {{#each menu}}
+        <li class="list-group-item">
+          {{name}} - {{price}}€
+          <div class="pull-right">
+            <button id="orderButton"
+            class="btn btn-sm btn-default pull-right">
+              Order
+            </button>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </div>
   </div>
 </template>
