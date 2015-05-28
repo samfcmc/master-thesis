@@ -2,6 +2,7 @@ package com.sam.smartplacesownersapp.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
 import com.sam.smartplacesownersapp.R;
@@ -59,6 +61,10 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     private SmartPlacesOwnerApplication application;
 
     private SmartPlaceConfigurationObject object;
+
+    AddFloatingActionButton addButton;
+
+    private static final int ADD_MENU_ITEM_REQUEST = 2;
 
     public static MenuFragment newInstance(String smartPlaceId,
                                            String category) {
@@ -118,6 +124,19 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
                 loadMenu(object);
             }
         });
+
+        this.addButton = (AddFloatingActionButton) view.findViewById(R.id.menu_add_button);
+        this.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddMenuItem();
+            }
+        });
+    }
+
+    private void openAddMenuItem() {
+        Intent intent = new Intent(getActivity(), NewMenuItemActivity.class);
+        startActivityForResult(intent, ADD_MENU_ITEM_REQUEST);
     }
 
     private void loadMenu(SmartPlaceConfigurationObject object) {
@@ -231,6 +250,63 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     public interface OnFragmentInteractionListener {
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == ADD_MENU_ITEM_REQUEST) {
+                if (data != null) {
+                    String name = data.getStringExtra(NewMenuItemActivity.NAME);
+                    double price = data.getDoubleExtra(NewMenuItemActivity.PRICE, 0);
+                    addMenuItem(name, price);
+                }
+            }
+        }
+    }
+
+    private void addMenuItem(final String name, final double price) {
+        JSONObject jsonObject = this.object.getObject();
+
+        try {
+            JSONObject menuItemJsonObject = new JSONObject();
+            menuItemJsonObject.put("name", name);
+            menuItemJsonObject.put("price", price);
+            if (!jsonObject.has("menu")) {
+                jsonObject.put("menu", new JSONObject());
+            }
+            JSONArray menuJsonArray = jsonObject.getJSONArray("menu");
+            for (int i = 0; i < menuJsonArray.length(); i++) {
+                JSONObject categoryJsonObject = menuJsonArray.getJSONObject(i);
+                String categoryName = categoryJsonObject.getString("category");
+                if (categoryName.equals(this.category)) {
+                    if (!categoryJsonObject.has("menu")) {
+                        categoryJsonObject.put("menu", new JSONArray());
+                    }
+                    JSONArray categoryMenuJsonArray = categoryJsonObject.getJSONArray("menu");
+                    categoryMenuJsonArray.put(menuItemJsonObject);
+                    this.object.setObject(jsonObject);
+                    this.application.getDataStore().saveSmartPlaceConfiguration(this.object,
+                            new SmartPlaceConfigurationCallback() {
+                                @Override
+                                public void done(SmartPlaceConfigurationObject object) {
+                                    updateList(object, name, price);
+                                }
+                            });
+                }
+            }
+        } catch (JSONException e) {
+
+        }
+
+    }
+
+    private void updateList(SmartPlaceConfigurationObject object, String name, double price) {
+        this.object = object;
+        MenuItem menuItem = new MenuItem(name, price);
+        this.menu.add(menuItem);
+        refreshList();
+    }
+
     private class MenuItem {
         private String name;
         private double price;
@@ -261,7 +337,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) getContext()
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.category_list_item, parent, false);
+                convertView = inflater.inflate(R.layout.menu_list_item_layout, parent, false);
             }
 
             TextView nameTextView = (TextView) convertView.findViewById(R.id.menu_list_item_name_textView);

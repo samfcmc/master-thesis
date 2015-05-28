@@ -23,5 +23,6 @@
     <string name="menu_empty">Your menu for this category is empty</string>
     <string name="title_activity_new_category">NewCategoryActivity</string>
     <string name="category_name">New category name</string>
-    <string name="price">price</string>
+    <string name="price">Price</string>
+    <string name="title_activity_new_menu_item">NewMenuItemActivity</string>
 </resources>

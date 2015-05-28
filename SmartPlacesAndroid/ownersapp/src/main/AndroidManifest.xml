@@ -39,6 +39,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sam.smartplacesownersapp.ui.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.NewMenuItemActivity"
+            android:label="@string/title_activity_new_menu_item" >
+        </activity>
     </application>
 
 </manifest>
