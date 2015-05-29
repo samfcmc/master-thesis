@@ -1,0 +1,17 @@
+Proximity-based applications engage users while they are in proximity
+of Points of Interest (POIs). These apps are becoming popular
+between the users of mobile devices.
+Several technologies can be used.
+GPS can be used to locate places outside, where they can pick up
+satellite signals.
+Bluetooth Low Energy (BLE) Beacons perform well
+indoors. They broadcast an identifier, using
+BLE, that mobile
+apps can receive and allow them to offer
+different possibilities to the users.
+Some applications using this technology are emerging, such as advertising
+in retailing. However, we can use this technology in other applications
+besides in retail. In this paper, we present a solution for ordering food
+in restaurants that allows users to order food as soon as they sit interacting
+with a mobile app. Restaurants' owners receive the orders and know, immediately,
+what the customer wants and which table he has chosen.
