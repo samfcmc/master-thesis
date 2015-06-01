@@ -8,7 +8,7 @@ technology
 that can be used to locate the user
 indoors.
 They broadcast an identifier, using
-BLE, which allow them to offer
+BLE, which allows them to offer
 different possibilities to the users.
 Some applications using this technology are
 emerging, such as advertising
