@@ -1,0 +1,69 @@
+\documentclass{./llncs2e/llncs}
+\usepackage{graphicx}
+\usepackage{fixltx2e}
+\usepackage{mathtools}
+\usepackage[nolist,nohyperlinks]{acronym}
+% Maintain images and tables within their respective sections
+\usepackage[section]{placeins}
+
+% Scientific notation
+\usepackage[scientific-notation=true, round-precision=2, round-mode=figures]{siunitx}
+
+% For tables
+\usepackage{multirow}
+
+%For symbols like trademark
+\usepackage{textcomp}
+
+% To improve captions of tables
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}
+
+\pagestyle{plain}
+
+%
+% Change the margins
+%
+% \usepackage[margin=2.9cm]{geometry}
+
+\begin{document}
+
+% -------------------------------------
+% Title
+% -------------------------------------
+\title{Check Please!}
+
+\subtitle{Using Bluetooth beacons to enable a Smart Restaurant experience}
+\author{Samuel Coelho, samuel.coelho@tecnico.ulisboa.pt
+\and Miguel Pardal, miguel.pardal@tecnico.ulisboa.pt
+}
+\institute{Instituto Superior T\'{e}cnico, Universidade de Lisboa}
+
+\maketitle
+
+% -------------------------------------
+% Abstract and keywords
+% -------------------------------------
+
+\input{sections/abstract.tex}
+\input{sections/keywords.tex}
+
+% -------------------------------------
+% Sections
+% -------------------------------------
+\input{sections/introduction.tex}
+\input{sections/related-work.tex}
+\input{sections/smart-restaurant-experience.tex}
+\input{sections/solution-architecture.tex}
+\input{sections/conclusion-and-future-work.tex}
+\appendix
+\input{sections/appendix}
+
+% -------------------------------------
+% Bibliography
+% -------------------------------------
+\bibliographystyle{ieeetr}
+
+\bibliography{references.bib}
+
+\end{document}
