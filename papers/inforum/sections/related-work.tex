@@ -4,3 +4,84 @@
 \label{sec:related_work}
 % Applications using beacons
 % Check master project
+
+\subsection{Applications using ibeacons}
+\label{sub:applications_using_ibeacons}
+% BlueSentinel
+\textbf{BlueSentinel}\cite{Conte2014}: is a
+occupancy detection system, for smart buildings,
+that uses BLE Beacons to detect the presence of
+people. The concept of a smart building
+is similar to Smart Place,
+due to the existence of sensors and actuators.
+It is focused on the power efficiency of the
+building. The idea is to optimize energy
+consumption according to people's presence.
+For instance, if there are no people in a given room,
+the heating system can be turned off.
+In this solution, the users have to install
+an app, that will get the beacons' signal and
+send data to a server, which will process it
+and send requests to actuators in order to
+perform actions to optimize the
+building's power efficiency.
+Unfortunately, there is a limitation
+of iBeacon protocol implementation
+in iOS\footnote{http://www.apple.com/ios}.
+Beacons can be received, by the apps,
+only when these are active. When the apps are in
+background, they are waken up only to handle
+enter/exit region events. To circumvent this
+limitation, the authors developed custom
+beacons, which advertise more than one region
+in a cyclic sequence. These custom beacons
+were created using an
+Arduino\footnote{http://www.arduino.cc/}
+and an Bluetooth USB BLE dongle.
+Since this solution is a native app,
+users have to install it in order
+to make the smart building work to
+optimize power efficiency.
+Once the user starts the app, he does not
+need to interact with it anymore, since it
+will run in background.
+\\
+% Blue View
+\textbf{BlueView}\cite{Chen2013}: is a system to help
+visually impaired people to perceive some POIs.
+This solution has two main components: The viewer device
+and the Beacon Points (BPs). The first one is a mobile phone,
+carried by the user, which is bluetooth-enabled.
+The Beacon Points are just bluetooth tags instead of
+BLE Beacons. The name of a POI is associated with
+MAC address of the tag which it is associated to.
+The steps involved in using the system are the
+following: first, the viewer device will scan
+for nearby BPs; then, a list of the names of
+BPs is created. This list is refreshed anytime a new
+BP is detected and the user is informed through auditory
+feedback. The second step consists of the user, using
+the viewer's device, establishing a connection with a BP
+attached to an object. Finally, using audio prompt, the BP
+will assist the user in locating the object.
+Despite of this solution being a mobile app, installed
+in the viewer's device, the authors do not have in
+consideration the typical concerns of any mobile app,
+such as the energy consumption.
+The authors tested the application, in 2013,
+using Nokia N70 as the viewer device.
+This solution could be implemented using BLE Beacons
+and the viewer device could be any Android, iOS or
+Windows Phone smartphone.
+For the audio features the smartphone's speaker or
+a custom BLE Beacon with a built-in speaker could be
+used.
+
+\subsection{Software for Restaurants}
+\label{subs:software_for_restaurants}
+% Why software for restaurants
+% Add CMS for beacons (because we talk about retailing)
+\textbf{WinRest}\footnote{http://www.winrest.pt/}
+\\
+\textbf{ZRest}\footnote{http://www.zsrest.com/}
+\\
