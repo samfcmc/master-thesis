@@ -40,6 +40,9 @@ public interface DataStore {
 
     void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
 
+    void getSmartPlaceConfiguration(String smartPlaceId, String beaconId,
+                                    final SmartPlaceConfigurationCallback callback);
+
     void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
                                        SmartPlaceConfigurationCallback callback);
 

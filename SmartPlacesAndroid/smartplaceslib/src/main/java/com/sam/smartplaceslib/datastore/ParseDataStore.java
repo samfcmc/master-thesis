@@ -184,6 +184,23 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
+    public void getSmartPlaceConfiguration(String smartPlaceId, String beaconId,
+                                           final SmartPlaceConfigurationCallback callback) {
+        BeaconParseObject beacon = ParseObject.createWithoutData(BeaconParseObject.class, beaconId);
+        ParseRelation<SmartPlaceConfigurationParseObject> relation = beacon.getSmartPlacesConfigurationRelation();
+        SmartPlaceParseObject smartPlace = ParseObject.createWithoutData(SmartPlaceParseObject.class, smartPlaceId);
+
+        ParseQuery<SmartPlaceConfigurationParseObject> query = relation.getQuery();
+        query = query.whereEqualTo("smartPlace", smartPlace);
+        query.getFirstInBackground(new GetCallback<SmartPlaceConfigurationParseObject>() {
+            @Override
+            public void done(SmartPlaceConfigurationParseObject smartPlaceConfigurationParseObject, ParseException e) {
+                callback.done(smartPlaceConfigurationParseObject);
+            }
+        });
+    }
+
+    @Override
     public void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
                                               final SmartPlaceConfigurationCallback callback) {
         ParseUser user = ParseUser.getCurrentUser();

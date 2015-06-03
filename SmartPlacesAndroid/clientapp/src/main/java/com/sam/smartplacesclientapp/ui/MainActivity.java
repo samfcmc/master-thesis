@@ -1,22 +1,22 @@
 package com.sam.smartplacesclientapp.ui;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.widget.LoginButton;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.login.parse.ParseFacebookLoginStrategy;
+import com.sam.smartplaceslib.datastore.object.UserObject;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         this.application = (SmartPlacesClientApplication) getApplication();
-        if(this.application.getDataStore().isUserLoggedIn()) {
+        if (this.application.getDataStore().isUserLoggedIn()) {
             goToAskToTurnOnBluetoothActivity();
         }
         initUI();
@@ -49,9 +49,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void login(LoginStrategy loginStrategy) {
-        this.application.getDataStore().login(loginStrategy, new LoginCallback<ParseUser, ParseException>() {
+        this.application.getDataStore().login(loginStrategy, new LoginCallback() {
             @Override
-            public void done(ParseUser user, ParseException exception) {
+            public void done(UserObject user, DataStoreException exception) {
                 logToDisplay("User logged in " + user.getUsername());
                 goToAskToTurnOnBluetoothActivity();
             }
@@ -84,8 +84,7 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             logout();
             return true;
         }
@@ -94,10 +93,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void logout() {
-        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+        this.application.getDataStore().logout(new LogoutCallback() {
             @Override
-            public void done(ParseException exception) {
-                if(exception == null) {
+            public void done(DataStoreException exception) {
+                if (exception == null) {
                     logToDisplay("Log out");
                     finish();
                 }
@@ -118,8 +117,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            if(requestCode == REQUEST_LOGIN) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_LOGIN) {
                 this.application.getDataStore().afterLoginOnActivityResult(requestCode,
                         resultCode, data);
             }

@@ -1,15 +1,15 @@
 package com.sam.smartplacesclientapp.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
-import com.parse.ParseException;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
+import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 
 public class BeaconContentActivity extends ActionBarActivity {
@@ -38,11 +38,11 @@ public class BeaconContentActivity extends ActionBarActivity {
         String trimUrl = url.trim();
         String finalUrl = trimUrl;
 
-        if(!trimUrl.startsWith("http")) {
+        if (!trimUrl.startsWith("http")) {
             finalUrl = "http://" + trimUrl;
         }
 
-        this.webView.setWebViewClient(new WebViewClient());
+        this.webView.setWebChromeClient(new WebChromeClient());
         this.webView.loadUrl(finalUrl);
     }
 
@@ -64,8 +64,7 @@ public class BeaconContentActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             logout();
             return true;
         }
@@ -74,10 +73,10 @@ public class BeaconContentActivity extends ActionBarActivity {
     }
 
     private void logout() {
-        this.application.getDataStore().logout(new LogoutCallback<ParseException>() {
+        this.application.getDataStore().logout(new LogoutCallback() {
             @Override
-            public void done(ParseException exception) {
-                if(exception == null) {
+            public void done(DataStoreException exception) {
+                if (exception == null) {
                     finish();
                 }
             }

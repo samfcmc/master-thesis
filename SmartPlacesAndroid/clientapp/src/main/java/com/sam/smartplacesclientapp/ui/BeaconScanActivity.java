@@ -1,13 +1,13 @@
 package com.sam.smartplacesclientapp.ui;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.parse.ParseException;
+import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
@@ -55,8 +55,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         if (id == R.id.action_turn_of_bt) {
             this.application.getBeaconsManager().stopScan();
             return true;
-        }
-        else if(id == R.id.action_logout) {
+        } else if (id == R.id.action_logout) {
             logout();
             return true;
         }
@@ -68,7 +67,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         this.application.getDataStore().logout(new LogoutCallback() {
             @Override
             public void done(DataStoreException exception) {
-                if(exception == null) {
+                if (exception == null) {
                     finish();
                 }
             }
@@ -78,19 +77,12 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     @Override
     public void beaconsFound(Collection<Beacon> beacons) {
         BeaconsManager<Beacon> beaconsManager = this.application.getBeaconsManager();
-        if(!beacons.isEmpty()) {
+        if (!beacons.isEmpty()) {
             this.application.getBeaconsManager().stopScan();
             Beacon beacon = beaconsManager.getNearestBeacon(beacons);
             String uuid = beacon.getId1().toHexString();
             int major = beacon.getId2().toInt();
             int minor = beacon.getId3().toInt();
-            /*this.application.getDataStore().getSmartPlaces(uuid, major, minor, new SmartPlacesCallback() {
-                @Override
-                public void done(List<SmartPlaceObject> objects) {
-                    logToDisplay("Found smart places " + objects.size());
-                    notifyAboutSmartPlaces(objects);
-                }
-            });*/
             this.application.getDataStore().getBeacon(uuid, major, minor, new BeaconCallback() {
                 @Override
                 public void done(BeaconObject object) {
@@ -101,11 +93,12 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         }
     }
 
-    private void beaconFetched(BeaconObject object) {
+    private void beaconFetched(final BeaconObject object) {
         this.application.getDataStore().getSmartPlaces(object, new SmartPlacesCallback() {
             @Override
-            public void done(List<SmartPlaceObject> object) {
+            public void done(List<SmartPlaceObject> list) {
                 logToDisplay("Found smart places");
+                notifyAboutSmartPlaces(list, object);
             }
         });
     }
@@ -125,15 +118,17 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         super.onDestroy();
     }
 
-    private void notifyAboutSmartPlaces(List<SmartPlaceObject> smartPlaces) {
-        for(SmartPlaceObject smartPlace : smartPlaces) {
+    private void notifyAboutSmartPlaces(List<SmartPlaceObject> smartPlaces, BeaconObject beacon) {
+        for (SmartPlaceObject smartPlace : smartPlaces) {
             Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
             String url = smartPlace.getUrl();
             String name = smartPlace.getName();
             String message = smartPlace.getMessage();
-            resultIntent.putExtra(SmartPlaceActivity.URL_KEY, url);
-            resultIntent.putExtra(SmartPlaceActivity.NAME_KEY, name);
-            resultIntent.putExtra(SmartPlaceActivity.MESSAGE_KEY, message);
+            resultIntent.putExtra(Keys.URL, url);
+            resultIntent.putExtra(Keys.NAME, name);
+            resultIntent.putExtra(Keys.MESSAGE, message);
+            resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
+            resultIntent.putExtra(Keys.BEACON, beacon.getId());
             // TODO: Go to an activity that will scan for beacons but this time to map them to objects
             // TODO: Requires some changes in the backend
             this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, SmartPlaceActivity.class);

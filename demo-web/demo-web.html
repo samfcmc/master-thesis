@@ -25,6 +25,9 @@
         You are on table {{table}}
       </p>
       <p>
+        {{smartPlaceConfigurationId}}
+      </p>
+      <p>
         Click on the button...
       </p>
     </div>
@@ -37,18 +40,21 @@
       </button>
     </div>
 
-    {{#unless menu}}
-    <div class="row">
-      <button class="btn btn-default"
-      id="menuButton">
-        Show menu
-      </button>
-    </div>
-    {{/unless}}
+
 
     <div class="row">
       <div class="col-lg-6">
         <h3>Menu</h3>
+
+        {{#unless menu}}
+        <div class="row">
+          <button class="btn btn-default"
+          id="menuButton">
+            Show menu
+          </button>
+        </div>
+        {{/unless}}
+        
         <ul>
           {{#each menu}}
             {{> category}}

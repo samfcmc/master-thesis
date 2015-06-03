@@ -63,7 +63,7 @@ if (Meteor.isClient) {
     'click #menuButton': function (event) {
       var configurationId = this.smartPlaceConfigurationId;
       console.log(configurationId);
-
+      alert('Menu clicked');
       if(configurationId) {
         var query = new Parse.Query(SmartPlaceConfiguration);
         query.get(configurationId, {
@@ -80,7 +80,7 @@ if (Meteor.isClient) {
             //
           },
           error: function (object, error) {
-            console.log(error);
+            alert(error);
           }
         });
       }
