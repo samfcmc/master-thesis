@@ -61,7 +61,32 @@ processed faster.
 % Features
 This group of users is responsible for processing the customers' orders.
 As already mentioned, the smart restaurant solution does not aim to replace
-the waiters. It tries to make their job easier.
+the waiters. It tries to make their job easier. In order to do that,
+there is a web application where waiters can check who is requesting them.
+Since the mobile app for customers allows them to request a waiter or to place
+an order, the web application for waiters allows them to see the customers'
+requests. As soon as the customer requests a waiter or place an order,
+the web application shows that information and waiters can see from which
+table the request is coming from.
 
 \subsection{Owners}
 \label{sub:owners}
+Before customers and waiters can use this solution, the restaurants' owners
+need to do some configurations in order to set everything up.
+There is a mobile app for owners that allows them to turn their normal
+restaurants in smart ones.
+Using this mobile app, owners can configure the menu and the tables.
+As already mentioned, this solution uses BLE beacons. To configure
+the restaurant's tables, the owners need to perform the following steps:
+\begin{itemize}
+  \item Deploy one beacon in each table;
+  \item Open the mobile app for owners;
+  \item Login in the app;
+  \item Select the option to configure the tables;
+  \item Move the mobile device close to the beacon;
+  \item Once the beacon has been detected, select it and type the number
+  of the corresponding table
+\end{itemize}
+Once these steps are done, now they just have to configure the name of the
+restaurant and its menu. This menu will be shown to the customers after they
+have been notified that they entered in a smart restaurant.
