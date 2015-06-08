@@ -16,10 +16,11 @@ TODO: Go straight to the point...
 Proximity-based apps are
 context-aware apps that allow the user to interact
 with the app if he is nearby some point of interest (POI).
+One of the technologies that can be used to mark pois are BLE Beacons.
 Bluetooth is a wireless, short-range, communication technology.
 Bluetooth Low Energy (BLE)\footnote{http://www.bluetooth.com/Pages/Bluetooth-Smart.aspx}
 is an improvement of classic Bluetooth since it consumes
-very low power, allowing it to be used by smaller devices.
+low power, allowing it to be used by smaller devices.
 And that is the main reason for this technology to start to
 be used for proximity-based mobile apps,
 BLE Beacons are devices, that use BLE, to broadcast a
@@ -39,10 +40,7 @@ figure \ref{fig:ibeacon}
   \item[Minor] has 2 bytes and it is used to distinguish individual
   beacons within the smaller subset
 \end{description}
-A smartphone that
-has BLE can get this signal with the mentioned bytes.
-But, only smartphones
-with Bluetooth, at least, version 4, have BLE.
+Only devices with bluetooth, at least, version 4 support BLE.
 
 \begin{figure}[!ht]
   \centering
@@ -52,17 +50,19 @@ with Bluetooth, at least, version 4, have BLE.
 \end{figure}
 
 
-This technology is already being used, specially in retailing.
+This technology is already being used, especially in retailing.
+
 This paper introduces a solution for restaurants to improve their
 service and the customer experience. Using this solutions customers
-are able to make their orders as soon as they sit using a mobile app.
+are able to make their orders as soon as they sit on
+the restaurant's table using a mobile app.
 Waiters have access to an interface where they can check for customers'
 orders and for each order the table's number is automatically filled in.
-Owners can use a mobile app to configure each table. Since this solution
-uses ibeacons, there is a need to define the mapping between the tables
+Owners can use a mobile app to configure each table and define the
+mapping between the tables
 and the beacons.
 
-Next section, presents related work about existing applications using ibeacons.
+The next section, presents related work about existing applications using ibeacons.
 Section \ref{sec:smart_restaurant_experience} shows the smart restaurant
 experience and how customers, owners and waiters will take advantage of our
 solution. Section \ref{sec:solution_architecture} describes the architecture
