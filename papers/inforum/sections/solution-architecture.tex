@@ -38,7 +38,8 @@ that are used by the three main groups of users. It stores the data that is
 needed for the other applications. This component was not implemented from
 scratch, because we only need to be able to store persistent data and to
 retrieve it. Instead of writing all the code to create the backend, we
-are using a Backend as a Service (BaaS), which is Parse\footnote{http://parse.com}.
+are using a Backend as a Service (BaaS), which is Parse\footnote{http://parse.com}
+\cite{parse}.
 We only needed to create the collections and their structure.
 It offers a REST API\cite{restful} that allow to perform the
 Create Read Update and Delete (CRUD) operations
@@ -117,10 +118,11 @@ that implement the lib's logic that are the following:
 As mentioned before, there is a web application for waiters. They can
 check the coming orders.
 This application was implemented using the
-Meteor\footnote{http://www.meteor.com} framework which allows developers
+Meteor\footnote{http://www.meteor.com}\cite{meteor} framework which allows developers
 to write web applications using Javascript in both client and server side.
 Using this framework we can set up a new application issuing a single command.
-It also offers reactivity, which means, when the data changes on the server,
+It uses websockets\cite{websockets} to offer reactivity, which means,
+when the data changes on the server,
 the client will be automatically updated, so the users do not need to
 refresh the web page in order to see the updates. We chose to use this
 because it allows rapid prototyping and the reactivity feature is important
