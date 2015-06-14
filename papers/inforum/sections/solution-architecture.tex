@@ -3,23 +3,24 @@
 \section{Solution Architecture}
 \label{sec:solution_architecture}
 % Main components: Mobile apps, web app, BaaS, Beacons
-After explained how is the experience of the Smart Restaurant for waiters,
+After the explaination of how is the experience of the
+Smart Restaurant for waiters,
 customers and owners, the main components of the solution will be described,
 the technologies that were used and how they interact with each other.
 Figure~\ref{fig:architecture_base} shows the main components that were
 implemented in order to be able to offer the Smart Restaurant experience,
-described in section \ref{sec:smart_restaurant_experience}.
+described in Section \ref{sec:smart_restaurant_experience}.
 Also, for each component we point out the type of user that will interact
 with it.
 As the figure shows, the main components are the following:
 \begin{description}
-  \item[iBeacons]: The BLE beacons that use the iBeacon protocol explained
-  in section \ref{sec:introduction}
+  \item[iBeacons]: The BLE beacons that use the iBeacon protocol (see
+  section \ref{sec:introduction})
   \item[Backend]: Which will store persistent data about the restaurants,
   such as, the restaurants' menus, the orders, and the mapping between
   the tables and the beacons' identifiers
   \item[Smartphone] Where will run the mobile apps, for the customers
-  and for owners (described in section \ref{sec:smart_restaurant_experience})
+  and for owners.
   \item[Web application]: The waiters will use this to check the
   customers' orders.
 \end{description}
@@ -41,7 +42,7 @@ retrieve it. Instead of writing all the code to create the backend, we
 are using a Backend as a Service (BaaS), which is Parse\footnote{http://parse.com}
 \cite{parse}.
 We only needed to create the collections and their structure.
-It offers a REST API\cite{restful} that allow to perform the
+It offers a REST API\cite{restful} to perform the
 Create Read Update and Delete (CRUD) operations
 on the collections.
 It also offers Software Development Kits (SDKs) for many platforms.
@@ -59,7 +60,7 @@ and the Javascript SDK was used in the web application
 % Technologies: App Android, BaaS Parse.com
 % Package diagram
 % Layer diagram for lib
-As it is mentioned in section \ref{sec:smart_restaurant_experience}, our
+As it is mentioned in Section \ref{sec:smart_restaurant_experience}, our
 solution for Smart Restaurants has two mobile apps. One for customers and
 another one for Owners. Both are Android applications. Both apps are
 part of the same project. The project is organized according to the
@@ -98,7 +99,7 @@ that implement the lib's logic that are the following:
   \item[DataStoreCallback]: This is used by most of the methods in DataStore
   class. This offers an interface that each specific backend's response
   handling should implement.
-  \item[DataStoreObject]: Since we have speficied, in the backend, which
+  \item[DataStoreObject]: Since we have specified, in the backend, which
   collections we have and their structure, we have classes, that inherit from
   this one, that are wrappers for the raw data that comes from the backend.
 \end{description}
@@ -118,13 +119,14 @@ that implement the lib's logic that are the following:
 As mentioned before, there is a web application for waiters. They can
 check the coming orders.
 This application was implemented using the
-Meteor\footnote{http://www.meteor.com}\cite{meteor} framework which allows developers
+Meteor\footnote{http://www.meteor.com}\cite{meteor} framework which
+allows developers
 to write web applications using Javascript in both client and server side.
 Using this framework we can set up a new application issuing a single command.
-It uses websockets\cite{websockets} to offer reactivity, which means,
+It uses websockets\cite{websockets} to offer reactivity, which means that
 when the data changes on the server,
 the client will be automatically updated, so the users do not need to
 refresh the web page in order to see the updates. We chose to use this
 because it allows rapid prototyping and the reactivity feature is important
-because, this waiters, only need to look at the screen to know which
+because waiters should only need to look at the screen to know which
 orders they have to process next.
