@@ -18,7 +18,10 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -44,6 +47,8 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
         this.beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                List<Beacon> list = new ArrayList<Beacon>(beacons);
+                Collections.sort(list, new BeaconComparator());
                 IBeaconsManager.this.scanCallback.beaconsFound(beacons);
             }
         });
@@ -88,7 +93,7 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
 
     @Override
     public void unbind() {
-        if(this.beaconManager.isBound(this)) {
+        if (this.beaconManager.isBound(this)) {
             this.beaconManager.unbind(this);
         }
     }
@@ -97,8 +102,8 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
     public Beacon getNearestBeacon(Collection<Beacon> beacons) {
         Beacon nearestBeacon = null;
 
-        for(Beacon beacon : beacons) {
-            if(nearestBeacon == null || (beacon.getDistance() < nearestBeacon.getDistance())) {
+        for (Beacon beacon : beacons) {
+            if (nearestBeacon == null || (beacon.getDistance() < nearestBeacon.getDistance())) {
                 nearestBeacon = beacon;
             }
         }
