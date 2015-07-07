@@ -1,7 +1,6 @@
 package com.sam.smartplacesownersapp.ui;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
-import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.BeaconInfo;
+import com.sam.smartplaceslib.datastore.callback.TagCallback;
+import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -27,17 +27,16 @@ import org.json.JSONObject;
  * Use the {@link BeaconConfigFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BeaconConfigFragment extends Fragment implements BeaconCallback{
+public class BeaconConfigFragment extends Fragment implements TagCallback {
 
     private OnBeaconConfigFragmentInteractionListener mListener;
     private static final String UUID = "uuid";
     private static final String MAJOR = "major";
-    private static final String MINOR= "minor";
+    private static final String MINOR = "minor";
     private static final String CONFIGURATION = "configuration";
 
-    private String uuid;
-    private int major;
-    private int minor;
+    private String configuration;
+    private BeaconInfo beaconInfo;
 
     private SmartPlacesOwnerApplication application;
 
@@ -73,9 +72,11 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.uuid = getArguments().getString(UUID);
-            this.major = getArguments().getInt(MAJOR);
-            this.minor = getArguments().getInt(MINOR);
+            String uuid = getArguments().getString(UUID);
+            int major = getArguments().getInt(MAJOR);
+            int minor = getArguments().getInt(MINOR);
+            this.beaconInfo = new BeaconInfo(uuid, major, minor);
+            this.configuration = getArguments().getString(CONFIGURATION);
         }
         this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
     }
@@ -95,7 +96,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
         this.minorTextView = (TextView) view.findViewById(R.id.beacon_config_minor_textView);
         this.tableEditText = (EditText) view.findViewById(R.id.beacon_config_table_editText);
         this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().getBeacon(this.uuid, this.major, this.minor, this);
+        this.application.getDataStore().getTag(this.beaconInfo, this);
         this.saveButton = (Button) view.findViewById(R.id.beacon_config_save_button);
     }
 
@@ -117,24 +118,35 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
     }
 
     @Override
-    public void done(final BeaconObject object) {
+    public void done(final TagObject object) {
         this.application.dismissProgressDialog(getActivity());
-        if(object != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (object == null) {
+                    createTag();
+                } else {
                     refreshView(object);
                 }
-            });
-        }
+            }
+        });
     }
 
-    private void refreshView(final BeaconObject object) {
-        uuidTextView.setText(object.getUUID());
-        majorTextView.setText(object.getMajor() + "");
-        minorTextView.setText(object.getMinor() + "");
-        JSONObject json = object.getObject();
-        if(json.has("table")){
+    private void createTag() {
+        this.application.getDataStore().createTag(this.beaconInfo, this.configuration, new TagCallback() {
+            @Override
+            public void done(TagObject object) {
+                refreshView(object);
+            }
+        });
+    }
+
+    private void refreshView(final TagObject tag) {
+        uuidTextView.setText(this.beaconInfo.getUuid());
+        majorTextView.setText(this.beaconInfo.getMajor() + "");
+        minorTextView.setText(this.beaconInfo.getMinor() + "");
+        JSONObject json = tag.getData();
+        if (json.has("table")) {
             try {
                 String tableNumberText = json.getInt("table") + "";
                 tableEditText.setText(tableNumberText);
@@ -146,32 +158,31 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
             @Override
             public void onClick(View v) {
                 try {
-                    saveBeacon(object);
+                    updateTag(tag);
                 } catch (JSONException e) {
                     //TODO: Change this...
                     e.printStackTrace();
                 }
             }
         });
-
     }
 
-    private void saveBeacon(BeaconObject object) throws JSONException {
+    private void updateTag(TagObject object) throws JSONException {
         String tableText = this.tableEditText.getText().toString();
         int tableNumber = Integer.parseInt(tableText);
         JSONObject jsonObject = new JSONObject();
         String smartPlaceConfiguationId = getArguments().getString(CONFIGURATION);
         jsonObject.put("table", tableNumber);
-        object.setObject(jsonObject);
+        //object.setObject(jsonObject);
         this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().saveBeacon(object, smartPlaceConfiguationId,
-                new BeaconCallback() {
-            @Override
-            public void done(BeaconObject object) {
-                application.dismissProgressDialog(getActivity());
-                mListener.onSaveBeacon(object);
-            }
-        });
+        this.application.getDataStore().saveTag(object, jsonObject,
+                new TagCallback() {
+                    @Override
+                    public void done(TagObject object) {
+                        application.dismissProgressDialog(getActivity());
+                        mListener.onSaveTag(object);
+                    }
+                });
     }
 
     /**
@@ -185,7 +196,7 @@ public class BeaconConfigFragment extends Fragment implements BeaconCallback{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnBeaconConfigFragmentInteractionListener {
-        void onSaveBeacon(BeaconObject object);
+        void onSaveTag(TagObject object);
     }
 
 }

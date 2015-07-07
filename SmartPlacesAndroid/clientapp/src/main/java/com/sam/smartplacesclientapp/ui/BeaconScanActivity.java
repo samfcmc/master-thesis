@@ -12,11 +12,13 @@ import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlacesConfigurationsCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -83,7 +85,10 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
             String uuid = beacon.getId1().toHexString();
             int major = beacon.getId2().toInt();
             int minor = beacon.getId3().toInt();
-            this.application.getDataStore().getBeacon(uuid, major, minor, new BeaconCallback() {
+
+            BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor);
+
+            this.application.getDataStore().getBeacon(beaconInfo, new BeaconCallback() {
                 @Override
                 public void done(BeaconObject object) {
                     beaconFetched(object);
@@ -94,11 +99,11 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void beaconFetched(final BeaconObject object) {
-        this.application.getDataStore().getSmartPlaces(object, new SmartPlacesCallback() {
+        this.application.getDataStore().getSmartPlaceConfigurations(object, new SmartPlacesConfigurationsCallback() {
             @Override
-            public void done(List<SmartPlaceObject> list) {
-                logToDisplay("Found smart places");
-                notifyAboutSmartPlaces(list, object);
+            public void done(List<SmartPlaceConfigurationObject> list) {
+                logToDisplay("Found smart places " + list.size());
+                //notifyAboutSmartPlaces(list, object);
             }
         });
     }

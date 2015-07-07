@@ -4,8 +4,6 @@ import com.parse.ParseClassName;
 import com.parse.ParseRelation;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
-import org.json.JSONObject;
-
 /**
  *
  */
@@ -60,16 +58,6 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     @Override
     public void setMinor(int minor) {
         put(MINOR, minor);
-    }
-
-    @Override
-    public JSONObject getObject() {
-        return getJSONObject(OBJECT);
-    }
-
-    @Override
-    public void setObject(JSONObject object) {
-        put(OBJECT, object);
     }
 
     @Override

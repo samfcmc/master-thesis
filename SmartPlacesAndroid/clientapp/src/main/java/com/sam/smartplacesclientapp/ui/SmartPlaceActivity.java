@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.widget.Toast;
 
 import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
@@ -25,8 +27,7 @@ import java.util.Iterator;
 
 public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScanCallback {
 
-
-    private TextView messageTextView;
+    private WebView webView;
 
     private SmartPlacesClientApplication application;
 
@@ -45,20 +46,28 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void initUI() {
-        this.messageTextView = (TextView) findViewById(R.id.smart_place_message_textview);
+        this.webView = (WebView) findViewById(R.id.smartplace_webView);
         Intent intent = getIntent();
         String message = intent.getStringExtra(Keys.MESSAGE);
         this.name = intent.getStringExtra(Keys.NAME);
         this.url = intent.getStringExtra(Keys.URL);
         this.beaconId = intent.getStringExtra(Keys.BEACON);
         this.smartPlaceId = intent.getStringExtra(Keys.SMART_PLACE);
-        this.messageTextView.setText(message);
         setTitle(this.name);
+
+        this.webView.setWebChromeClient(new WebChromeClient());
+        this.webView.getSettings().setJavaScriptEnabled(true);
+        this.webView.loadUrl(this.url);
+
         this.application.getDataStore().getSmartPlaceConfiguration(this.smartPlaceId, this.beaconId,
                 new SmartPlaceConfigurationCallback() {
                     @Override
                     public void done(SmartPlaceConfigurationObject object) {
-                        scanForNearbyObjects(object.getId());
+                        if (object != null) {
+                            scanForNearbyObjects(object.getId());
+                        } else {
+                            logToDisplay("Cannot find any configuration for this smart place");
+                        }
                     }
                 });
     }
@@ -96,17 +105,28 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
         if (!beacons.isEmpty()) {
             this.application.getBeaconsManager().stopScan();
             Beacon nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
-            String uuid = nearestBeacon.getId1().toHexString();
+            String uuid = nearestBeacon.getId1().toHexString().replace("0x", "");
             int major = nearestBeacon.getId2().toInt();
             int minor = nearestBeacon.getId3().toInt();
             final String smartPlaceConfiguration = this.smartPlaceConfigurationId;
             this.application.getDataStore().getBeacon(uuid, major, minor, new BeaconCallback() {
                 @Override
                 public void done(BeaconObject object) {
-                    notifyAboutObject(object, smartPlaceConfiguration);
+                    //notifyAboutObject(object, smartPlaceConfiguration);
+                    logToDisplay(object.getObject().toString());
                 }
             });
+
         }
+    }
+
+    private void logToDisplay(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SmartPlaceActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void notifyAboutObject(BeaconObject beaconObject, String configurationId) {

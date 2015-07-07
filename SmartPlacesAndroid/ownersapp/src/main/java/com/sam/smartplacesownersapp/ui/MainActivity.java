@@ -15,6 +15,7 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -159,7 +160,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onSaveBeacon(BeaconObject object) {
+    public void onSaveTag(TagObject object) {
         logToDisplay("Saved changes");
         selectFragment();
     }
