@@ -25,9 +25,7 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
 
     public SmartPlaceParseObject(ParseObject parseObject) {
         super(parseObject);
-        setName(parseObject.getString(NAME));
-        setUrl(parseObject.getString(URL));
-        setMessage(parseObject.getString(MESSAGE));
+        updateFromParseObject(parseObject);
     }
 
     @Override
@@ -60,4 +58,9 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
         put(MESSAGE, message);
     }
 
+    public void updateFromParseObject(ParseObject parseObject) {
+        setName(parseObject.getString(NAME));
+        setUrl(parseObject.getString(URL));
+        setMessage(parseObject.getString(MESSAGE));
+    }
 }

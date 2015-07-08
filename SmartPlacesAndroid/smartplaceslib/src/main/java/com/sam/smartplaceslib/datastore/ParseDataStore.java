@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DummyCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesConfigurationsCallback;
@@ -137,10 +138,8 @@ public class ParseDataStore extends AbstractDataStore {
                 List<SmartPlaceConfigurationObject> result = new ArrayList<SmartPlaceConfigurationObject>(list.size());
                 for (TagParseObject tag : list) {
                     ParseObject parseObject = tag.getParseObject("smartPlaceConfiguration");
-                    String ownerId = parseObject.getParseObject("owner").getObjectId();
-                    String smartPlaceId = parseObject.getParseObject("smartPlace").getObjectId();
-                    JSONObject object = parseObject.getJSONObject("object");
-                    SmartPlaceConfigurationParseObject configuration = new SmartPlaceConfigurationParseObject(ownerId, smartPlaceId, object);
+                    SmartPlaceConfigurationParseObject configuration = ParseObject.createWithoutData(SmartPlaceConfigurationParseObject.class, parseObject.getObjectId());
+                    configuration.updateFromParseObject(parseObject);
                     result.add(configuration);
                 }
                 callback.done(result);
@@ -171,6 +170,23 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
+    public void getTag(String smartPlaceId, BeaconInfo beaconInfo, final TagCallback callback) {
+        SmartPlaceConfigurationParseObject configurationParseObject =
+                ParseObject.createWithoutData(SmartPlaceConfigurationParseObject.class,
+                        smartPlaceId);
+        ParseQuery<BeaconParseObject> beaconQuery = getBeaconQuery(beaconInfo);
+        ParseQuery<TagParseObject> tagQuery = getQuery(TagParseObject.class);
+        tagQuery = tagQuery.whereMatchesQuery("beacon", beaconQuery);
+        tagQuery = tagQuery.whereEqualTo("smartPlaceConfiguration", configurationParseObject);
+        tagQuery.getFirstInBackground(new GetCallback<TagParseObject>() {
+            @Override
+            public void done(TagParseObject tagParseObject, ParseException e) {
+                callback.done(tagParseObject);
+            }
+        });
+    }
+
+    @Override
     public void createTag(BeaconInfo beaconInfo, final String smartPlaceConfigurationId, final TagCallback callback) {
         ParseQuery<BeaconParseObject> beaconQuery = getBeaconQuery(beaconInfo);
         beaconQuery.getFirstInBackground(new GetCallback<BeaconParseObject>() {
@@ -188,6 +204,23 @@ public class ParseDataStore extends AbstractDataStore {
                         callback.done(tag);
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void getSmartPlace(SmartPlaceConfigurationObject smartPlaceConfigurationObject, final SmartPlaceCallback callback) {
+        ParseQuery<SmartPlaceConfigurationParseObject> query =
+                getQuery(SmartPlaceConfigurationParseObject.class);
+        query.include("smartPlace");
+        query.getInBackground(smartPlaceConfigurationObject.getId(), new GetCallback<SmartPlaceConfigurationParseObject>() {
+            @Override
+            public void done(SmartPlaceConfigurationParseObject smartPlaceConfigurationParseObject, ParseException e) {
+                ParseObject parseObject = smartPlaceConfigurationParseObject.getParseObject("smartPlace");
+                SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
+                        SmartPlaceParseObject.class, parseObject.getObjectId());
+                smartPlaceParseObject.updateFromParseObject(parseObject);
+                callback.done(smartPlaceParseObject);
             }
         });
     }

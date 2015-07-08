@@ -15,6 +15,7 @@ import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesConfigurationsCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
@@ -103,7 +104,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
             @Override
             public void done(List<SmartPlaceConfigurationObject> list) {
                 logToDisplay("Found smart places " + list.size());
-                //notifyAboutSmartPlaces(list, object);
+                notifyAboutSmartPlaces(list, object);
             }
         });
     }
@@ -123,20 +124,29 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         super.onDestroy();
     }
 
-    private void notifyAboutSmartPlaces(List<SmartPlaceObject> smartPlaces, BeaconObject beacon) {
-        for (SmartPlaceObject smartPlace : smartPlaces) {
-            Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
-            String url = smartPlace.getUrl();
-            String name = smartPlace.getName();
-            String message = smartPlace.getMessage();
-            resultIntent.putExtra(Keys.URL, url);
-            resultIntent.putExtra(Keys.NAME, name);
-            resultIntent.putExtra(Keys.MESSAGE, message);
-            resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
-            resultIntent.putExtra(Keys.BEACON, beacon.getId());
-            // TODO: Go to an activity that will scan for beacons but this time to map them to objects
-            // TODO: Requires some changes in the backend
-            this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, SmartPlaceActivity.class);
+    private void notifyAboutSmartPlaces(List<SmartPlaceConfigurationObject> list, final BeaconObject beacon) {
+        for (final SmartPlaceConfigurationObject configuration : list) {
+            this.application.getDataStore().getSmartPlace(configuration, new SmartPlaceCallback() {
+                @Override
+                public void done(SmartPlaceObject object) {
+                    createNotification(object, beacon, configuration);
+                }
+            });
         }
+    }
+
+    private void createNotification(SmartPlaceObject smartPlace, BeaconObject beacon,
+                                    SmartPlaceConfigurationObject configurationObject) {
+        Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
+        String url = smartPlace.getUrl();
+        String name = smartPlace.getName();
+        String message = smartPlace.getMessage();
+        resultIntent.putExtra(Keys.URL, url);
+        resultIntent.putExtra(Keys.NAME, name);
+        resultIntent.putExtra(Keys.MESSAGE, message);
+        resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
+        resultIntent.putExtra(Keys.BEACON, beacon.getId());
+        resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, configurationObject.getId());
+        this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, SmartPlaceActivity.class);
     }
 }

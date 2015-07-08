@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DummyCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesConfigurationsCallback;
@@ -44,7 +45,12 @@ public interface DataStore {
 
     void getTag(BeaconInfo beaconInfo, final TagCallback callback);
 
+    void getTag(String smartPlaceId, BeaconInfo beaconInfo, final TagCallback callback);
+
     void createTag(BeaconInfo beaconInfo, String smartPlaceConfigurationId, final TagCallback callback);
+
+    void getSmartPlace(SmartPlaceConfigurationObject smartPlaceConfigurationObject,
+                       final SmartPlaceCallback callback);
 
     void getSmartPlaces(BeaconObject beaconObject, final SmartPlacesCallback callback);
 

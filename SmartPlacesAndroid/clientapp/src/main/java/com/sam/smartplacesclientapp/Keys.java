@@ -9,4 +9,5 @@ public class Keys {
     public static final String MESSAGE = "message";
     public static final String SMART_PLACE = "smartPlace";
     public static final String BEACON = "beacon";
+    public static final String SMART_PLACE_CONFIGURATION = "smartPlaceConfiguration";
 }
