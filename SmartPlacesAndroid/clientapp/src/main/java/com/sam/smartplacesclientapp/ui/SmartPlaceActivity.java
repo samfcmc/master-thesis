@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.sam.smartplacesclientapp.Keys;
@@ -17,7 +15,7 @@ import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
-import com.sam.smartplaceslib.web.SmartPlacesWebViewClient;
+import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 
 import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;
@@ -28,7 +26,7 @@ import java.util.Iterator;
 
 public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScanCallback, OnPageLoadedCallback {
 
-    private WebView webView;
+    private SmartPlacesWebView webView;
 
     private SmartPlacesClientApplication application;
 
@@ -47,7 +45,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void initUI() {
-        this.webView = (WebView) findViewById(R.id.smartplace_webView);
+        this.webView = (SmartPlacesWebView) findViewById(R.id.smartplace_webView);
         Intent intent = getIntent();
         String message = intent.getStringExtra(Keys.MESSAGE);
         this.name = intent.getStringExtra(Keys.NAME);
@@ -57,10 +55,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
         this.smartPlaceConfigurationId = intent.getStringExtra(Keys.SMART_PLACE_CONFIGURATION);
         setTitle(this.name);
 
-        this.webView.setWebViewClient(new SmartPlacesWebViewClient(this));
-        this.webView.setWebChromeClient(new WebChromeClient());
-        this.webView.getSettings().setJavaScriptEnabled(true);
-        this.webView.clearCache(true);
+        this.webView.setOnPageLoadedCallback(this);
         this.webView.loadUrl(this.url);
     }
 
@@ -117,13 +112,9 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void tagFound(TagObject tagObject) {
-        callJSFunction("tagFound", tagObject.getData());
+        this.webView.tagFound(tagObject);
     }
 
-    private void callJSFunction(String functionName, JSONObject argument) {
-        String url = String.format("javascript:SmartPlaces['%s'](%s)", functionName, argument.toString());
-        this.webView.loadUrl(url);
-    }
 
     private void logToDisplay(final String message) {
         runOnUiThread(new Runnable() {
