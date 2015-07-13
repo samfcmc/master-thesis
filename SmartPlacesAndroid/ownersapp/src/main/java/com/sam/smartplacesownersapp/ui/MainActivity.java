@@ -13,8 +13,7 @@ import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.ParseDataStore;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
-import com.sam.smartplaceslib.datastore.object.BeaconObject;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
@@ -33,7 +32,7 @@ public class MainActivity extends ActionBarActivity implements
     public static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
     public static final int TURN_BT_ON_REQUEST = 3;
 
-    private SmartPlaceConfigurationObject smartPlaceConfigurationObject;
+    private SmartPlaceInstanceObject smartPlaceInstanceObject;
 
     //FIXME Should not be hardcoded!!!
     private final String smartPlaceId = "uWE3R6EDOv";
@@ -49,16 +48,16 @@ public class MainActivity extends ActionBarActivity implements
     private void selectFragment() {
         if (this.application.getDataStore().isUserLoggedIn()) {
             // Defined for the restaurant...
-            if (this.smartPlaceConfigurationObject == null) {
+            if (this.smartPlaceInstanceObject == null) {
                 showLoading();
                 this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
                     @Override
-                    public void done(SmartPlaceConfigurationObject object) {
+                    public void done(SmartPlaceInstanceObject object) {
                         stopLoading();
                         if (object == null) {
                             replaceFragment(SmartPlaceConfigurationFragment.newInstance(smartPlaceId));
                         } else {
-                            setSmartPlaceConfigurationObject(object);
+                            setSmartPlaceInstanceObject(object);
                             replaceFragment(ConfigMenuFragment.newInstance());
                         }
                     }
@@ -72,8 +71,8 @@ public class MainActivity extends ActionBarActivity implements
         }
     }
 
-    private void setSmartPlaceConfigurationObject(SmartPlaceConfigurationObject object) {
-        this.smartPlaceConfigurationObject = object;
+    private void setSmartPlaceInstanceObject(SmartPlaceInstanceObject object) {
+        this.smartPlaceInstanceObject = object;
     }
 
     private void showLoading() {
@@ -156,7 +155,7 @@ public class MainActivity extends ActionBarActivity implements
     public void onBeaconSelected(String uuid, int major, int minor) {
         logToDisplay("Selected beacon " + uuid);
         replaceFragment(BeaconConfigFragment.newInstance(uuid, major, minor,
-                this.smartPlaceConfigurationObject.getId()));
+                this.smartPlaceInstanceObject.getId()));
     }
 
     @Override
@@ -166,8 +165,8 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onSmartPlaceConfigurationSaved(SmartPlaceConfigurationObject object) {
-        setSmartPlaceConfigurationObject(object);
+    public void onSmartPlaceConfigurationSaved(SmartPlaceInstanceObject object) {
+        setSmartPlaceInstanceObject(object);
         selectFragment();
     }
 

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -88,13 +88,13 @@ public class SmartPlaceConfigurationFragment extends Fragment {
         this.application.getDataStore().createSmartPlaceConfiguration(smartPlaceId, name, message,
                 new SmartPlaceConfigurationCallback() {
                     @Override
-                    public void done(SmartPlaceConfigurationObject object) {
+                    public void done(SmartPlaceInstanceObject object) {
                         onSaveSmartPlaceConfiguration(object);
                     }
                 });
     }
 
-    private void onSaveSmartPlaceConfiguration(SmartPlaceConfigurationObject object) {
+    private void onSaveSmartPlaceConfiguration(SmartPlaceInstanceObject object) {
         this.application.dismissProgressDialog(getActivity());
         mListener.onSmartPlaceConfigurationSaved(object);
     }
@@ -127,7 +127,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onSmartPlaceConfigurationSaved(SmartPlaceConfigurationObject object);
+        void onSmartPlaceConfigurationSaved(SmartPlaceInstanceObject object);
     }
 
 }

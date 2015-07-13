@@ -5,5 +5,5 @@ import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 /**
  *
  */
-public interface SmartPlaceConfigurationCallback extends DataStoreCallback<SmartPlaceInstanceObject>{
+public interface SmartPlaceInstancesCallback extends ListDataStoreCallback<SmartPlaceInstanceObject> {
 }

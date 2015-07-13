@@ -3,7 +3,7 @@ package com.sam.smartplaceslib.datastore.object.parse;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
 
@@ -12,39 +12,39 @@ import org.json.JSONObject;
 /**
  *
  */
-@ParseClassName("SmartPlacesConfiguration")
-public class SmartPlaceConfigurationParseObject extends AbstractParseObject implements SmartPlaceConfigurationObject {
+@ParseClassName("SmartPlaceInstance")
+public class SmartPlaceInstanceParseObject extends AbstractParseObject implements SmartPlaceInstanceObject {
 
-    private static final String OWNER = "owner";
-    private static final String SMART_PLACE = "smartPlace";
-    private static final String OBJECT = "object";
+    public static final String OWNER = "owner";
+    public static final String SMART_PLACE = "smartPlace";
+    public static final String DATA = "data";
 
-    public SmartPlaceConfigurationParseObject() {
+    public SmartPlaceInstanceParseObject() {
         super();
     }
 
-    public SmartPlaceConfigurationParseObject(UserObject owner, SmartPlaceObject smartPlace, JSONObject object) {
+    public SmartPlaceInstanceParseObject(UserObject owner, SmartPlaceObject smartPlace, JSONObject object) {
         this(owner.getId(), smartPlace.getId(), object);
     }
 
-    public SmartPlaceConfigurationParseObject(String ownerId, String smartPlaceId, JSONObject object) {
+    public SmartPlaceInstanceParseObject(String ownerId, String smartPlaceId, JSONObject object) {
         super();
         setOwner(ownerId);
         setSmartPlace(smartPlaceId);
-        setObject(object);
+        setData(object);
     }
 
-    public SmartPlaceConfigurationParseObject(SmartPlaceConfigurationObject object) {
+    public SmartPlaceInstanceParseObject(SmartPlaceInstanceObject object) {
         super(object);
         setOwner(object.getOwner().getId());
         setSmartPlace(object.getSmartPlace().getId());
-        setObject(object.getObject());
+        setData(object.getData());
     }
 
     public void updateFromParseObject(ParseObject parseObject) {
         setOwner(parseObject.getParseUser(OWNER).getObjectId());
         setSmartPlace(parseObject.getParseObject(SMART_PLACE).getObjectId());
-        setObject(parseObject.getJSONObject(OBJECT));
+        setData(parseObject.getJSONObject(DATA));
     }
 
     @Override
@@ -80,17 +80,17 @@ public class SmartPlaceConfigurationParseObject extends AbstractParseObject impl
     }
 
     @Override
-    public JSONObject getObject() {
-        return getJSONObject(OBJECT);
+    public JSONObject getData() {
+        return getJSONObject(DATA);
     }
 
     @Override
-    public void setObject(JSONObject object) {
-        put(OBJECT, object);
+    public void setData(JSONObject object) {
+        put(DATA, object);
     }
 
-    public void update(SmartPlaceConfigurationObject object) {
-        setObject(object.getObject());
+    public void update(SmartPlaceInstanceObject object) {
+        setData(object.getData());
     }
 
 }

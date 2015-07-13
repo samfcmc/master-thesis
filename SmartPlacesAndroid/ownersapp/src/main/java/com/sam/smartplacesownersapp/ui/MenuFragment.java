@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -60,7 +60,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
 
     private SmartPlacesOwnerApplication application;
 
-    private SmartPlaceConfigurationObject object;
+    private SmartPlaceInstanceObject object;
 
     AddFloatingActionButton addButton;
 
@@ -120,7 +120,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
         String smartPlaceId = getArguments().getString(SMART_PLACE_ID);
         this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
             @Override
-            public void done(SmartPlaceConfigurationObject object) {
+            public void done(SmartPlaceInstanceObject object) {
                 loadMenu(object);
             }
         });
@@ -139,9 +139,9 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
         startActivityForResult(intent, ADD_MENU_ITEM_REQUEST);
     }
 
-    private void loadMenu(SmartPlaceConfigurationObject object) {
+    private void loadMenu(SmartPlaceInstanceObject object) {
         this.object = object;
-        JSONObject configuration = object.getObject();
+        JSONObject configuration = object.getData();
         try {
             if (configuration.has("menu")) {
                 JSONArray menuJsonArray = getMenuForCategory(configuration.getJSONArray("menu"), this.category);
@@ -265,7 +265,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     }
 
     private void addMenuItem(final String name, final double price) {
-        JSONObject jsonObject = this.object.getObject();
+        JSONObject jsonObject = this.object.getData();
 
         try {
             JSONObject menuItemJsonObject = new JSONObject();
@@ -284,11 +284,11 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
                     }
                     JSONArray categoryMenuJsonArray = categoryJsonObject.getJSONArray("menu");
                     categoryMenuJsonArray.put(menuItemJsonObject);
-                    this.object.setObject(jsonObject);
+                    this.object.setData(jsonObject);
                     this.application.getDataStore().saveSmartPlaceConfiguration(this.object,
                             new SmartPlaceConfigurationCallback() {
                                 @Override
-                                public void done(SmartPlaceConfigurationObject object) {
+                                public void done(SmartPlaceInstanceObject object) {
                                     updateList(object, name, price);
                                 }
                             });
@@ -300,7 +300,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
 
     }
 
-    private void updateList(SmartPlaceConfigurationObject object, String name, double price) {
+    private void updateList(SmartPlaceInstanceObject object, String name, double price) {
         this.object = object;
         MenuItem menuItem = new MenuItem(name, price);
         this.menu.add(menuItem);

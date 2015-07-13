@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 
@@ -60,7 +60,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
 
     private static final int ADD_CATEGORY_REQUEST = 2;
 
-    private SmartPlaceConfigurationObject smartPlaceConfiguration;
+    private SmartPlaceInstanceObject smartPlaceConfiguration;
 
     public static CategoryMenuFragment newInstance(String smartPlaceId) {
         CategoryMenuFragment fragment = new CategoryMenuFragment();
@@ -115,7 +115,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
             this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId,
                     new SmartPlaceConfigurationCallback() {
                         @Override
-                        public void done(SmartPlaceConfigurationObject object) {
+                        public void done(SmartPlaceInstanceObject object) {
                             loadCategories(object);
                         }
                     });
@@ -150,10 +150,10 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
     }
 
     private void addCategory(final String name) {
-        JSONObject object = this.smartPlaceConfiguration.getObject();
+        JSONObject object = this.smartPlaceConfiguration.getData();
         if (object == null) {
             object = new JSONObject();
-            this.smartPlaceConfiguration.setObject(object);
+            this.smartPlaceConfiguration.setData(object);
         }
 
         try {
@@ -168,7 +168,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
             this.application.getDataStore().saveSmartPlaceConfiguration(this.smartPlaceConfiguration,
                     new SmartPlaceConfigurationCallback() {
                         @Override
-                        public void done(SmartPlaceConfigurationObject object) {
+                        public void done(SmartPlaceInstanceObject object) {
                             categories.add(name);
                             refreshList();
                         }
@@ -183,11 +183,11 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void loadCategories(SmartPlaceConfigurationObject object) {
+    private void loadCategories(SmartPlaceInstanceObject object) {
         this.application.dismissProgressDialog(getActivity());
         this.smartPlaceConfiguration = object;
         this.categories.clear();
-        JSONObject configuration = object.getObject();
+        JSONObject configuration = object.getData();
         if (configuration != null) {
             if (configuration.has("menu")) {
                 try {

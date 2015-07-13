@@ -16,10 +16,10 @@ import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlacesConfigurationsCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceConfigurationObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import org.altbeacon.beacon.Beacon;
@@ -100,9 +100,9 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void beaconFetched(final BeaconObject object) {
-        this.application.getDataStore().getSmartPlaceConfigurations(object, new SmartPlacesConfigurationsCallback() {
+        this.application.getDataStore().getSmartPlaceInstances(object, new SmartPlaceInstancesCallback() {
             @Override
-            public void done(List<SmartPlaceConfigurationObject> list) {
+            public void done(List<SmartPlaceInstanceObject> list) {
                 logToDisplay("Found smart places " + list.size());
                 notifyAboutSmartPlaces(list, object);
             }
@@ -124,8 +124,8 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         super.onDestroy();
     }
 
-    private void notifyAboutSmartPlaces(List<SmartPlaceConfigurationObject> list, final BeaconObject beacon) {
-        for (final SmartPlaceConfigurationObject configuration : list) {
+    private void notifyAboutSmartPlaces(List<SmartPlaceInstanceObject> list, final BeaconObject beacon) {
+        for (final SmartPlaceInstanceObject configuration : list) {
             this.application.getDataStore().getSmartPlace(configuration, new SmartPlaceCallback() {
                 @Override
                 public void done(SmartPlaceObject object) {
@@ -136,7 +136,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void createNotification(SmartPlaceObject smartPlace, BeaconObject beacon,
-                                    SmartPlaceConfigurationObject configurationObject) {
+                                    SmartPlaceInstanceObject configurationObject) {
         Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
         String url = smartPlace.getUrl();
         String name = smartPlace.getName();

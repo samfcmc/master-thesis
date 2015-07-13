@@ -173,7 +173,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
         JSONObject jsonObject = new JSONObject();
         String smartPlaceConfiguationId = getArguments().getString(CONFIGURATION);
         jsonObject.put("table", tableNumber);
-        //object.setObject(jsonObject);
+        //object.setData(jsonObject);
         this.application.showProgressDialog(getActivity());
         this.application.getDataStore().saveTag(object, jsonObject,
                 new TagCallback() {

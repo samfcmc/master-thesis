@@ -10,9 +10,9 @@ import org.json.JSONObject;
  */
 @ParseClassName("Tag")
 public class TagParseObject extends AbstractParseObject implements TagObject {
-    private static final String DATA = "data";
-    private static final String BEACON = "beacon";
-    private static final String SMARTPLACE_CONFIGURATION = "smartPlaceConfiguration";
+    public static final String DATA = "data";
+    public static final String BEACON = "beacon";
+    public static final String SMARTPLACE_INSTANCE = "smartPlaceInstance";
 
     public TagParseObject() {
     }
@@ -35,8 +35,8 @@ public class TagParseObject extends AbstractParseObject implements TagObject {
         put(BEACON, beacon);
     }
 
-    public void setSmartPlaceConfiguration(SmartPlaceConfigurationParseObject smartPlaceConfiguration) {
-        put(SMARTPLACE_CONFIGURATION, smartPlaceConfiguration);
+    public void setSmartPlaceInstance(SmartPlaceInstanceParseObject smartPlaceInstance) {
+        put(SMARTPLACE_INSTANCE, smartPlaceInstance);
     }
 
 }

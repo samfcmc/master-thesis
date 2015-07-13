@@ -5,13 +5,13 @@ import org.json.JSONObject;
 /**
  *
  */
-public interface SmartPlaceConfigurationObject extends DataStoreObject {
+public interface SmartPlaceInstanceObject extends DataStoreObject {
     UserObject getOwner();
     void setOwner(UserObject owner);
     void setOwner(String ownerId);
     SmartPlaceObject getSmartPlace();
     void setSmartPlace(SmartPlaceObject smartPlace);
     void setSmartPlace(String smartPlaceId);
-    JSONObject getObject();
-    void setObject(JSONObject object);
+    JSONObject getData();
+    void setData(JSONObject object);
 }

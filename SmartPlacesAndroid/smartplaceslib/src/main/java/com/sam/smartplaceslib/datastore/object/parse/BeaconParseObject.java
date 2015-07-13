@@ -1,7 +1,6 @@
 package com.sam.smartplaceslib.datastore.object.parse;
 
 import com.parse.ParseClassName;
-import com.parse.ParseRelation;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
 /**
@@ -10,20 +9,15 @@ import com.sam.smartplaceslib.datastore.object.BeaconObject;
 @ParseClassName("Beacon")
 public class BeaconParseObject extends AbstractParseObject implements BeaconObject {
 
-    private static final String UUID = "uuid";
-    private static final String MAJOR = "major";
-    private static final String MINOR = "minor";
-    private static final String OBJECT = "object";
-    private static final String SMART_PLACES = "smartPlaces";
-    private static final String SMART_PLACES_CONFIGURATION = "smartPlacesConfiguration";
-    private static final String MESSAGE = "message";
+    public static final String UUID = "uuid";
+    public static final String MAJOR = "major";
+    public static final String MINOR = "minor";
 
-    public BeaconParseObject(String uuid, int major, int minor, String message) {
+    public BeaconParseObject(String uuid, int major, int minor) {
         this();
         setUUID(uuid);
         setMajor(major);
         setMinor(minor);
-        setMessage(message);
     }
 
     public BeaconParseObject() {
@@ -60,21 +54,5 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
         put(MINOR, minor);
     }
 
-    @Override
-    public String getMessage() {
-        return getString(MESSAGE);
-    }
 
-    @Override
-    public void setMessage(String message) {
-        put(MESSAGE, message);
-    }
-
-    public ParseRelation<SmartPlaceParseObject> getSmartPlacesRelation() {
-        return getRelation(SMART_PLACES);
-    }
-
-    public ParseRelation<SmartPlaceConfigurationParseObject> getSmartPlacesConfigurationRelation() {
-        return getRelation(SMART_PLACES_CONFIGURATION);
-    }
 }
