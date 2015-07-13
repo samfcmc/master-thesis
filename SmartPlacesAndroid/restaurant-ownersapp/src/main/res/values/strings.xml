@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartPlacesOwnersApp</string>
+    <string name="app_name">Restaurant Owners App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="login_message">You have to login first to use this app</string>

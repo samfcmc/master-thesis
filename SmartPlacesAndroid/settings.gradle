@@ -1,2 +1,2 @@
-include ':clientapp', ':facebook', ':ownersapp', ':smartplaceslib'
+include ':clientapp', ':facebook', ':restaurant-ownersapp', ':smartplaceslib'
 project(':facebook').projectDir = new File('smartplaceslib/libs/facebook-android-sdk-4.0.0/facebook')
