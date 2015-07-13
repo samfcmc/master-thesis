@@ -14,7 +14,7 @@ import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
     private String configuration;
     private BeaconInfo beaconInfo;
 
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
 
     private TextView uuidTextView;
     private TextView majorTextView;
@@ -78,7 +78,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
             this.beaconInfo = new BeaconInfo(uuid, major, minor);
             this.configuration = getArguments().getString(CONFIGURATION);
         }
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
 
     @Override

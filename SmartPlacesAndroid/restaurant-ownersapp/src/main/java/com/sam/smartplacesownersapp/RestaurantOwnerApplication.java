@@ -24,7 +24,7 @@ import java.io.IOException;
 /**
  * Application class
  */
-public class SmartPlacesOwnerApplication extends Application implements BootstrapNotifier {
+public class RestaurantOwnerApplication extends Application implements BootstrapNotifier {
 
     private Region region;
     private RegionBootstrap regionBootstrap;

@@ -18,7 +18,7 @@ import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +58,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
 
     private List<MenuItem> menu;
 
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
 
     private SmartPlaceInstanceObject object;
 
@@ -93,7 +93,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
 
         this.menu = new ArrayList<>();
         mAdapter = new MenuListAdapter(getActivity(), this.menu);
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +30,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
     private EditText nameEditText;
     private EditText messageEditText;
 
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
 
     private static final String SMART_PLACE = "smartPlace";
     /**
@@ -56,7 +56,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
 
     @Override

@@ -16,7 +16,7 @@ import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 
 public class MainActivity extends ActionBarActivity implements
@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements
         CategoryMenuFragment.OnFragmentInteractionListener,
         MenuFragment.OnFragmentInteractionListener {
 
-    SmartPlacesOwnerApplication application;
+    RestaurantOwnerApplication application;
 
     public static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
     public static final int TURN_BT_ON_REQUEST = 3;
@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.application = (SmartPlacesOwnerApplication) getApplication();
+        this.application = (RestaurantOwnerApplication) getApplication();
         selectFragment();
     }
 

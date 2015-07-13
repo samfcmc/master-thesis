@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartPlacesClientApp</string>
+    <string name="app_name">Smart Places Client App</string>
 
     <string name="hello_world">In order to use the app you need to login first</string>
     <string name="action_settings">Settings</string>

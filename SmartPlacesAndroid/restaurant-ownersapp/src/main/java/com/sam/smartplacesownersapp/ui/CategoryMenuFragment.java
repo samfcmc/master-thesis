@@ -19,7 +19,7 @@ import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +54,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
 
     private List<String> categories;
 
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
 
     private static final String SMART_PLACE_ID = "smartPlaceId";
 
@@ -86,7 +86,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
 
         this.categories = new ArrayList<String>();
         mAdapter = new CategoryListAdapter(getActivity(), this.categories);
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
 
     @Override

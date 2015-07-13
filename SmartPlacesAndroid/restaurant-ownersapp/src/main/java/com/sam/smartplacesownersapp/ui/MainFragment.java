@@ -2,22 +2,19 @@ package com.sam.smartplacesownersapp.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.CharacterPickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.login.widget.LoginButton;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
 import com.sam.smartplaceslib.datastore.login.parse.ParseFacebookLoginStrategy;
 import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 
 /**
@@ -26,7 +23,7 @@ import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
 public class MainFragment extends Fragment {
 
     private LoginButton loginButton;
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
     private String test;
 
     public MainFragment() {
@@ -42,7 +39,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.loginButton = (LoginButton) view.findViewById(R.id.main_login_button);
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
 
         this.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

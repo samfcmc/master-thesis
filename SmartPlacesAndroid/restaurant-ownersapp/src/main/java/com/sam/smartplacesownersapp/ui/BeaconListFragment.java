@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.SmartPlacesOwnerApplication;
+import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -50,7 +50,7 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
 
     private List<Beacon> beacons;
 
-    private SmartPlacesOwnerApplication application;
+    private RestaurantOwnerApplication application;
 
     public static BeaconListFragment newInstance() {
         BeaconListFragment fragment = new BeaconListFragment();
@@ -70,7 +70,7 @@ public class BeaconListFragment extends Fragment implements AbsListView.OnItemCl
 
         this.beacons = new ArrayList<Beacon>();
         mAdapter = new BeaconObjectListAdapter(getActivity(), this.beacons);
-        this.application = (SmartPlacesOwnerApplication) getActivity().getApplication();
+        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
 
     @Override

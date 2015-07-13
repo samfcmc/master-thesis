@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Smart Places Owners App</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_message">First, you need to login in order to use the app</string>
+    <string name="loading">Loading</string>
+</resources>
