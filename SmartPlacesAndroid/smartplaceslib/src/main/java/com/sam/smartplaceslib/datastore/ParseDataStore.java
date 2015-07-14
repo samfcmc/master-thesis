@@ -19,10 +19,12 @@ import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
@@ -92,6 +94,18 @@ public class ParseDataStore extends AbstractDataStore {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
                 callback.done(beaconParseObject);
+            }
+        });
+    }
+
+    @Override
+    public void getSmartPlaces(final SmartPlacesCallback callback) {
+        ParseQuery<SmartPlaceParseObject> query = getQuery(SmartPlaceParseObject.class);
+        query.findInBackground(new FindCallback<SmartPlaceParseObject>() {
+            @Override
+            public void done(List<SmartPlaceParseObject> list, ParseException e) {
+                List<SmartPlaceObject> resultList = new ArrayList<SmartPlaceObject>(list);
+                callback.done(resultList);
             }
         });
     }

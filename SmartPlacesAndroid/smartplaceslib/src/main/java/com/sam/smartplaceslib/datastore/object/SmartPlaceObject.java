@@ -8,6 +8,6 @@ public interface SmartPlaceObject extends DataStoreObject {
     public void setName(String name);
     public String getUrl();
     public void setUrl(String url);
-    public String getMessage();
-    public void setMessage(String message);
+    public String getDescription();
+    public void setDescription(String description);
 }

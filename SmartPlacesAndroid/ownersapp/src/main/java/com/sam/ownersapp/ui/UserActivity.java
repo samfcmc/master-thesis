@@ -9,8 +9,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.ownersapp.R;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
-public class UserActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity implements SmartPlaceListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,9 @@ public class UserActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_smart_places) {
+            goToSmartPlaceList();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -61,5 +65,14 @@ public class UserActivity extends AppCompatActivity {
                 Toast.makeText(UserActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void goToSmartPlaceList() {
+        replaceFragment(SmartPlaceListFragment.newInstance());
+    }
+
+    @Override
+    public void onSmartPlaceSelected(SmartPlaceObject smartPlaceObject) {
+        //TODO: Go to a screen to show info about this smart place
     }
 }

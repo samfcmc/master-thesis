@@ -6,6 +6,7 @@ import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
@@ -34,6 +35,8 @@ public interface DataStore {
     void logout(final LogoutCallback callback);
 
     void getBeacon(BeaconInfo beaconInfo, final BeaconCallback callback);
+
+    void getSmartPlaces(final SmartPlacesCallback callback);
 
     void getSmartPlaceInstances(BeaconObject beaconObject, final SmartPlaceInstancesCallback callback);
 

@@ -12,7 +12,7 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
 
     private static final String NAME = "name";
     private static final String URL = "url";
-    private static final String MESSAGE = "message";
+    private static final String DESCRIPTION = "description";
 
     public SmartPlaceParseObject() {
     }
@@ -20,7 +20,7 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     public SmartPlaceParseObject(String name, String url, String message) {
         setName(name);
         setUrl(url);
-        setMessage(message);
+        setDescription(message);
     }
 
     public SmartPlaceParseObject(ParseObject parseObject) {
@@ -49,18 +49,18 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     }
 
     @Override
-    public String getMessage() {
-        return getString(MESSAGE);
+    public String getDescription() {
+        return getString(DESCRIPTION);
     }
 
     @Override
-    public void setMessage(String message) {
-        put(MESSAGE, message);
+    public void setDescription(String description) {
+        put(DESCRIPTION, description);
     }
 
     public void updateFromParseObject(ParseObject parseObject) {
         setName(parseObject.getString(NAME));
         setUrl(parseObject.getString(URL));
-        setMessage(parseObject.getString(MESSAGE));
+        setDescription(parseObject.getString(DESCRIPTION));
     }
 }
