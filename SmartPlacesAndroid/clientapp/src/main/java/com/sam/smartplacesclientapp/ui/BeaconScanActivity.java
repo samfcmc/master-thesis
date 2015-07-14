@@ -140,13 +140,13 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
         String url = smartPlace.getUrl();
         String name = smartPlace.getName();
-        String message = smartPlace.getMessage();
+        String message = smartPlace.getDescription();
         resultIntent.putExtra(Keys.URL, url);
         resultIntent.putExtra(Keys.NAME, name);
         resultIntent.putExtra(Keys.MESSAGE, message);
         resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
         resultIntent.putExtra(Keys.BEACON, beacon.getId());
         resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, configurationObject.getId());
-        this.application.createNotification(this, smartPlace.getName(), smartPlace.getMessage(), resultIntent, SmartPlaceActivity.class);
+        this.application.createNotification(this, smartPlace.getName(), smartPlace.getDescription(), resultIntent, SmartPlaceActivity.class);
     }
 }
