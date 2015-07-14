@@ -1,6 +1,5 @@
 package com.sam.ownersapp.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,35 +9,21 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.ownersapp.R;
-import com.sam.ownersapp.SmartPlacesOwnersApplication;
-import com.sam.smartplaceslib.datastore.ParseDataStore;
 
-
-public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnFragmentInteractionListener {
-    SmartPlacesOwnersApplication application;
+public class UserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        this.application = (SmartPlacesOwnersApplication) getApplication();
-        if (this.application.getDataStore().isUserLoggedIn()) {
-            goToUserActivity();
-        }
-    }
-
-    private void goToUserActivity() {
-        Intent intent = new Intent(this, UserActivity.class);
-        startActivity(intent);
-        finish();
+        setContentView(R.layout.activity_user);
+        replaceFragment(new UserActivityFragment());
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_user, menu);
         return true;
     }
 
@@ -62,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             @Override
             public void run() {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment, fragment);
+                transaction.replace(R.id.user_fragment_container, fragment);
                 transaction.addToBackStack(fragment.getClass().getSimpleName());
                 transaction.commit();
             }
@@ -73,21 +58,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == ParseDataStore.REQUEST_LOGIN) {
-            this.application.getDataStore().afterLoginOnActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
-    public void afterLogin() {
-        goToUserActivity();
     }
 }

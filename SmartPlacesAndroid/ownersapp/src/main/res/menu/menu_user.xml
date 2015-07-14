@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sam.ownersapp.ui.UserActivity">
+    <item
+        android:id="@+id/action_smart_places"
+        android:title="@string/action_smart_places"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_instances"
+        android:title="@string/action_instances"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+</menu>

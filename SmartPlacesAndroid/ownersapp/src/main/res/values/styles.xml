@@ -2,7 +2,18 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:actionBarStyle">@style/ActionBar</item>-->
+    </style>
+
+    <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse"></style>
+
+    <style name="AppThemeWithoutActionBarTitle" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ActionBarWithoutTitle" parent="@style/ActionBar">
+        <item name="android:displayOptions">useLogo|showHome</item>
     </style>
 
 </resources>
