@@ -1,4 +1,4 @@
-package com.sam.ownersapp.ui;
+package com.sam.ownersapp;
 
 import android.app.Activity;
 import android.app.Application;
