@@ -1,5 +1,6 @@
 package com.sam.ownersapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.ownersapp.R;
+import com.sam.ownersapp.SmartPlacesOwnersApplication;
+import com.sam.smartplaceslib.datastore.DataStoreException;
+import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
@@ -16,13 +20,17 @@ public class UserActivity extends AppCompatActivity
         implements SmartPlaceListFragment.OnFragmentInteractionListener,
         ShowSmartPlaceFragment.OnFragmentInteractionListener,
         SmartPlaceInstanceListFragment.OnFragmentInteractionListener,
-        UpdateSmartPlaceInstanceFragment.OnFragmentInteractionListener {
+        UpdateSmartPlaceInstanceFragment.OnFragmentInteractionListener,
+        LogoutCallback {
+
+    private SmartPlacesOwnersApplication application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         replaceFragment(new UserActivityFragment());
+        this.application = (SmartPlacesOwnersApplication) getApplication();
     }
 
 
@@ -48,9 +56,17 @@ public class UserActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.action_instances) {
             goToSmartPlaceInstancesList();
+            return true;
+        } else if (id == R.id.action_logout) {
+            logout();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        this.application.getDataStore().logout(this);
     }
 
     private void goToSmartPlaceInstancesList() {
@@ -100,5 +116,14 @@ public class UserActivity extends AppCompatActivity
     @Override
     public void smartPlaceInstanceSaved(SmartPlaceInstanceObject object) {
         replaceFragment(SmartPlaceInstanceListFragment.newInstance());
+    }
+
+    // Logout
+    @Override
+    public void done(DataStoreException exception) {
+        // Back to the main activity
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
