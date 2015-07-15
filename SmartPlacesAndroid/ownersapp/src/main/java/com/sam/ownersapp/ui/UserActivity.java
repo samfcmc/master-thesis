@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.sam.ownersapp.R;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
-public class UserActivity extends AppCompatActivity implements SmartPlaceListFragment.OnFragmentInteractionListener {
+public class UserActivity extends AppCompatActivity
+        implements SmartPlaceListFragment.OnFragmentInteractionListener,
+        ShowSmartPlaceFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,11 @@ public class UserActivity extends AppCompatActivity implements SmartPlaceListFra
 
     @Override
     public void onSmartPlaceSelected(SmartPlaceObject smartPlaceObject) {
-        //TODO: Go to a screen to show info about this smart place
+        replaceFragment(ShowSmartPlaceFragment.newInstance(smartPlaceObject));
+    }
+
+    @Override
+    public void onCreateInstanceClick(String id) {
+        //TODO: Go to UI to create a smart place instance
     }
 }
