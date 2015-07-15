@@ -20,6 +20,7 @@ import com.sam.ownersapp.SmartPlacesOwnersApplication;
 import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
+import com.sam.smartplaceslib.ui.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -222,28 +223,35 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
                         .findViewById(R.id.smart_place_instance_list_item_message_textView);
                 TextView smartPlaceNameTextView = (TextView)
                         convertView.findViewById(R.id.smart_place_instance_list_item_smart_place_textView);
-                ViewHolder viewHolder = new ViewHolder(titleTextView, messageTextView,
+                SmartPlaceInstanceViewHolder viewHolder = new SmartPlaceInstanceViewHolder(titleTextView, messageTextView,
                         smartPlaceNameTextView);
                 convertView.setTag(viewHolder);
             }
-            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+            SmartPlaceInstanceViewHolder viewHolder = (SmartPlaceInstanceViewHolder) convertView.getTag();
             SmartPlaceInstanceObject item = getItem(position);
-            viewHolder.titleTextView.setText(item.getTitle());
-            viewHolder.messageTextView.setText(item.getMessage());
-            viewHolder.smartPlaceNameTextView.setText(item.getSmartPlace().getName());
+            viewHolder.updateView(item);
+
             return convertView;
         }
     }
 
-    private class ViewHolder {
+    private class SmartPlaceInstanceViewHolder implements ViewHolder<SmartPlaceInstanceObject> {
         public TextView titleTextView;
         public TextView messageTextView;
         public TextView smartPlaceNameTextView;
 
-        public ViewHolder(TextView titleTextView, TextView messageTextView, TextView smartPlaceNameTextView) {
+        public SmartPlaceInstanceViewHolder(TextView titleTextView, TextView messageTextView,
+                                            TextView smartPlaceNameTextView) {
             this.titleTextView = titleTextView;
             this.messageTextView = messageTextView;
             this.smartPlaceNameTextView = smartPlaceNameTextView;
+        }
+
+        @Override
+        public void updateView(SmartPlaceInstanceObject object) {
+            this.titleTextView.setText(object.getTitle());
+            this.messageTextView.setText(object.getMessage());
+            this.smartPlaceNameTextView.setText(object.getSmartPlace().getName());
         }
     }
 

@@ -17,6 +17,7 @@ import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
+import com.sam.smartplaceslib.ui.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,7 @@ public class SmartPlaceListFragment extends Fragment implements AbsListView.OnIt
     }
 
     private class SmartPlaceListAdapter extends ArrayAdapter<SmartPlaceObject> {
-        private static final int SHORT_DESCRIPTION_SIZE = 25;
+
 
         public SmartPlaceListAdapter(List<SmartPlaceObject> list) {
             super(getActivity(), R.layout.smart_place_list_item_layout, list);
@@ -184,28 +185,34 @@ public class SmartPlaceListFragment extends Fragment implements AbsListView.OnIt
                         .findViewById(R.id.smart_place_list_item_name_textView);
                 TextView shortDescriptionTextView = (TextView) convertView
                         .findViewById(R.id.smart_place_list_item_short_description_textView);
-                ViewHolder viewHolder = new ViewHolder(nameTextView, shortDescriptionTextView);
+                SmartPlaceViewHolder viewHolder = new SmartPlaceViewHolder(nameTextView, shortDescriptionTextView);
                 convertView.setTag(viewHolder);
             }
             SmartPlaceObject item = getItem(position);
-            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-
-            viewHolder.nameTextView.setText(item.getName());
-            String shortDescription = item.getDescription().substring(0, SHORT_DESCRIPTION_SIZE)
-                    + "...";
-            viewHolder.shortDescriptionTextView.setText(shortDescription);
+            SmartPlaceViewHolder viewHolder = (SmartPlaceViewHolder) convertView.getTag();
+            viewHolder.updateView(item);
 
             return convertView;
         }
     }
 
-    private class ViewHolder {
+    private class SmartPlaceViewHolder implements ViewHolder<SmartPlaceObject> {
         public TextView nameTextView;
         public TextView shortDescriptionTextView;
 
-        public ViewHolder(TextView nameTextView, TextView shortDescriptionTextView) {
+        private static final int SHORT_DESCRIPTION_SIZE = 25;
+
+        public SmartPlaceViewHolder(TextView nameTextView, TextView shortDescriptionTextView) {
             this.nameTextView = nameTextView;
             this.shortDescriptionTextView = shortDescriptionTextView;
+        }
+
+        @Override
+        public void updateView(SmartPlaceObject object) {
+            this.nameTextView.setText(object.getName());
+            String shortDescription = String.format("%s ...",
+                    object.getDescription().substring(0, SHORT_DESCRIPTION_SIZE));
+            this.shortDescriptionTextView.setText(shortDescription);
         }
     }
 
