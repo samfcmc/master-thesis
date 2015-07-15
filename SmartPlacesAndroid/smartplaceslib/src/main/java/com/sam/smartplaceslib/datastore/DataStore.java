@@ -40,6 +40,8 @@ public interface DataStore {
 
     void getSmartPlaceInstances(BeaconObject beaconObject, final SmartPlaceInstancesCallback callback);
 
+    void getUserSmartPlaceInstances(final SmartPlaceInstancesCallback callback);
+
     void getTag(BeaconInfo beaconInfo, final TagCallback callback);
 
     void getTag(String smartPlaceId, BeaconInfo beaconInfo, final TagCallback callback);

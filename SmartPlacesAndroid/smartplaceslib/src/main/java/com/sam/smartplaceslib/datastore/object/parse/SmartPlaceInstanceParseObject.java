@@ -18,6 +18,8 @@ public class SmartPlaceInstanceParseObject extends AbstractParseObject implement
     public static final String OWNER = "owner";
     public static final String SMART_PLACE = "smartPlace";
     public static final String DATA = "data";
+    public static final String TITLE = "title";
+    public static final String MESSAGE = "message";
 
     public SmartPlaceInstanceParseObject() {
         super();
@@ -87,6 +89,16 @@ public class SmartPlaceInstanceParseObject extends AbstractParseObject implement
     @Override
     public void setData(JSONObject object) {
         put(DATA, object);
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(TITLE);
+    }
+
+    @Override
+    public String getMessage() {
+        return getString(MESSAGE);
     }
 
     public void update(SmartPlaceInstanceObject object) {

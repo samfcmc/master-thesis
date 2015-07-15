@@ -9,11 +9,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.ownersapp.R;
+import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 public class UserActivity extends AppCompatActivity
         implements SmartPlaceListFragment.OnFragmentInteractionListener,
-        ShowSmartPlaceFragment.OnFragmentInteractionListener {
+        ShowSmartPlaceFragment.OnFragmentInteractionListener,
+        SmartPlaceInstanceListFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,15 @@ public class UserActivity extends AppCompatActivity
         } else if (id == R.id.action_smart_places) {
             goToSmartPlaceList();
             return true;
+        } else if (id == R.id.action_instances) {
+            goToSmartPlaceInstancesList();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void goToSmartPlaceInstancesList() {
+        replaceFragment(SmartPlaceInstanceListFragment.newInstance());
     }
 
     private void replaceFragment(final Fragment fragment) {
@@ -81,5 +89,10 @@ public class UserActivity extends AppCompatActivity
     @Override
     public void onCreateInstanceClick(String id) {
         //TODO: Go to UI to create a smart place instance
+    }
+
+    @Override
+    public void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject) {
+        //TODO: Go to UI to edit this instance
     }
 }

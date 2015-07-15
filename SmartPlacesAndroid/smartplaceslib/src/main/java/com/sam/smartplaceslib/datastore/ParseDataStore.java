@@ -133,6 +133,20 @@ public class ParseDataStore extends AbstractDataStore {
 
     }
 
+    @Override
+    public void getUserSmartPlaceInstances(final SmartPlaceInstancesCallback callback) {
+        ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
+        ParseUser user = ParseUser.getCurrentUser();
+        query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
+        query.findInBackground(new FindCallback<SmartPlaceInstanceParseObject>() {
+            @Override
+            public void done(List<SmartPlaceInstanceParseObject> list, ParseException e) {
+                List<SmartPlaceInstanceObject> resultList = new ArrayList<SmartPlaceInstanceObject>(list);
+                callback.done(resultList);
+            }
+        });
+    }
+
     private ParseQuery<BeaconParseObject> getBeaconQuery(BeaconInfo beaconInfo) {
         ParseQuery<BeaconParseObject> beaconQuery = getQuery(BeaconParseObject.class);
         beaconQuery = beaconQuery.whereEqualTo(BeaconParseObject.UUID, beaconInfo.getUuid())
