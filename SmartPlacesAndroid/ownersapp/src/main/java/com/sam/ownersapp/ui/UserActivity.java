@@ -15,7 +15,8 @@ import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 public class UserActivity extends AppCompatActivity
         implements SmartPlaceListFragment.OnFragmentInteractionListener,
         ShowSmartPlaceFragment.OnFragmentInteractionListener,
-        SmartPlaceInstanceListFragment.OnFragmentInteractionListener {
+        SmartPlaceInstanceListFragment.OnFragmentInteractionListener,
+        UpdateSmartPlaceInstanceFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +89,16 @@ public class UserActivity extends AppCompatActivity
 
     @Override
     public void onCreateInstanceClick(String id) {
-        //TODO: Go to UI to create a smart place instance
+        replaceFragment(UpdateSmartPlaceInstanceFragment.newInstance(id));
     }
 
     @Override
     public void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject) {
         //TODO: Go to UI to edit this instance
+    }
+
+    @Override
+    public void smartPlaceInstanceSaved(SmartPlaceInstanceObject object) {
+        replaceFragment(SmartPlaceInstanceListFragment.newInstance());
     }
 }

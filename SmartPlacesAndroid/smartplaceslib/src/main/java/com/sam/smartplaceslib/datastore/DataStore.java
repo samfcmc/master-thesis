@@ -53,8 +53,8 @@ public interface DataStore {
 
     void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
 
-    void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
-                                       SmartPlaceConfigurationCallback callback);
+    void createSmartPlaceInstance(String smartPlaceId, String title, String message,
+                                  final SmartPlaceConfigurationCallback callback);
 
     void saveSmartPlaceConfiguration(SmartPlaceInstanceObject object,
                                      SmartPlaceConfigurationCallback callback);

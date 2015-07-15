@@ -24,5 +24,9 @@ public interface SmartPlaceInstanceObject extends DataStoreObject {
 
     String getTitle();
 
+    void setTitle(String title);
+
     String getMessage();
+
+    void setMessage(String message);
 }

@@ -25,15 +25,19 @@ public class SmartPlaceInstanceParseObject extends AbstractParseObject implement
         super();
     }
 
-    public SmartPlaceInstanceParseObject(UserObject owner, SmartPlaceObject smartPlace, JSONObject object) {
-        this(owner.getId(), smartPlace.getId(), object);
+    public SmartPlaceInstanceParseObject(UserObject owner, SmartPlaceObject smartPlace, JSONObject object,
+                                         String title, String message) {
+        this(owner.getId(), smartPlace.getId(), object, title, message);
     }
 
-    public SmartPlaceInstanceParseObject(String ownerId, String smartPlaceId, JSONObject object) {
+    public SmartPlaceInstanceParseObject(String ownerId, String smartPlaceId, JSONObject object,
+                                         String title, String message) {
         super();
         setOwner(ownerId);
         setSmartPlace(smartPlaceId);
         setData(object);
+        setTitle(title);
+        setMessage(message);
     }
 
     public SmartPlaceInstanceParseObject(SmartPlaceInstanceObject object) {
@@ -97,8 +101,18 @@ public class SmartPlaceInstanceParseObject extends AbstractParseObject implement
     }
 
     @Override
+    public void setTitle(String title) {
+        put(TITLE, title);
+    }
+
+    @Override
     public String getMessage() {
         return getString(MESSAGE);
+    }
+
+    @Override
+    public void setMessage(String message) {
+        put(MESSAGE, message);
     }
 
     public void update(SmartPlaceInstanceObject object) {
