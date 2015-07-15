@@ -33,7 +33,6 @@ import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -242,23 +241,16 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
-    public void createSmartPlaceConfiguration(String smartPlaceId, String name, String message,
-                                              final SmartPlaceConfigurationCallback callback) {
+    public void createSmartPlaceInstance(String smartPlaceId, String title, String message,
+                                         final SmartPlaceConfigurationCallback callback) {
         ParseUser user = ParseUser.getCurrentUser();
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("name", name);
-            jsonObject.put("message", message);
-        } catch (JSONException e) {
-            // Now we just do not care
-        }
-
-        final SmartPlaceInstanceParseObject smartPlaceConfiguration =
-                new SmartPlaceInstanceParseObject(user.getObjectId(), smartPlaceId, jsonObject);
-        smartPlaceConfiguration.saveInBackground(new SaveCallback() {
+        final SmartPlaceInstanceParseObject smartPlaceInstance =
+                new SmartPlaceInstanceParseObject(user.getObjectId(), smartPlaceId, new JSONObject(),
+                        title, message);
+        smartPlaceInstance.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                callback.done(smartPlaceConfiguration);
+                callback.done(smartPlaceInstance);
             }
         });
     }

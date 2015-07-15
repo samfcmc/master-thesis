@@ -1,4 +1,4 @@
-package com.sam.smartplacesownersapp.ui;
+package com.sam.ownersapp.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,45 +9,47 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sam.ownersapp.R;
+import com.sam.ownersapp.SmartPlacesOwnersApplication;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
-import com.sam.smartplacesownersapp.R;
-import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SmartPlaceConfigurationFragment.OnFragmentInteractionListener} interface
+ * {@link UpdateSmartPlaceInstanceFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SmartPlaceConfigurationFragment#newInstance} factory method to
+ * Use the {@link UpdateSmartPlaceInstanceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SmartPlaceConfigurationFragment extends Fragment {
+public class UpdateSmartPlaceInstanceFragment extends Fragment implements SmartPlaceConfigurationCallback {
 
     private OnFragmentInteractionListener mListener;
 
-    private Button saveButton;
-    private EditText nameEditText;
+    private static final String SMART_PLACE = "smartPlace";
+
+    private String smartPlaceId;
+
+    private EditText titleEditText;
     private EditText messageEditText;
 
-    private RestaurantOwnerApplication application;
+    private SmartPlacesOwnersApplication application;
 
-    private static final String SMART_PLACE = "smartPlace";
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment SmartPlaceConfigurationFragment.
+     * @return A new instance of fragment UpdateSmartPlaceInstanceFragment.
      */
-    public static SmartPlaceConfigurationFragment newInstance(String smartPlaceId) {
-        SmartPlaceConfigurationFragment fragment = new SmartPlaceConfigurationFragment();
+    public static UpdateSmartPlaceInstanceFragment newInstance(String smartPlaceId) {
+        UpdateSmartPlaceInstanceFragment fragment = new UpdateSmartPlaceInstanceFragment();
         Bundle args = new Bundle();
         args.putString(SMART_PLACE, smartPlaceId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SmartPlaceConfigurationFragment() {
+    public UpdateSmartPlaceInstanceFragment() {
         // Required empty public constructor
     }
 
@@ -55,48 +57,36 @@ public class SmartPlaceConfigurationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            this.smartPlaceId = getArguments().getString(SMART_PLACE);
         }
-        this.application = (RestaurantOwnerApplication) getActivity().getApplication();
+        this.application = (SmartPlacesOwnersApplication) getActivity().getApplication();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_smart_place_configuration, container, false);
+        return inflater.inflate(R.layout.fragment_update_smart_place_instance, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.saveButton = (Button) view.findViewById(R.id.smart_place_configuration_save_button);
-        this.nameEditText = (EditText) view.findViewById(R.id.smart_place_configuration_name_editText);
-        this.messageEditText = (EditText) view.findViewById(R.id.smart_place_configuration_message_editText);
-        this.saveButton.setOnClickListener(new View.OnClickListener() {
+        this.titleEditText = (EditText) view.findViewById(R.id.update_smart_place_instance_title_editText);
+        this.messageEditText = (EditText) view.findViewById(R.id.update_smart_place_instance_message_editText);
+        Button saveButton = (Button) view.findViewById(R.id.update_smart_place_instance_save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                saveConfiguration();
+            public void onClick(View v) {
+                onSaveClicked();
             }
         });
     }
 
-    private void saveConfiguration() {
-        String name = this.nameEditText.getText().toString();
+    private void onSaveClicked() {
+        String title = this.titleEditText.getText().toString();
         String message = this.messageEditText.getText().toString();
-        String smartPlaceId = getArguments().getString(SMART_PLACE);
-        this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().createSmartPlaceInstance(smartPlaceId, name, message,
-                new SmartPlaceConfigurationCallback() {
-                    @Override
-                    public void done(SmartPlaceInstanceObject object) {
-                        onSaveSmartPlaceConfiguration(object);
-                    }
-                });
-    }
-
-    private void onSaveSmartPlaceConfiguration(SmartPlaceInstanceObject object) {
-        this.application.dismissProgressDialog(getActivity());
-        mListener.onSmartPlaceConfigurationSaved(object);
+        this.application.getDataStore().createSmartPlaceInstance(this.smartPlaceId, title, message, this);
     }
 
     @Override
@@ -116,6 +106,11 @@ public class SmartPlaceConfigurationFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void done(SmartPlaceInstanceObject object) {
+        mListener.smartPlaceInstanceSaved(object);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -127,7 +122,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onSmartPlaceConfigurationSaved(SmartPlaceInstanceObject object);
+        void smartPlaceInstanceSaved(SmartPlaceInstanceObject object);
     }
 
 }

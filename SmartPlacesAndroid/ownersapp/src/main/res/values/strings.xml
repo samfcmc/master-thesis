@@ -18,4 +18,5 @@
     <string name="title">Title</string>
     <string name="message">Message</string>
     <string name="smart_place_instances_list_empty">You do not have created smart place instances yet</string>
+    <string name="save">Save</string>
 </resources>

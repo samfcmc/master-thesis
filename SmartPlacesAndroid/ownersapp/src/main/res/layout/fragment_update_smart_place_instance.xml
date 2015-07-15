@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sam.ownersapp.ui.UpdateSmartPlaceInstanceFragment">
+
+    <EditText
+        android:id="@+id/update_smart_place_instance_title_editText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:hint="@string/title" />
+
+    <EditText
+        android:id="@+id/update_smart_place_instance_message_editText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/update_smart_place_instance_title_editText"
+        android:ems="10"
+        android:hint="@string/message"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/update_smart_place_instance_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/save" />
+</RelativeLayout>
