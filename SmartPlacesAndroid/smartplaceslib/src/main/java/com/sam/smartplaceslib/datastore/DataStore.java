@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
@@ -52,16 +52,19 @@ public interface DataStore {
     void getSmartPlace(SmartPlaceInstanceObject smartPlaceInstanceObject,
                        final SmartPlaceCallback callback);
 
-    void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback);
+    void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceInstanceCallback callback);
 
     void createSmartPlaceInstance(String smartPlaceId, String title, String message,
-                                  final SmartPlaceConfigurationCallback callback);
+                                  final SmartPlaceInstanceCallback callback);
 
     void saveSmartPlaceConfiguration(SmartPlaceInstanceObject object,
-                                     SmartPlaceConfigurationCallback callback);
+                                     SmartPlaceInstanceCallback callback);
 
 
     void saveTag(TagObject object, JSONObject jsonObject, TagCallback beaconCallback);
 
     void deleteSmartPlaceInstance(String id, final DeleteCallback callback);
+
+    void updateSmartPlaceInstance(String id, String title, String message,
+                                  SmartPlaceInstanceCallback callback);
 }

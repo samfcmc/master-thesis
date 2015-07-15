@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
@@ -113,7 +113,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
         if (this.smartPlaceConfiguration == null) {
             this.application.showProgressDialog(getActivity());
             this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId,
-                    new SmartPlaceConfigurationCallback() {
+                    new SmartPlaceInstanceCallback() {
                         @Override
                         public void done(SmartPlaceInstanceObject object) {
                             loadCategories(object);
@@ -166,7 +166,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
             categoryJsonObject.put("category", name);
             menu.put(categoryJsonObject);
             this.application.getDataStore().saveSmartPlaceConfiguration(this.smartPlaceConfiguration,
-                    new SmartPlaceConfigurationCallback() {
+                    new SmartPlaceInstanceCallback() {
                         @Override
                         public void done(SmartPlaceInstanceObject object) {
                             categories.add(name);

@@ -18,7 +18,7 @@ import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
@@ -226,7 +226,7 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
-    public void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceConfigurationCallback callback) {
+    public void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceInstanceCallback callback) {
         ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
         ParseUser user = ParseUser.getCurrentUser();
         SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
@@ -243,7 +243,7 @@ public class ParseDataStore extends AbstractDataStore {
 
     @Override
     public void createSmartPlaceInstance(String smartPlaceId, String title, String message,
-                                         final SmartPlaceConfigurationCallback callback) {
+                                         final SmartPlaceInstanceCallback callback) {
         ParseUser user = ParseUser.getCurrentUser();
         final SmartPlaceInstanceParseObject smartPlaceInstance =
                 new SmartPlaceInstanceParseObject(user.getObjectId(), smartPlaceId, new JSONObject(),
@@ -258,7 +258,7 @@ public class ParseDataStore extends AbstractDataStore {
 
     @Override
     public void saveSmartPlaceConfiguration(final SmartPlaceInstanceObject object,
-                                            final SmartPlaceConfigurationCallback callback) {
+                                            final SmartPlaceInstanceCallback callback) {
         ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
         query.getInBackground(object.getId(), new GetCallback<SmartPlaceInstanceParseObject>() {
             @Override
@@ -300,6 +300,21 @@ public class ParseDataStore extends AbstractDataStore {
             @Override
             public void done(ParseException e) {
                 callback.deleted();
+            }
+        });
+    }
+
+    @Override
+    public void updateSmartPlaceInstance(String id, String title, String message,
+                                         final SmartPlaceInstanceCallback callback) {
+        final SmartPlaceInstanceParseObject object = ParseObject.createWithoutData(
+                SmartPlaceInstanceParseObject.class, id);
+        object.setTitle(title);
+        object.setMessage(message);
+        object.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                callback.done(object);
             }
         });
     }

@@ -94,7 +94,7 @@ public class UserActivity extends AppCompatActivity
 
     @Override
     public void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject) {
-        //TODO: Go to UI to edit this instance
+        replaceFragment(UpdateSmartPlaceInstanceFragment.newInstance(smartPlaceInstanceObject));
     }
 
     @Override

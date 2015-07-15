@@ -15,7 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
@@ -118,7 +118,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String smartPlaceId = getArguments().getString(SMART_PLACE_ID);
-        this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
+        this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceInstanceCallback() {
             @Override
             public void done(SmartPlaceInstanceObject object) {
                 loadMenu(object);
@@ -286,7 +286,7 @@ public class MenuFragment extends Fragment implements AbsListView.OnItemClickLis
                     categoryMenuJsonArray.put(menuItemJsonObject);
                     this.object.setData(jsonObject);
                     this.application.getDataStore().saveSmartPlaceConfiguration(this.object,
-                            new SmartPlaceConfigurationCallback() {
+                            new SmartPlaceInstanceCallback() {
                                 @Override
                                 public void done(SmartPlaceInstanceObject object) {
                                     updateList(object, name, price);

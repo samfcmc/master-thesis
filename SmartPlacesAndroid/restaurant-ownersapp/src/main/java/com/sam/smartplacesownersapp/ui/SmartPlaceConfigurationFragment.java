@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplacesownersapp.R;
 import com.sam.smartplacesownersapp.RestaurantOwnerApplication;
@@ -86,7 +86,7 @@ public class SmartPlaceConfigurationFragment extends Fragment {
         String smartPlaceId = getArguments().getString(SMART_PLACE);
         this.application.showProgressDialog(getActivity());
         this.application.getDataStore().createSmartPlaceInstance(smartPlaceId, name, message,
-                new SmartPlaceConfigurationCallback() {
+                new SmartPlaceInstanceCallback() {
                     @Override
                     public void done(SmartPlaceInstanceObject object) {
                         onSaveSmartPlaceConfiguration(object);

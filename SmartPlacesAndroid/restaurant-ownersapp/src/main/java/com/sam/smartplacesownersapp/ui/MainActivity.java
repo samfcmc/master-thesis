@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.ParseDataStore;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
+import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity implements
             // Defined for the restaurant...
             if (this.smartPlaceInstanceObject == null) {
                 showLoading();
-                this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceConfigurationCallback() {
+                this.application.getDataStore().getSmartPlaceConfiguration(smartPlaceId, new SmartPlaceInstanceCallback() {
                     @Override
                     public void done(SmartPlaceInstanceObject object) {
                         stopLoading();
