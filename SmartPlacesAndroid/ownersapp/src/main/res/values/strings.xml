@@ -19,4 +19,8 @@
     <string name="message">Message</string>
     <string name="smart_place_instances_list_empty">You do not have created smart place instances yet</string>
     <string name="save">Save</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
+    <string name="delete_smart_place_instance_confirmation">Delete this Smart Place Instance?</string>
 </resources>

@@ -16,6 +16,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
+import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
@@ -287,6 +288,18 @@ public class ParseDataStore extends AbstractDataStore {
                         callback.done(tagParseObject);
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void deleteSmartPlaceInstance(String id, final DeleteCallback callback) {
+        SmartPlaceInstanceParseObject parseObject = ParseObject
+                .createWithoutData(SmartPlaceInstanceParseObject.class, id);
+        parseObject.deleteInBackground(new com.parse.DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                callback.deleted();
             }
         });
     }

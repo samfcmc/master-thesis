@@ -3,6 +3,7 @@ package com.sam.smartplaceslib.datastore;
 import android.content.Intent;
 
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
+import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceConfigurationCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
@@ -61,4 +62,6 @@ public interface DataStore {
 
 
     void saveTag(TagObject object, JSONObject jsonObject, TagCallback beaconCallback);
+
+    void deleteSmartPlaceInstance(String id, final DeleteCallback callback);
 }
