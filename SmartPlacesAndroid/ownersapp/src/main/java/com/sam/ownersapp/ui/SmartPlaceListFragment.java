@@ -23,10 +23,10 @@ import java.util.List;
 
 /**
  * A fragment representing a list of Items.
- * <p>
+ * <p/>
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
@@ -158,7 +158,7 @@ public class SmartPlaceListFragment extends Fragment implements AbsListView.OnIt
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
@@ -180,20 +180,32 @@ public class SmartPlaceListFragment extends Fragment implements AbsListView.OnIt
                 LayoutInflater layoutInflater = (LayoutInflater) getContext()
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = layoutInflater.inflate(R.layout.smart_place_list_item_layout, parent, false);
+                TextView nameTextView = (TextView) convertView
+                        .findViewById(R.id.smart_place_list_item_name_textView);
+                TextView shortDescriptionTextView = (TextView) convertView
+                        .findViewById(R.id.smart_place_list_item_short_description_textView);
+                ViewHolder viewHolder = new ViewHolder(nameTextView, shortDescriptionTextView);
+                convertView.setTag(viewHolder);
             }
             SmartPlaceObject item = getItem(position);
+            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
 
-            TextView nameTextView = (TextView) convertView
-                    .findViewById(R.id.smart_place_list_item_name_textView);
-            TextView shortDescriptionTextView = (TextView) convertView
-                    .findViewById(R.id.smart_place_list_item_short_description_textView);
-
-            nameTextView.setText(item.getName());
+            viewHolder.nameTextView.setText(item.getName());
             String shortDescription = item.getDescription().substring(0, SHORT_DESCRIPTION_SIZE)
                     + "...";
-            shortDescriptionTextView.setText(shortDescription);
+            viewHolder.shortDescriptionTextView.setText(shortDescription);
 
             return convertView;
+        }
+    }
+
+    private class ViewHolder {
+        public TextView nameTextView;
+        public TextView shortDescriptionTextView;
+
+        public ViewHolder(TextView nameTextView, TextView shortDescriptionTextView) {
+            this.nameTextView = nameTextView;
+            this.shortDescriptionTextView = shortDescriptionTextView;
         }
     }
 
