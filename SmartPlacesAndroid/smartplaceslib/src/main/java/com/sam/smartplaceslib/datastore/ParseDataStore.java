@@ -137,6 +137,7 @@ public class ParseDataStore extends AbstractDataStore {
     public void getUserSmartPlaceInstances(final SmartPlaceInstancesCallback callback) {
         ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
         ParseUser user = ParseUser.getCurrentUser();
+        query.include(SmartPlaceInstanceParseObject.SMART_PLACE);
         query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
         query.findInBackground(new FindCallback<SmartPlaceInstanceParseObject>() {
             @Override

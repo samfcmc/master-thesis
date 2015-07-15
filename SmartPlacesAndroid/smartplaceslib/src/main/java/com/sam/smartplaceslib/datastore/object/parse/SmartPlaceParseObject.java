@@ -24,7 +24,6 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     }
 
     public SmartPlaceParseObject(ParseObject parseObject) {
-        super(parseObject);
         updateFromParseObject(parseObject);
     }
 

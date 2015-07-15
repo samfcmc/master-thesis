@@ -71,7 +71,11 @@ public class SmartPlaceInstanceParseObject extends AbstractParseObject implement
 
     @Override
     public SmartPlaceObject getSmartPlace() {
-        return new SmartPlaceParseObject(getParseObject(SMART_PLACE));
+        ParseObject parseObject = getParseObject(SMART_PLACE);
+        SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
+                SmartPlaceParseObject.class, parseObject.getObjectId());
+        smartPlaceParseObject.updateFromParseObject(parseObject);
+        return smartPlaceParseObject;
     }
 
     @Override

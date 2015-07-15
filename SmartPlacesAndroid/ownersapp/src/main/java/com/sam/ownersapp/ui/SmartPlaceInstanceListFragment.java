@@ -219,14 +219,18 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
                 TextView titleTextView = (TextView) convertView
                         .findViewById(R.id.smart_place_instance_list_item_title_textView);
                 TextView messageTextView = (TextView) convertView
-                        .findViewById(R.id.smart_place_instance_list_item_message_textViewtextView);
-                ViewHolder viewHolder = new ViewHolder(titleTextView, messageTextView);
+                        .findViewById(R.id.smart_place_instance_list_item_message_textView);
+                TextView smartPlaceNameTextView = (TextView)
+                        convertView.findViewById(R.id.smart_place_instance_list_item_smart_place_textView);
+                ViewHolder viewHolder = new ViewHolder(titleTextView, messageTextView,
+                        smartPlaceNameTextView);
                 convertView.setTag(viewHolder);
             }
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             SmartPlaceInstanceObject item = getItem(position);
             viewHolder.titleTextView.setText(item.getTitle());
             viewHolder.messageTextView.setText(item.getMessage());
+            viewHolder.smartPlaceNameTextView.setText(item.getSmartPlace().getName());
             return convertView;
         }
     }
@@ -234,10 +238,12 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
     private class ViewHolder {
         public TextView titleTextView;
         public TextView messageTextView;
+        public TextView smartPlaceNameTextView;
 
-        public ViewHolder(TextView titleTextView, TextView messageTextView) {
+        public ViewHolder(TextView titleTextView, TextView messageTextView, TextView smartPlaceNameTextView) {
             this.titleTextView = titleTextView;
             this.messageTextView = messageTextView;
+            this.smartPlaceNameTextView = smartPlaceNameTextView;
         }
     }
 

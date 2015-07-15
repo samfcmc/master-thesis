@@ -23,4 +23,5 @@
     <string name="no">No</string>
     <string name="delete">Delete</string>
     <string name="delete_smart_place_instance_confirmation">Delete this Smart Place Instance?</string>
+    <string name="smart_place">Smart Place:</string>
 </resources>
