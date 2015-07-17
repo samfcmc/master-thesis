@@ -41,10 +41,17 @@ public class UpdateSmartPlaceInstanceActivity extends AppCompatActivity implemen
     }
 
     public static Intent getIntent(Context context, SmartPlaceInstanceObject smartPlaceInstanceObject) {
+        String title = smartPlaceInstanceObject.getTitle();
+        String message = smartPlaceInstanceObject.getMessage();
+        String id = smartPlaceInstanceObject.getId();
+        return getIntent(context, id, title, message);
+    }
+
+    public static Intent getIntent(Context context, String id, String title, String message) {
         Intent intent = new Intent(context, UpdateSmartPlaceInstanceActivity.class);
-        intent.putExtra(TITLE, smartPlaceInstanceObject.getTitle());
-        intent.putExtra(MESSAGE, smartPlaceInstanceObject.getMessage());
-        intent.putExtra(ID, smartPlaceInstanceObject.getId());
+        intent.putExtra(TITLE, title);
+        intent.putExtra(MESSAGE, message);
+        intent.putExtra(ID, id);
         intent.putExtra(EDIT, true);
         return intent;
     }

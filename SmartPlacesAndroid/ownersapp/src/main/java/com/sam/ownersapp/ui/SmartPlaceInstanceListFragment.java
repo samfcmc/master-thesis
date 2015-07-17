@@ -1,9 +1,8 @@
 package com.sam.ownersapp.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,7 +34,6 @@ import java.util.List;
  * interface.
  */
 public class SmartPlaceInstanceListFragment extends Fragment implements AbsListView.OnItemClickListener,
-        AbsListView.OnItemLongClickListener,
         SmartPlaceInstancesCallback, DeleteCallback {
 
     private OnFragmentInteractionListener mListener;
@@ -52,6 +50,8 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
     private SmartPlaceInstanceListAdapter mAdapter;
 
     private SmartPlacesOwnersApplication application;
+
+    private static final int REQUEST_SHOW_INSTANCE = 3;
 
     public static SmartPlaceInstanceListFragment newInstance() {
         SmartPlaceInstanceListFragment fragment = new SmartPlaceInstanceListFragment();
@@ -83,7 +83,6 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-        mListView.setOnItemLongClickListener(this);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -94,6 +93,11 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Empty text view
+        TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(emptyTextView);
+
         this.application.showProgressDialog(getActivity());
         this.application.getDataStore().getUserSmartPlaceInstances(this);
     }
@@ -117,8 +121,26 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            mListener.onSmartPlaceInstanceSelected(mAdapter.getItem(position));
+        SmartPlaceInstanceObject object = mAdapter.getItem(position);
+        showSmartPlaceInstance(object);
+    }
+
+    private void showSmartPlaceInstance(SmartPlaceInstanceObject object) {
+        Intent intent = ShowSmartPlaceInstanceActivity.getIntent(getActivity(), object);
+        startActivityForResult(intent, REQUEST_SHOW_INSTANCE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SHOW_INSTANCE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String id = data.getStringExtra(ShowSmartPlaceInstanceActivity.RESULT_DELETE);
+                if (id != null) {
+                    this.application.showProgressDialog(getActivity());
+                    this.application.getDataStore().getUserSmartPlaceInstances(this);
+                }
+            }
         }
     }
 
@@ -138,50 +160,16 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
     @Override
     public void done(List<SmartPlaceInstanceObject> list) {
         this.application.dismissProgressDialog(getActivity());
+        refreshListView(list);
         if (list.isEmpty()) {
             String emptyText = getString(R.string.smart_place_instances_list_empty);
             setEmptyText(emptyText);
-        } else {
-            refreshListView(list);
         }
     }
 
     private void refreshListView(List<SmartPlaceInstanceObject> list) {
         mAdapter = new SmartPlaceInstanceListAdapter(list);
         mListView.setAdapter(mAdapter);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        final SmartPlaceInstanceObject item = mAdapter.getItem(position);
-        AlertDialog alertDialog = createDeleteAlertDialog(item);
-        alertDialog.show();
-        return true;
-    }
-
-    private AlertDialog createDeleteAlertDialog(final SmartPlaceInstanceObject item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Add the buttons
-        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                deleteSmartPlaceInstance(item);
-            }
-        });
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing...
-            }
-        });
-
-        builder.setTitle(R.string.delete);
-        builder.setMessage(R.string.delete_smart_place_instance_confirmation);
-
-        return builder.create();
-    }
-
-    private void deleteSmartPlaceInstance(SmartPlaceInstanceObject item) {
-        this.application.getDataStore().deleteSmartPlaceInstance(item.getId(), this);
     }
 
     @Override
@@ -201,7 +189,6 @@ public class SmartPlaceInstanceListFragment extends Fragment implements AbsListV
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject);
     }
 
     private class SmartPlaceInstanceListAdapter extends ArrayAdapter<SmartPlaceInstanceObject> {

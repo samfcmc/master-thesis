@@ -19,8 +19,15 @@
         <item name="android:displayOptions">useLogo|showHome</item>
     </style>
 
+    <style name="deleteButton">
+        <item name="android:background">@color/deleteBackground</item>
+        <item name="android:textColor">@color/deleteText</item>
+    </style>
+
     <color name="toolbar_background">#ff5ec8ff</color>
     <color name="toolbar_text">#ffffff</color>
     <color name="menu">#000000</color>
+    <color name="deleteBackground">#ffd24f44</color>
+    <color name="deleteText">#ffffff</color>
 
 </resources>

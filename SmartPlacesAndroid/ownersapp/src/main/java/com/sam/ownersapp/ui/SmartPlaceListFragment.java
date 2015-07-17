@@ -77,6 +77,10 @@ public class SmartPlaceListFragment extends Fragment implements AbsListView.OnIt
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Empty state
+        TextView emptyTextView = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(emptyTextView);
+
         // Get smart places from the backend
         this.application.showProgressDialog(getActivity());
         this.application.getDataStore().getSmartPlaces(this);

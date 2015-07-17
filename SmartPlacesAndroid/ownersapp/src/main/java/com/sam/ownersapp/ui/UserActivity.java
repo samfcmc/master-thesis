@@ -15,7 +15,6 @@ import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import java.util.List;
@@ -31,6 +30,7 @@ public class UserActivity extends AppCompatActivity
     private static final String INSTANCES = "instances";
 
     private static final int REQUEST_UPDATE_INSTANCE = 2;
+    private static final int REQUEST_SHOW_INSTANCE = 3;
 
     private FragmentTabHost tabHost;
 
@@ -133,13 +133,7 @@ public class UserActivity extends AppCompatActivity
     @Override
     public void onSmartPlaceSelected(SmartPlaceObject smartPlaceObject) {
         Intent intent = ShowSmartPlaceActivity.getIntent(smartPlaceObject, this);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject) {
-        Intent intent = UpdateSmartPlaceInstanceActivity.getIntent(this, smartPlaceInstanceObject);
-        startActivityForResult(intent, REQUEST_UPDATE_INSTANCE);
+        startActivityForResult(intent, REQUEST_SHOW_INSTANCE);
     }
 
     @Override
