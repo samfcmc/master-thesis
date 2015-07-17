@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,9 +23,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
+
         this.application = (SmartPlacesOwnersApplication) getApplication();
         if (this.application.getDataStore().isUserLoggedIn()) {
             goToUserActivity();
+        } else {
+            replaceFragment(MainActivityFragment.newInstance());
         }
     }
 

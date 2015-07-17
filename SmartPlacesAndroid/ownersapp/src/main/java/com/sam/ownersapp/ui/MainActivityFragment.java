@@ -25,6 +25,13 @@ public class MainActivityFragment extends Fragment {
     private SmartPlacesOwnersApplication application;
     private OnFragmentInteractionListener listener;
 
+    public static MainActivityFragment newInstance() {
+        MainActivityFragment fragment = new MainActivityFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public MainActivityFragment() {
     }
 

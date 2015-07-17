@@ -1,9 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <!--<item name="android:actionBarStyle">@style/ActionBar</item>-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
+
+    <style name="Toolbar" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/toolbar_text</item>
+        <item name="android:textColorSecondary">@color/menu</item>
+        <item name="android:background">@color/toolbar_background</item>
     </style>
 
     <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse"></style>
@@ -15,5 +18,9 @@
     <style name="ActionBarWithoutTitle" parent="@style/ActionBar">
         <item name="android:displayOptions">useLogo|showHome</item>
     </style>
+
+    <color name="toolbar_background">#ff5ec8ff</color>
+    <color name="toolbar_text">#ffffff</color>
+    <color name="menu">#000000</color>
 
 </resources>

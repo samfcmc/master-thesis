@@ -28,8 +28,10 @@
         </activity>
         <activity
             android:name=".ui.UserActivity"
-            android:label="@string/title_activity_user"
-            android:theme="@style/AppThemeWithoutActionBarTitle"></activity>
+            android:label="@string/title_activity_user"></activity>
+        <activity
+            android:name=".ui.ShowSmartPlaceActivity"
+            android:label="@string/title_activity_show_smart_place"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
