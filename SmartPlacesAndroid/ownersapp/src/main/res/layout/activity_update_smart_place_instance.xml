@@ -4,29 +4,55 @@
     android:layout_height="match_parent"
     tools:context="com.sam.ownersapp.ui.UpdateSmartPlaceInstanceActivity">
 
-    <EditText
-        android:id="@+id/update_smart_place_instance_title_editText"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/update_smartplace_instance_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Toolbar">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/update_smartplace_instance_save_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_toRightOf="@+id/update_smartplace_instance_save_icon"
+                android:text="@string/update_smart_place_instance"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:hint="@string/title" />
+        android:layout_below="@+id/update_smartplace_instance_toolbar">
 
-    <EditText
-        android:id="@+id/update_smart_place_instance_message_editText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/update_smart_place_instance_title_editText"
-        android:ems="10"
-        android:hint="@string/message"
-        android:inputType="textMultiLine" />
+        <EditText
+            android:id="@+id/update_smart_place_instance_title_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:hint="@string/title" />
 
-    <Button
-        android:id="@+id/update_smart_place_instance_save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:text="@string/save" />
+        <EditText
+            android:id="@+id/update_smart_place_instance_message_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/update_smart_place_instance_title_editText"
+            android:ems="10"
+            android:hint="@string/message"
+            android:inputType="textMultiLine" />
+
+    </RelativeLayout>
 </RelativeLayout>

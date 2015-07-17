@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
@@ -77,16 +77,16 @@ public class UpdateSmartPlaceInstanceActivity extends AppCompatActivity implemen
             this.messageEditText.setText(message);
         }
 
-        Button saveButton = (Button) findViewById(R.id.update_smart_place_instance_save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        ImageView saveImageView = (ImageView) findViewById(R.id.update_smartplace_instance_save_icon);
+        saveImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSaveClicked();
+                save();
             }
         });
     }
 
-    private void onSaveClicked() {
+    private void save() {
         Intent intent = getIntent();
         String title = this.titleEditText.getText().toString();
         String message = this.messageEditText.getText().toString();
