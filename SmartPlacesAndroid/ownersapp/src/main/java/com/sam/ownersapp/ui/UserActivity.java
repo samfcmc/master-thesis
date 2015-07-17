@@ -23,10 +23,16 @@ import java.util.List;
 public class UserActivity extends AppCompatActivity
         implements SmartPlaceListFragment.OnFragmentInteractionListener,
         SmartPlaceInstanceListFragment.OnFragmentInteractionListener,
-        UpdateSmartPlaceInstanceFragment.OnFragmentInteractionListener,
         LogoutCallback {
 
     private SmartPlacesOwnersApplication application;
+
+    private static final String SMART_PLACES = "smartPlaces";
+    private static final String INSTANCES = "instances";
+
+    private static final int REQUEST_UPDATE_INSTANCE = 2;
+
+    private FragmentTabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +46,13 @@ public class UserActivity extends AppCompatActivity
     }
 
     private void setUpTabs() {
-        FragmentTabHost tabHost = (FragmentTabHost) findViewById(R.id.user_tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), R.id.user_tabcontent);
+        this.tabHost = (FragmentTabHost) findViewById(R.id.user_tabhost);
+        this.tabHost.setup(this, getSupportFragmentManager(), R.id.user_tabcontent);
         String tabTitle = getString(R.string.action_smart_places);
-        tabHost.addTab(tabHost.newTabSpec(tabTitle).setIndicator(tabTitle),
+        this.tabHost.addTab(tabHost.newTabSpec(SMART_PLACES).setIndicator(tabTitle),
                 SmartPlaceListFragment.class, new Bundle());
         tabTitle = getString(R.string.action_instances);
-        tabHost.addTab(tabHost.newTabSpec(tabTitle).setIndicator(tabTitle),
+        this.tabHost.addTab(tabHost.newTabSpec(INSTANCES).setIndicator(tabTitle),
                 SmartPlaceInstanceListFragment.class, new Bundle());
     }
 
@@ -111,19 +117,8 @@ public class UserActivity extends AppCompatActivity
     }
 
     private void goToSmartPlaceInstancesList() {
-        replaceFragment(SmartPlaceInstanceListFragment.newInstance());
-    }
-
-    private void replaceFragment(final Fragment fragment) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                detachFragments(transaction);
-                transaction.replace(R.id.user_tabcontent, fragment);
-                transaction.commit();
-            }
-        });
+        FragmentTabHost tabHost = (FragmentTabHost) findViewById(R.id.user_tabhost);
+        tabHost.setCurrentTabByTag(SMART_PLACES);
     }
 
     private void logToDisplay(final String message) {
@@ -135,10 +130,6 @@ public class UserActivity extends AppCompatActivity
         });
     }
 
-    private void goToSmartPlaceList() {
-        replaceFragment(SmartPlaceListFragment.newInstance());
-    }
-
     @Override
     public void onSmartPlaceSelected(SmartPlaceObject smartPlaceObject) {
         Intent intent = ShowSmartPlaceActivity.getIntent(smartPlaceObject, this);
@@ -147,12 +138,18 @@ public class UserActivity extends AppCompatActivity
 
     @Override
     public void onSmartPlaceInstanceSelected(SmartPlaceInstanceObject smartPlaceInstanceObject) {
-        replaceFragment(UpdateSmartPlaceInstanceFragment.newInstance(smartPlaceInstanceObject));
+        Intent intent = UpdateSmartPlaceInstanceActivity.getIntent(this, smartPlaceInstanceObject);
+        startActivityForResult(intent, REQUEST_UPDATE_INSTANCE);
     }
 
     @Override
-    public void smartPlaceInstanceSaved(SmartPlaceInstanceObject object) {
-        replaceFragment(SmartPlaceInstanceListFragment.newInstance());
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_UPDATE_INSTANCE) {
+            if (resultCode == RESULT_OK) {
+                goToSmartPlaceInstancesList();
+            }
+        }
     }
 
     // Logout

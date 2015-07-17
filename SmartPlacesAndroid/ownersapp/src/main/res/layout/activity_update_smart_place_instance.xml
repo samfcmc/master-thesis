@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sam.ownersapp.ui.UpdateSmartPlaceInstanceFragment">
+    tools:context="com.sam.ownersapp.ui.UpdateSmartPlaceInstanceActivity">
 
     <EditText
         android:id="@+id/update_smart_place_instance_title_editText"

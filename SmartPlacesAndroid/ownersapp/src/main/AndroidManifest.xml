@@ -33,6 +33,10 @@
             android:name=".ui.ShowSmartPlaceActivity"
             android:label="@string/title_activity_show_smart_place"></activity>
         <activity
+            android:name=".ui.UpdateSmartPlaceInstanceActivity"
+            android:label="@string/title_activity_update_smart_place_instance"></activity>
+
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"

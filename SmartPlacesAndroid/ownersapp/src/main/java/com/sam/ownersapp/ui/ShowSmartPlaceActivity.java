@@ -63,7 +63,9 @@ public class ShowSmartPlaceActivity extends AppCompatActivity {
     }
 
     private void createInstance() {
-        //TODO:
+        Intent intent = UpdateSmartPlaceInstanceActivity.getIntent(this, this.id);
+        startActivity(intent);
+        finish();
     }
 
 
