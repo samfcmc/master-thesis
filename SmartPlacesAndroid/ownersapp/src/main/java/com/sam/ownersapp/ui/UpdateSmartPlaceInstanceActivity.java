@@ -114,6 +114,8 @@ public class UpdateSmartPlaceInstanceActivity extends AppCompatActivity implemen
         intent.putExtra(TITLE, object.getTitle());
         intent.putExtra(MESSAGE, object.getMessage());
         setResult(RESULT_OK, intent);
+        String savedMessage = getString(R.string.smart_place_instance_saved);
+        this.application.logToDisplay(this, savedMessage);
         finish();
     }
 

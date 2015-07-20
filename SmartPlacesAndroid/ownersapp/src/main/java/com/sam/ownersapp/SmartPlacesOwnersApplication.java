@@ -3,9 +3,9 @@ package com.sam.ownersapp;
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.widget.Toast;
 
-import com.sam.ownersapp.R;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplaceslib.datastore.DataStore;
@@ -110,5 +110,14 @@ public class SmartPlacesOwnersApplication extends Application implements Bootstr
                 progressDialog.dismiss();
             }
         });
+    }
+
+    public void logToDisplay(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void logToDisplay(Context context, int stringId) {
+        String s = getString(stringId);
+        logToDisplay(context, s);
     }
 }
