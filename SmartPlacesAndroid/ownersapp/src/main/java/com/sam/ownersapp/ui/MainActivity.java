@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
-import com.sam.smartplaceslib.datastore.ParseDataStore;
+import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.OnFragmentInteractionListener {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == ParseDataStore.REQUEST_LOGIN) {
+        if (resultCode == RESULT_OK && requestCode == ClientParseDataStore.REQUEST_LOGIN) {
             this.application.getDataStore().afterLoginOnActivityResult(requestCode, resultCode, data);
         }
     }

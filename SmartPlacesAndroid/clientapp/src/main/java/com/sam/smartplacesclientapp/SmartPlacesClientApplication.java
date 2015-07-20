@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconsManager;
-import com.sam.smartplaceslib.datastore.DataStore;
-import com.sam.smartplaceslib.datastore.ParseDataStore;
+import com.sam.smartplaceslib.datastore.ClientDataStore;
+import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
 
 import org.altbeacon.beacon.Beacon;
@@ -32,7 +32,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     private Region region;
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
-    private DataStore dataStore;
+    private ClientDataStore dataStore;
 
     private BeaconsManager<Beacon> beaconsManager;
 
@@ -53,14 +53,14 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
 
     private void initDataStore() {
         try {
-            this.dataStore = ParseDataStore.fromRawJsonResource(this, R.raw.parse);
+            this.dataStore = ClientParseDataStore.fromRawJsonResource(this, R.raw.parse);
         } catch (IOException e) {
             logToDisplay("Error creating data store object");
             throw new CannotFindParseJsonFile();
         }
     }
 
-    public DataStore getDataStore() {
+    public ClientDataStore getDataStore() {
         return this.dataStore;
     }
 

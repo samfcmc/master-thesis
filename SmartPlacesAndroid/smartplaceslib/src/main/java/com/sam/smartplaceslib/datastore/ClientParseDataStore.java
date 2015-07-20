@@ -2,21 +2,15 @@ package com.sam.smartplaceslib.datastore;
 
 import android.app.Application;
 
-import com.facebook.FacebookSdk;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
-import com.sam.smartplaceslib.datastore.callback.DataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
@@ -24,7 +18,6 @@ import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.BeaconGetCallback;
-import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreSaveCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceFindCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceFindCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceGetCallback;
@@ -34,7 +27,6 @@ import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
-import com.sam.smartplaceslib.datastore.object.parse.AbstractParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
@@ -44,57 +36,23 @@ import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * DataStore implementation to work with Parse.com BaaS
  */
-public class ParseDataStore extends AbstractDataStore {
+public class ClientParseDataStore extends AbstractDataStore implements ClientDataStore {
 
-    public static int REQUEST_LOGIN = 2;
-
-    public static ParseDataStore fromRawJsonResource(Application application, int jsonRawResId) throws IOException {
-        InputStream inputStream = application.getResources().openRawResource(jsonRawResId);
-        int size = inputStream.available();
-
-        byte[] buffer = new byte[size];
-
-        inputStream.read(buffer);
-
-        inputStream.close();
-
-        String json = new String(buffer, "UTF-8");
-        JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
-        String appId = jsonObject.get("appId").getAsString();
-        String clientKey = jsonObject.get("clientKey").getAsString();
-        String facebookAppId = jsonObject.get("facebookAppId").getAsString();
-        return new ParseDataStore(application, appId, clientKey, facebookAppId);
+    public static ClientDataStore fromRawJsonResource(Application application, int jsonRawResourceId) throws IOException {
+        DataStoreCredentials dataStoreCredentials = DataStoreCredentials
+                .fromJsonRawResource(application, jsonRawResourceId);
+        return new ClientParseDataStore(application, dataStoreCredentials);
     }
 
-    public ParseDataStore(Application application, String applicationId, String clientKey, String facebookAppId) {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(application);
-        registerSubclasses();
-        Parse.initialize(application, applicationId, clientKey);
-        FacebookSdk.setApplicationId(facebookAppId);
-        ParseFacebookUtils.initialize(application, REQUEST_LOGIN);
-    }
 
-    private void registerSubclasses() {
-        ParseObject.registerSubclass(BeaconParseObject.class);
-        ParseObject.registerSubclass(SmartPlaceInstanceParseObject.class);
-        ParseObject.registerSubclass(SmartPlaceParseObject.class);
-        ParseObject.registerSubclass(TagParseObject.class);
-    }
-
-    private <T extends ParseObject> ParseQuery<T> getQuery(Class<T> clazz) {
-        return ParseQuery.getQuery(clazz);
-    }
-
-    private <T extends AbstractParseObject> void save(T object, DataStoreCallback<? super T> callback) {
-        object.saveInBackground(new ParseDataStoreSaveCallback<T>(callback, object));
+    public ClientParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
+        super(application, dataStoreCredentials);
     }
 
     @Override

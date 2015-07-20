@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sam.smartplaceslib.datastore.DataStoreException;
-import com.sam.smartplaceslib.datastore.ParseDataStore;
+import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity implements
 
     RestaurantOwnerApplication application;
 
-    public static final int LOGIN_REQUEST = ParseDataStore.REQUEST_LOGIN;
+    public static final int LOGIN_REQUEST = ClientParseDataStore.REQUEST_LOGIN;
     public static final int TURN_BT_ON_REQUEST = 3;
 
     private SmartPlaceInstanceObject smartPlaceInstanceObject;
