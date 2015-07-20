@@ -4,19 +4,25 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.facebook.FacebookSdk;
+import com.parse.LogOutCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.sam.smartplaceslib.datastore.callback.DataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreSaveCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
+import com.sam.smartplaceslib.datastore.login.LogoutCallback;
+import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplaceslib.datastore.object.parse.AbstractParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
+import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 
 /**
  *
@@ -55,6 +61,33 @@ public abstract class AbstractDataStore implements DataStore {
     public void login(LoginStrategy loginStrategy, LoginCallback callback) {
         this.loginStrategy = loginStrategy;
         this.loginStrategy.login(callback);
+    }
+
+    @Override
+    public UserObject getCurrentUser() {
+        ParseUser user = ParseUser.getCurrentUser();
+        if (user == null) {
+            return null;
+        } else {
+            return new UserParseObject(user);
+        }
+
+    }
+
+    @Override
+    public boolean isUserLoggedIn() {
+        return getCurrentUser() != null;
+    }
+
+    @Override
+    public void logout(final LogoutCallback callback) {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                DataStoreException exception = new DataStoreException(e);
+                callback.done(exception);
+            }
+        });
     }
 
     @Override

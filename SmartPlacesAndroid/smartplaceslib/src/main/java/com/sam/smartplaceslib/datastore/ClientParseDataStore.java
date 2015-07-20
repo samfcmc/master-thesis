@@ -4,34 +4,26 @@ import android.app.Application;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
-import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.BeaconGetCallback;
-import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceFindCallback;
-import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceFindCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceGetCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.TagGetCallback;
-import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
-import com.sam.smartplaceslib.datastore.object.UserObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
-import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 
 import org.json.JSONObject;
 
@@ -50,7 +42,6 @@ public class ClientParseDataStore extends AbstractDataStore implements ClientDat
         return new ClientParseDataStore(application, dataStoreCredentials);
     }
 
-
     public ClientParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
         super(application, dataStoreCredentials);
     }
@@ -60,12 +51,6 @@ public class ClientParseDataStore extends AbstractDataStore implements ClientDat
         ParseQuery<BeaconParseObject> query = getBeaconQuery(beaconInfo);
 
         query.getFirstInBackground(new BeaconGetCallback(callback));
-    }
-
-    @Override
-    public void getSmartPlaces(final SmartPlacesCallback callback) {
-        ParseQuery<SmartPlaceParseObject> query = getQuery(SmartPlaceParseObject.class);
-        query.findInBackground(new SmartPlaceFindCallback(callback));
     }
 
     @Override
@@ -89,15 +74,6 @@ public class ClientParseDataStore extends AbstractDataStore implements ClientDat
             }
         });
 
-    }
-
-    @Override
-    public void getUserSmartPlaceInstances(final SmartPlaceInstancesCallback callback) {
-        ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
-        ParseUser user = ParseUser.getCurrentUser();
-        query.include(SmartPlaceInstanceParseObject.SMART_PLACE);
-        query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
-        query.findInBackground(new SmartPlaceInstanceFindCallback(callback));
     }
 
     private ParseQuery<BeaconParseObject> getBeaconQuery(BeaconInfo beaconInfo) {
@@ -171,16 +147,6 @@ public class ClientParseDataStore extends AbstractDataStore implements ClientDat
         query.getFirstInBackground(new SmartPlaceInstanceGetCallback(callback));
     }
 
-    @Override
-    public void createSmartPlaceInstance(String smartPlaceId, String title, String message,
-                                         final SmartPlaceInstanceCallback callback) {
-        ParseUser user = ParseUser.getCurrentUser();
-        final SmartPlaceInstanceParseObject smartPlaceInstance =
-                new SmartPlaceInstanceParseObject(user.getObjectId(), smartPlaceId, new JSONObject(),
-                        title, message);
-        save(smartPlaceInstance, callback);
-    }
-
 
     @Override
     public void saveSmartPlaceInstance(final SmartPlaceInstanceObject object,
@@ -217,60 +183,5 @@ public class ClientParseDataStore extends AbstractDataStore implements ClientDat
             }
         });
     }
-
-    @Override
-    public void deleteSmartPlaceInstance(String id, final DeleteCallback callback) {
-        SmartPlaceInstanceParseObject parseObject = ParseObject
-                .createWithoutData(SmartPlaceInstanceParseObject.class, id);
-        parseObject.deleteInBackground(new com.parse.DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                callback.deleted();
-            }
-        });
-    }
-
-    @Override
-    public void updateSmartPlaceInstance(String id, String title, String message,
-                                         final SmartPlaceInstanceCallback callback) {
-        final SmartPlaceInstanceParseObject object = ParseObject.createWithoutData(
-                SmartPlaceInstanceParseObject.class, id);
-        object.setTitle(title);
-        object.setMessage(message);
-        object.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                callback.done(object);
-            }
-        });
-    }
-
-    @Override
-    public UserObject getCurrentUser() {
-        ParseUser user = ParseUser.getCurrentUser();
-        if (user == null) {
-            return null;
-        } else {
-            return new UserParseObject(user);
-        }
-
-    }
-
-    @Override
-    public boolean isUserLoggedIn() {
-        return getCurrentUser() != null;
-    }
-
-    @Override
-    public void logout(final LogoutCallback callback) {
-        ParseUser.logOutInBackground(new LogOutCallback() {
-            @Override
-            public void done(ParseException e) {
-                DataStoreException exception = new DataStoreException(e);
-                callback.done(exception);
-            }
-        });
-    }
-
 
 }
