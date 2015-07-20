@@ -16,18 +16,25 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
+import com.sam.smartplaceslib.datastore.callback.DataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlacesCallback;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.BeaconGetCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreSaveCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceFindCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceFindCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.SmartPlaceInstanceGetCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.TagGetCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
-import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.datastore.object.UserObject;
+import com.sam.smartplaceslib.datastore.object.parse.AbstractParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
@@ -86,28 +93,21 @@ public class ParseDataStore extends AbstractDataStore {
         return ParseQuery.getQuery(clazz);
     }
 
+    private <T extends AbstractParseObject> void save(T object, DataStoreCallback<? super T> callback) {
+        object.saveInBackground(new ParseDataStoreSaveCallback<T>(callback, object));
+    }
+
     @Override
     public void getBeacon(BeaconInfo beaconInfo, final BeaconCallback callback) {
         ParseQuery<BeaconParseObject> query = getBeaconQuery(beaconInfo);
 
-        query.getFirstInBackground(new GetCallback<BeaconParseObject>() {
-            @Override
-            public void done(BeaconParseObject beaconParseObject, ParseException e) {
-                callback.done(beaconParseObject);
-            }
-        });
+        query.getFirstInBackground(new BeaconGetCallback(callback));
     }
 
     @Override
     public void getSmartPlaces(final SmartPlacesCallback callback) {
         ParseQuery<SmartPlaceParseObject> query = getQuery(SmartPlaceParseObject.class);
-        query.findInBackground(new FindCallback<SmartPlaceParseObject>() {
-            @Override
-            public void done(List<SmartPlaceParseObject> list, ParseException e) {
-                List<SmartPlaceObject> resultList = new ArrayList<SmartPlaceObject>(list);
-                callback.done(resultList);
-            }
-        });
+        query.findInBackground(new SmartPlaceFindCallback(callback));
     }
 
     @Override
@@ -139,13 +139,7 @@ public class ParseDataStore extends AbstractDataStore {
         ParseUser user = ParseUser.getCurrentUser();
         query.include(SmartPlaceInstanceParseObject.SMART_PLACE);
         query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
-        query.findInBackground(new FindCallback<SmartPlaceInstanceParseObject>() {
-            @Override
-            public void done(List<SmartPlaceInstanceParseObject> list, ParseException e) {
-                List<SmartPlaceInstanceObject> resultList = new ArrayList<SmartPlaceInstanceObject>(list);
-                callback.done(resultList);
-            }
-        });
+        query.findInBackground(new SmartPlaceInstanceFindCallback(callback));
     }
 
     private ParseQuery<BeaconParseObject> getBeaconQuery(BeaconInfo beaconInfo) {
@@ -157,33 +151,15 @@ public class ParseDataStore extends AbstractDataStore {
     }
 
     @Override
-    public void getTag(BeaconInfo beaconInfo, final TagCallback callback) {
-        ParseQuery<BeaconParseObject> beaconQuery = getBeaconQuery(beaconInfo);
-        ParseQuery<TagParseObject> tagQuery = getQuery(TagParseObject.class);
-        tagQuery = tagQuery.whereMatchesQuery(TagParseObject.BEACON, beaconQuery);
-        tagQuery.getFirstInBackground(new GetCallback<TagParseObject>() {
-            @Override
-            public void done(TagParseObject tagParseObject, ParseException e) {
-                callback.done(tagParseObject);
-            }
-        });
-    }
-
-    @Override
-    public void getTag(String smartPlaceId, BeaconInfo beaconInfo, final TagCallback callback) {
+    public void getTag(String smartPlaceInstanceId, BeaconInfo beaconInfo, final TagCallback callback) {
         SmartPlaceInstanceParseObject instanceParseObject =
                 ParseObject.createWithoutData(SmartPlaceInstanceParseObject.class,
-                        smartPlaceId);
+                        smartPlaceInstanceId);
         ParseQuery<BeaconParseObject> beaconQuery = getBeaconQuery(beaconInfo);
         ParseQuery<TagParseObject> tagQuery = getQuery(TagParseObject.class);
         tagQuery = tagQuery.whereMatchesQuery(TagParseObject.BEACON, beaconQuery);
         tagQuery = tagQuery.whereEqualTo(TagParseObject.SMARTPLACE_INSTANCE, instanceParseObject);
-        tagQuery.getFirstInBackground(new GetCallback<TagParseObject>() {
-            @Override
-            public void done(TagParseObject tagParseObject, ParseException e) {
-                callback.done(tagParseObject);
-            }
-        });
+        tagQuery.getFirstInBackground(new TagGetCallback(callback));
     }
 
     @Override
@@ -234,12 +210,7 @@ public class ParseDataStore extends AbstractDataStore {
                 SmartPlaceParseObject.class, smartPlaceId);
         query = query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
         query = query.whereEqualTo(SmartPlaceInstanceParseObject.SMART_PLACE, smartPlaceParseObject);
-        query.getFirstInBackground(new GetCallback<SmartPlaceInstanceParseObject>() {
-            @Override
-            public void done(SmartPlaceInstanceParseObject smartPlaceConfigurationParseObject, ParseException e) {
-                callback.done(smartPlaceConfigurationParseObject);
-            }
-        });
+        query.getFirstInBackground(new SmartPlaceInstanceGetCallback(callback));
     }
 
     @Override
@@ -249,17 +220,13 @@ public class ParseDataStore extends AbstractDataStore {
         final SmartPlaceInstanceParseObject smartPlaceInstance =
                 new SmartPlaceInstanceParseObject(user.getObjectId(), smartPlaceId, new JSONObject(),
                         title, message);
-        smartPlaceInstance.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                callback.done(smartPlaceInstance);
-            }
-        });
+        save(smartPlaceInstance, callback);
     }
 
+
     @Override
-    public void saveSmartPlaceConfiguration(final SmartPlaceInstanceObject object,
-                                            final SmartPlaceInstanceCallback callback) {
+    public void saveSmartPlaceInstance(final SmartPlaceInstanceObject object,
+                                       final SmartPlaceInstanceCallback callback) {
         ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
         query.getInBackground(object.getId(), new GetCallback<SmartPlaceInstanceParseObject>() {
             @Override

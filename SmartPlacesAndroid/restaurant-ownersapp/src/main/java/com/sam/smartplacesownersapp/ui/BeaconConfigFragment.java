@@ -33,9 +33,9 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
     private static final String UUID = "uuid";
     private static final String MAJOR = "major";
     private static final String MINOR = "minor";
-    private static final String CONFIGURATION = "configuration";
+    private static final String INSTANCE = "instanceId";
 
-    private String configuration;
+    private String instanceId;
     private BeaconInfo beaconInfo;
 
     private RestaurantOwnerApplication application;
@@ -53,13 +53,13 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
      * @return A new instance of fragment BeaconConfigFragment.
      */
     public static BeaconConfigFragment newInstance(String uuid, int major, int minor,
-                                                   String smartPlaceConfigurationId) {
+                                                   String smartPlaceInstanceId) {
         BeaconConfigFragment fragment = new BeaconConfigFragment();
         Bundle bundle = new Bundle();
         bundle.putString(UUID, uuid);
         bundle.putInt(MAJOR, major);
         bundle.putInt(MINOR, minor);
-        bundle.putString(CONFIGURATION, smartPlaceConfigurationId);
+        bundle.putString(INSTANCE, smartPlaceInstanceId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -76,7 +76,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
             int major = getArguments().getInt(MAJOR);
             int minor = getArguments().getInt(MINOR);
             this.beaconInfo = new BeaconInfo(uuid, major, minor);
-            this.configuration = getArguments().getString(CONFIGURATION);
+            this.instanceId = getArguments().getString(INSTANCE);
         }
         this.application = (RestaurantOwnerApplication) getActivity().getApplication();
     }
@@ -96,7 +96,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
         this.minorTextView = (TextView) view.findViewById(R.id.beacon_config_minor_textView);
         this.tableEditText = (EditText) view.findViewById(R.id.beacon_config_table_editText);
         this.application.showProgressDialog(getActivity());
-        this.application.getDataStore().getTag(this.beaconInfo, this);
+        this.application.getDataStore().getTag(this.instanceId, this.beaconInfo, this);
         this.saveButton = (Button) view.findViewById(R.id.beacon_config_save_button);
     }
 
@@ -133,7 +133,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
     }
 
     private void createTag() {
-        this.application.getDataStore().createTag(this.beaconInfo, this.configuration, new TagCallback() {
+        this.application.getDataStore().createTag(this.beaconInfo, this.instanceId, new TagCallback() {
             @Override
             public void done(TagObject object) {
                 refreshView(object);
@@ -171,7 +171,7 @@ public class BeaconConfigFragment extends Fragment implements TagCallback {
         String tableText = this.tableEditText.getText().toString();
         int tableNumber = Integer.parseInt(tableText);
         JSONObject jsonObject = new JSONObject();
-        String smartPlaceConfiguationId = getArguments().getString(CONFIGURATION);
+        String smartPlaceConfiguationId = getArguments().getString(INSTANCE);
         jsonObject.put("table", tableNumber);
         //object.setData(jsonObject);
         this.application.showProgressDialog(getActivity());

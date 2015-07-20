@@ -165,7 +165,7 @@ public class CategoryMenuFragment extends Fragment implements AbsListView.OnItem
             JSONObject categoryJsonObject = new JSONObject();
             categoryJsonObject.put("category", name);
             menu.put(categoryJsonObject);
-            this.application.getDataStore().saveSmartPlaceConfiguration(this.smartPlaceConfiguration,
+            this.application.getDataStore().saveSmartPlaceInstance(this.smartPlaceConfiguration,
                     new SmartPlaceInstanceCallback() {
                         @Override
                         public void done(SmartPlaceInstanceObject object) {

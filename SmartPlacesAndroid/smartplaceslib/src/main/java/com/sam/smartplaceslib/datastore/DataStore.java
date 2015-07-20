@@ -43,8 +43,6 @@ public interface DataStore {
 
     void getUserSmartPlaceInstances(final SmartPlaceInstancesCallback callback);
 
-    void getTag(BeaconInfo beaconInfo, final TagCallback callback);
-
     void getTag(String smartPlaceId, BeaconInfo beaconInfo, final TagCallback callback);
 
     void createTag(BeaconInfo beaconInfo, String smartPlaceConfigurationId, final TagCallback callback);
@@ -57,8 +55,8 @@ public interface DataStore {
     void createSmartPlaceInstance(String smartPlaceId, String title, String message,
                                   final SmartPlaceInstanceCallback callback);
 
-    void saveSmartPlaceConfiguration(SmartPlaceInstanceObject object,
-                                     SmartPlaceInstanceCallback callback);
+    void saveSmartPlaceInstance(SmartPlaceInstanceObject object,
+                                SmartPlaceInstanceCallback callback);
 
 
     void saveTag(TagObject object, JSONObject jsonObject, TagCallback beaconCallback);

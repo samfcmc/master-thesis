@@ -34,7 +34,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     private String url;
     private String beaconId;
     private String smartPlaceId;
-    private String smartPlaceConfigurationId;
+    private String smartPlaceInstanceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
         this.url = intent.getStringExtra(Keys.URL);
         this.beaconId = intent.getStringExtra(Keys.BEACON);
         this.smartPlaceId = intent.getStringExtra(Keys.SMART_PLACE);
-        this.smartPlaceConfigurationId = intent.getStringExtra(Keys.SMART_PLACE_CONFIGURATION);
+        this.smartPlaceInstanceId = intent.getStringExtra(Keys.SMART_PLACE_CONFIGURATION);
         setTitle(this.name);
 
         this.webView.setOnPageLoadedCallback(this);
@@ -95,7 +95,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
             int major = nearestBeacon.getId2().toInt();
             int minor = nearestBeacon.getId3().toInt();
             BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor);
-            this.application.getDataStore().getTag(this.smartPlaceConfigurationId, beaconInfo,
+            this.application.getDataStore().getTag(this.smartPlaceInstanceId, beaconInfo,
                     new TagCallback() {
                         @Override
                         public void done(TagObject object) {
