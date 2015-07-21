@@ -48,6 +48,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sam.ownersapp.ui.UserActivity" />
         </activity>
+        <activity
+            android:name=".ui.TagSmartPlaceInstanceActivity"
+            android:label="@string/title_activity_tag_smart_place_instance"
+            android:parentActivityName=".ui.ShowSmartPlaceInstanceActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sam.ownersapp.ui.ShowSmartPlaceInstanceActivity" />
+        </activity>
     </application>
 
 </manifest>

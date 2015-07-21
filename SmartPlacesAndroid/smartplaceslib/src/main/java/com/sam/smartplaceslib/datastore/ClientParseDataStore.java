@@ -68,7 +68,6 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
                 callback.done(result);
             }
         });
-
     }
 
     @Override

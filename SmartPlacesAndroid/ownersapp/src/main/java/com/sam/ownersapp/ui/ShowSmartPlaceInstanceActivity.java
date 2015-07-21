@@ -23,6 +23,7 @@ public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements
     private static final String TITLE = "title";
     private static final String MESSAGE = "description";
     public static final String RESULT_DELETE = "delete";
+    private static final String URL = "url";
 
     private SmartPlacesOwnersApplication application;
 
@@ -31,6 +32,7 @@ public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements
         intent.putExtra(ID, smartPlaceInstanceObject.getId());
         intent.putExtra(TITLE, smartPlaceInstanceObject.getTitle());
         intent.putExtra(MESSAGE, smartPlaceInstanceObject.getMessage());
+        intent.putExtra(URL, smartPlaceInstanceObject.getSmartPlace().getUrl());
         return intent;
     }
 
@@ -45,6 +47,7 @@ public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements
         TextView titleTextView = (TextView) findViewById(R.id.show_smart_place_instance_title_textview);
         TextView messageTextView = (TextView) findViewById(show_smart_place_instance_message_textview);
         ImageView editImageView = (ImageView) findViewById(R.id.show_smart_place_instance_edit_imageview);
+        ImageView tagImageView = (ImageView) findViewById(R.id.show_smart_place_instance_tags_imageview);
         Button deleteButton = (Button) findViewById(R.id.show_smart_place_instance_delete_button);
 
         titleTextView.setText(title);
@@ -57,12 +60,28 @@ public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements
             }
         });
 
+        tagImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagSmartPlaceInstance();
+            }
+        });
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteSmartPlaceInstance();
             }
         });
+    }
+
+    private void tagSmartPlaceInstance() {
+        Intent activityIntent = getIntent();
+        String id = activityIntent.getStringExtra(ID);
+        String title = activityIntent.getStringExtra(TITLE);
+        String url = activityIntent.getStringExtra(URL);
+        Intent intent = TagSmartPlaceInstanceActivity.getIntent(this, id, title, url);
+        startActivity(intent);
     }
 
     private void deleteSmartPlaceInstance() {

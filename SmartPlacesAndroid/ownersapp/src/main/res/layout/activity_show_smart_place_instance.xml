@@ -23,9 +23,19 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
+                android:id="@+id/show_smart_place_instance_tags_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/show_smart_place_instance_title_textview"
+                android:layout_marginRight="10sp"
+                android:layout_toLeftOf="@+id/show_smart_place_instance_edit_imageview"
+                android:src="@drawable/ic_label_white_18dp" />
+
+            <ImageView
                 android:id="@+id/show_smart_place_instance_edit_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/show_smart_place_instance_title_textview"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_mode_edit_white_18dp" />
         </RelativeLayout>
