@@ -8,7 +8,7 @@ import com.sam.smartplaceslib.datastore.object.parse.AbstractParseObject;
 /**
  *
  */
-public abstract class ParseDataStoreGetCallback<T extends AbstractParseObject> implements GetCallback<T> {
+public class ParseDataStoreGetCallback<T extends AbstractParseObject> implements GetCallback<T> {
 
     private DataStoreCallback<? super T> callback;
 

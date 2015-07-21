@@ -15,6 +15,7 @@ import com.sam.smartplaceslib.datastore.callback.DataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.DeleteDataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreDeleteCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreFindCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreGetCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreSaveCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
@@ -56,6 +57,14 @@ public abstract class AbstractParseDataStore implements DataStore {
         return ParseQuery.getQuery(clazz);
     }
 
+    protected ParseQuery<BeaconParseObject> getBeaconQuery(BeaconInfo beaconInfo) {
+        ParseQuery<BeaconParseObject> beaconQuery = getQuery(BeaconParseObject.class);
+        beaconQuery = beaconQuery.whereEqualTo(BeaconParseObject.UUID, beaconInfo.getUuid())
+                .whereEqualTo(BeaconParseObject.MAJOR, beaconInfo.getMajor())
+                .whereEqualTo(BeaconParseObject.MINOR, beaconInfo.getMinor());
+        return beaconQuery;
+    }
+
     protected <T extends AbstractParseObject> void save(T object, DataStoreCallback<? super T> callback) {
         object.saveInBackground(new ParseDataStoreSaveCallback<T>(callback, object));
     }
@@ -67,6 +76,11 @@ public abstract class AbstractParseDataStore implements DataStore {
     protected <T extends AbstractParseObject> void find(ParseQuery<T> query,
                                                         ParseDataStoreFindCallback<T, ? super T> findCallback) {
         query.findInBackground(findCallback);
+    }
+
+    protected <T extends AbstractParseObject> void getFirst(ParseQuery<T> query,
+                                                            DataStoreCallback<? super T> callback) {
+        query.getFirstInBackground(new ParseDataStoreGetCallback<T>(callback));
     }
 
     @Override
