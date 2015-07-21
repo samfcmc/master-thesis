@@ -3,6 +3,6 @@ package com.sam.smartplaceslib.datastore.callback;
 /**
  * Callback for when an object is deleted
  */
-public interface DeleteCallback {
+public interface DeleteDataStoreCallback {
     void deleted();
 }

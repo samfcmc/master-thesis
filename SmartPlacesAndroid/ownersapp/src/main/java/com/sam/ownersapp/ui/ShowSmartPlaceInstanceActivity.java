@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
-import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
+import com.sam.smartplaceslib.datastore.callback.DeleteDataStoreCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 
 import static com.sam.ownersapp.R.id.show_smart_place_instance_message_textview;
 
-public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements DeleteCallback {
+public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements DeleteDataStoreCallback {
     private static final String ID = "id";
     private static final String TITLE = "title";
     private static final String MESSAGE = "description";

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.sam.ownersapp.R;
 import com.sam.ownersapp.SmartPlacesOwnersApplication;
-import com.sam.smartplaceslib.datastore.callback.DeleteCallback;
+import com.sam.smartplaceslib.datastore.callback.DeleteDataStoreCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.ui.ViewHolder;
@@ -34,7 +34,7 @@ import java.util.List;
  * interface.
  */
 public class SmartPlaceInstanceListFragment extends Fragment implements AbsListView.OnItemClickListener,
-        SmartPlaceInstancesCallback, DeleteCallback {
+        SmartPlaceInstancesCallback, DeleteDataStoreCallback {
 
     private OnFragmentInteractionListener mListener;
 

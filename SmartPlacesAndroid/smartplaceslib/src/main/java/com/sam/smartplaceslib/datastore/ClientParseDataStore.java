@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * DataStore implementation to work with Parse.com BaaS
  */
-public class ClientParseDataStore extends AbstractDataStore implements ClientDataStore {
+public class ClientParseDataStore extends AbstractParseDataStore implements ClientDataStore {
 
     public static ClientDataStore fromRawJsonResource(Application application, int jsonRawResourceId) throws IOException {
         DataStoreCredentials dataStoreCredentials = DataStoreCredentials

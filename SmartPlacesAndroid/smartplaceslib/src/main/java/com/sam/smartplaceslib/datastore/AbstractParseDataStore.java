@@ -12,6 +12,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sam.smartplaceslib.datastore.callback.DataStoreCallback;
+import com.sam.smartplaceslib.datastore.callback.DeleteDataStoreCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreDeleteCallback;
+import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreFindCallback;
 import com.sam.smartplaceslib.datastore.callback.parse.ParseDataStoreSaveCallback;
 import com.sam.smartplaceslib.datastore.login.LoginCallback;
 import com.sam.smartplaceslib.datastore.login.LoginStrategy;
@@ -27,13 +30,13 @@ import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
 /**
  *
  */
-public abstract class AbstractDataStore implements DataStore {
+public abstract class AbstractParseDataStore implements DataStore {
 
     private LoginStrategy loginStrategy;
 
     public static int REQUEST_LOGIN = 2;
 
-    public AbstractDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
+    public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(application);
         registerSubclasses();
@@ -55,6 +58,15 @@ public abstract class AbstractDataStore implements DataStore {
 
     protected <T extends AbstractParseObject> void save(T object, DataStoreCallback<? super T> callback) {
         object.saveInBackground(new ParseDataStoreSaveCallback<T>(callback, object));
+    }
+
+    protected <T extends AbstractParseObject> void delete(T object, DeleteDataStoreCallback callback) {
+        object.deleteInBackground(new ParseDataStoreDeleteCallback(callback));
+    }
+
+    protected <T extends AbstractParseObject> void find(ParseQuery<T> query,
+                                                        ParseDataStoreFindCallback<T, ? super T> findCallback) {
+        query.findInBackground(findCallback);
     }
 
     @Override
