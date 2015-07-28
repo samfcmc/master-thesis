@@ -12,6 +12,7 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
 
     private static final String NAME = "name";
     private static final String URL = "url";
+    private static final String URL_MANAGER = "urlManager";
     private static final String DESCRIPTION = "description";
 
     public SmartPlaceParseObject() {
@@ -48,6 +49,16 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
     }
 
     @Override
+    public String getUrlManager() {
+        return getString(URL_MANAGER);
+    }
+
+    @Override
+    public void setUrlManager(String url) {
+        put(URL_MANAGER, url);
+    }
+
+    @Override
     public String getDescription() {
         return getString(DESCRIPTION);
     }
@@ -61,5 +72,6 @@ public class SmartPlaceParseObject extends AbstractParseObject implements SmartP
         setName(parseObject.getString(NAME));
         setUrl(parseObject.getString(URL));
         setDescription(parseObject.getString(DESCRIPTION));
+        setUrlManager(parseObject.getString(URL_MANAGER));
     }
 }

@@ -6,27 +6,78 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sam.ownersapp.R;
+import com.sam.ownersapp.SmartPlacesOwnersApplication;
+import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
+import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.ui.SmartPlacesWebView;
+import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
-public class TagSmartPlaceInstanceActivity extends AppCompatActivity {
+import org.altbeacon.beacon.Beacon;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements BeaconScanCallback<Beacon> {
     private static final String ID = "id";
     private static final String TITLE = "title";
     private static final String URL = "url";
+
+    private static final int REQUEST_TURN_ON_BT = 4;
+
+    private SmartPlacesOwnersApplication application;
+
+    private SmartPlacesWebView webview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag_smart_place_instance);
+        this.application = (SmartPlacesOwnersApplication) getApplication();
         Intent intent = getIntent();
 
         TextView titleTextView = (TextView) findViewById(R.id.tag_smart_place_instance_title_textview);
-        SmartPlacesWebView webView = (SmartPlacesWebView) findViewById(R.id.tag_smart_place_instance_webview);
+        this.webview = (SmartPlacesWebView) findViewById(R.id.tag_smart_place_instance_webview);
+
+        ImageView tagImageView = (ImageView) findViewById(R.id.tag_smart_place_instance_tag_imageview);
 
         titleTextView.setText(intent.getStringExtra(TITLE));
-        webView.loadUrl(intent.getStringExtra(URL));
+
+        this.webview.setOnPageLoadedCallback(new OnPageLoadedCallback() {
+            @Override
+            public void done() {
+                initWebView();
+            }
+        });
+        this.webview.loadUrl(intent.getStringExtra(URL));
+
+        tagImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanBeacons();
+            }
+        });
+
+        if (!this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
+            this.application.getBeaconsManager().askToTurnBluetoothOn(this, REQUEST_TURN_ON_BT);
+        }
+    }
+
+    private void initWebView() {
+        String id = getIntent().getStringExtra(ID);
+        this.webview.init(id);
+    }
+
+    private void scanBeacons() {
+        if (this.application.getBeaconsManager().isBluetoothTurnedOn(this)) {
+            this.application.getBeaconsManager().startScan(this, this);
+        }
     }
 
     @Override
@@ -34,6 +85,11 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tag_smart_place_instance, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -57,5 +113,37 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity {
         intent.putExtra(TITLE, title);
         intent.putExtra(URL, url);
         return intent;
+    }
+
+    @Override
+    public void beaconsFound(Collection<Beacon> beacons) {
+        final List<BeaconInfo> beaconInfoList = new ArrayList<>(beacons.size());
+        for (Beacon beacon : beacons) {
+            String uuid = beacon.getId1().toHexString();
+            int major = beacon.getId2().toInt();
+            int minor = beacon.getId3().toInt();
+            double distance = beacon.getDistance();
+            BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor, distance);
+            beaconInfoList.add(beaconInfo);
+        }
+
+        if (!beaconInfoList.isEmpty()) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    beaconsScanned(beaconInfoList);
+                }
+            });
+        }
+    }
+
+    private void beaconsScanned(List<BeaconInfo> beaconInfoList) {
+        this.application.logToDisplay(this, "Beacons detected");
+        try {
+            this.webview.beaconsScanned(beaconInfoList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        this.application.getBeaconsManager().stopScan();
     }
 }

@@ -32,7 +32,7 @@ public class ShowSmartPlaceInstanceActivity extends AppCompatActivity implements
         intent.putExtra(ID, smartPlaceInstanceObject.getId());
         intent.putExtra(TITLE, smartPlaceInstanceObject.getTitle());
         intent.putExtra(MESSAGE, smartPlaceInstanceObject.getMessage());
-        intent.putExtra(URL, smartPlaceInstanceObject.getSmartPlace().getUrl());
+        intent.putExtra(URL, smartPlaceInstanceObject.getSmartPlace().getUrlManager());
         return intent;
     }
 

@@ -23,6 +23,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
+                android:id="@+id/tag_smart_place_instance_tag_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tag_smart_place_instance_title_textview"
