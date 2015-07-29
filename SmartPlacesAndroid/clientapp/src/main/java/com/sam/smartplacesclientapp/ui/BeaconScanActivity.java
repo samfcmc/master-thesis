@@ -15,7 +15,6 @@ import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
-import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstancesCallback;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
@@ -125,19 +124,15 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     private void notifyAboutSmartPlaces(List<SmartPlaceInstanceObject> list, final BeaconObject beacon) {
-        for (final SmartPlaceInstanceObject configuration : list) {
-            this.application.getDataStore().getSmartPlace(configuration, new SmartPlaceCallback() {
-                @Override
-                public void done(SmartPlaceObject object) {
-                    createNotification(object, beacon, configuration);
-                }
-            });
+        for (final SmartPlaceInstanceObject instance : list) {
+            createNotification(beacon, instance);
         }
     }
 
-    private void createNotification(SmartPlaceObject smartPlace, BeaconObject beacon,
-                                    SmartPlaceInstanceObject configurationObject) {
+    private void createNotification(BeaconObject beacon,
+                                    SmartPlaceInstanceObject instance) {
         Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
+        SmartPlaceObject smartPlace = instance.getSmartPlace();
         String url = smartPlace.getUrl();
         String name = smartPlace.getName();
         String message = smartPlace.getDescription();
@@ -146,7 +141,7 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
         resultIntent.putExtra(Keys.MESSAGE, message);
         resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
         resultIntent.putExtra(Keys.BEACON, beacon.getId());
-        resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, configurationObject.getId());
+        resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, instance.getId());
         this.application.createNotification(this, smartPlace.getName(), smartPlace.getDescription(), resultIntent, SmartPlaceActivity.class);
     }
 }

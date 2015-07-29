@@ -121,6 +121,14 @@ public abstract class AbstractParseDataStore implements DataStore {
         this.loginStrategy.onActivityResult(requestCode, resultCode, data);
     }
 
+    public <T extends AbstractParseObject> ParseQuery<T> include(ParseQuery<T> query, String... attributes) {
+        String includeParam = "";
+        for (int i = 0; i < attributes.length - 1; i++) {
+            includeParam += attributes[i] + ".";
+        }
+        includeParam += attributes[attributes.length - 1];
+        return query.include(includeParam);
+    }
 
 
 }

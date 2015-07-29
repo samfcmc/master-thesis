@@ -54,16 +54,17 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         ParseQuery<TagParseObject> tagQuery = getQuery(TagParseObject.class);
         BeaconParseObject beaconParseObject = ParseObject.createWithoutData(BeaconParseObject.class, beaconObject.getId());
         tagQuery = tagQuery.whereEqualTo(TagParseObject.BEACON, beaconParseObject);
-        tagQuery = tagQuery.include(TagParseObject.SMARTPLACE_INSTANCE);
+        tagQuery = include(tagQuery, TagParseObject.SMARTPLACE_INSTANCE);
+        tagQuery = include(tagQuery, TagParseObject.SMARTPLACE_INSTANCE, SmartPlaceInstanceParseObject.SMART_PLACE);
         tagQuery.findInBackground(new FindCallback<TagParseObject>() {
             @Override
             public void done(List<TagParseObject> list, ParseException e) {
-                List<SmartPlaceInstanceObject> result = new ArrayList<SmartPlaceInstanceObject>(list.size());
+                List<SmartPlaceInstanceObject> result = new ArrayList<>(list.size());
                 for (TagParseObject tag : list) {
                     ParseObject parseObject = tag.getParseObject(TagParseObject.SMARTPLACE_INSTANCE);
-                    SmartPlaceInstanceParseObject configuration = ParseObject.createWithoutData(SmartPlaceInstanceParseObject.class, parseObject.getObjectId());
-                    configuration.updateFromParseObject(parseObject);
-                    result.add(configuration);
+                    SmartPlaceInstanceParseObject instance = ParseObject.createWithoutData(SmartPlaceInstanceParseObject.class, parseObject.getObjectId());
+                    instance.updateFromParseObject(parseObject);
+                    result.add(instance);
                 }
                 callback.done(result);
             }
