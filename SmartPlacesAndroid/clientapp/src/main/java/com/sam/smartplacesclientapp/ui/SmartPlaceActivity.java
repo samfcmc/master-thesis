@@ -11,6 +11,7 @@ import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
+import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.TagObject;
@@ -18,6 +19,8 @@ import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanCallback, OnPageLoadedCallback {
 
@@ -27,14 +30,15 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
 
     private String name;
     private String url;
-    private String beaconId;
-    private String smartPlaceId;
     private String smartPlaceInstanceId;
+
+    List<BeaconInfo> detectedBeacons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smart_place);
+        this.detectedBeacons = new LinkedList<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         initUI();
     }
@@ -45,8 +49,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         String message = intent.getStringExtra(Keys.MESSAGE);
         this.name = intent.getStringExtra(Keys.NAME);
         this.url = intent.getStringExtra(Keys.URL);
-        this.beaconId = intent.getStringExtra(Keys.BEACON);
-        this.smartPlaceId = intent.getStringExtra(Keys.SMART_PLACE);
         this.smartPlaceInstanceId = intent.getStringExtra(Keys.SMART_PLACE_CONFIGURATION);
         setTitle(this.name);
 
@@ -84,21 +86,25 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         if (!beacons.isEmpty()) {
-            this.application.getBeaconsManager().stopScan();
-            BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
-            this.application.getDataStore().getTag(this.smartPlaceInstanceId, nearestBeacon,
-                    new TagCallback() {
-                        @Override
-                        public void done(TagObject object) {
-                            if (object == null) {
-                                logToDisplay("tag not found");
-                            } else {
-                                logToDisplay("tag found " + object);
-                                tagFound(object);
-                            }
+            logToDisplay("Beacon scanned");
+            final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
+            if (!detectedBeacons.contains(nearestBeacon)) {
+                this.application.getDataStore().getTag(this.smartPlaceInstanceId, nearestBeacon,
+                        new TagCallback() {
+                            @Override
+                            public void done(TagObject object) {
+                                detectedBeacons.add(nearestBeacon);
+                                if (object == null) {
+                                    logToDisplay("tag not found");
+                                } else {
+                                    logToDisplay("tag found " + object);
+                                    tagFound(object);
+                                }
 
-                        }
-                    });
+                            }
+                        });
+            }
+
         }
     }
 
@@ -119,5 +125,14 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     @Override
     public void done() {
         scanForNearbyObjects();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BeaconsManager beaconsManager = this.application.getBeaconsManager();
+        beaconsManager.stopScan();
+        beaconsManager.unbind();
+
     }
 }

@@ -34,6 +34,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     private Context context;
     private Activity activity;
     private BeaconScanCallback scanCallback;
+    private static final long FOREGROUND_SCAN_PERIOD = 10000;
 
     public IBeaconsManager(Context context) {
         this.beaconManager = BeaconManager.getInstanceForApplication(context);
@@ -45,6 +46,8 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
 
     @Override
     public void onBeaconServiceConnect() {
+        beaconManager.setForegroundBetweenScanPeriod(FOREGROUND_SCAN_PERIOD);
+        beaconManager.setBackgroundBetweenScanPeriod(FOREGROUND_SCAN_PERIOD);
         this.beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
@@ -157,6 +160,13 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     public void askToTurnBluetoothOn(Activity activity, int requestCode) {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void setBackgroundMode(boolean backgroundMode) {
+        if (beaconManager.isBound(this)) {
+            beaconManager.setBackgroundMode(backgroundMode);
+        }
     }
 
 }

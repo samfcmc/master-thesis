@@ -35,4 +35,15 @@ public class BeaconInfo {
     public double getDistance() {
         return distance;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof BeaconInfo) {
+            BeaconInfo beaconInfo = (BeaconInfo) o;
+            return beaconInfo.getUuid().equals(getUuid()) && (beaconInfo.getMajor() == getMajor())
+                    && beaconInfo.getMinor() == getMinor();
+        } else {
+            return false;
+        }
+    }
 }

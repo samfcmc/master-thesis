@@ -22,18 +22,21 @@ import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class BeaconScanActivity extends ActionBarActivity implements BeaconScanCallback {
 
     private SmartPlacesClientApplication application;
+    private List<BeaconInfo> detectedBeacons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
         this.application = (SmartPlacesClientApplication) getApplication();
+        this.detectedBeacons = new LinkedList<>();
         this.application.getBeaconsManager().startScan(this, this);
     }
 
@@ -53,7 +56,7 @@ public class BeaconScanActivity extends ActionBarActivity implements BeaconScanC
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_turn_of_bt) {
-            this.application.getBeaconsManager().stopScan();
+            turnScanOff();
             return true;
         } else if (id == R.id.action_logout) {
             logout();
@@ -61,6 +64,13 @@ public class BeaconScanActivity extends ActionBarActivity implements BeaconScanC
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void turnScanOff() {
+        BeaconsManager beaconsManager = this.application.getBeaconsManager();
+        beaconsManager.stopScan();
+        beaconsManager.unbind();
+        finish();
     }
 
     private void logout() {
@@ -78,16 +88,18 @@ public class BeaconScanActivity extends ActionBarActivity implements BeaconScanC
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         if (!beacons.isEmpty()) {
-            this.application.getBeaconsManager().stopScan();
-            BeaconInfo beacon = beaconsManager.getNearestBeacon(beacons);
-
-            this.application.getDataStore().getBeacon(beacon, new BeaconCallback() {
-                @Override
-                public void done(BeaconObject object) {
-                    beaconFetched(object);
-                }
-            });
-            logToDisplay("Detected beacon " + beacon.getUuid());
+            logToDisplay("Scan");
+            final BeaconInfo beacon = beaconsManager.getNearestBeacon(beacons);
+            if (!detectedBeacons.contains(beacon)) {
+                this.application.getDataStore().getBeacon(beacon, new BeaconCallback() {
+                    @Override
+                    public void done(BeaconObject object) {
+                        detectedBeacons.add(beacon);
+                        beaconFetched(object);
+                    }
+                });
+                logToDisplay("Detected beacon " + beacon.getUuid());
+            }
         }
     }
 
@@ -114,6 +126,20 @@ public class BeaconScanActivity extends ActionBarActivity implements BeaconScanC
     protected void onDestroy() {
         //this.application.getBeaconsManager().unbind();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logToDisplay("Pause");
+        this.application.getBeaconsManager().setBackgroundMode(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logToDisplay("Resume");
+        this.application.getBeaconsManager().setBackgroundMode(false);
     }
 
     private void notifyAboutSmartPlaces(List<SmartPlaceInstanceObject> list, final BeaconObject beacon) {

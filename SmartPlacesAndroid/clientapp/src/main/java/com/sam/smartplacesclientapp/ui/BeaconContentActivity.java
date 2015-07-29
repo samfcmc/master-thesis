@@ -9,6 +9,7 @@ import android.webkit.WebView;
 
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
+import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.login.LogoutCallback;
 
@@ -62,7 +63,8 @@ public class BeaconContentActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_turn_of_bt) {
+            turnScanOff();
             return true;
         } else if (id == R.id.action_logout) {
             logout();
@@ -70,6 +72,12 @@ public class BeaconContentActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void turnScanOff() {
+        BeaconsManager beaconsManager = this.application.getBeaconsManager();
+        beaconsManager.stopScan();
+        beaconsManager.unbind();
     }
 
     private void logout() {

@@ -11,17 +11,19 @@ import java.util.Collection;
  *
  */
 public interface BeaconsManager {
-    public void startScan(Activity activity, BeaconScanCallback callback);
+    void startScan(Activity activity, BeaconScanCallback callback);
 
-    public void stopScan();
+    void stopScan();
 
-    public void unbind();
+    void unbind();
 
-    public BeaconInfo getNearestBeacon(Collection<BeaconInfo> beacons);
+    BeaconInfo getNearestBeacon(Collection<BeaconInfo> beacons);
 
-    public void startScan(BeaconScanCallback callback);
+    void startScan(BeaconScanCallback callback);
 
-    public boolean isBluetoothTurnedOn(Context context);
+    boolean isBluetoothTurnedOn(Context context);
 
-    public void askToTurnBluetoothOn(Activity activity, int requestCode);
+    void askToTurnBluetoothOn(Activity activity, int requestCode);
+
+    void setBackgroundMode(boolean backgroundMode);
 }

@@ -4,8 +4,8 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -55,11 +55,10 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
         final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         this.bluetoothAdapter = bluetoothManager.getAdapter();
 
-        if(this.bluetoothAdapter == null || !this.bluetoothAdapter.isEnabled()) {
+        if (this.bluetoothAdapter == null || !this.bluetoothAdapter.isEnabled()) {
             // Bluetooth turned off
             askToTurnOnBluetooth();
-        }
-        else {
+        } else {
             goToScanActivity();
         }
     }
@@ -72,8 +71,8 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            if(requestCode == REQUEST_ENABLE_BT) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_ENABLE_BT) {
                 goToScanActivity();
             }
         }
@@ -81,6 +80,7 @@ public class TurnOnBluetoothActivity extends ActionBarActivity {
 
     private void goToScanActivity() {
         Intent intent = new Intent(this, BeaconScanActivity.class);
+        finish();
         startActivity(intent);
     }
 }
