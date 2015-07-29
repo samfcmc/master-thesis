@@ -14,7 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
@@ -66,7 +66,7 @@ public class SmartPlacesWebView extends WebView {
         callSmartPlacesJSMethod(TAG_FOUND_FUNCTION, tag.getData());
     }
 
-    public void beaconsScanned(List<BeaconInfo> beaconInfoList) throws JSONException {
+    public void beaconsScanned(Collection<BeaconInfo> beaconInfoList) throws JSONException {
         JSONArray beaconsJsonArray = new JSONArray();
         for (BeaconInfo beaconInfo : beaconInfoList) {
             JSONObject beaconJsonObject = new JSONObject();

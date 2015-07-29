@@ -12,7 +12,6 @@ import com.sam.smartplaceslib.datastore.OwnerDataStore;
 import com.sam.smartplaceslib.datastore.OwnerParseDataStore;
 import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
 
-import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
@@ -29,7 +28,7 @@ public class SmartPlacesOwnersApplication extends Application implements Bootstr
     private BackgroundPowerSaver backgroundPowerSaver;
     private OwnerDataStore dataStore;
 
-    private BeaconsManager<Beacon> beaconsManager;
+    private BeaconsManager beaconsManager;
 
     private ProgressDialog progressDialog;
 
@@ -66,7 +65,7 @@ public class SmartPlacesOwnersApplication extends Application implements Bootstr
         return dataStore;
     }
 
-    public BeaconsManager<Beacon> getBeaconsManager() {
+    public BeaconsManager getBeaconsManager() {
         return beaconsManager;
     }
 

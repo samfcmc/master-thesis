@@ -17,14 +17,11 @@ import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
-import org.altbeacon.beacon.Beacon;
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements BeaconScanCallback<Beacon> {
+public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements BeaconScanCallback {
     private static final String ID = "id";
     private static final String TITLE = "title";
     private static final String URL = "url";
@@ -116,28 +113,18 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void beaconsFound(Collection<Beacon> beacons) {
-        final List<BeaconInfo> beaconInfoList = new ArrayList<>(beacons.size());
-        for (Beacon beacon : beacons) {
-            String uuid = beacon.getId1().toHexString();
-            int major = beacon.getId2().toInt();
-            int minor = beacon.getId3().toInt();
-            double distance = beacon.getDistance();
-            BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor, distance);
-            beaconInfoList.add(beaconInfo);
-        }
-
-        if (!beaconInfoList.isEmpty()) {
+    public void beaconsFound(final Collection<BeaconInfo> beacons) {
+        if (!beacons.isEmpty()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    beaconsScanned(beaconInfoList);
+                    beaconsScanned(beacons);
                 }
             });
         }
     }
 
-    private void beaconsScanned(List<BeaconInfo> beaconInfoList) {
+    private void beaconsScanned(Collection<BeaconInfo> beaconInfoList) {
         this.application.logToDisplay(this, "Beacons detected");
         try {
             this.webview.beaconsScanned(beaconInfoList);

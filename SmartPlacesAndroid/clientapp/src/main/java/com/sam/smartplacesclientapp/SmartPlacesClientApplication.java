@@ -16,7 +16,6 @@ import com.sam.smartplaceslib.datastore.ClientDataStore;
 import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
 
-import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
@@ -34,7 +33,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     private BackgroundPowerSaver backgroundPowerSaver;
     private ClientDataStore dataStore;
 
-    private BeaconsManager<Beacon> beaconsManager;
+    private BeaconsManager beaconsManager;
 
     public static final int REQUEST_LOGIN = 2;
 
@@ -65,17 +64,17 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     }
 
     @Override
-    public void didEnterRegion(org.altbeacon.beacon.Region region) {
+    public void didEnterRegion(Region region) {
         logToDisplay("Enter region");
     }
 
     @Override
-    public void didExitRegion(org.altbeacon.beacon.Region region) {
+    public void didExitRegion(Region region) {
         logToDisplay("Exit region");
     }
 
     @Override
-    public void didDetermineStateForRegion(int i, org.altbeacon.beacon.Region region) {
+    public void didDetermineStateForRegion(int i, Region region) {
         logToDisplay("State for region");
     }
 
@@ -83,7 +82,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public BeaconsManager<Beacon> getBeaconsManager() {
+    public BeaconsManager getBeaconsManager() {
         return beaconsManager;
     }
 

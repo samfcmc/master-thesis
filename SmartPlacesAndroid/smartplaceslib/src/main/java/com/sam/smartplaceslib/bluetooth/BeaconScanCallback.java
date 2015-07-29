@@ -1,10 +1,12 @@
 package com.sam.smartplaceslib.bluetooth;
 
+import com.sam.smartplaceslib.datastore.BeaconInfo;
+
 import java.util.Collection;
 
 /**
  *
  */
-public interface BeaconScanCallback<T> {
-    public void beaconsFound(Collection<T> beacons);
+public interface BeaconScanCallback {
+    public void beaconsFound(Collection<BeaconInfo> beacons);
 }

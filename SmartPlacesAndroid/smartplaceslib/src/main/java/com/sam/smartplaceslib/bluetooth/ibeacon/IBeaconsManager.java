@@ -10,6 +10,7 @@ import android.os.RemoteException;
 
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
+import com.sam.smartplaceslib.datastore.BeaconInfo;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  *
  */
-public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
+public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
 
     private BeaconManager beaconManager;
     private Region region;
@@ -49,7 +50,7 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 List<Beacon> list = new ArrayList<Beacon>(beacons);
                 Collections.sort(list, new BeaconComparator());
-                IBeaconsManager.this.scanCallback.beaconsFound(beacons);
+                IBeaconsManager.this.scanCallback.beaconsFound(getBeaconInfoCollection(beacons));
             }
         });
 
@@ -76,7 +77,7 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
     }
 
     @Override
-    public void startScan(Activity activity, BeaconScanCallback<Beacon> callback) {
+    public void startScan(Activity activity, BeaconScanCallback callback) {
         this.scanCallback = callback;
         this.activity = activity;
         this.beaconManager.bind(this);
@@ -99,10 +100,10 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
     }
 
     @Override
-    public Beacon getNearestBeacon(Collection<Beacon> beacons) {
-        Beacon nearestBeacon = null;
+    public BeaconInfo getNearestBeacon(Collection<BeaconInfo> beacons) {
+        BeaconInfo nearestBeacon = null;
 
-        for (Beacon beacon : beacons) {
+        for (BeaconInfo beacon : beacons) {
             if (nearestBeacon == null || (beacon.getDistance() < nearestBeacon.getDistance())) {
                 nearestBeacon = beacon;
             }
@@ -111,13 +112,30 @@ public class IBeaconsManager implements BeaconsManager<Beacon>, BeaconConsumer {
         return nearestBeacon;
     }
 
+    private Collection<BeaconInfo> getBeaconInfoCollection(Collection<Beacon> beacons) {
+        List<BeaconInfo> list = new ArrayList<>(beacons.size());
+        for (Beacon beacon : beacons) {
+            list.add(getBeaconInfo(beacon));
+        }
+        return list;
+    }
+
+    private BeaconInfo getBeaconInfo(Beacon beacon) {
+        String uuid = beacon.getId1().toHexString();
+        int major = beacon.getId2().toInt();
+        int minor = beacon.getId3().toInt();
+        double distance = beacon.getDistance();
+        BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor, distance);
+        return beaconInfo;
+    }
+
     @Override
-    public void startScan(BeaconScanCallback<Beacon> callback) {
+    public void startScan(BeaconScanCallback callback) {
         this.scanCallback = callback;
         this.beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                IBeaconsManager.this.scanCallback.beaconsFound(beacons);
+                IBeaconsManager.this.scanCallback.beaconsFound(getBeaconInfoCollection(beacons));
             }
         });
         try {

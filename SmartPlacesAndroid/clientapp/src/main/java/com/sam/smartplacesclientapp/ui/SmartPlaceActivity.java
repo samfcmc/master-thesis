@@ -10,21 +10,16 @@ import android.widget.Toast;
 import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
-import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
+import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.TagObject;
-import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 import com.sam.smartplaceslib.ui.SmartPlacesWebView;
-
-import org.altbeacon.beacon.Beacon;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
 import java.util.Collection;
-import java.util.Iterator;
 
-public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScanCallback, OnPageLoadedCallback {
+public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanCallback, OnPageLoadedCallback {
 
     private SmartPlacesWebView webView;
 
@@ -87,15 +82,11 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
     }
 
     @Override
-    public void beaconsFound(Collection<Beacon> beacons) {
+    public void beaconsFound(Collection<BeaconInfo> beacons) {
         if (!beacons.isEmpty()) {
             this.application.getBeaconsManager().stopScan();
-            Beacon nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
-            String uuid = nearestBeacon.getId1().toHexString();
-            int major = nearestBeacon.getId2().toInt();
-            int minor = nearestBeacon.getId3().toInt();
-            BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor);
-            this.application.getDataStore().getTag(this.smartPlaceInstanceId, beaconInfo,
+            BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
+            this.application.getDataStore().getTag(this.smartPlaceInstanceId, nearestBeacon,
                     new TagCallback() {
                         @Override
                         public void done(TagObject object) {
@@ -123,20 +114,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements IBeaconScan
                 Toast.makeText(SmartPlaceActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private String buildUrl(String baseUrl, String configurationId, JSONObject jsonObject) {
-        String finalUrl = baseUrl + "?smartPlaceConfiguration=" + configurationId + "&";
-        Iterator<String> keys = jsonObject.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            try {
-                finalUrl += key + "=" + jsonObject.get(key).toString() + "&";
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return finalUrl;
     }
 
     @Override

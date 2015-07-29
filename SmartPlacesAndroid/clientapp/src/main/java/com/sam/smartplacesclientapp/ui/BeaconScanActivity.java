@@ -10,8 +10,8 @@ import android.widget.Toast;
 import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
+import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
-import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconScanCallback;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
@@ -21,13 +21,11 @@ import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
-import org.altbeacon.beacon.Beacon;
-
 import java.util.Collection;
 import java.util.List;
 
 
-public class BeaconScanActivity extends ActionBarActivity implements IBeaconScanCallback {
+public class BeaconScanActivity extends ActionBarActivity implements BeaconScanCallback {
 
     private SmartPlacesClientApplication application;
 
@@ -77,24 +75,19 @@ public class BeaconScanActivity extends ActionBarActivity implements IBeaconScan
     }
 
     @Override
-    public void beaconsFound(Collection<Beacon> beacons) {
-        BeaconsManager<Beacon> beaconsManager = this.application.getBeaconsManager();
+    public void beaconsFound(Collection<BeaconInfo> beacons) {
+        BeaconsManager beaconsManager = this.application.getBeaconsManager();
         if (!beacons.isEmpty()) {
             this.application.getBeaconsManager().stopScan();
-            Beacon beacon = beaconsManager.getNearestBeacon(beacons);
-            String uuid = beacon.getId1().toHexString();
-            int major = beacon.getId2().toInt();
-            int minor = beacon.getId3().toInt();
+            BeaconInfo beacon = beaconsManager.getNearestBeacon(beacons);
 
-            BeaconInfo beaconInfo = new BeaconInfo(uuid, major, minor);
-
-            this.application.getDataStore().getBeacon(beaconInfo, new BeaconCallback() {
+            this.application.getDataStore().getBeacon(beacon, new BeaconCallback() {
                 @Override
                 public void done(BeaconObject object) {
                     beaconFetched(object);
                 }
             });
-            logToDisplay("Detected beacon " + beacon.getId1().toHexString());
+            logToDisplay("Detected beacon " + beacon.getUuid());
         }
     }
 
