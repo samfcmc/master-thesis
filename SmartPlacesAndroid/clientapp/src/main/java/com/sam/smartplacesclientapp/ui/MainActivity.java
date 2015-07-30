@@ -128,5 +128,6 @@ public class MainActivity extends ActionBarActivity {
     private void goToAskToTurnOnBluetoothActivity() {
         Intent intent = new Intent(this, TurnOnBluetoothActivity.class);
         startActivity(intent);
+        finish();
     }
 }

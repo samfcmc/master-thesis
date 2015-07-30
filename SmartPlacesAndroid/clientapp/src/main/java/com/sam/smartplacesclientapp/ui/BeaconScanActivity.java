@@ -2,7 +2,7 @@ package com.sam.smartplacesclientapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class BeaconScanActivity extends ActionBarActivity implements BeaconScanCallback {
+public class BeaconScanActivity extends AppCompatActivity implements BeaconScanCallback {
 
     private SmartPlacesClientApplication application;
     private List<BeaconInfo> detectedBeacons;
@@ -61,9 +61,17 @@ public class BeaconScanActivity extends ActionBarActivity implements BeaconScanC
         } else if (id == R.id.action_logout) {
             logout();
             return true;
+        } else if (id == R.id.action_settings) {
+            settings();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void settings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void turnScanOff() {

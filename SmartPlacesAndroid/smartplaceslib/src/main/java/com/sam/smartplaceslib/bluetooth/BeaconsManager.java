@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.sam.smartplaceslib.datastore.BeaconInfo;
+import com.sam.smartplaceslib.utils.Settings;
 
 import java.util.Collection;
 
@@ -26,4 +27,10 @@ public interface BeaconsManager {
     void askToTurnBluetoothOn(Activity activity, int requestCode);
 
     void setBackgroundMode(boolean backgroundMode);
+
+    void updateScanPeriodInBackgroundMode(long period);
+
+    void updateScanPeriodInForegroundMode(long period);
+
+    Settings getSettings();
 }

@@ -11,6 +11,7 @@ import android.os.RemoteException;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
+import com.sam.smartplaceslib.utils.Settings;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -35,6 +36,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     private Activity activity;
     private BeaconScanCallback scanCallback;
     private static final long FOREGROUND_SCAN_PERIOD = 10000;
+    private Settings settings;
 
     public IBeaconsManager(Context context) {
         this.beaconManager = BeaconManager.getInstanceForApplication(context);
@@ -42,12 +44,15 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
         this.region = new Region("myRegion", null, null, null);
         this.context = context;
         beaconManager.getBeaconParsers().add(parser);
+        this.settings = new Settings(context);
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        beaconManager.setForegroundBetweenScanPeriod(FOREGROUND_SCAN_PERIOD);
-        beaconManager.setBackgroundBetweenScanPeriod(FOREGROUND_SCAN_PERIOD);
+        long scanPeriodBackground = settings.getScanPeriodInBackgroundMode();
+        long scanPeriodForeground = settings.getScanPeriodInForegroundMode();
+        beaconManager.setForegroundBetweenScanPeriod(scanPeriodForeground);
+        beaconManager.setBackgroundBetweenScanPeriod(scanPeriodBackground);
         this.beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
@@ -167,6 +172,33 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
         if (beaconManager.isBound(this)) {
             beaconManager.setBackgroundMode(backgroundMode);
         }
+    }
+
+    @Override
+    public void updateScanPeriodInBackgroundMode(long period) {
+        beaconManager.setBackgroundBetweenScanPeriod(period);
+        settings.setScanPeriodInBackgroundMode(period);
+        try {
+            beaconManager.updateScanPeriods();
+        } catch (RemoteException e) {
+            throw new RuntimeException("Error updating background scan period");
+        }
+    }
+
+    @Override
+    public void updateScanPeriodInForegroundMode(long period) {
+        beaconManager.setForegroundBetweenScanPeriod(period);
+        settings.setScanPeriodInForegroundMode(period);
+        try {
+            beaconManager.updateScanPeriods();
+        } catch (RemoteException e) {
+            throw new RuntimeException("Error updating foreground scan period");
+        }
+    }
+
+    @Override
+    public Settings getSettings() {
+        return settings;
     }
 
 }
