@@ -1,6 +1,7 @@
 package com.sam.smartplaceslib.datastore.object.parse;
 
 import com.parse.ParseClassName;
+import com.parse.ParseObject;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 
 /**
@@ -12,6 +13,8 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
     public static final String UUID = "uuid";
     public static final String MAJOR = "major";
     public static final String MINOR = "minor";
+    public static final String NAME = "name";
+    public static final String ICON = "icon";
 
     public BeaconParseObject(String uuid, int major, int minor) {
         this();
@@ -54,5 +57,22 @@ public class BeaconParseObject extends AbstractParseObject implements BeaconObje
         put(MINOR, minor);
     }
 
+    @Override
+    public String getName() {
+        return getString(NAME);
+    }
 
+    @Override
+    public String getIcon() {
+        return getString(ICON);
+    }
+
+
+    public void fromParseObject(ParseObject parseObject) {
+        String uuid = parseObject.getString(UUID);
+        int major = parseObject.getInt(MAJOR);
+        int minor = parseObject.getInt(MINOR);
+        String name = parseObject.getString(NAME);
+        String icon = parseObject.getString(ICON);
+    }
 }

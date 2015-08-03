@@ -52,6 +52,7 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements 
                 initWebView();
             }
         });
+        this.webview.clearCache(true);
         this.webview.loadUrl(intent.getStringExtra(URL));
 
         tagImageView.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +115,9 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements 
 
     @Override
     public void beaconsFound(final Collection<BeaconInfo> beacons) {
+        this.application.getBeaconsManager().stopScan();
+        this.application.getBeaconsManager().unbind();
+
         if (!beacons.isEmpty()) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -121,16 +125,26 @@ public class TagSmartPlaceInstanceActivity extends AppCompatActivity implements 
                     beaconsScanned(beacons);
                 }
             });
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    logToDisplay(R.string.no_beacons_found);
+                }
+            });
         }
     }
 
     private void beaconsScanned(Collection<BeaconInfo> beaconInfoList) {
-        this.application.logToDisplay(this, "Beacons detected");
+        this.application.logToDisplay(this, R.string.beacons_scanned);
         try {
             this.webview.beaconsScanned(beaconInfoList);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        this.application.getBeaconsManager().stopScan();
+    }
+
+    private void logToDisplay(int stringId) {
+        this.application.logToDisplay(this, stringId);
     }
 }

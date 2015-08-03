@@ -46,4 +46,9 @@ public class BeaconInfo {
             return false;
         }
     }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
 }

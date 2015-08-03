@@ -77,7 +77,6 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     private void turnScanOff() {
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         beaconsManager.stopScan();
-        beaconsManager.unbind();
         finish();
     }
 
@@ -96,14 +95,15 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         if (!beacons.isEmpty()) {
-            logToDisplay("Scan");
             final BeaconInfo beacon = beaconsManager.getNearestBeacon(beacons);
             if (!detectedBeacons.contains(beacon)) {
                 this.application.getDataStore().getBeacon(beacon, new BeaconCallback() {
                     @Override
                     public void done(BeaconObject object) {
-                        detectedBeacons.add(beacon);
-                        beaconFetched(object);
+                        if (object != null) {
+                            detectedBeacons.add(beacon);
+                            beaconFetched(object);
+                        }
                     }
                 });
                 logToDisplay("Detected beacon " + beacon.getUuid());

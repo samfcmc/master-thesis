@@ -19,8 +19,8 @@ import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanCallback, OnPageLoadedCallback {
 
@@ -32,13 +32,13 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     private String url;
     private String smartPlaceInstanceId;
 
-    List<BeaconInfo> detectedBeacons;
+    Map<BeaconInfo, TagObject> detectedTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smart_place);
-        this.detectedBeacons = new LinkedList<>();
+        this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         initUI();
     }
@@ -57,7 +57,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     }
 
     private void scanForNearbyObjects() {
-        this.application.getBeaconsManager().startScan(this);
+        this.application.getBeaconsManager().startScan(this, this);
     }
 
 
@@ -86,30 +86,39 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         if (!beacons.isEmpty()) {
-            logToDisplay("Beacon scanned");
             final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
-            if (!detectedBeacons.contains(nearestBeacon)) {
+            TagObject foundTag = this.detectedTags.get(nearestBeacon);
+            if (foundTag == null) {
                 this.application.getDataStore().getTag(this.smartPlaceInstanceId, nearestBeacon,
                         new TagCallback() {
                             @Override
                             public void done(TagObject object) {
-                                detectedBeacons.add(nearestBeacon);
+                                detectedTags.put(nearestBeacon, object);
                                 if (object == null) {
                                     logToDisplay("tag not found");
                                 } else {
-                                    logToDisplay("tag found " + object);
+                                    logToDisplay("tag fetched " + object);
                                     tagFound(object);
                                 }
 
                             }
                         });
+            } else {
+                logToDisplay("Tag found");
+                tagFound(foundTag);
             }
 
         }
     }
 
-    private void tagFound(TagObject tagObject) {
-        this.webView.tagFound(tagObject);
+    private void tagFound(final TagObject tagObject) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.tagFound(tagObject);
+            }
+        });
+
     }
 
 
@@ -132,7 +141,5 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         super.onDestroy();
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         beaconsManager.stopScan();
-        beaconsManager.unbind();
-
     }
 }

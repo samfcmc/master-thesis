@@ -10,4 +10,6 @@ public interface TagObject extends DataStoreObject {
     JSONObject getData();
 
     void setData(JSONObject data);
+
+    BeaconObject getBeacon();
 }

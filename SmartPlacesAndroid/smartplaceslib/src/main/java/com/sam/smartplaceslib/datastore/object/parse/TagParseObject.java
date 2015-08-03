@@ -1,6 +1,8 @@
 package com.sam.smartplaceslib.datastore.object.parse;
 
 import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 
 import org.json.JSONObject;
@@ -29,6 +31,15 @@ public class TagParseObject extends AbstractParseObject implements TagObject {
     @Override
     public void setData(JSONObject data) {
         put(DATA, data);
+    }
+
+    @Override
+    public BeaconObject getBeacon() {
+        ParseObject parseObject = getParseObject(BEACON);
+        BeaconParseObject beaconParseObject =
+                ParseObject.createWithoutData(BeaconParseObject.class, parseObject.getObjectId());
+        beaconParseObject.fromParseObject(parseObject);
+        return beaconParseObject;
     }
 
     public void setBeacon(BeaconParseObject beacon) {

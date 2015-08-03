@@ -31,4 +31,6 @@
     <string name="update_smart_place_instance">Update Smart Place Instance</string>
     <string name="smart_place_instance_saved">Smart Place Instance saved successfully</string>
     <string name="title_activity_tag_smart_place_instance">TagSmartPlaceInstanceActivity</string>
+    <string name="beacons_scanned">Beacons scanned</string>
+    <string name="no_beacons_found">No Beacons have been found</string>
 </resources>

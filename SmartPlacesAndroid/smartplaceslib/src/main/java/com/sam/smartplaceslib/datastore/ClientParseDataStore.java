@@ -80,6 +80,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         ParseQuery<TagParseObject> tagQuery = getQuery(TagParseObject.class);
         tagQuery = tagQuery.whereMatchesQuery(TagParseObject.BEACON, beaconQuery);
         tagQuery = tagQuery.whereEqualTo(TagParseObject.SMARTPLACE_INSTANCE, instanceParseObject);
+        tagQuery = tagQuery.include(TagParseObject.BEACON);
         getFirst(tagQuery, callback);
     }
 

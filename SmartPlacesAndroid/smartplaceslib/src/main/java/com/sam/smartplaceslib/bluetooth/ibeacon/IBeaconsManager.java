@@ -41,9 +41,11 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     public IBeaconsManager(Context context) {
         this.beaconManager = BeaconManager.getInstanceForApplication(context);
         BeaconParser parser = new IBeaconParser();
+        EstimoeBeaconParser estimoeBeaconParser = new EstimoeBeaconParser();
         this.region = new Region("myRegion", null, null, null);
         this.context = context;
         beaconManager.getBeaconParsers().add(parser);
+        beaconManager.getBeaconParsers().add(estimoeBeaconParser);
         this.settings = new Settings(context);
     }
 
@@ -56,9 +58,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
         this.beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                List<Beacon> list = new ArrayList<Beacon>(beacons);
-                Collections.sort(list, new BeaconComparator());
-                IBeaconsManager.this.scanCallback.beaconsFound(getBeaconInfoCollection(beacons));
+                didRange(beacons);
             }
         });
 
@@ -67,6 +67,12 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
         } catch (RemoteException e) {
             throw new RuntimeException("Remote exception in start beacons ranging");
         }
+    }
+
+    private void didRange(Collection<Beacon> beacons) {
+        List<Beacon> list = new ArrayList<Beacon>(beacons);
+        Collections.sort(list, new BeaconComparator());
+        this.scanCallback.beaconsFound(getBeaconInfoCollection(beacons));
     }
 
     @Override
@@ -129,7 +135,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
     }
 
     private BeaconInfo getBeaconInfo(Beacon beacon) {
-        String uuid = beacon.getId1().toHexString();
+        String uuid = beacon.getId1().toUuid().toString().toUpperCase();
         int major = beacon.getId2().toInt();
         int minor = beacon.getId3().toInt();
         double distance = beacon.getDistance();

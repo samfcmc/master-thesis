@@ -3,9 +3,11 @@ package com.sam.smartplaceslib.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.sam.smartplaceslib.datastore.BeaconInfo;
+import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 import com.sam.smartplaceslib.web.SmartPlacesWebViewClient;
@@ -34,6 +36,8 @@ public class SmartPlacesWebView extends WebView {
         super(context, attributeSet);
         setWebChromeClient(new WebChromeClient());
         getSettings().setJavaScriptEnabled(true);
+        getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        clearCache(true);
     }
 
     public void setOnPageLoadedCallback(OnPageLoadedCallback callback) {
@@ -63,7 +67,20 @@ public class SmartPlacesWebView extends WebView {
     }
 
     public void tagFound(TagObject tag) {
-        callSmartPlacesJSMethod(TAG_FOUND_FUNCTION, tag.getData());
+        JSONObject json = tag.getData();
+        JSONObject beaconJson = new JSONObject();
+        try {
+            BeaconObject beaconObject = tag.getBeacon();
+            beaconJson.put("uuid", beaconObject.getUUID());
+            beaconJson.put("major", beaconObject.getMajor());
+            beaconJson.put("minor", beaconObject.getMinor());
+            beaconJson.put("name", beaconObject.getName());
+            beaconJson.put("icon", beaconObject.getIcon());
+            json.put("beacon", beaconJson);
+            callSmartPlacesJSMethod(TAG_FOUND_FUNCTION, tag.getData());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void beaconsScanned(Collection<BeaconInfo> beaconInfoList) throws JSONException {
