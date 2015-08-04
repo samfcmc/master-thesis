@@ -109,7 +109,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      build: ['<%= buildPath %>'],
+      build: ['<%= buildPath %>', '<%= bowerComponents %>'],
     },
     express: {
       server: {
@@ -131,7 +131,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('common', ['bower', 'browserify', 'copy']);
   grunt.registerTask('dev', ['config:dev', 'common', 'express', 'watch']);
-  grunt.registerTask('prod', ['config:prod', 'common']);
+  grunt.registerTask('prod', ['config:prod', 'common', 'uglify']);
   grunt.registerTask('default', ['dev']);
 
 };
