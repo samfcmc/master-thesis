@@ -6,7 +6,15 @@ app.get('/', function(req, res) {
 });
 
 app.get('/apiInfo', function(req, res) {
-  res.sendFile(__dirname + '/walters.json');
+  var apiKey = process.env.WALTERS_API_KEY;
+  if(apiKey) {
+    // In production
+    res.send({apiKey: apiKey});
+  }
+  else {
+    // In development
+    res.sendFile(__dirname + '/walters.json');
+  }
 });
 
 app.use('/static', express.static(__dirname + '/build/bower_components'));
