@@ -79,6 +79,16 @@ module.exports = function(grunt) {
           },
         ],
       },
+      styles: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= bowerComponents %>/bootstrap/dist/css',
+            src: ['**/*.*'],
+            dest: '<%= buildPath %>/styles'
+          }
+        ]
+      }
     },
     watch: {
       bower: {

@@ -17,8 +17,9 @@
         });
 
         $stateProvider.state('objects', {
-          url: '/objects',
-          templateUrl: '/views/objects.html'
+          url: '/collections/{id}/objects',
+          templateUrl: '/views/objects.html',
+          controller: controllers.Objects
         });
     }]);
 

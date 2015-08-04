@@ -10,7 +10,7 @@
 
   module.exports = function(app, resource) {
     app.controller(name,
-      ['$scope', 'MuseumResource',
+      ['$scope', resource,
       function($scope, Resource) {
 
         Resource.collections({}, function(response) {

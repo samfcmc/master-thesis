@@ -3,6 +3,23 @@
 
 </div>
 
-<div class="row">
-
+<div class="row" ng-repeat="collection in collections.Items">
+  <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">
+       {{collection.CollectionName}}
+     </h3>
+   </div>
+   <div class="panel-body">
+     <div class="row">
+       {{collection.CollDescription}}
+     </div>
+     <div class="row">
+       <a ui-sref="objects({id: collection.CollectionID})"  class="btn btn-default btn-lg">
+         Objects
+         <span class="badge">{{collection.NumObjects}}</span>
+       </a>
+     </div>
+   </div>
+ </div>
 </div>
