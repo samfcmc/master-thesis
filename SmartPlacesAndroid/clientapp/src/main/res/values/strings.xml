@@ -13,8 +13,8 @@
     <string name="action_logout">Logout</string>
     <string name="title_activity_smart_place">SmartPlaceActivity</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="scan_period_background">Period between each scan in background mode</string>
-    <string name="scan_period_foreground">Period between each scan in foreground mode</string>
+    <string name="scan_period_background">Period between each scan in background mode (in milliseconds)</string>
+    <string name="scan_period_foreground">Period between each scan in foreground mode (in milliseconds)</string>
     <string name="restore_default">Restore default values</string>
     <string name="save">Save</string>
     <string name="settings_saved">New settings saved successfully</string>
