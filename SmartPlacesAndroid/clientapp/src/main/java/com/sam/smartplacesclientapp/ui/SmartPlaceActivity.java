@@ -53,6 +53,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         setTitle(this.name);
 
         this.webView.setOnPageLoadedCallback(this);
+        this.webView.clearCache(true);
         this.webView.loadUrl(this.url);
     }
 
