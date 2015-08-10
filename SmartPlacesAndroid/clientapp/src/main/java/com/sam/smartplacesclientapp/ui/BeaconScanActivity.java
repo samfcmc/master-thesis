@@ -22,14 +22,17 @@ import com.sam.smartplaceslib.datastore.object.SmartPlaceInstanceObject;
 import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class BeaconScanActivity extends AppCompatActivity implements BeaconScanCallback {
 
     private SmartPlacesClientApplication application;
     private List<BeaconInfo> detectedBeacons;
+    private Map<String, SmartPlaceInstanceObject> instancesFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         setContentView(R.layout.activity_beacon_scan);
         this.application = (SmartPlacesClientApplication) getApplication();
         this.detectedBeacons = new LinkedList<>();
+        this.instancesFound = new HashMap<>();
         this.application.getBeaconsManager().startScan(this, this);
     }
 
@@ -140,7 +144,10 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     protected void onPause() {
         super.onPause();
         logToDisplay("Pause");
-        this.application.getBeaconsManager().setBackgroundMode(true);
+
+        //this.application.getBeaconsManager().setBackgroundMode(true);
+        this.application.getBeaconsManager().stopScan();
+        this.application.getBeaconsManager().unbind();
     }
 
     @Override
@@ -152,7 +159,12 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
 
     private void notifyAboutSmartPlaces(List<SmartPlaceInstanceObject> list, final BeaconObject beacon) {
         for (final SmartPlaceInstanceObject instance : list) {
-            createNotification(beacon, instance);
+            SmartPlaceInstanceObject found = instancesFound.get(instance.getId());
+            if (found == null) {
+                createNotification(beacon, instance);
+                instancesFound.put(instance.getId(), instance);
+            }
+
         }
     }
 
@@ -161,14 +173,14 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         Intent resultIntent = new Intent(this, SmartPlaceActivity.class);
         SmartPlaceObject smartPlace = instance.getSmartPlace();
         String url = smartPlace.getUrl();
-        String name = smartPlace.getName();
-        String message = smartPlace.getDescription();
+        String name = instance.getTitle();
+        String message = instance.getMessage();
         resultIntent.putExtra(Keys.URL, url);
         resultIntent.putExtra(Keys.NAME, name);
         resultIntent.putExtra(Keys.MESSAGE, message);
         resultIntent.putExtra(Keys.SMART_PLACE, smartPlace.getId());
         resultIntent.putExtra(Keys.BEACON, beacon.getId());
         resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, instance.getId());
-        this.application.createNotification(this, smartPlace.getName(), smartPlace.getDescription(), resultIntent, SmartPlaceActivity.class);
+        this.application.createNotification(this, name, message, resultIntent, SmartPlaceActivity.class);
     }
 }

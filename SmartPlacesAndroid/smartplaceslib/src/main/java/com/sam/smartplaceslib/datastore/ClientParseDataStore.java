@@ -25,7 +25,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DataStore implementation to work with Parse.com BaaS
@@ -59,14 +61,18 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         tagQuery.findInBackground(new FindCallback<TagParseObject>() {
             @Override
             public void done(List<TagParseObject> list, ParseException e) {
-                List<SmartPlaceInstanceObject> result = new ArrayList<>(list.size());
+                Map<String, SmartPlaceInstanceObject> result = new HashMap<String, SmartPlaceInstanceObject>();
                 for (TagParseObject tag : list) {
                     ParseObject parseObject = tag.getParseObject(TagParseObject.SMARTPLACE_INSTANCE);
                     SmartPlaceInstanceParseObject instance = ParseObject.createWithoutData(SmartPlaceInstanceParseObject.class, parseObject.getObjectId());
-                    instance.updateFromParseObject(parseObject);
-                    result.add(instance);
+                    SmartPlaceInstanceObject found = result.get(instance.getId());
+                    if (found == null) {
+                        instance.updateFromParseObject(parseObject);
+                        result.put(instance.getId(), instance);
+                    }
+
                 }
-                callback.done(result);
+                callback.done(new ArrayList<SmartPlaceInstanceObject>(result.values()));
             }
         });
     }

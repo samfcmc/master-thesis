@@ -46,7 +46,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     private void initUI() {
         this.webView = (SmartPlacesWebView) findViewById(R.id.smartplace_webView);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(Keys.MESSAGE);
         this.name = intent.getStringExtra(Keys.NAME);
         this.url = intent.getStringExtra(Keys.URL);
         this.smartPlaceInstanceId = intent.getStringExtra(Keys.SMART_PLACE_CONFIGURATION);
@@ -58,6 +57,8 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     }
 
     private void scanForNearbyObjects() {
+        logToDisplay("Will scan...");
+        this.application.getBeaconsManager().setBackgroundMode(false);
         this.application.getBeaconsManager().startScan(this, this);
     }
 
@@ -87,6 +88,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         if (!beacons.isEmpty()) {
+            logToDisplay("Beacons scanned");
             final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
             TagObject foundTag = this.detectedTags.get(nearestBeacon);
             if (foundTag == null) {
@@ -108,7 +110,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
                 logToDisplay("Tag found");
                 tagFound(foundTag);
             }
-
         }
     }
 
@@ -134,6 +135,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
 
     @Override
     public void done() {
+        application.getBeaconsManager().stopScan();
         scanForNearbyObjects();
     }
 
