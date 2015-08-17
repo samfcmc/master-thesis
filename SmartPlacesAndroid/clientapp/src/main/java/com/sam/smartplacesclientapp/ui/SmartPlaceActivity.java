@@ -3,6 +3,7 @@ package com.sam.smartplacesclientapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
+import com.sam.smartplaceslib.datastore.NoBeacon;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.TagObject;
 import com.sam.smartplaceslib.ui.SmartPlacesWebView;
@@ -31,6 +33,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     private String name;
     private String url;
     private String smartPlaceInstanceId;
+    private BeaconInfo previousBeacon;
 
     Map<BeaconInfo, TagObject> detectedTags;
 
@@ -40,6 +43,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         setContentView(R.layout.activity_smart_place);
         this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
+        this.previousBeacon = NoBeacon.getInstance();
         initUI();
     }
 
@@ -90,6 +94,10 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         if (!beacons.isEmpty()) {
             logToDisplay("Beacons scanned");
             final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
+            if (!nearestBeacon.equals(previousBeacon)) {
+                Log.d("EVENTS", "New nearest beacon");
+                previousBeacon = nearestBeacon;
+            }
             TagObject foundTag = this.detectedTags.get(nearestBeacon);
             if (foundTag == null) {
                 this.application.getDataStore().getTag(this.smartPlaceInstanceId, nearestBeacon,
