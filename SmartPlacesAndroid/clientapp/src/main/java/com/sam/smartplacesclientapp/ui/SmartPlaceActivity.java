@@ -34,6 +34,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     private String url;
     private String smartPlaceInstanceId;
     private BeaconInfo previousBeacon;
+    private int newNearestCount;
 
     Map<BeaconInfo, TagObject> detectedTags;
 
@@ -44,6 +45,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         this.previousBeacon = NoBeacon.getInstance();
+        this.newNearestCount = 0;
         initUI();
     }
 
@@ -95,7 +97,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
             logToDisplay("Beacons scanned");
             final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
             if (!nearestBeacon.equals(previousBeacon)) {
-                Log.d("EVENTS", "New nearest beacon");
+                Log.d("EVENTS", "New nearest beacon #" + ++newNearestCount);
                 previousBeacon = nearestBeacon;
             }
             TagObject foundTag = this.detectedTags.get(nearestBeacon);
@@ -109,6 +111,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
                                     logToDisplay("tag not found");
                                 } else {
                                     logToDisplay("tag fetched " + object);
+                                    Log.d("EVENTS", "Beacon #" + newNearestCount + " " + object.getBeacon().getName());
                                     tagFound(object);
                                 }
 
@@ -116,6 +119,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
                         });
             } else {
                 logToDisplay("Tag found");
+                Log.d("EVENTS", "Beacon #" + newNearestCount + " " + foundTag.getBeacon().getName());
                 tagFound(foundTag);
             }
         }
