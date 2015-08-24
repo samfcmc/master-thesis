@@ -27,6 +27,7 @@ import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObje
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
+import com.sam.smartplaceslib.metrics.Metrics;
 
 /**
  *
@@ -37,13 +38,21 @@ public abstract class AbstractParseDataStore implements DataStore {
 
     public static int REQUEST_LOGIN = 2;
 
-    public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
+    private Metrics metrics;
+
+    public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials,
+                                  Metrics metrics) {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(application);
         registerSubclasses();
         Parse.initialize(application, dataStoreCredentials.getClientId(), dataStoreCredentials.getClientKey());
         FacebookSdk.setApplicationId(dataStoreCredentials.getFacebookAppId());
         ParseFacebookUtils.initialize(application, REQUEST_LOGIN);
+        this.metrics = metrics;
+    }
+
+    public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
+        this(application, dataStoreCredentials, null);
     }
 
     private void registerSubclasses() {
@@ -51,6 +60,17 @@ public abstract class AbstractParseDataStore implements DataStore {
         ParseObject.registerSubclass(SmartPlaceInstanceParseObject.class);
         ParseObject.registerSubclass(SmartPlaceParseObject.class);
         ParseObject.registerSubclass(TagParseObject.class);
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
+    }
+
+    protected void measureLatency(String requestName, final long requestStart) {
+        if (metrics != null) {
+            long latency = System.currentTimeMillis() - requestStart;
+            metrics.value("Requests", requestName, latency, "ms");
+        }
     }
 
     protected <T extends ParseObject> ParseQuery<T> getQuery(Class<T> clazz) {
@@ -80,6 +100,13 @@ public abstract class AbstractParseDataStore implements DataStore {
 
     protected <T extends AbstractParseObject> void getFirst(ParseQuery<T> query,
                                                             DataStoreCallback<? super T> callback) {
+        query.getFirstInBackground(new ParseDataStoreGetCallback<T>(callback));
+    }
+
+    protected <T extends AbstractParseObject> void getFirst(ParseQuery<T> query,
+                                                            String requestName,
+                                                            DataStoreCallback<? super T> callback) {
+        long start = System.currentTimeMillis();
         query.getFirstInBackground(new ParseDataStoreGetCallback<T>(callback));
     }
 

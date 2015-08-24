@@ -20,6 +20,7 @@ import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
+import com.sam.smartplaceslib.metrics.Metrics;
 
 import org.json.JSONObject;
 
@@ -34,14 +35,18 @@ import java.util.Map;
  */
 public class ClientParseDataStore extends AbstractParseDataStore implements ClientDataStore {
 
-    public static ClientDataStore fromRawJsonResource(Application application, int jsonRawResourceId) throws IOException {
+
+    public static ClientDataStore fromRawJsonResource(Application application,
+                                                      int jsonRawResourceId,
+                                                      Metrics metrics) throws IOException {
         DataStoreCredentials dataStoreCredentials = DataStoreCredentials
                 .fromJsonRawResource(application, jsonRawResourceId);
-        return new ClientParseDataStore(application, dataStoreCredentials);
+        return new ClientParseDataStore(application, dataStoreCredentials, metrics);
     }
 
-    public ClientParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
-        super(application, dataStoreCredentials);
+    public ClientParseDataStore(Application application, DataStoreCredentials dataStoreCredentials,
+                                Metrics metrics) {
+        super(application, dataStoreCredentials, metrics);
     }
 
     @Override
@@ -58,9 +63,11 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         tagQuery = tagQuery.whereEqualTo(TagParseObject.BEACON, beaconParseObject);
         tagQuery = include(tagQuery, TagParseObject.SMARTPLACE_INSTANCE);
         tagQuery = include(tagQuery, TagParseObject.SMARTPLACE_INSTANCE, SmartPlaceInstanceParseObject.SMART_PLACE);
+        final long start = System.currentTimeMillis();
         tagQuery.findInBackground(new FindCallback<TagParseObject>() {
             @Override
             public void done(List<TagParseObject> list, ParseException e) {
+                measureLatency("Get Smart Place Instances", start);
                 Map<String, SmartPlaceInstanceObject> result = new HashMap<String, SmartPlaceInstanceObject>();
                 for (TagParseObject tag : list) {
                     ParseObject parseObject = tag.getParseObject(TagParseObject.SMARTPLACE_INSTANCE);

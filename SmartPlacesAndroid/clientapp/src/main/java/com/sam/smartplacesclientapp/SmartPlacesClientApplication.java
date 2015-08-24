@@ -15,6 +15,8 @@ import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplaceslib.datastore.ClientDataStore;
 import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
+import com.sam.smartplaceslib.metrics.LogDReporter;
+import com.sam.smartplaceslib.metrics.Metrics;
 
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
@@ -33,6 +35,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     private BackgroundPowerSaver backgroundPowerSaver;
     private ClientDataStore dataStore;
     private int notificationId = 0;
+    private Metrics metrics;
 
     private BeaconsManager beaconsManager;
 
@@ -41,6 +44,8 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     public void onCreate() {
         super.onCreate();
         this.beaconsManager = new IBeaconsManager(this);
+        LogDReporter reporter = new LogDReporter();
+        this.metrics = new Metrics(reporter);
         initBeaconLib();
         initDataStore();
     }
@@ -53,7 +58,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
 
     private void initDataStore() {
         try {
-            this.dataStore = ClientParseDataStore.fromRawJsonResource(this, R.raw.parse);
+            this.dataStore = ClientParseDataStore.fromRawJsonResource(this, R.raw.parse, this.metrics);
         } catch (IOException e) {
             logToDisplay("Error creating data store object");
             throw new CannotFindParseJsonFile();
@@ -107,5 +112,9 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
 
     private int newNotificationId() {
         return notificationId++;
+    }
+
+    public Metrics getMetrics() {
+        return metrics;
     }
 }
