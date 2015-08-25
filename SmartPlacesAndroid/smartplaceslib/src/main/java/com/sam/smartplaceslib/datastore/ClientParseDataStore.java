@@ -7,7 +7,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceCallback;
 import com.sam.smartplaceslib.datastore.callback.SmartPlaceInstanceCallback;
@@ -52,7 +51,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
     @Override
     public void getBeacon(BeaconInfo beaconInfo, final BeaconCallback callback) {
         ParseQuery<BeaconParseObject> query = getBeaconQuery(beaconInfo);
-        getFirst(query, callback);
+        getFirst(query, callback, getMetrics(), "Get beacon");
     }
 
     @Override
@@ -94,7 +93,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         tagQuery = tagQuery.whereMatchesQuery(TagParseObject.BEACON, beaconQuery);
         tagQuery = tagQuery.whereEqualTo(TagParseObject.SMARTPLACE_INSTANCE, instanceParseObject);
         tagQuery = tagQuery.include(TagParseObject.BEACON);
-        getFirst(tagQuery, callback);
+        getFirst(tagQuery, callback, getMetrics(), "Get tag");
     }
 
     @Override
@@ -103,13 +102,13 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         beaconQuery.getFirstInBackground(new GetCallback<BeaconParseObject>() {
             @Override
             public void done(BeaconParseObject beaconParseObject, ParseException e) {
-                SmartPlaceInstanceParseObject configurationParseObject = ParseObject.createWithoutData(
+                SmartPlaceInstanceParseObject instanceParseObject = ParseObject.createWithoutData(
                         SmartPlaceInstanceParseObject.class, smartPlaceConfigurationId);
                 final TagParseObject tag = ParseObject.create(TagParseObject.class);
                 tag.setData(new JSONObject());
                 tag.setBeacon(beaconParseObject);
-                tag.setSmartPlaceInstance(configurationParseObject);
-                save(tag, callback);
+                tag.setSmartPlaceInstance(instanceParseObject);
+                save(tag, callback, getMetrics(), "Create tag");
             }
         });
     }
@@ -119,9 +118,11 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         ParseQuery<SmartPlaceInstanceParseObject> query =
                 getQuery(SmartPlaceInstanceParseObject.class);
         query.include(SmartPlaceInstanceParseObject.SMART_PLACE);
+        final long start = System.currentTimeMillis();
         query.getInBackground(smartPlaceInstanceObject.getId(), new GetCallback<SmartPlaceInstanceParseObject>() {
             @Override
             public void done(SmartPlaceInstanceParseObject smartPlaceConfigurationParseObject, ParseException e) {
+                measureLatency("Get smart place", start);
                 ParseObject parseObject = smartPlaceConfigurationParseObject
                         .getParseObject(SmartPlaceInstanceParseObject.SMART_PLACE);
                 SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
@@ -130,17 +131,6 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
                 callback.done(smartPlaceParseObject);
             }
         });
-    }
-
-    @Override
-    public void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceInstanceCallback callback) {
-        ParseQuery<SmartPlaceInstanceParseObject> query = getQuery(SmartPlaceInstanceParseObject.class);
-        ParseUser user = ParseUser.getCurrentUser();
-        SmartPlaceParseObject smartPlaceParseObject = ParseObject.createWithoutData(
-                SmartPlaceParseObject.class, smartPlaceId);
-        query = query.whereEqualTo(SmartPlaceInstanceParseObject.OWNER, user);
-        query = query.whereEqualTo(SmartPlaceInstanceParseObject.SMART_PLACE, smartPlaceParseObject);
-        getFirst(query, callback);
     }
 
 
@@ -153,7 +143,8 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
             public void done(final SmartPlaceInstanceParseObject
                                      smartPlaceConfigurationParseObject, ParseException e) {
                 smartPlaceConfigurationParseObject.update(object);
-                save(smartPlaceConfigurationParseObject, callback);
+                save(smartPlaceConfigurationParseObject, callback, getMetrics(),
+                        "Save smart place instance");
             }
         });
     }
@@ -165,7 +156,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
             @Override
             public void done(final TagParseObject tagParseObject, ParseException e) {
                 tagParseObject.setData(jsonObject);
-                save(tagParseObject, callback);
+                save(tagParseObject, callback, getMetrics(), "Save tag");
             }
         });
     }

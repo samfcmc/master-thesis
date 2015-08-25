@@ -26,8 +26,6 @@ public interface ClientDataStore extends DataStore {
     void getSmartPlace(SmartPlaceInstanceObject smartPlaceInstanceObject,
                        final SmartPlaceCallback callback);
 
-    void getSmartPlaceConfiguration(String smartPlaceId, final SmartPlaceInstanceCallback callback);
-
     void saveSmartPlaceInstance(SmartPlaceInstanceObject object,
                                 SmartPlaceInstanceCallback callback);
 
