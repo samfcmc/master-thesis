@@ -48,6 +48,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         this.application = (SmartPlacesClientApplication) getApplication();
         this.previousBeacon = NoBeacon.getInstance();
         this.newNearestCount = 0;
+        this.application.getMetrics().start();
         initUI();
     }
 
@@ -168,12 +169,13 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         super.onDestroy();
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         beaconsManager.stopScan();
+        Metrics metrics = application.getMetrics();
+        metrics.report();
+        metrics.stop();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Metrics metrics = application.getMetrics();
-        metrics.report();
     }
 }
