@@ -2,9 +2,9 @@ package com.sam.smartplaceslib.metrics;
 
 import android.util.Log;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Metrics {
 
     private MetricsReporter reporter;
-    private Map<String, List<Metric<?>>> metrics;
+    private Map<String, Collection<Metric<?>>> metrics;
     private Map<String, Counter> counters;
     private BlockingQueue<PendingMetric> queue;
     private PendingMetricsThread pendingMetricsThread;
@@ -30,7 +30,7 @@ public class Metrics {
         this.reportThread = new ReportThread(this);
     }
 
-    public Map<String, List<Metric<?>>> getMetrics() {
+    public Map<String, Collection<Metric<?>>> getMetrics() {
         return metrics;
     }
 
@@ -115,8 +115,8 @@ public class Metrics {
         putInQueue(pendingCounter);
     }
 
-    public List<Metric<?>> getOrCreateCategory(String category) {
-        List<Metric<?>> found = metrics.get(category);
+    public Collection<Metric<?>> getOrCreateCategory(String category) {
+        Collection<Metric<?>> found = metrics.get(category);
         if (found == null) {
             metrics.put(category, new LinkedList<Metric<?>>());
             found = metrics.get(category);

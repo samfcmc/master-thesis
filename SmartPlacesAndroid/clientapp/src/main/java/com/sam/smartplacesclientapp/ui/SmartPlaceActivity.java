@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
@@ -36,7 +35,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     private String url;
     private String smartPlaceInstanceId;
     private BeaconInfo previousBeacon;
-    private int newNearestCount;
 
     Map<BeaconInfo, TagObject> detectedTags;
 
@@ -47,7 +45,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         this.previousBeacon = NoBeacon.getInstance();
-        this.newNearestCount = 0;
         this.application.getMetrics().start();
         initUI();
     }
@@ -66,7 +63,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     }
 
     private void scanForNearbyObjects() {
-        logToDisplay("Will scan...");
         this.application.getBeaconsManager().setBackgroundMode(false);
         this.application.getBeaconsManager().startScan(this, this);
     }
@@ -97,7 +93,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         if (!beacons.isEmpty()) {
-            logToDisplay("Beacons scanned");
             final BeaconInfo nearestBeacon = this.application.getBeaconsManager().getNearestBeacon(beacons);
             if (!nearestBeacon.equals(previousBeacon)) {
                 newNearestBeaconCount();
@@ -111,9 +106,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
                             public void done(TagObject object) {
                                 detectedTags.put(nearestBeacon, object);
                                 if (object == null) {
-                                    logToDisplay("tag not found");
                                 } else {
-                                    logToDisplay("tag fetched " + object);
                                     beaconScannedMetric(object.getBeacon());
                                     tagFound(object);
                                 }
@@ -121,7 +114,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
                             }
                         });
             } else {
-                logToDisplay("Tag found");
                 beaconScannedMetric(foundTag.getBeacon());
                 tagFound(foundTag);
             }
@@ -146,16 +138,6 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
             }
         });
 
-    }
-
-
-    private void logToDisplay(final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(SmartPlaceActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

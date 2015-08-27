@@ -1,6 +1,6 @@
 package com.sam.smartplaceslib.metrics;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
@@ -36,7 +36,7 @@ public class PendingValue<T> implements PendingMetric {
 
     @Override
     public void process(Metrics metrics) {
-        List<Metric<?>> found = metrics.getOrCreateCategory(category);
+        Collection<Metric<?>> found = metrics.getOrCreateCategory(category);
         found.add(new Metric<T>(name, value, unit));
     }
 }
