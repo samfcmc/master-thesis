@@ -3,6 +3,6 @@ package com.sam.smartplaceslib.metrics;
 /**
  *
  */
-public interface PendingMetric {
+public interface PendingElement {
     void process(Metrics metrics);
 }

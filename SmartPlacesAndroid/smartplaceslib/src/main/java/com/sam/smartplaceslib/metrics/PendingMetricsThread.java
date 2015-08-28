@@ -25,8 +25,8 @@ public class PendingMetricsThread extends Thread {
     public void run() {
         try {
             while (isRun()) {
-                PendingMetric pendingMetric = metrics.takePendingMetric();
-                pendingMetric.process(metrics);
+                PendingElement pendingElement = metrics.takePendingElement();
+                pendingElement.process(metrics);
             }
         } catch (InterruptedException e) {
             Log.e("Error", e.getMessage());

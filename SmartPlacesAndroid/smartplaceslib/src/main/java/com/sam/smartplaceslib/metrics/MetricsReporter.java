@@ -8,7 +8,9 @@ import java.util.Map;
  */
 public interface MetricsReporter {
 
-    void report(Map<String, Collection<Metric<?>>> metrics);
+    void reportValues(Map<String, Value> values);
 
-    void report(Collection<Counter> counters);
+    void reportCounters(Collection<Counter> counters);
+
+    void reportEvents(Map<String, Collection<Event>> events);
 }

@@ -14,17 +14,21 @@ public class LogDReporter implements MetricsReporter {
     private static final String TAG = "Metrics Report";
 
     @Override
-    public void report(Map<String, Collection<Metric<?>>> metrics) {
+    public void reportValues(Map<String, Value> values) {
         header();
-        for (Map.Entry<String, Collection<Metric<?>>> entry : metrics.entrySet()) {
+        for (Map.Entry<String, Value> entry : values.entrySet()) {
+            Value value = entry.getValue();
             String category = entry.getKey();
             String message = String.format("==> Category: %s", category);
             log(message);
-            for (Metric metric : entry.getValue()) {
-                message = String.format("Category: %s, Metric %s, value %s", category,
-                        metric.getName(), metric.getValue().toString() + " " + metric.getUnit());
+            message = String.format("\t\t Values for: %s", value.getName());
+            log(message);
+            for (Double v : value.getValues()) {
+                message = String.format("\t\t\t Value: %.2f %s", v.doubleValue(), value.getUnit());
                 log(message);
             }
+            message = String.format("\t\t Average for %s: %.2f %s", value.getName(), value.avg(), value.getUnit());
+            log(message);
         }
 
     }
@@ -40,11 +44,30 @@ public class LogDReporter implements MetricsReporter {
     }
 
     @Override
-    public void report(Collection<Counter> counters) {
+    public void reportCounters(Collection<Counter> counters) {
         for (Counter counter : counters) {
             String message = String.format("Counter: %s, Value: %d", counter.getName(),
                     counter.getValue());
             log(message);
+        }
+    }
+
+    @Override
+    public void reportEvents(Map<String, Collection<Event>> events) {
+        for (Map.Entry<String, Collection<Event>> entry : events.entrySet()) {
+            String category = entry.getKey();
+            String message = String.format("==> Event Category: %s", category);
+            log(message);
+            for (Event event : entry.getValue()) {
+                message = String.format("\t\t Event: %s", event.getName());
+                log(message);
+                for (Date occurrence : event.getOccurences()) {
+                    message = String.format("\t\t\t Occurrence: %s", occurrence.toString());
+                    log(message);
+                }
+                message = String.format("\t\t\t Total occurrences: %d", event.getOccurences().size());
+                log(message);
+            }
         }
     }
 }

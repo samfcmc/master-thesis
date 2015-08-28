@@ -15,7 +15,7 @@ public class ReportThread extends Thread {
     public void run() {
         MetricsReporter reporter = metrics.getReporter();
 
-        reporter.report(metrics.getMetrics());
-        reporter.report(metrics.getCounters().values());
+        reporter.reportValues(metrics.getValues());
+        reporter.reportCounters(metrics.getCounters().values());
     }
 }

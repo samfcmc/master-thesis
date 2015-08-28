@@ -3,21 +3,33 @@ package com.sam.smartplaceslib.metrics;
 /**
  *
  */
-public class Counter extends Metric<Integer> {
+public class Counter {
+
+    private String name;
+    private int value;
+
     public Counter(String name) {
-        super(name, 0);
+        this.name = name;
+        this.value = 0;
     }
 
     public void inc() {
-        setValue(getValue() + 1);
+        value++;
     }
 
     public void dec() {
-        setValue(getValue() - 1);
+        value--;
     }
 
     public void reset() {
-        setValue(0);
+        value = 0;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

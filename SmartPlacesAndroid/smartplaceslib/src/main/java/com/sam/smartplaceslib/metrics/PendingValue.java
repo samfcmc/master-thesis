@@ -1,17 +1,15 @@
 package com.sam.smartplaceslib.metrics;
 
-import java.util.Collection;
-
 /**
  *
  */
-public class PendingValue<T> implements PendingMetric {
+public class PendingValue implements PendingElement {
     private String category;
     private String name;
-    private T value;
+    private double value;
     private String unit;
 
-    public PendingValue(String category, String name, T value, String unit) {
+    public PendingValue(String category, String name, double value, String unit) {
         this.category = category;
         this.name = name;
         this.value = value;
@@ -26,7 +24,7 @@ public class PendingValue<T> implements PendingMetric {
         return name;
     }
 
-    public T getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -36,7 +34,7 @@ public class PendingValue<T> implements PendingMetric {
 
     @Override
     public void process(Metrics metrics) {
-        Collection<Metric<?>> found = metrics.getOrCreateCategory(category);
-        found.add(new Metric<T>(name, value, unit));
+        metrics.processPendingValue(this);
     }
+
 }

@@ -21,7 +21,6 @@ import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -127,7 +126,8 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
 
     private void beaconScannedMetric(BeaconObject beaconObject) {
         Metrics metrics = application.getMetrics();
-        metrics.value("Beacon scan", beaconObject.getName(), new Date());
+        metrics.event("Beacon scan", beaconObject.getName());
+        metrics.counterInc("Beacon scanned " + beaconObject.getName());
     }
 
     private void tagFound(final TagObject tagObject) {

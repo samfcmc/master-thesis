@@ -3,7 +3,7 @@ package com.sam.smartplaceslib.metrics;
 /**
  *
  */
-public abstract class PendingCounter implements PendingMetric {
+public abstract class PendingCounter implements PendingElement {
 
     private String name;
 
@@ -17,8 +17,7 @@ public abstract class PendingCounter implements PendingMetric {
 
     @Override
     public void process(Metrics metrics) {
-        Counter counter = metrics.getOrCreateCounter(name);
-        applyOperaration(counter);
+        metrics.processPendingCounter(this);
     }
 
     protected abstract void applyOperaration(Counter counter);

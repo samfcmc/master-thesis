@@ -2,9 +2,7 @@ package com.sam.smartplaceslib.metrics;
 
 import android.util.Log;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,9 +13,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Metrics {
 
     private MetricsReporter reporter;
-    private Map<String, Collection<Metric<?>>> metrics;
+    private Map<String, Value> metrics;
     private Map<String, Counter> counters;
-    private BlockingQueue<PendingMetric> queue;
+    private Map<String, Event> events;
+    private BlockingQueue<PendingElement> queue;
     private PendingMetricsThread pendingMetricsThread;
     private ReportThread reportThread;
 
@@ -28,9 +27,10 @@ public class Metrics {
         this.queue = new LinkedBlockingQueue<>();
         this.pendingMetricsThread = new PendingMetricsThread(this);
         this.reportThread = new ReportThread(this);
+        this.events = new HashMap<>();
     }
 
-    public Map<String, Collection<Metric<?>>> getMetrics() {
+    public Map<String, Value> getValues() {
         return metrics;
     }
 
@@ -42,7 +42,7 @@ public class Metrics {
         return reporter;
     }
 
-    public PendingMetric takePendingMetric() throws InterruptedException {
+    public PendingElement takePendingElement() throws InterruptedException {
         return queue.take();
     }
 
@@ -52,9 +52,9 @@ public class Metrics {
         }
     }
 
-    private void putInQueue(PendingMetric pendingMetric) {
+    private void putInQueue(PendingElement pendingElement) {
         try {
-            queue.put(pendingMetric);
+            queue.put(pendingElement);
         } catch (InterruptedException e) {
             Log.e("Error", e.getMessage());
         }
@@ -62,7 +62,8 @@ public class Metrics {
 
     public void stop() {
         if (pendingMetricsThread.isAlive()) {
-            pendingMetricsThread.stopRunning();
+            StopPendingMetricsThread stop = new StopPendingMetricsThread();
+            putInQueue(stop);
             try {
                 pendingMetricsThread.join();
             } catch (InterruptedException e) {
@@ -82,16 +83,21 @@ public class Metrics {
         reportThread.start();
     }
 
-    public <T> void value(String category, String name, T value, String unit) {
-        PendingValue<T> pendingValue = new PendingValue<>(category, name, value, unit);
+    public void value(String category, String name, double value, String unit) {
+        PendingValue pendingValue = new PendingValue(category, name, value, unit);
         putInQueue(pendingValue);
     }
 
-    public <T> void value(String category, String name, T value) {
+    public <T> void value(String category, String name, double value) {
         value(category, name, value, "");
     }
 
-    public Counter getOrCreateCounter(String name) {
+    public void event(String category, String name) {
+        PendingEvent pendingEvent = new PendingEvent(category, name);
+        putInQueue(pendingEvent);
+    }
+
+    private Counter getOrCreateCounter(String name) {
         Counter counter = counters.get(name);
         if (counter == null) {
             counter = new Counter(name);
@@ -115,14 +121,31 @@ public class Metrics {
         putInQueue(pendingCounter);
     }
 
-    public Collection<Metric<?>> getOrCreateCategory(String category) {
-        Collection<Metric<?>> found = metrics.get(category);
+    public void processPendingValue(PendingValue pendingValue) {
+        Value found = metrics.get(pendingValue.getCategory());
         if (found == null) {
-            metrics.put(category, new LinkedList<Metric<?>>());
-            found = metrics.get(category);
+            found = new Value(pendingValue.getName(), pendingValue.getUnit());
+            metrics.put(pendingValue.getCategory(), found);
         }
-
-        return found;
+        found.addValue(pendingValue.getValue());
     }
 
+    public void processPendingCounter(PendingCounter pendingCounter) {
+        Counter counter = getOrCreateCounter(pendingCounter.getName());
+        pendingCounter.applyOperaration(counter);
+    }
+
+    public void processPendingEvent(PendingEvent pendingEvent) {
+        Event found = events.get(pendingEvent.getCategory());
+        if (found == null) {
+            found = new Event(pendingEvent.getName());
+            events.put(pendingEvent.getCategory(), found);
+        }
+
+        found.addOccurrence();
+    }
+
+    public void processStopPendingMetricsThread(StopPendingMetricsThread stopPendingMetricsThread) {
+        pendingMetricsThread.stopRunning();
+    }
 }
