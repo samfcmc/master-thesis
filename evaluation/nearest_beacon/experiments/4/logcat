@@ -1,0 +1,15 @@
+08-31 15:00:07.568  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ------------------------------------
+08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Metrics start: Mon Aug 31 15:00:07 GMT+01:00 2015
+08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ------------------------------------
+08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ==> Category: Requests
+08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Values for: Get beacon
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 775.00 ms
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 302.00 ms
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 355.00 ms
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 195.00 ms
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 1036.00 ms
+08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Average for Get beacon: 532.60 ms
+08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned blueberry, Value: 1
+08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: New nearest beacon, Value: 10
+08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned mint, Value: 9
+08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned ice, Value: 8
