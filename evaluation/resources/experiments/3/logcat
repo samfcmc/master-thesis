@@ -1,0 +1,13 @@
+08-31 15:58:15.407: D/Metrics Report(16809): ------------------------------------
+08-31 15:58:15.407: D/Metrics Report(16809): Metrics start: Mon Aug 31 15:58:15 GMT+01:00 2015
+08-31 15:58:15.407: D/Metrics Report(16809): ------------------------------------
+08-31 15:58:15.408: D/Metrics Report(16809): ==> Category: Requests
+08-31 15:58:15.408: D/Metrics Report(16809): 		 Values for: Get beacon
+08-31 15:58:15.416: D/Metrics Report(16809): 			 Value: 1340.00 ms
+08-31 15:58:15.416: D/Metrics Report(16809): 			 Value: 14082.00 ms
+08-31 15:58:15.418: D/Metrics Report(16809): 			 Value: 1526.00 ms
+08-31 15:58:15.419: D/Metrics Report(16809): 			 Value: 1486.00 ms
+08-31 15:58:15.419: D/Metrics Report(16809): 		 Average for Get beacon: 4608.50 ms
+08-31 15:58:15.419: D/Metrics Report(16809): Counter: Beacon scanned blueberry, Value: 1
+08-31 15:58:15.419: D/Metrics Report(16809): Counter: New nearest beacon, Value: 2
+08-31 15:58:15.419: D/Metrics Report(16809): Counter: Beacon scanned ice, Value: 1
