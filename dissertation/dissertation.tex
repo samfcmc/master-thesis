@@ -14,7 +14,7 @@
 % Line spacing package
 \usepackage{graphicx, helvet, hyperref, inputenc, setspace}
 \usepackage[portuguese,english]{babel}
-\usepackage[acronym]{glossaries}
+\usepackage[acronym, toc]{glossaries}
 
 % Code snippets
 \usepackage{listings}
@@ -47,21 +47,37 @@
 % ------------------------------------------
 
 \begin{document}
+\pagenumbering{gobble}% Remove page numbers (and reset to 1)
+\clearpage
+\thispagestyle{empty}
 \input{variables.tex}
 
 \include{cover}
 
-\thispagestyle{empty}
 \if\includeAcknowledgments 1
 \input{acknowledgments/acknowledgments.tex}
 \fi
 
-\input{abstract/abstract-en.tex}
-\input{abstract/abstract-pt.tex}
+\cleardoublepage
+\include{abstract/abstract-en}
+\cleardoublepage
+\include{abstract/abstract-pt}
 
+% Table of contents
 \tableofcontents
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+
+% List of tables
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
+
+% List of figures
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
+
+% List of acronyms
 \printglossary[type=\acronymtype]
 
 \input{chapters/main.tex}
