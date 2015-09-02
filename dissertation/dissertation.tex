@@ -6,7 +6,7 @@
 % Advisors:
 %
 % ------------------------------------------
-\documentclass[10pt,twoside,a4paper]{report}
+\documentclass[10pt,twoside,openright,a4paper]{report}
 \usepackage[utf8]{inputenc}
 
 % Set document margins to 1in in all sides
@@ -15,6 +15,12 @@
 \usepackage{graphicx, helvet, hyperref, inputenc, setspace}
 \usepackage[portuguese,english]{babel}
 \usepackage[acronym]{glossaries}
+
+% Code snippets
+\usepackage{listings}
+\usepackage{color}
+
+\input{config.tex}
 
 % Built the glossary when the main file is built.
 \makeglossaries
@@ -45,6 +51,7 @@
 
 \include{cover}
 
+\thispagestyle{empty}
 \if\includeAcknowledgments 1
 \input{acknowledgments/acknowledgments.tex}
 \fi
