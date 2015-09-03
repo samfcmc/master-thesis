@@ -111,7 +111,7 @@ Its implementation is detailed in section \ref{sub:library}
 % Explain what the lib does
 % UML for the lib
 % Examples of its usage
-As already mentioned, a library, smartplaceslib, was created in order to provide \glspl{API} that mobile apps can
+As already mentioned, a library, smartplaceslib, as shown in figure \ref{fig:smartplaces_package}, was created in order to provide \glspl{API} that mobile apps can
 use. Because, both apps use the Bluetooth receiver and interact with the backend, this library avoids having similar code in both apps. There are two important classes that this library offers:
 \begin{description}
   \item[IBeaconsManager]: Offers methods to start scanning for beacons and change some settings such as, interval between each scan;
@@ -119,7 +119,8 @@ use. Because, both apps use the Bluetooth receiver and interact with the backend
 \end{description}
 
 When IBeaconsManager class is used, it needs a BeaconScanCallback object, which overrides a method that is executed when beacons are scanned, because the scanning is an asynchronous process.
-For instance, the following code snippet illustrates how to use IBeaconsManager class, in a given Activity, to scan for nearby beacons.
+For instance, the following code snippet illustrates how to use IBeaconsManager class, in a given
+Activity\footnote{http://developer.android.com/guide/components/activities.html}, to scan for nearby beacons.
 
 \begin{lstlisting}
 IBeaconsManager manager = new IBeaconsManager(this);
@@ -133,12 +134,31 @@ manager.startScan(this, new BeaconScanCallback() {
 
 \subsection{Mobile app for owners}
 \label{sub:mobile_app_for_owners}
+% Who are the owners
+% Brief description of its features
+% How it uses the library
+% Android Studio, part of the project
+As stated in chapter \ref{chapter:solution}, owners are who install beacons and configure Smart Places. This mobile Android app allows them to create an instance of a Smart Place.
+In terms of backend, they are creating an instance of Smart Place Instance class, explained in \ref{sec:backend}.
+This app was developed using Android Studio.
+It is called ownersapp and it uses the library, smartplaceslib, as shown in Figure \ref{fig:smartplaces_package}.
+From the library, it uses the class IBeaconsManager to scan for nearby beacons and OwnersParseDataStore to allow owners to create Smart Place Instances and configure them.
+The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html}.
+Each \gls{UI} is implemented by a class that extends the Activity, provided by the Android API.
 
 \subsection{Mobile app for end users}
 \label{sub:mobile_app_for_end_users}
-
-
-
+% Who are the end users
+% Brief description of its features
+% How it uses the library
+% Android Studio, part of the project
+End users are the ones who actually use the Smart Places, that is, the users that have, in their mobile devices, an app that scans for nearby beacons and offer services provided by the Smart Places that were found.
+It is part of the project, as clientapp, as shown in figure \ref{fig:smartplaces_package}. Simillary to the owners app, described in \ref{sub:mobile_app_for_owners}, it uses the smartplaceslib, to scan for nearby beacons and map them to the corresponding Smart Place Instances.
+When Smart Place Instances are found, the app shows a notification for each one.
+When the user click on the notification, the app calls an Activity that contains a WebView. This activity calls javascript functions on the WebView.
+To ease that process, there is a class, SmartPlacesWebView that extends the original WebView class from the Android \gls{API}.
+In that Activity, there is an instance of the IBeaconsManager class that will scan for nearby beacons in order to try to find tags. As mentioned in section \ref{sec:backend},
+each instance of Tag has a \gls{JSON} object. That object must be sent to a Javascript function, for which, developers have defined a callback that will handle it. The SmartPlacesWebView has methods to invoke javascript code running inside the webview.
 
 \section{Javascript API}
 \label{sec:javascript_api}
@@ -146,21 +166,56 @@ manager.startScan(this, new BeaconScanCallback() {
 % Tools used (grunt, what is it and tasks used)
 % Deployment process (using grunt)
 % Make it available as a bower component
+In this solution, developers create their Smart Places using web technologies, such as \gls{HTML}, \gls{CSS} and javascript, because they run inside a WebView in the clientapp, as mentioned in section \ref{sub:mobile_app_for_end_users}.
+This is separated from the Android project, because it does not have any dependency from it.
+
+This \gls{API} offer a global Object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write the following code:
+\lstset{language=Javascript, caption=Cenas}
+\begin{lstlisting}[caption=Cenas, label=a]
+  SmartPlaces.onTagFound(function(tag) {
+    console.log(tag);
+  });
+\end{lstlisting}
+
+
+The line with the console.log can be replaced by anything useful that the developer wants to do with the given tag.
+
+This library was developed in a modular way, that is, there are multiple javascript files, that, in the end, in the build process, are compiled in just one file.
+To manage this build process, we use Grunt\footnote{http://gruntjs.com}, which is a tool, written in javascript, that allows developers to include tasks, or even create their own tasks. There is a task that compiles all javascript files in just one, performs minification of that file and create a new version, that is, create a new tag in the repository and push those changes to it.
+
+To make it easier to include as a dependency in any web application, it is available through bower\footnote{http://bower.io}, which is a tool to manage frontend dependencies in a web application.
+
+To test this library we have created two examples of Smart Places, a restaurant and a museum, which are described in section \ref{sec:examples}.
 
 \section{Examples}
 \label{sec:examples}
-% Examples:
-% For each one,
+In order to make sure that the javascript API works as expected and that it can be applied to multiple kinds of smart places, two examples were implemented.
+These examples try to be a proof of concept, that is, demonstrate that, using the Javascript API, a web application can be aware of nearby tags, in the real world, and execute useful computation using those tags.
+
+\subsection{Restaurant web application}
+\label{sub:restaurant_web_application}
 % - what it is;
 % - tools;
 % - programming languages;
 % - deployment;
 % - overview of its structure
-
-\subsection{Restaurant web application}
-\label{sub:restaurant_web_application}
-
-\cite{SLOC}
+The idea of this Smart Place is to offer an easy way for customers, in a restaurant, to place their orders using their mobile devices.
+We have used an existing solution created in the scope of a Master Thesis \cite{SLOC}.
+It has a \gls{REST} \gls{API} written in \gls{PHP} language.
+Our work here, was to create a frontend, that uses the Smart Places Javascript \gls{API} and the provided \gls{API}.
+This frontend was written in \gls{HTML} and javascript.
+It was deployed in the web server of \gls{IST}. Simillary to Smart Places Javascript \gls{API}, the build process is managed by Grunt and there is a task to deploy this web application in the mentioned web server.
 
 \subsection{Smart Museum}
 \label{sub:smart_museum}
+% - what it is;
+% - tools;
+% - programming languages;
+% - deployment;
+% - overview of its structure
+The Smart Museum is another example that was created to use the Javascript API and verify that we can apply it to multiple applications.
+The main goal was to show some information about some pieces in a museum. For that, the Walters \gls{API}\footnote{http://api.thewalters.org/} was used, in order to have information about a real museum instead having some kind of mock.
+
+This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework, that allow to create an \gls{HTTP} server using javascript.
+It is currently deployed on Heroku\footnote{http://www.heroku.com} which is a cloud \gls{PaaS}, that supports many programming languages and development stacks.
+Simillary to the other example, in section \ref{sub:restaurant_web_application}, this one also uses Grunt to manage the build process. Before the deployment, all javascript files that will run on the browser are concatenated in one file. Then, that file is minified.
