@@ -12,7 +12,7 @@
 % Set document margins to 1in in all sides
 \usepackage[margin=2.5cm]{geometry}
 % Line spacing package
-\usepackage{graphicx, helvet, hyperref, inputenc, setspace}
+\usepackage{graphicx, helvet, hyperref, setspace}
 \usepackage[portuguese,english]{babel}
 \usepackage[acronym, toc]{glossaries}
 
@@ -54,6 +54,7 @@
 \include{cover}
 
 \if\includeAcknowledgments 1
+\cleardoublepage
 \input{acknowledgments/acknowledgments.tex}
 \fi
 
@@ -63,6 +64,7 @@
 \include{abstract/abstract-pt}
 
 % Table of contents
+\cleardoublepage
 \tableofcontents
 \pagenumbering{arabic}% Arabic page numbers (and reset to 1)
 
@@ -81,11 +83,15 @@
 \listoflistings
 
 % List of acronyms
+\cleardoublepage
 \printglossary[type=\acronymtype]
 
+\cleardoublepage
 \input{chapters/main.tex}
 
+\cleardoublepage
 \bibliographystyle{ieeetr}
+%\addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bibliography/dissertation}
 
 % Appendix
