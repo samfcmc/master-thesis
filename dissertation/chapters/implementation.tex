@@ -119,18 +119,22 @@ use. Because, both apps use the Bluetooth receiver and interact with the backend
 \end{description}
 
 When IBeaconsManager class is used, it needs a BeaconScanCallback object, which overrides a method that is executed when beacons are scanned, because the scanning is an asynchronous process.
-For instance, the following code snippet illustrates how to use IBeaconsManager class, in a given
+For instance, the code snippet in Listing~\ref{code:java_scan_beacons} illustrates how to use IBeaconsManager class, in a given
 Activity\footnote{http://developer.android.com/guide/components/activities.html}, to scan for nearby beacons.
 
-\begin{lstlisting}
-IBeaconsManager manager = new IBeaconsManager(this);
-manager.startScan(this, new BeaconScanCallback() {
-  @Override
-  public void beaconsFound(Collection<BeaconInfo> beacons) {
-    // Do something with beacons collection
-  }
-})
-\end{lstlisting}
+\begin{listing}[H]
+  \begin{minted}{java}
+  IBeaconsManager manager = new IBeaconsManager(this);
+  manager.startScan(this, new BeaconScanCallback() {
+    @Override
+    public void beaconsFound(Collection<BeaconInfo> beacons) {
+      // Do something with beacons collection
+    }
+  })
+  \end{minted}
+  \caption{Java code in an Android Activity to scan for nearby beacons}
+  \label{code:java_scan_beacons}
+\end{listing}
 
 \subsection{Mobile app for owners}
 \label{sub:mobile_app_for_owners}
@@ -169,14 +173,17 @@ each instance of Tag has a \gls{JSON} object. That object must be sent to a Java
 In this solution, developers create their Smart Places using web technologies, such as \gls{HTML}, \gls{CSS} and javascript, because they run inside a WebView in the clientapp, as mentioned in section \ref{sub:mobile_app_for_end_users}.
 This is separated from the Android project, because it does not have any dependency from it.
 
-This \gls{API} offer a global Object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write the following code:
-\lstset{language=Javascript, caption=Cenas}
-\begin{lstlisting}[caption=Cenas, label=a]
-  SmartPlaces.onTagFound(function(tag) {
-    console.log(tag);
-  });
-\end{lstlisting}
+This \gls{API} offer a global Object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write code as shown in Listing~\ref{code:js_tag_found}:
 
+\begin{listing}[H]
+  \begin{minted}{javascript}
+    SmartPlaces.onTagFound(function(tag) {
+      console.log(tag);
+    });
+  \end{minted}
+  \caption{Javascript code to define a callback when a tag is found}
+  \label{code:js_tag_found}
+\end{listing}
 
 The line with the console.log can be replaced by anything useful that the developer wants to do with the given tag.
 

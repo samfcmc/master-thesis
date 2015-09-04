@@ -30,6 +30,7 @@
 *.vrb
 *.xdy
 *.tdo
+*.lol
 .DS_Store
 dissertation.pdf
 *.fls

@@ -17,8 +17,7 @@
 \usepackage[acronym, toc]{glossaries}
 
 % Code snippets
-\usepackage{listings}
-\usepackage{color}
+\usepackage{minted}
 
 \input{config.tex}
 
@@ -76,6 +75,10 @@
 \cleardoublepage
 \addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listoflistingscaption}
+\listoflistings
 
 % List of acronyms
 \printglossary[type=\acronymtype]
