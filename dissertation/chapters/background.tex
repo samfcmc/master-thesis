@@ -4,4 +4,439 @@
 \label{chapter:background}
 % What are proximity-based apps
 % Technologies
+
+\section{Related Work}
+\label{sec:related_work}
 % Related work...
+In this section we discuss some related work.
+For each one we describe its limitations and its main
+benefits, providing, at the same time, motivation
+to develop our framework.
+
+\subsection{Proximity-based apps}
+\label{sub:ble_beacons_applications}
+% Why
+% For each one: What, Pros, Cons
+BLE Beacons are going to
+be used to develop proximity-based apps
+on top of it. Some
+applications, where this technology is used,
+will be presented here, to
+get good insight about the potential use cases of this
+technology and the apps developed using it.
+\\
+% BlueSentinel
+\textbf{BlueSentinel}\cite{Conte2014}: is a
+occupancy detection system, for smart buildings,
+that uses BLE Beacons to detect the presence of
+people. The concept of a smart building
+is similar to Smart Place,
+due to the existence of sensors and actuators.
+It is focused on the power efficiency of the
+building. The idea is to optimize energy
+consumption according to people's presence.
+For instance, if there are no people in a given room,
+the heating system can be turned off.
+In this solution, the users have to install
+an app, that will get the beacons' signal and
+send data to a server, which will process it
+and send requests to actuators in order to
+perform actions to optimize the
+building's power efficiency.
+Unfortunately, there is a limitation
+of iBeacon protocol implementation
+in iOS\footnote{http://www.apple.com/ios}.
+Beacons can be received, by the apps,
+only when these are active. When the apps are in
+background, they are waken up only to handle
+enter/exit region events. To circumvent this
+limitation, the authors developed custom
+beacons, which advertise more than one region
+in a cyclic sequence. These custom beacons
+were created using an
+Arduino\footnote{http://www.arduino.cc/}
+and an Bluetooth USB BLE dongle.
+Since this solution is a native app,
+users have to install it in order
+to make the smart building work to
+optimize power efficiency.
+Once the user starts the app, he does not
+need to interact with it anymore, since it
+will run in background.
+\\
+% Blue View
+\textbf{BlueView}\cite{Chen2013}: is a system to help
+visually impaired people to perceive some POIs.
+This solution has two main components: The viewer device
+and the Beacon Points (BPs). The first one is a mobile phone,
+carried by the user, which is bluetooth-enabled.
+The Beacon Points are just bluetooth tags instead of
+BLE Beacons. The name of a POI is associated with
+MAC address of the tag which it is associated to.
+The steps involved in using the system are the
+following: first, the viewer device will scan
+for nearby BPs; then, a list of the names of
+BPs is created. This list is refreshed anytime a new
+BP is detected and the user is informed through auditory
+feedback. The second step consists of the user, using
+the viewer's device, establishing a connection with a BP
+attached to an object. Finally, using audio prompt, the BP
+will assist the user in locating the object.
+Despite of this solution being a mobile app, installed
+in the viewer's device, the authors do not have in
+consideration the typical concerns of any mobile app,
+such as the energy consumption.
+The authors tested the application, in 2013,
+using Nokia N70 as the viewer device.
+This solution could be implemented using BLE Beacons
+and the viewer device could be any Android, iOS or
+Windows Phone smartphone.
+For the audio features the smartphone's speaker or
+a custom BLE Beacon with a built-in speaker could be
+used.
+\\
+% MOSES
+\textbf{MOSES
+(Mobile Opportunistic System for Experience Sharing)}\cite{BenAbdesslem2014}:
+% In exhibitions, share experiences and communicate with
+% other participants
+% Roaming charges... No Internet access
+% They have smartphones with comm techs like bluetooth and wifi
+% Share experience (text or multimedia content)
+% Shared content is geo-tagged
+% Available to participants in the same location
+% Or will be visiting the area later on
+% Using DTN
+% When content is created is shared with other users
+% in range in an epidemic fashion
+% Each user share his content and content
+% received by other users
+% Implemented in Android
+% Geo-tagging:
+% -> GPS, WiFi, cellular positioning
+% -> Indoor, estimote beacons
+% -> Equipment: Smartphones, Beacons, Raspberry Pies
+% Raspberry pie: Collect all content created by participants
+% and emulate an intermittent internet connection
+% Act as a WiFi access point
+is a solution to allow
+participants of exhibitions, to share experiences and
+communicate with other participants.
+The participants can share their experiences using
+just text or they can add multimedia content.
+This shared content is geo-tagged, which means that
+it will be available to other participants in the same
+location.
+Most of these events are international.
+Due to the
+roaming charges most users will not have an
+Internet connection available in their mobile devices.
+However, most of the participants have smartphones
+equipped with communication technologies such as
+Bluetooth and WiFi.
+To circumvent this limitation, this solution
+uses a Delay Tolerant Network (DTN)\cite{pateldelay}.
+When content is created it is shared with other
+users in range. Each user shares the created content and the content received by other users.
+This solution was implemented in Android.
+Geo-tagging is performed using usual positioning
+systems, such as GPS, WiFi and cellular positioning.
+For indoor positioning it uses
+Estimote\footnote{http://estimote.com/} beacons.
+Besides the smartphones and the beacons, this
+solution also uses a
+Raspberry Pi\footnote{http://www.raspberrypi.org/}.
+This device is used to collect all content created by
+participants and it emulates an intermittent Internet
+connection, acting as a WiFi access point.
+\\
+% Context capture
+\textbf{ContextCapture}\cite{Antila2011}:
+% Usage of context-based awareness in status updates
+% Allows users to add different descriptions of context
+% information to their Twitter messages
+% and Facebook status updates in a narrative format
+% Indoor location: BLE Beacons
+% Two main goals:
+% Demonstrates technical aspects of collaborative
+% context
+% Test and analyze the UX of context-aware systems
+% Include contextual information to status updates
+% in Facebook and Twitter
+% User can decide the abstraction level
+% (Coordinates, address or semantic label
+% such as "conference venue")
+% Mobile app and server-side integrated with Facebook and
+% Twitter
+% Mobile app gathers context from device itself,
+% sensors and from nearby devices using Bluetooth
+% Format: “[User-defined message] Sent
+% from [Location] while [Activity]
+% [Description] [Topic] and [Applications Activity] with
+% [Friends].”
+In this work, the authors try to use
+context-based information to allow users to
+add more information to their status updates
+in the main social networks, such as
+Facebook\footnote{http://www.facebook.com} and
+Twitter\footnote{http://twitter.com}.
+This work had two main goals: first, demonstrate technical
+aspects of collaborative context, such as,
+how to get contextual information from
+surrounding devices and how they can be used
+as a source of contextual information;
+second, test and analyze the user experience of
+context-aware systems.
+The user can decide the abstraction level (coordinates,
+address or semantic label).
+The authors implemented a mobile app and a
+server integrated with Facebook and Twitter.
+Context information comes from the smartphone itself,
+from its sensors and from the nearby devices through
+Bluetooth.
+Devices can be other smartphones or BLE Beacons, which
+are used for indoor location.
+Similarly to \cite{BenAbdesslem2014}, devices communicate
+with each other as a network.
+Using this solution, the user can create status updates,
+in the mentioned social networks, in the following format:
+\\
+``
+[User-defined message]
+
+Sent from [Location] while [Activity]
+
+[Description] [Topic] and [Applications Activity] with
+[Friends].
+''
+\\
+\subsection{Context-awareness}
+\label{sub:frameworks_context_aware}
+In this section we describe related work about the
+development and deployment of mobile native and web
+context-aware applications.
+Since we propose a framework to develop
+proximity-based apps, the state
+of the art of existing frameworks, that deliver
+context information to the apps will be presented.
+\\
+% DTN
+\textbf{Dynamic frameworks for
+mobile web DTN applications:}
+There are multiple frameworks to deploy localized
+mobile native or web apps, even if the user is using an
+unstable Internet connection. One example of this
+kind of framework is the one
+described in Sankaran et al.\cite{Sankaran2014}.
+This framework supports the deployment of localized
+native and
+web apps in Delay Tolerant Networks (DTNs).
+A DTN is a computer network that
+addresses issues about the lack of continuous network
+connectivity.
+Mobile networks are good examples of DTNs,
+because, most of the times, the connection is not stable.
+Usually, the user is moving, along with his mobile
+device.
+It is expected that the connection sometimes is not
+available.
+This solution also has an embedded web server
+and has an implementation that runs on a PC, which allow
+developers to test their applications before deploying
+to production environment.
+However, the owner of a given point of interest does not
+have access to any interface to install apps that will
+belong to that point. Also, it does not support, in the
+same app, multiple points of interest with different
+meanings and different behavior in each one of them.
+\\
+% Framework for Developing Distributed Location Based
+% Applications
+\textbf{Frameworks for developing distributed
+location-based applications:}
+% Develop location based apps
+% Discuss several technologies for positioning
+% GPS, GSM, WiFi and Bluetooth
+% Advantages and disadvantages of each one
+% Architecture
+% -> GPS receiver, bluetooth receiver, WiFi receiver
+% -> Mobile device
+% -> Database Server, Application server
+% Application server provides web services for
+% mobile clients and communicates with the
+% database server
+% Client communication (SOAP message)
+% Querying the database (native communication)
+% Mobile device get geographical coordinates from
+% several devices;
+% Send this data, in a SOAP message, to the
+% appropriate web service in the Application Server
+% App server communicates with Database server
+% to query the database
+% Database server sends a response back with
+% location information if there is any, for that
+% particular group of coordinates
+% No evaluation
+% Location info can come from any source
+% Only for native apps (No web apps)
+% Does not take into account constraints in terms
+% of resources, such as lack of internet connection
+% and battery
+% SOAP could be replaced by REST [PAPER]
+There are frameworks to develop location-based
+applications, such as the ones described in
+\ref{sub:ble_beacons_applications}, that
+try to offer abstractions for the location
+technologies.
+In the work presented in Krevl et al.\cite{Krevl2006},
+a framework
+was developed to allow developers to build
+location-based apps. Location information can come
+from any source, such as GPS receivers, Bluetooth
+receivers and WiFi receivers.
+The authors discuss some benefits and limitations
+of several technologies for getting the
+user's positioning.
+In terms of architecture, the main components
+are:
+\begin{itemize}
+\item
+Devices that are used to get location data, such as
+the ones already mentioned;
+\item The users' mobile devices;
+\item The Database Server, which is where the mapping
+between geographical coordinates and location
+information is stored;
+\item And, the Application Server, which provides web services for
+mobile clients. This server also communicates
+with the Database Server;
+\end{itemize}
+The mobile device get geographical coordinates
+from any source and send that data, in a
+SOAP\cite{Seely:2001:SCP:560836} message,
+to the appropriate web service in the Application
+Server. This server, communicates with the Database Server
+to query the database, which sends back a response with
+location information, if there is any, for that
+particular group of geographical coordinates.
+The authors did not evaluate the system.
+
+This solution offers abstractions for the location
+information sources. Geographical coordinates can
+come from any source. It is a good approach for
+mobile native apps, but, it does not support web apps.
+The authors do not take into consideration
+constraints in terms of resources, such as
+lack of Internet connection and battery.
+Since most users have limited data plans for
+their smartphones and SOAP messages can
+grow, in size, due to its XML format,
+a more efficient message encoding could be used
+instead.
+\\
+% Dynamix
+\textbf{Dynamix}\cite{Carlson2012}:
+is a framework to develop
+mobile native and web apps that allow them to receive
+context information, for instance, position and device's
+orientation. This framework has plug-ins that get
+one or more sensor's raw data and turn that into event
+objects, that contain more high-level information.
+This framework supports many kinds of context information
+and it is possible to develop more plug-ins to allow the
+apps to generate additional events that are not
+already supported. It is similar to the previous
+framework but is more focused on delivering context
+information to apps instead of deploying them.
+
+To achieve our goal, our framework could be just a
+plug-in for Dynamix. The plug-in would
+need to get the beacon's raw data and
+turn that into a more high-level information
+using a backend. In this framework,
+the user needs to install an app, that manages the service
+that runs in background, and needs to define some
+security policies. This could mean a big overhead since
+we are more focused on developing proximity-based
+web applications, that do not require such complex security
+policies because, in this kind of apps, there is only need
+to access the device's sensors that could provide,
+to the applications, positioning data.
+In our framework, the user would only need to
+install one app, let it run in background and turn on
+bluetooth. Also, this does not offer a complete solution
+since the owner of one or more points of interest
+has no way of installing new apps on them.
+
+\subsection{APIs and Frameworks}
+\label{sub:frameworks_web}
+Since we propose a framework to develop proximity-based
+mobile web apps, a good insight, about some existing
+solutions to develop mobile apps using web technologies,
+such as
+HTML, CSS and Javascript,
+is needed.
+These solutions, described below, allow developers to
+write their apps, using HTML, CSS and Javascript, as
+if they are web apps and deploy them in most used app
+stores, such as
+Google Play\footnote{http://play.google.com/}
+and
+App Store \footnote{http://store.apple.com/}.
+\\
+\textbf{Cordova\footnote{http://cordova.apache.org/}:}
+is a set of APIs that allow developers to access
+devices' functionalities, such as the camera or
+accelerometer, from Javascript code.
+To access such functionalities developers build plugins.
+Any developer can develop plugins and use plugins
+developed by others. These plugins act as bridges
+between Javascript code running in the device's
+browser and native code.
+The code to access the native features
+needs to be implemented for each mobile platform
+that developers aim to support.
+For instance, if
+the developer wants to access Bluetooth from
+the Javascript code he needs a plugin for that.
+This plugin will have native code that will
+use the mobile platform API to access this
+feature and will communicate with the Javascript
+code. To make Bluetooth accessible
+for the three main mobile platforms
+(Android, iOS and
+Windows Phone\footnote{http://www.windowsphone.com/})
+the plugin
+needs an implementation for each platform, that
+access the device's Bluetooth API.
+\\
+%Phonegap
+\textbf{PhoneGap\footnote{http://phonegap.com/}:}
+is a framework to develop mobile apps
+using web technologies, such as HTML and JavaScript. The
+same code is deployed, as a native app, to multiple mobile
+platforms. Each app is nothing more than an embedded browser
+that runs a local web application.
+Using some plugins from Cordova, the apps can access some
+device's functionalities, such as bluetooth.
+However, to develop proximity-based apps, such as
+the ones mentioned in
+\ref{sub:ble_beacons_applications},
+the developer has to configure a backend and write the
+code that will interact with it. Also, since the apps are
+installed as native ones, the user needs to install
+an app for each place where each app works.
+\\
+%Ionic
+\textbf{Ionic\footnote{http://ionicframework.com/}:}
+is a framework very similar to PhoneGap. When using
+this framework, developers are allowed to use Cordova
+plugins, similarly to PhoneGap. It includes a
+Command-Line Interface to initialize the structure
+of a new app. Also, a new app already includes Javascript
+files that use
+AngularJS\footnote{http://angularjs.org/},
+which is a framework, for frontend development,
+to build web pages with dynamic content.
+However, it has the same benefits and limitations
+than PhoneGap.
