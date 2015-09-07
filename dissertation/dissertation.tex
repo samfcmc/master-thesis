@@ -21,6 +21,20 @@
 
 \input{config.tex}
 
+% Scientific notation
+\usepackage[scientific-notation=true, round-precision=2, round-mode=figures]{siunitx}
+
+% For tables
+\usepackage{multirow}
+
+%For symbols like trademark
+\usepackage{textcomp}
+
+% To improve captions of tables
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}
+
+
 % Built the glossary when the main file is built.
 \makeglossaries
 % Set main font to Arial
