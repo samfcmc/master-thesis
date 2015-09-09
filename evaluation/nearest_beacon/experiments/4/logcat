@@ -1,15 +1,16 @@
-08-31 15:00:07.568  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ------------------------------------
-08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Metrics start: Mon Aug 31 15:00:07 GMT+01:00 2015
-08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ------------------------------------
-08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ ==> Category: Requests
-08-31 15:00:07.569  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Values for: Get beacon
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 775.00 ms
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 302.00 ms
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 355.00 ms
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 195.00 ms
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Value: 1036.00 ms
-08-31 15:00:07.570  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Average for Get beacon: 532.60 ms
-08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned blueberry, Value: 1
-08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: New nearest beacon, Value: 10
-08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned mint, Value: 9
-08-31 15:00:07.571  19813-22350/com.sam.smartplacesclientapp D/Metrics Report﹕ Counter: Beacon scanned ice, Value: 8
+09-09 18:10:43.130   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ ------------------------------------
+09-09 18:10:43.131   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Statistics startSession: Wed Sep 09 18:10:43 GMT+01:00 2015
+09-09 18:10:43.131   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ ------------------------------------
+09-09 18:10:43.132   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Values for: Requests.Get beacon
+09-09 18:10:43.134   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Value: 876.00 ms
+09-09 18:10:43.134   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Average for Requests.Get beacon: 876.00 ms
+09-09 18:10:43.134   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Values for: Requests.Get tag
+09-09 18:10:43.135   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Value: 2101.00 ms
+09-09 18:10:43.135   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Value: 1703.00 ms
+09-09 18:10:43.156   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Average for Requests.Get tag: 1902.00 ms
+09-09 18:10:43.156   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Values for: Requests.Get Smart Place Instances
+09-09 18:10:43.156   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Value: 714.00 ms
+09-09 18:10:43.156   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Average for Requests.Get Smart Place Instances: 714.00 ms
+09-09 18:10:43.156   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Counter: New nearest beacon, Value: 6
+09-09 18:10:43.157   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Counter: Beacon scanned ice, Value: 15
+09-09 18:10:43.157   6041-10034/com.sam.smartplacesclientapp D/Statistics Report﹕ Counter: Beacon scanned mint, Value: 3
