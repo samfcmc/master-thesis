@@ -44,7 +44,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         this.previousBeacon = NoBeacon.getInstance();
-        this.application.getStatistics().startSession(this.application);
+        this.application.getStatistics().startSession(this.application, this.application.getBeaconsManager());
         initUI();
     }
 

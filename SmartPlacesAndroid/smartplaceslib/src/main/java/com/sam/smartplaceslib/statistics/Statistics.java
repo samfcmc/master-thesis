@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.utils.JsonUtils;
 
 import java.util.HashMap;
@@ -52,19 +53,23 @@ public class Statistics {
         return queue.take();
     }
 
-    public void startSession(Application application) {
+    public void startSession(Application application, BeaconsManager beaconsManager) {
         if (!pendingStatisticsThread.isAlive()) {
-            tryReadFromJsonFile(application);
+            tryReadFromJsonFile(application, beaconsManager);
             pendingStatisticsThread.start();
         }
     }
 
-    private void tryReadFromJsonFile(Application application) {
+    private void tryReadFromJsonFile(Application application, BeaconsManager beaconsManager) {
         int rawId = application.getResources().getIdentifier("statistics", "raw", application.getPackageName());
         if (rawId != 0) {
             JsonObject jsonObject = JsonUtils.readJsonFromRawResource(application, rawId);
             int seconds = jsonObject.get("time").getAsInt();
             long millis = seconds * 1000;
+            int scanIntervalSeconds = jsonObject.get("scanInterval").getAsInt();
+            long scanInterval = scanIntervalSeconds * 1000;
+            beaconsManager.updateScanPeriodInBackgroundMode(scanInterval);
+            beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
             this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
             this.stopThread.start();
         }
