@@ -19,7 +19,7 @@ import com.sam.smartplaceslib.datastore.object.parse.BeaconParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
-import com.sam.smartplaceslib.metrics.Metrics;
+import com.sam.smartplaceslib.statistics.Statistics;
 
 import org.json.JSONObject;
 
@@ -37,21 +37,21 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
 
     public static ClientDataStore fromRawJsonResource(Application application,
                                                       int jsonRawResourceId,
-                                                      Metrics metrics) throws IOException {
+                                                      Statistics statistics) throws IOException {
         DataStoreCredentials dataStoreCredentials = DataStoreCredentials
                 .fromJsonRawResource(application, jsonRawResourceId);
-        return new ClientParseDataStore(application, dataStoreCredentials, metrics);
+        return new ClientParseDataStore(application, dataStoreCredentials, statistics);
     }
 
     public ClientParseDataStore(Application application, DataStoreCredentials dataStoreCredentials,
-                                Metrics metrics) {
-        super(application, dataStoreCredentials, metrics);
+                                Statistics statistics) {
+        super(application, dataStoreCredentials, statistics);
     }
 
     @Override
     public void getBeacon(BeaconInfo beaconInfo, final BeaconCallback callback) {
         ParseQuery<BeaconParseObject> query = getBeaconQuery(beaconInfo);
-        getFirst(query, callback, getMetrics(), "Get beacon");
+        getFirst(query, callback, getStatistics(), "Get beacon");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
         tagQuery = tagQuery.whereMatchesQuery(TagParseObject.BEACON, beaconQuery);
         tagQuery = tagQuery.whereEqualTo(TagParseObject.SMARTPLACE_INSTANCE, instanceParseObject);
         tagQuery = tagQuery.include(TagParseObject.BEACON);
-        getFirst(tagQuery, callback, getMetrics(), "Get tag");
+        getFirst(tagQuery, callback, getStatistics(), "Get tag");
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
                 tag.setData(new JSONObject());
                 tag.setBeacon(beaconParseObject);
                 tag.setSmartPlaceInstance(instanceParseObject);
-                save(tag, callback, getMetrics(), "Create tag");
+                save(tag, callback, getStatistics(), "Create tag");
             }
         });
     }
@@ -143,7 +143,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
             public void done(final SmartPlaceInstanceParseObject
                                      smartPlaceConfigurationParseObject, ParseException e) {
                 smartPlaceConfigurationParseObject.update(object);
-                save(smartPlaceConfigurationParseObject, callback, getMetrics(),
+                save(smartPlaceConfigurationParseObject, callback, getStatistics(),
                         "Save smart place instance");
             }
         });
@@ -156,7 +156,7 @@ public class ClientParseDataStore extends AbstractParseDataStore implements Clie
             @Override
             public void done(final TagParseObject tagParseObject, ParseException e) {
                 tagParseObject.setData(jsonObject);
-                save(tagParseObject, callback, getMetrics(), "Save tag");
+                save(tagParseObject, callback, getStatistics(), "Save tag");
             }
         });
     }

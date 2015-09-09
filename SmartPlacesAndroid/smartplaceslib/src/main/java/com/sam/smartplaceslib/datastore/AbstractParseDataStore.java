@@ -33,7 +33,7 @@ import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceInstanceParseObje
 import com.sam.smartplaceslib.datastore.object.parse.SmartPlaceParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.TagParseObject;
 import com.sam.smartplaceslib.datastore.object.parse.UserParseObject;
-import com.sam.smartplaceslib.metrics.Metrics;
+import com.sam.smartplaceslib.statistics.Statistics;
 
 /**
  *
@@ -44,7 +44,7 @@ public abstract class AbstractParseDataStore implements DataStore {
 
     public static int REQUEST_LOGIN = 2;
 
-    private Metrics metrics;
+    private Statistics statistics;
 
     public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials) {
         // Enable Local Datastore.
@@ -56,9 +56,9 @@ public abstract class AbstractParseDataStore implements DataStore {
     }
 
     public AbstractParseDataStore(Application application, DataStoreCredentials dataStoreCredentials,
-                                  Metrics metrics) {
+                                  Statistics statistics) {
         this(application, dataStoreCredentials);
-        this.metrics = metrics;
+        this.statistics = statistics;
     }
 
     private void registerSubclasses() {
@@ -69,9 +69,9 @@ public abstract class AbstractParseDataStore implements DataStore {
     }
 
     protected void measureLatency(String requestName, final long requestStart) {
-        if (metrics != null) {
+        if (statistics != null) {
             long latency = System.currentTimeMillis() - requestStart;
-            metrics.value("Requests", requestName, latency, "ms");
+            statistics.value("Requests." + requestName, latency, "ms");
         }
     }
 
@@ -96,9 +96,9 @@ public abstract class AbstractParseDataStore implements DataStore {
     }
 
     protected <T extends AbstractParseObject> void save(T object, DataStoreCallback<? super T> callback,
-                                                        Metrics metrics, String requestName) {
+                                                        Statistics statistics, String requestName) {
         long start = System.currentTimeMillis();
-        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(metrics, requestName,
+        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(statistics, requestName,
                 start);
         save(object, new ParseDataStoreSaveObservableCallback<T>(callback, object, observer));
     }
@@ -112,9 +112,9 @@ public abstract class AbstractParseDataStore implements DataStore {
     }
 
     protected <T extends AbstractParseObject> void delete(T object, DeleteDataStoreCallback callback,
-                                                          Metrics metrics, String requestName) {
+                                                          Statistics statistics, String requestName) {
         long start = System.currentTimeMillis();
-        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(metrics, requestName,
+        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(statistics, requestName,
                 start);
         delete(object, new ParseDataStoreDeleteObservableCallback(callback, observer));
     }
@@ -126,9 +126,9 @@ public abstract class AbstractParseDataStore implements DataStore {
 
     protected <T extends AbstractParseObject> void find(ParseQuery<T> query,
                                                         ParseDataStoreFindObservableCallback<T, ? super T> findCallback,
-                                                        Metrics metrics, String requestName) {
+                                                        Statistics statistics, String requestName) {
         long start = System.currentTimeMillis();
-        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(metrics, requestName,
+        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(statistics, requestName,
                 start);
         findCallback.setObserver(observer);
         find(query, findCallback);
@@ -146,10 +146,10 @@ public abstract class AbstractParseDataStore implements DataStore {
 
     protected <T extends AbstractParseObject> void getFirst(ParseQuery<T> query,
                                                             DataStoreCallback<? super T> callback,
-                                                            Metrics metrics,
+                                                            Statistics statistics,
                                                             String requestName) {
         long start = System.currentTimeMillis();
-        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(metrics, requestName,
+        DataStoreCallbackDoneObserver observer = new DataStoreLatencyObserver(statistics, requestName,
                 start);
         getFirst(query, new ParseDataStoreGetObservableCallback<T>(callback, observer));
     }
@@ -201,7 +201,7 @@ public abstract class AbstractParseDataStore implements DataStore {
         return query.include(includeParam);
     }
 
-    public Metrics getMetrics() {
-        return metrics;
+    public Statistics getStatistics() {
+        return statistics;
     }
 }

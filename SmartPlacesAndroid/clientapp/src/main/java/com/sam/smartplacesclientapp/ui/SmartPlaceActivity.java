@@ -16,7 +16,7 @@ import com.sam.smartplaceslib.datastore.NoBeacon;
 import com.sam.smartplaceslib.datastore.callback.TagCallback;
 import com.sam.smartplaceslib.datastore.object.BeaconObject;
 import com.sam.smartplaceslib.datastore.object.TagObject;
-import com.sam.smartplaceslib.metrics.Metrics;
+import com.sam.smartplaceslib.statistics.Statistics;
 import com.sam.smartplaceslib.ui.SmartPlacesWebView;
 import com.sam.smartplaceslib.web.OnPageLoadedCallback;
 
@@ -44,7 +44,7 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         this.detectedTags = new HashMap<>();
         this.application = (SmartPlacesClientApplication) getApplication();
         this.previousBeacon = NoBeacon.getInstance();
-        this.application.getMetrics().start();
+        this.application.getStatistics().startSession(this.application);
         initUI();
     }
 
@@ -120,14 +120,14 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
     }
 
     private void newNearestBeaconCount() {
-        Metrics metrics = application.getMetrics();
-        metrics.counterInc("New nearest beacon");
+        Statistics statistics = application.getStatistics();
+        statistics.counterInc("New nearest beacon");
     }
 
     private void beaconScannedMetric(BeaconObject beaconObject) {
-        Metrics metrics = application.getMetrics();
-        metrics.event("Beacon scan", beaconObject.getName());
-        metrics.counterInc("Beacon scanned " + beaconObject.getName());
+        Statistics statistics = application.getStatistics();
+        statistics.event("Beacon scan", beaconObject.getName());
+        statistics.counterInc("Beacon scanned " + beaconObject.getName());
     }
 
     private void tagFound(final TagObject tagObject) {
@@ -151,9 +151,9 @@ public class SmartPlaceActivity extends ActionBarActivity implements BeaconScanC
         super.onDestroy();
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
         beaconsManager.stopScan();
-        Metrics metrics = application.getMetrics();
-        metrics.report();
-        metrics.stop();
+        Statistics statistics = application.getStatistics();
+        statistics.report();
+        statistics.stop();
     }
 
     @Override

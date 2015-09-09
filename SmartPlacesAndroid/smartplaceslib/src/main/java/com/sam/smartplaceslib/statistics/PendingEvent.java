@@ -1,4 +1,4 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 /**
  *
@@ -22,7 +22,7 @@ public class PendingEvent implements PendingElement {
     }
 
     @Override
-    public void process(Metrics metrics) {
-        metrics.processPendingEvent(this);
+    public void process(Statistics statistics) {
+        statistics.processPendingEvent(this);
     }
 }

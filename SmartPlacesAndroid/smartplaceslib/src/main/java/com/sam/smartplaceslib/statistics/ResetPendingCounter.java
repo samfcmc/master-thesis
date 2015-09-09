@@ -1,4 +1,4 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 /**
  *

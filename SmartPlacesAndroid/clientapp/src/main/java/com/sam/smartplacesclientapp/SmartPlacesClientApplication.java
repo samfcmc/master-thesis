@@ -15,8 +15,8 @@ import com.sam.smartplaceslib.bluetooth.ibeacon.IBeaconsManager;
 import com.sam.smartplaceslib.datastore.ClientDataStore;
 import com.sam.smartplaceslib.datastore.ClientParseDataStore;
 import com.sam.smartplaceslib.exception.CannotFindParseJsonFile;
-import com.sam.smartplaceslib.metrics.LogDReporter;
-import com.sam.smartplaceslib.metrics.Metrics;
+import com.sam.smartplaceslib.statistics.LogDReporter;
+import com.sam.smartplaceslib.statistics.Statistics;
 
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
@@ -35,7 +35,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
     private BackgroundPowerSaver backgroundPowerSaver;
     private ClientDataStore dataStore;
     private int notificationId = 0;
-    private Metrics metrics;
+    private Statistics statistics;
 
     private BeaconsManager beaconsManager;
 
@@ -45,7 +45,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
         super.onCreate();
         this.beaconsManager = new IBeaconsManager(this);
         LogDReporter reporter = new LogDReporter();
-        this.metrics = new Metrics(reporter);
+        this.statistics = new Statistics(reporter);
         initBeaconLib();
         initDataStore();
     }
@@ -58,7 +58,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
 
     private void initDataStore() {
         try {
-            this.dataStore = ClientParseDataStore.fromRawJsonResource(this, R.raw.parse, this.metrics);
+            this.dataStore = ClientParseDataStore.fromRawJsonResource(this, R.raw.parse, this.statistics);
         } catch (IOException e) {
             logToDisplay("Error creating data store object");
             throw new CannotFindParseJsonFile();
@@ -114,7 +114,7 @@ public class SmartPlacesClientApplication extends Application implements Bootstr
         return notificationId++;
     }
 
-    public Metrics getMetrics() {
-        return metrics;
+    public Statistics getStatistics() {
+        return statistics;
     }
 }

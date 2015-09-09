@@ -1,17 +1,17 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 import android.util.Log;
 
 /**
  *
  */
-public class PendingMetricsThread extends Thread {
-    private Metrics metrics;
+public class PendingStatisticsThread extends Thread {
+    private Statistics statistics;
 
     private boolean run;
 
-    public PendingMetricsThread(Metrics metrics) {
-        this.metrics = metrics;
+    public PendingStatisticsThread(Statistics statistics) {
+        this.statistics = statistics;
         this.run = true;
     }
 
@@ -25,8 +25,8 @@ public class PendingMetricsThread extends Thread {
     public void run() {
         try {
             while (isRun()) {
-                PendingElement pendingElement = metrics.takePendingElement();
-                pendingElement.process(metrics);
+                PendingElement pendingElement = statistics.takePendingElement();
+                pendingElement.process(statistics);
             }
         } catch (InterruptedException e) {
             Log.e("Error", e.getMessage());

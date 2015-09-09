@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.RemoteException;
 
+import com.sam.smartplaceslib.R;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
@@ -65,7 +66,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
         try {
             this.beaconManager.startRangingBeaconsInRegion(this.region);
         } catch (RemoteException e) {
-            throw new RuntimeException("Remote exception in start beacons ranging");
+            throw new RuntimeException("Remote exception in startSession beacons ranging");
         }
     }
 
@@ -150,6 +151,7 @@ public class IBeaconsManager implements BeaconsManager, BeaconConsumer {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                 IBeaconsManager.this.scanCallback.beaconsFound(getBeaconInfoCollection(beacons));
+
             }
         });
         try {

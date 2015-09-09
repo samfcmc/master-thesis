@@ -1,4 +1,4 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 import android.util.Log;
 
@@ -9,19 +9,16 @@ import java.util.Map;
 /**
  *
  */
-public class LogDReporter implements MetricsReporter {
+public class LogDReporter implements StatisticsReporter {
 
-    private static final String TAG = "Metrics Report";
+    private static final String TAG = "Statistics Report";
 
     @Override
     public void reportValues(Map<String, Value> values) {
         header();
         for (Map.Entry<String, Value> entry : values.entrySet()) {
             Value value = entry.getValue();
-            String category = entry.getKey();
-            String message = String.format("==> Category: %s", category);
-            log(message);
-            message = String.format("\t\t Values for: %s", value.getName());
+            String message = String.format("\t\t Values for: %s", value.getName());
             log(message);
             for (Double v : value.getValues()) {
                 message = String.format("\t\t\t Value: %.2f %s", v.doubleValue(), value.getUnit());
@@ -35,7 +32,7 @@ public class LogDReporter implements MetricsReporter {
 
     private void header() {
         log("------------------------------------");
-        log("Metrics start: " + new Date());
+        log("Statistics startSession: " + new Date());
         log("------------------------------------");
     }
 

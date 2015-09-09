@@ -242,7 +242,7 @@ public class SettingsFragment extends ListFragment {
                 setCurrentUserSlot(savedSlotNumber);
             } else {
                 // We already knew which slot was selected. So don't notify that a new slot was
-                // selected since that will log out and start login process. And
+                // selected since that will log out and startSession login process. And
                 // doing so will have the effect of clearing out state like the profile pic.
                 setCurrentUserSlot(savedSlotNumber);
             }

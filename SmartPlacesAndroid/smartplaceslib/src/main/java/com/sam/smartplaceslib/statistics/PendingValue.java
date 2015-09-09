@@ -1,23 +1,17 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 /**
  *
  */
 public class PendingValue implements PendingElement {
-    private String category;
     private String name;
     private double value;
     private String unit;
 
-    public PendingValue(String category, String name, double value, String unit) {
-        this.category = category;
+    public PendingValue(String name, double value, String unit) {
         this.name = name;
         this.value = value;
         this.unit = unit;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public String getName() {
@@ -33,8 +27,8 @@ public class PendingValue implements PendingElement {
     }
 
     @Override
-    public void process(Metrics metrics) {
-        metrics.processPendingValue(this);
+    public void process(Statistics statistics) {
+        statistics.processPendingValue(this);
     }
 
 }

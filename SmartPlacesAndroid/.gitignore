@@ -51,3 +51,4 @@ Thumbs.db
 # App specific files
 parse.json
 import-summary.txt
+statistics.json

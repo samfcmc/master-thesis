@@ -1,6 +1,10 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
+import android.app.Application;
 import android.util.Log;
+
+import com.google.gson.JsonObject;
+import com.sam.smartplaceslib.utils.JsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,24 +14,26 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  *
  */
-public class Metrics {
+public class Statistics {
 
-    private MetricsReporter reporter;
+    private StatisticsReporter reporter;
     private Map<String, Value> metrics;
     private Map<String, Counter> counters;
     private Map<String, Event> events;
     private BlockingQueue<PendingElement> queue;
-    private PendingMetricsThread pendingMetricsThread;
+    private PendingStatisticsThread pendingStatisticsThread;
     private ReportThread reportThread;
+    private StopStatisticsAfterTimeThread stopThread;
 
-    public Metrics(MetricsReporter reporter) {
+    public Statistics(StatisticsReporter reporter) {
         this.reporter = reporter;
         this.metrics = new HashMap<>();
         this.counters = new HashMap<>();
         this.queue = new LinkedBlockingQueue<>();
-        this.pendingMetricsThread = new PendingMetricsThread(this);
+        this.pendingStatisticsThread = new PendingStatisticsThread(this);
         this.reportThread = new ReportThread(this);
         this.events = new HashMap<>();
+        this.stopThread = null;
     }
 
     public Map<String, Value> getValues() {
@@ -38,7 +44,7 @@ public class Metrics {
         return counters;
     }
 
-    public MetricsReporter getReporter() {
+    public StatisticsReporter getReporter() {
         return reporter;
     }
 
@@ -46,9 +52,21 @@ public class Metrics {
         return queue.take();
     }
 
-    public void start() {
-        if (!pendingMetricsThread.isAlive()) {
-            pendingMetricsThread.start();
+    public void startSession(Application application) {
+        if (!pendingStatisticsThread.isAlive()) {
+            tryReadFromJsonFile(application);
+            pendingStatisticsThread.start();
+        }
+    }
+
+    private void tryReadFromJsonFile(Application application) {
+        int rawId = application.getResources().getIdentifier("statistics", "raw", application.getPackageName());
+        if (rawId != 0) {
+            JsonObject jsonObject = JsonUtils.readJsonFromRawResource(application, rawId);
+            int seconds = jsonObject.get("time").getAsInt();
+            long millis = seconds * 1000;
+            this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
+            this.stopThread.start();
         }
     }
 
@@ -61,11 +79,11 @@ public class Metrics {
     }
 
     public void stop() {
-        if (pendingMetricsThread.isAlive()) {
+        if (pendingStatisticsThread.isAlive()) {
             StopPendingMetricsThread stop = new StopPendingMetricsThread();
             putInQueue(stop);
             try {
-                pendingMetricsThread.join();
+                pendingStatisticsThread.join();
             } catch (InterruptedException e) {
                 Log.e("Error", e.getMessage());
             }
@@ -80,16 +98,18 @@ public class Metrics {
     }
 
     public void report() {
-        reportThread.start();
+        if (this.stopThread != null) {
+            reportThread.start();
+        }
     }
 
-    public void value(String category, String name, double value, String unit) {
-        PendingValue pendingValue = new PendingValue(category, name, value, unit);
+    public void value(String name, double value, String unit) {
+        PendingValue pendingValue = new PendingValue(name, value, unit);
         putInQueue(pendingValue);
     }
 
-    public <T> void value(String category, String name, double value) {
-        value(category, name, value, "");
+    public <T> void value(String name, double value) {
+        value(name, value, "");
     }
 
     public void event(String category, String name) {
@@ -122,10 +142,10 @@ public class Metrics {
     }
 
     public void processPendingValue(PendingValue pendingValue) {
-        Value found = metrics.get(pendingValue.getCategory());
+        Value found = metrics.get(pendingValue.getName());
         if (found == null) {
             found = new Value(pendingValue.getName(), pendingValue.getUnit());
-            metrics.put(pendingValue.getCategory(), found);
+            metrics.put(pendingValue.getName(), found);
         }
         found.addValue(pendingValue.getValue());
     }
@@ -146,6 +166,6 @@ public class Metrics {
     }
 
     public void processStopPendingMetricsThread(StopPendingMetricsThread stopPendingMetricsThread) {
-        pendingMetricsThread.stopRunning();
+        pendingStatisticsThread.stopRunning();
     }
 }

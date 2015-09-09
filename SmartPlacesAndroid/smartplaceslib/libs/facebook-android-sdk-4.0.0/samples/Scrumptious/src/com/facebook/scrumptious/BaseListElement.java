@@ -48,7 +48,7 @@ public abstract class BaseListElement {
      * @param icon the drawable for the icon
      * @param text1 the first row of text
      * @param text2 the second row of text
-     * @param requestCode the requestCode to start new Activities with
+     * @param requestCode the requestCode to startSession new Activities with
      */
     public BaseListElement(Drawable icon, String text1, String text2, int requestCode) {
         this.icon = icon;

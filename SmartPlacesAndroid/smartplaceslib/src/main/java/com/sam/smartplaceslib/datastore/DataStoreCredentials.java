@@ -2,11 +2,10 @@ package com.sam.smartplaceslib.datastore;
 
 import android.app.Application;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sam.smartplaceslib.utils.JsonUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  *
@@ -35,17 +34,7 @@ public class DataStoreCredentials {
     }
 
     public static DataStoreCredentials fromJsonRawResource(Application application, int jsonRawResId) throws IOException {
-        InputStream inputStream = application.getResources().openRawResource(jsonRawResId);
-        int size = inputStream.available();
-
-        byte[] buffer = new byte[size];
-
-        inputStream.read(buffer);
-
-        inputStream.close();
-
-        String json = new String(buffer, "UTF-8");
-        JsonObject jsonObject = new Gson().fromJson(json, JsonObject.class);
+        JsonObject jsonObject = JsonUtils.readJsonFromRawResource(application, jsonRawResId);
         String appId = jsonObject.get("appId").getAsString();
         String clientKey = jsonObject.get("clientKey").getAsString();
         String facebookAppId = jsonObject.get("facebookAppId").getAsString();

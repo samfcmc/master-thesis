@@ -1,4 +1,4 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 import java.util.Collection;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  *
  */
-public interface MetricsReporter {
+public interface StatisticsReporter {
 
     void reportValues(Map<String, Value> values);
 

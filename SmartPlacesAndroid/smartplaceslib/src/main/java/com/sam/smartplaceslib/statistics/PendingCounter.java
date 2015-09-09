@@ -1,4 +1,4 @@
-package com.sam.smartplaceslib.metrics;
+package com.sam.smartplaceslib.statistics;
 
 /**
  *
@@ -16,8 +16,8 @@ public abstract class PendingCounter implements PendingElement {
     }
 
     @Override
-    public void process(Metrics metrics) {
-        metrics.processPendingCounter(this);
+    public void process(Statistics statistics) {
+        statistics.processPendingCounter(this);
     }
 
     protected abstract void applyOperaration(Counter counter);
