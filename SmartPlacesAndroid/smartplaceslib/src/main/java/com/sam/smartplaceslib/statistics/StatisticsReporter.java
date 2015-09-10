@@ -12,5 +12,5 @@ public interface StatisticsReporter {
 
     void reportCounters(Collection<Counter> counters);
 
-    void reportEvents(Map<String, Collection<Event>> events);
+    void reportEvents(Map<String, Event> events);
 }

@@ -50,21 +50,18 @@ public class LogDReporter implements StatisticsReporter {
     }
 
     @Override
-    public void reportEvents(Map<String, Collection<Event>> events) {
-        for (Map.Entry<String, Collection<Event>> entry : events.entrySet()) {
+    public void reportEvents(Map<String, Event> events) {
+        for (Map.Entry<String, Event> entry : events.entrySet()) {
             String category = entry.getKey();
-            String message = String.format("==> Event Category: %s", category);
+            String message = String.format("==> Event: %s", category);
             log(message);
-            for (Event event : entry.getValue()) {
-                message = String.format("\t\t Event: %s", event.getName());
-                log(message);
-                for (Date occurrence : event.getOccurences()) {
-                    message = String.format("\t\t\t Occurrence: %s", occurrence.toString());
-                    log(message);
-                }
-                message = String.format("\t\t\t Total occurrences: %d", event.getOccurences().size());
+            Event event = entry.getValue();
+            for (Date occurrence : event.getOccurences()) {
+                message = String.format("\t\t\t Occurrence: %s", occurrence.toString());
                 log(message);
             }
+            message = String.format("\t\t\t Total occurrences: %d", event.getOccurences().size());
+            log(message);
         }
     }
 }

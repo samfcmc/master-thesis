@@ -49,6 +49,10 @@ public class Statistics {
         return reporter;
     }
 
+    public Map<String, Event> getEvents() {
+        return events;
+    }
+
     public PendingElement takePendingElement() throws InterruptedException {
         return queue.take();
     }
@@ -56,7 +60,10 @@ public class Statistics {
     public void startSession(Application application, BeaconsManager beaconsManager) {
         if (!pendingStatisticsThread.isAlive()) {
             tryReadFromJsonFile(application, beaconsManager);
-            pendingStatisticsThread.start();
+            if (pendingStatisticsThread.hasStarted()) {
+                pendingStatisticsThread.interrupt();
+            }
+            pendingStatisticsThread = new PendingStatisticsThread(this);
         }
     }
 
@@ -100,11 +107,22 @@ public class Statistics {
                 Log.e("Error", e.getMessage());
             }
         }
+        if (stopThread != null) {
+            stopThread.interrupt();
+        }
     }
 
     public void report() {
-        if (this.stopThread != null) {
-            reportThread.start();
+        if (this.stopThread != null && !reportThread.isAlive()) {
+            if (!reportThread.hasStarted()) {
+                reportThread.start();
+            } else {
+                try {
+                    reportThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

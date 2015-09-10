@@ -1,7 +1,5 @@
 package com.sam.smartplaceslib.statistics;
 
-import android.util.Log;
-
 /**
  *
  */
@@ -9,10 +7,12 @@ public class PendingStatisticsThread extends Thread {
     private Statistics statistics;
 
     private boolean run;
+    private boolean started;
 
     public PendingStatisticsThread(Statistics statistics) {
         this.statistics = statistics;
         this.run = true;
+        this.started = false;
     }
 
     public boolean isRun() {
@@ -21,15 +21,28 @@ public class PendingStatisticsThread extends Thread {
         }
     }
 
+    public boolean hasStarted() {
+        synchronized (this) {
+            return started;
+        }
+    }
+
+    private void started() {
+        synchronized (this) {
+            started = true;
+        }
+    }
+
     @Override
     public void run() {
+        started();
         try {
             while (isRun()) {
                 PendingElement pendingElement = statistics.takePendingElement();
                 pendingElement.process(statistics);
             }
         } catch (InterruptedException e) {
-            Log.e("Error", e.getMessage());
+            // Can be interrupted... No problem :)
         }
     }
 
