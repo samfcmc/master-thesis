@@ -42,6 +42,7 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         this.detectedBeacons = new LinkedList<>();
         this.instancesFound = new HashMap<>();
         this.application.getBeaconsManager().startScan(this, this);
+        this.application.getStatistics().startSession(this.application, this.application.getBeaconsManager());
     }
 
     @Override
@@ -111,7 +112,7 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
                     }
                 });
             }
-            logToDisplay("Detected beacon");
+            logToDisplay("Detected beacons");
         }
     }
 

@@ -1,17 +1,18 @@
-08-31 17:17:27.867: D/Metrics Report(4668): ------------------------------------
-08-31 17:17:27.868: D/Metrics Report(4668): Metrics start: Mon Aug 31 17:17:27 GMT+01:00 2015
-08-31 17:17:27.868: D/Metrics Report(4668): ------------------------------------
-08-31 17:17:27.868: D/Metrics Report(4668): ==> Category: Requests
-08-31 17:17:27.868: D/Metrics Report(4668): 		 Values for: Get beacon
-08-31 17:17:27.870: D/Metrics Report(4668): 			 Value: 12787.00 ms
-08-31 17:17:27.871: D/Metrics Report(4668): 			 Value: 12523.00 ms
-08-31 17:17:27.871: D/Metrics Report(4668): 			 Value: 758.00 ms
-08-31 17:17:27.871: D/Metrics Report(4668): 			 Value: 245.00 ms
-08-31 17:17:27.871: D/Metrics Report(4668): 			 Value: 989.00 ms
-08-31 17:17:27.872: D/Metrics Report(4668): 			 Value: 6049.00 ms
-08-31 17:17:27.873: D/Metrics Report(4668): 			 Value: 3020.00 ms
-08-31 17:17:27.874: D/Metrics Report(4668): 		 Average for Get beacon: 5195.86 ms
-08-31 17:17:27.874: D/Metrics Report(4668): Counter: Beacon scanned blueberry, Value: 1
-08-31 17:17:27.874: D/Metrics Report(4668): Counter: New nearest beacon, Value: 4
-08-31 17:17:27.874: D/Metrics Report(4668): Counter: Beacon scanned ice, Value: 1
-08-31 17:17:27.875: D/Metrics Report(4668): Counter: Beacon scanned mint, Value: 2
+09-10 17:03:04.776: D/Statistics Report(21947): ------------------------------------
+09-10 17:03:04.785: D/Statistics Report(21947): Statistics startSession: Thu Sep 10 17:03:04 GMT+01:00 2015
+09-10 17:03:04.785: D/Statistics Report(21947): ------------------------------------
+09-10 17:03:04.785: D/Statistics Report(21947): 		 Values for: Requests.Get beacon
+09-10 17:03:04.795: D/Statistics Report(21947): 			 Value: 2856.00 ms
+09-10 17:03:04.802: D/Statistics Report(21947): 		 Average for Requests.Get beacon: 2856.00 ms
+09-10 17:03:04.802: D/Statistics Report(21947): 		 Values for: Requests.Get tag
+09-10 17:03:04.802: D/Statistics Report(21947): 			 Value: 29044.00 ms
+09-10 17:03:04.802: D/Statistics Report(21947): 		 Average for Requests.Get tag: 29044.00 ms
+09-10 17:03:04.803: D/Statistics Report(21947): 		 Values for: Requests.Get Smart Place Instances
+09-10 17:03:04.803: D/Statistics Report(21947): 			 Value: 315.00 ms
+09-10 17:03:04.812: D/Statistics Report(21947): 		 Average for Requests.Get Smart Place Instances: 315.00 ms
+09-10 17:03:04.816: D/Statistics Report(21947): Counter: New nearest beacon, Value: 1
+09-10 17:03:04.817: D/Statistics Report(21947): Counter: Beacon scanned ice, Value: 2
+09-10 17:03:04.823: D/Statistics Report(21947): ==> Event: Beacon scan
+09-10 17:03:04.824: D/Statistics Report(21947): 			 Occurrence: Thu Sep 10 16:54:45 GMT+01:00 2015
+09-10 17:03:04.824: D/Statistics Report(21947): 			 Occurrence: Thu Sep 10 16:59:15 GMT+01:00 2015
+09-10 17:03:04.824: D/Statistics Report(21947): 			 Total occurrences: 2

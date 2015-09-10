@@ -1,0 +1,19 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}|l|c|c|c|c|c|c|@{}}
+\toprule
+                                     & \multicolumn{6}{c|}{{\bf Experiments}}                                                                                                                      \\ \midrule
+{\bf Variables}                      & {\bf 1}                 & {\bf 2}                 & {\bf 3}                  & {\bf 4}                 & {\bf 5}                 & {\bf 6}                  \\ \midrule
+Data connection type                 & \multicolumn{3}{c|}{WiFi}                                                    & \multicolumn{3}{c|}{3G}                                                      \\ \midrule
+Metrics                              & \multicolumn{6}{c|}{\begin{tabular}[c]{@{}c@{}}CPU usage, memory usage, \\ data network traffic and latency\end{tabular}}                                   \\ \midrule
+Number of beacons                    & \multicolumn{6}{c|}{3}                                                                                                                                      \\ \midrule
+Interval between each scan (seconds) & \multicolumn{1}{r|}{10} & \multicolumn{1}{r|}{60} & \multicolumn{1}{r|}{300} & \multicolumn{1}{r|}{10} & \multicolumn{1}{r|}{60} & \multicolumn{1}{r|}{300} \\ \midrule
+Experiment duration (minutes)        & \multicolumn{6}{c|}{10.5}                                                                                                                                   \\ \midrule
+Distance between beacons (meters)    & \multicolumn{6}{c|}{2}                                                                                                                                      \\ \bottomrule
+\end{tabular}
+\caption{Experiments to evaluate the mobile device's resources usage}
+\label{tab:experiments_resources}
+\end{table}

@@ -1,15 +1,34 @@
-08-31 17:03:26.583: D/Metrics Report(27578): ------------------------------------
-08-31 17:03:26.590: D/Metrics Report(27578): Metrics start: Mon Aug 31 17:03:26 GMT+01:00 2015
-08-31 17:03:26.590: D/Metrics Report(27578): ------------------------------------
-08-31 17:03:26.590: D/Metrics Report(27578): ==> Category: Requests
-08-31 17:03:26.590: D/Metrics Report(27578): 		 Values for: Get beacon
-08-31 17:03:26.592: D/Metrics Report(27578): 			 Value: 875.00 ms
-08-31 17:03:26.592: D/Metrics Report(27578): 			 Value: 297.00 ms
-08-31 17:03:26.592: D/Metrics Report(27578): 			 Value: 1000.00 ms
-08-31 17:03:26.593: D/Metrics Report(27578): 			 Value: 3212.00 ms
-08-31 17:03:26.593: D/Metrics Report(27578): 			 Value: 3371.00 ms
-08-31 17:03:26.595: D/Metrics Report(27578): 		 Average for Get beacon: 1751.00 ms
-08-31 17:03:26.596: D/Metrics Report(27578): Counter: Beacon scanned blueberry, Value: 1
-08-31 17:03:26.596: D/Metrics Report(27578): Counter: New nearest beacon, Value: 10
-08-31 17:03:26.596: D/Metrics Report(27578): Counter: Beacon scanned mint, Value: 7
-08-31 17:03:26.596: D/Metrics Report(27578): Counter: Beacon scanned ice, Value: 7
+09-10 16:47:57.925: D/Statistics Report(11425): ------------------------------------
+09-10 16:47:57.927: D/Statistics Report(11425): Statistics startSession: Thu Sep 10 16:47:57 GMT+01:00 2015
+09-10 16:47:57.928: D/Statistics Report(11425): ------------------------------------
+09-10 16:47:57.928: D/Statistics Report(11425): 		 Values for: Requests.Get beacon
+09-10 16:47:57.930: D/Statistics Report(11425): 			 Value: 44029.00 ms
+09-10 16:47:57.930: D/Statistics Report(11425): 			 Value: 43060.00 ms
+09-10 16:47:57.930: D/Statistics Report(11425): 		 Average for Requests.Get beacon: 43544.50 ms
+09-10 16:47:57.931: D/Statistics Report(11425): 		 Values for: Requests.Get tag
+09-10 16:47:57.931: D/Statistics Report(11425): 			 Value: 916.00 ms
+09-10 16:47:57.931: D/Statistics Report(11425): 			 Value: 6316.00 ms
+09-10 16:47:57.932: D/Statistics Report(11425): 			 Value: 2479.00 ms
+09-10 16:47:57.932: D/Statistics Report(11425): 		 Average for Requests.Get tag: 3237.00 ms
+09-10 16:47:57.932: D/Statistics Report(11425): 		 Values for: Requests.Get Smart Place Instances
+09-10 16:47:57.932: D/Statistics Report(11425): 			 Value: 457.00 ms
+09-10 16:47:57.933: D/Statistics Report(11425): 			 Value: 549.00 ms
+09-10 16:47:57.933: D/Statistics Report(11425): 		 Average for Requests.Get Smart Place Instances: 503.00 ms
+09-10 16:47:57.933: D/Statistics Report(11425): Counter: Beacon scanned blueberry, Value: 4
+09-10 16:47:57.934: D/Statistics Report(11425): Counter: New nearest beacon, Value: 9
+09-10 16:47:57.934: D/Statistics Report(11425): Counter: Beacon scanned mint, Value: 3
+09-10 16:47:57.934: D/Statistics Report(11425): Counter: Beacon scanned ice, Value: 5
+09-10 16:47:57.934: D/Statistics Report(11425): ==> Event: Beacon scan
+09-10 16:47:57.935: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:39:36 GMT+01:00 2015
+09-10 16:47:57.935: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:40:45 GMT+01:00 2015
+09-10 16:47:57.935: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:40:56 GMT+01:00 2015
+09-10 16:47:57.935: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:41:37 GMT+01:00 2015
+09-10 16:47:57.936: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:41:40 GMT+01:00 2015
+09-10 16:47:57.936: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:42:35 GMT+01:00 2015
+09-10 16:47:57.937: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:43:36 GMT+01:00 2015
+09-10 16:47:57.937: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:44:37 GMT+01:00 2015
+09-10 16:47:57.937: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:45:41 GMT+01:00 2015
+09-10 16:47:57.938: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:46:45 GMT+01:00 2015
+09-10 16:47:57.938: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:47:43 GMT+01:00 2015
+09-10 16:47:57.938: D/Statistics Report(11425): 			 Occurrence: Thu Sep 10 16:47:50 GMT+01:00 2015
+09-10 16:47:57.939: D/Statistics Report(11425): 			 Total occurrences: 12

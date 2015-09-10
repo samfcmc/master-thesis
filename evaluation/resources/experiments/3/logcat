@@ -1,13 +1,21 @@
-08-31 15:58:15.407: D/Metrics Report(16809): ------------------------------------
-08-31 15:58:15.407: D/Metrics Report(16809): Metrics start: Mon Aug 31 15:58:15 GMT+01:00 2015
-08-31 15:58:15.407: D/Metrics Report(16809): ------------------------------------
-08-31 15:58:15.408: D/Metrics Report(16809): ==> Category: Requests
-08-31 15:58:15.408: D/Metrics Report(16809): 		 Values for: Get beacon
-08-31 15:58:15.416: D/Metrics Report(16809): 			 Value: 1340.00 ms
-08-31 15:58:15.416: D/Metrics Report(16809): 			 Value: 14082.00 ms
-08-31 15:58:15.418: D/Metrics Report(16809): 			 Value: 1526.00 ms
-08-31 15:58:15.419: D/Metrics Report(16809): 			 Value: 1486.00 ms
-08-31 15:58:15.419: D/Metrics Report(16809): 		 Average for Get beacon: 4608.50 ms
-08-31 15:58:15.419: D/Metrics Report(16809): Counter: Beacon scanned blueberry, Value: 1
-08-31 15:58:15.419: D/Metrics Report(16809): Counter: New nearest beacon, Value: 2
-08-31 15:58:15.419: D/Metrics Report(16809): Counter: Beacon scanned ice, Value: 1
+09-10 16:20:14.695: D/Statistics Report(22784): ------------------------------------
+09-10 16:20:14.704: D/Statistics Report(22784): Statistics startSession: Thu Sep 10 16:20:14 GMT+01:00 2015
+09-10 16:20:14.704: D/Statistics Report(22784): ------------------------------------
+09-10 16:20:14.710: D/Statistics Report(22784): 		 Values for: Requests.Get beacon
+09-10 16:20:14.717: D/Statistics Report(22784): 			 Value: 896.00 ms
+09-10 16:20:14.717: D/Statistics Report(22784): 		 Average for Requests.Get beacon: 896.00 ms
+09-10 16:20:14.717: D/Statistics Report(22784): 		 Values for: Requests.Get tag
+09-10 16:20:14.723: D/Statistics Report(22784): 			 Value: 1365.00 ms
+09-10 16:20:14.728: D/Statistics Report(22784): 			 Value: 2015.00 ms
+09-10 16:20:14.728: D/Statistics Report(22784): 		 Average for Requests.Get tag: 1690.00 ms
+09-10 16:20:14.728: D/Statistics Report(22784): 		 Values for: Requests.Get Smart Place Instances
+09-10 16:20:14.728: D/Statistics Report(22784): 			 Value: 17543.00 ms
+09-10 16:20:14.728: D/Statistics Report(22784): 		 Average for Requests.Get Smart Place Instances: 17543.00 ms
+09-10 16:20:14.729: D/Statistics Report(22784): Counter: Beacon scanned blueberry, Value: 1
+09-10 16:20:14.729: D/Statistics Report(22784): Counter: New nearest beacon, Value: 2
+09-10 16:20:14.729: D/Statistics Report(22784): Counter: Beacon scanned ice, Value: 2
+09-10 16:20:14.729: D/Statistics Report(22784): ==> Event: Beacon scan
+09-10 16:20:14.729: D/Statistics Report(22784): 			 Occurrence: Thu Sep 10 16:14:06 GMT+01:00 2015
+09-10 16:20:14.745: D/Statistics Report(22784): 			 Occurrence: Thu Sep 10 16:19:25 GMT+01:00 2015
+09-10 16:20:14.745: D/Statistics Report(22784): 			 Occurrence: Thu Sep 10 16:19:32 GMT+01:00 2015
+09-10 16:20:14.745: D/Statistics Report(22784): 			 Total occurrences: 3

@@ -64,6 +64,7 @@ public class Statistics {
                 pendingStatisticsThread.interrupt();
             }
             pendingStatisticsThread = new PendingStatisticsThread(this);
+            pendingStatisticsThread.start();
         }
     }
 

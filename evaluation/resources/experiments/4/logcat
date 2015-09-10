@@ -1,15 +1,60 @@
-08-31 16:45:27.152: D/Metrics Report(15276): ------------------------------------
-08-31 16:45:27.156: D/Metrics Report(15276): Metrics start: Mon Aug 31 16:45:27 GMT+01:00 2015
-08-31 16:45:27.156: D/Metrics Report(15276): ------------------------------------
-08-31 16:45:27.156: D/Metrics Report(15276): ==> Category: Requests
-08-31 16:45:27.156: D/Metrics Report(15276): 		 Values for: Get beacon
-08-31 16:45:27.158: D/Metrics Report(15276): 			 Value: 2736.00 ms
-08-31 16:45:27.158: D/Metrics Report(15276): 			 Value: 6627.00 ms
-08-31 16:45:27.158: D/Metrics Report(15276): 			 Value: 42758.00 ms
-08-31 16:45:27.159: D/Metrics Report(15276): 			 Value: 592.00 ms
-08-31 16:45:27.159: D/Metrics Report(15276): 			 Value: 803.00 ms
-08-31 16:45:27.159: D/Metrics Report(15276): 		 Average for Get beacon: 10703.20 ms
-08-31 16:45:27.159: D/Metrics Report(15276): Counter: Beacon scanned blueberry, Value: 7
-08-31 16:45:27.159: D/Metrics Report(15276): Counter: New nearest beacon, Value: 16
-08-31 16:45:27.159: D/Metrics Report(15276): Counter: Beacon scanned mint, Value: 10
-08-31 16:45:27.159: D/Metrics Report(15276): Counter: Beacon scanned ice, Value: 9
+09-10 16:35:36.580: D/Statistics Report(2016): ------------------------------------
+09-10 16:35:36.591: D/Statistics Report(2016): Statistics startSession: Thu Sep 10 16:35:36 GMT+01:00 2015
+09-10 16:35:36.591: D/Statistics Report(2016): ------------------------------------
+09-10 16:35:36.591: D/Statistics Report(2016): 		 Values for: Requests.Get beacon
+09-10 16:35:36.592: D/Statistics Report(2016): 			 Value: 1479.00 ms
+09-10 16:35:36.593: D/Statistics Report(2016): 		 Average for Requests.Get beacon: 1479.00 ms
+09-10 16:35:36.593: D/Statistics Report(2016): 		 Values for: Requests.Get tag
+09-10 16:35:36.593: D/Statistics Report(2016): 			 Value: 1506.00 ms
+09-10 16:35:36.594: D/Statistics Report(2016): 			 Value: 980.00 ms
+09-10 16:35:36.594: D/Statistics Report(2016): 			 Value: 1068.00 ms
+09-10 16:35:36.607: D/Statistics Report(2016): 		 Average for Requests.Get tag: 1184.67 ms
+09-10 16:35:36.607: D/Statistics Report(2016): 		 Values for: Requests.Get Smart Place Instances
+09-10 16:35:36.617: D/Statistics Report(2016): 			 Value: 28060.00 ms
+09-10 16:35:36.620: D/Statistics Report(2016): 		 Average for Requests.Get Smart Place Instances: 28060.00 ms
+09-10 16:35:36.621: D/Statistics Report(2016): Counter: Beacon scanned blueberry, Value: 11
+09-10 16:35:36.621: D/Statistics Report(2016): Counter: New nearest beacon, Value: 31
+09-10 16:35:36.621: D/Statistics Report(2016): Counter: Beacon scanned mint, Value: 11
+09-10 16:35:36.621: D/Statistics Report(2016): Counter: Beacon scanned ice, Value: 18
+09-10 16:35:36.621: D/Statistics Report(2016): ==> Event: Beacon scan
+09-10 16:35:36.621: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:26:27 GMT+01:00 2015
+09-10 16:35:36.622: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:26:50 GMT+01:00 2015
+09-10 16:35:36.622: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:27:05 GMT+01:00 2015
+09-10 16:35:36.622: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:27:25 GMT+01:00 2015
+09-10 16:35:36.624: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:27:26 GMT+01:00 2015
+09-10 16:35:36.624: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:27:40 GMT+01:00 2015
+09-10 16:35:36.624: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:27:45 GMT+01:00 2015
+09-10 16:35:36.625: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:28:15 GMT+01:00 2015
+09-10 16:35:36.625: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:28:35 GMT+01:00 2015
+09-10 16:35:36.627: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:09 GMT+01:00 2015
+09-10 16:35:36.630: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:14 GMT+01:00 2015
+09-10 16:35:36.630: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:15 GMT+01:00 2015
+09-10 16:35:36.630: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:35 GMT+01:00 2015
+09-10 16:35:36.631: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:40 GMT+01:00 2015
+09-10 16:35:36.631: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:29:53 GMT+01:00 2015
+09-10 16:35:36.632: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:02 GMT+01:00 2015
+09-10 16:35:36.632: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:15 GMT+01:00 2015
+09-10 16:35:36.633: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:20 GMT+01:00 2015
+09-10 16:35:36.633: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:35 GMT+01:00 2015
+09-10 16:35:36.633: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:54 GMT+01:00 2015
+09-10 16:35:36.633: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:30:55 GMT+01:00 2015
+09-10 16:35:36.634: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:31:09 GMT+01:00 2015
+09-10 16:35:36.636: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:31:15 GMT+01:00 2015
+09-10 16:35:36.636: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:31:38 GMT+01:00 2015
+09-10 16:35:36.636: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:31:55 GMT+01:00 2015
+09-10 16:35:36.637: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:32:00 GMT+01:00 2015
+09-10 16:35:36.637: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:32:20 GMT+01:00 2015
+09-10 16:35:36.637: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:32:39 GMT+01:00 2015
+09-10 16:35:36.637: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:32:41 GMT+01:00 2015
+09-10 16:35:36.640: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:32:44 GMT+01:00 2015
+09-10 16:35:36.641: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:33:35 GMT+01:00 2015
+09-10 16:35:36.641: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:33:40 GMT+01:00 2015
+09-10 16:35:36.641: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:33:44 GMT+01:00 2015
+09-10 16:35:36.642: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:33:55 GMT+01:00 2015
+09-10 16:35:36.643: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:34:29 GMT+01:00 2015
+09-10 16:35:36.643: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:34:34 GMT+01:00 2015
+09-10 16:35:36.644: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:34:39 GMT+01:00 2015
+09-10 16:35:36.644: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:34:55 GMT+01:00 2015
+09-10 16:35:36.644: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:35:19 GMT+01:00 2015
+09-10 16:35:36.644: D/Statistics Report(2016): 			 Occurrence: Thu Sep 10 16:35:35 GMT+01:00 2015
+09-10 16:35:36.644: D/Statistics Report(2016): 			 Total occurrences: 40
