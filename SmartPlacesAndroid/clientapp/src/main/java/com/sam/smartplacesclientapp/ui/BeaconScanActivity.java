@@ -110,8 +110,8 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
                         }
                     }
                 });
-                logToDisplay("Detected beacon " + beacon.getUuid());
             }
+            logToDisplay("Detected beacon");
         }
     }
 
@@ -137,6 +137,9 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     @Override
     protected void onDestroy() {
         //this.application.getBeaconsManager().unbind();
+        logToDisplay("On destroy");
+        this.application.getBeaconsManager().stopScan();
+        this.application.getBeaconsManager().unbind();
         super.onDestroy();
     }
 
@@ -144,10 +147,8 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     protected void onPause() {
         super.onPause();
         logToDisplay("Pause");
+        this.application.getBeaconsManager().setBackgroundMode(true);
 
-        //this.application.getBeaconsManager().setBackgroundMode(true);
-        this.application.getBeaconsManager().stopScan();
-        this.application.getBeaconsManager().unbind();
     }
 
     @Override
