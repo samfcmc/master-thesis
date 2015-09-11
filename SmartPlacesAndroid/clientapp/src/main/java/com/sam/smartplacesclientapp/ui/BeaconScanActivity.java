@@ -139,8 +139,13 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     protected void onDestroy() {
         //this.application.getBeaconsManager().unbind();
         logToDisplay("On destroy");
-        this.application.getBeaconsManager().stopScan();
-        this.application.getBeaconsManager().unbind();
+        if (!this.application.getStatistics().isBackgroundMode()) {
+            this.application.getBeaconsManager().stopScan();
+            this.application.getBeaconsManager().unbind();
+            logToDisplay("Stop scanning");
+        } else {
+            logToDisplay("Scanning in background");
+        }
         super.onDestroy();
     }
 

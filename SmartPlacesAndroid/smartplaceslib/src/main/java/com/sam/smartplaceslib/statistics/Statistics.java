@@ -25,6 +25,7 @@ public class Statistics {
     private PendingStatisticsThread pendingStatisticsThread;
     private ReportThread reportThread;
     private StopStatisticsAfterTimeThread stopThread;
+    private boolean backgroundMode;
 
     public Statistics(StatisticsReporter reporter) {
         this.reporter = reporter;
@@ -35,6 +36,7 @@ public class Statistics {
         this.reportThread = new ReportThread(this);
         this.events = new HashMap<>();
         this.stopThread = null;
+        this.backgroundMode = false;
     }
 
     public Map<String, Value> getValues() {
@@ -78,9 +80,14 @@ public class Statistics {
             long scanInterval = scanIntervalSeconds * 1000;
             beaconsManager.updateScanPeriodInBackgroundMode(scanInterval);
             beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
+            this.backgroundMode = jsonObject.get("backgroundMode").getAsBoolean();
             this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
             this.stopThread.start();
         }
+    }
+
+    public boolean isBackgroundMode() {
+        return backgroundMode;
     }
 
     private void putInQueue(PendingElement pendingElement) {
