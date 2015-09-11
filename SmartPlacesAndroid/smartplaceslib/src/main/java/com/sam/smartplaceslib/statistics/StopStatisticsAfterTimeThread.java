@@ -3,14 +3,13 @@ package com.sam.smartplaceslib.statistics;
 /**
  *
  */
-public class StopStatisticsAfterTimeThread extends Thread {
+public class StopStatisticsAfterTimeThread extends TimerThread {
     private Statistics statistics;
-    private long duration;
     private boolean started;
 
     public StopStatisticsAfterTimeThread(Statistics statistics, long duration) {
+        super(duration);
         this.statistics = statistics;
-        this.duration = duration;
         this.started = false;
     }
 
@@ -27,15 +26,10 @@ public class StopStatisticsAfterTimeThread extends Thread {
     }
 
     @Override
-    public void run() {
+    public void onPeriodReached() {
         started();
-        try {
-            sleep(this.duration);
-            this.statistics.stop();
-            this.statistics.report();
-        } catch (InterruptedException e) {
-            // Can be interrupted... No problem
-        }
+        this.statistics.stop();
+        this.statistics.report();
     }
 }
 

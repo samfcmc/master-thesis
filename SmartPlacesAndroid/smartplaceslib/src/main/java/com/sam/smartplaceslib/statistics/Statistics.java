@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.sam.smartplaceslib.bluetooth.BeaconsCache;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.utils.JsonUtils;
 
@@ -26,6 +27,7 @@ public class Statistics {
     private ReportThread reportThread;
     private StopStatisticsAfterTimeThread stopThread;
     private boolean backgroundMode;
+    private ClearCacheThread clearCacheThread;
 
     public Statistics(StatisticsReporter reporter) {
         this.reporter = reporter;
@@ -59,9 +61,9 @@ public class Statistics {
         return queue.take();
     }
 
-    public void startSession(Application application, BeaconsManager beaconsManager) {
+    public void startSession(Application application, BeaconsManager beaconsManager, BeaconsCache cache) {
         if (!pendingStatisticsThread.isAlive()) {
-            tryReadFromJsonFile(application, beaconsManager);
+            tryReadFromJsonFile(application, beaconsManager, cache);
             if (pendingStatisticsThread.hasStarted()) {
                 pendingStatisticsThread.interrupt();
             }
@@ -70,7 +72,11 @@ public class Statistics {
         }
     }
 
-    private void tryReadFromJsonFile(Application application, BeaconsManager beaconsManager) {
+    public void startSession(Application application, BeaconsManager beaconsManager) {
+        startSession(application, beaconsManager, null);
+    }
+
+    private void tryReadFromJsonFile(Application application, BeaconsManager beaconsManager, BeaconsCache cache) {
         int rawId = application.getResources().getIdentifier("statistics", "raw", application.getPackageName());
         if (rawId != 0) {
             JsonObject jsonObject = JsonUtils.readJsonFromRawResource(application, rawId);
@@ -81,6 +87,14 @@ public class Statistics {
             beaconsManager.updateScanPeriodInBackgroundMode(scanInterval);
             beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
             this.backgroundMode = jsonObject.get("backgroundMode").getAsBoolean();
+            if (this.backgroundMode && cache != null) {
+                int clearCacheIntervalSeconds = jsonObject.get("clearCacheInterval").getAsInt();
+                if (clearCacheIntervalSeconds > 0) {
+                    long clearCacheInterval = clearCacheIntervalSeconds * 1000;
+                    this.clearCacheThread = new ClearCacheThread(clearCacheInterval, cache);
+                    this.clearCacheThread.start();
+                }
+            }
             this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
             this.stopThread.start();
         }

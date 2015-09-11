@@ -3,16 +3,15 @@ package com.sam.smartplaceslib.statistics;
 /**
  *
  */
-public class PendingStatisticsThread extends Thread {
+public class PendingStatisticsThread extends StatisticsThread {
     private Statistics statistics;
 
     private boolean run;
-    private boolean started;
 
     public PendingStatisticsThread(Statistics statistics) {
+        super();
         this.statistics = statistics;
         this.run = true;
-        this.started = false;
     }
 
     public boolean isRun() {
@@ -21,21 +20,8 @@ public class PendingStatisticsThread extends Thread {
         }
     }
 
-    public boolean hasStarted() {
-        synchronized (this) {
-            return started;
-        }
-    }
-
-    private void started() {
-        synchronized (this) {
-            started = true;
-        }
-    }
-
     @Override
-    public void run() {
-        started();
+    protected void afterStarted() {
         try {
             while (isRun()) {
                 PendingElement pendingElement = statistics.takePendingElement();

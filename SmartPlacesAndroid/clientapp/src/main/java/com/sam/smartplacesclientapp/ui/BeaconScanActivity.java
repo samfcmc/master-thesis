@@ -11,6 +11,7 @@ import com.sam.smartplacesclientapp.Keys;
 import com.sam.smartplacesclientapp.R;
 import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
+import com.sam.smartplaceslib.bluetooth.BeaconsCache;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
@@ -23,7 +24,6 @@ import com.sam.smartplaceslib.datastore.object.SmartPlaceObject;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +31,7 @@ import java.util.Map;
 public class BeaconScanActivity extends AppCompatActivity implements BeaconScanCallback {
 
     private SmartPlacesClientApplication application;
-    private List<BeaconInfo> detectedBeacons;
+    private BeaconsCache detectedBeacons;
     private Map<String, SmartPlaceInstanceObject> instancesFound;
 
     @Override
@@ -39,10 +39,10 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
         this.application = (SmartPlacesClientApplication) getApplication();
-        this.detectedBeacons = new LinkedList<>();
+        this.detectedBeacons = new BeaconsCache();
         this.instancesFound = new HashMap<>();
         this.application.getBeaconsManager().startScan(this, this);
-        this.application.getStatistics().startSession(this.application, this.application.getBeaconsManager());
+        this.application.getStatistics().startSession(this.application, this.application.getBeaconsManager(), detectedBeacons);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
                     @Override
                     public void done(BeaconObject object) {
                         if (object != null) {
-                            detectedBeacons.add(beacon);
+                            detectedBeacons.addBeacon(beacon);
                             beaconFetched(object);
                         }
                     }
