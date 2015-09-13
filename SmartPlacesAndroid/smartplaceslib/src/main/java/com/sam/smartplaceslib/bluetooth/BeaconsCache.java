@@ -10,9 +10,15 @@ import java.util.List;
  */
 public class BeaconsCache {
     private List<BeaconInfo> beacons;
+    private ClearCacheCallback callback;
 
     public BeaconsCache() {
         this.beacons = new LinkedList<>();
+    }
+
+    public BeaconsCache(ClearCacheCallback callback) {
+        this();
+        this.callback = callback;
     }
 
     public void addBeacon(BeaconInfo beaconInfo) {
@@ -30,6 +36,9 @@ public class BeaconsCache {
     public void clear() {
         synchronized (this) {
             beacons.clear();
+        }
+        if (callback != null) {
+            callback.onCacheClear();
         }
     }
 }

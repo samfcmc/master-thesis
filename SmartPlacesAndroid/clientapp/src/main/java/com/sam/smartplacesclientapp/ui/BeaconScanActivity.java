@@ -13,6 +13,7 @@ import com.sam.smartplacesclientapp.SmartPlacesClientApplication;
 import com.sam.smartplaceslib.bluetooth.BeaconScanCallback;
 import com.sam.smartplaceslib.bluetooth.BeaconsCache;
 import com.sam.smartplaceslib.bluetooth.BeaconsManager;
+import com.sam.smartplaceslib.bluetooth.ClearCacheCallback;
 import com.sam.smartplaceslib.datastore.BeaconInfo;
 import com.sam.smartplaceslib.datastore.DataStoreException;
 import com.sam.smartplaceslib.datastore.callback.BeaconCallback;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class BeaconScanActivity extends AppCompatActivity implements BeaconScanCallback {
+public class BeaconScanActivity extends AppCompatActivity implements BeaconScanCallback, ClearCacheCallback {
 
     private SmartPlacesClientApplication application;
     private BeaconsCache detectedBeacons;
@@ -39,7 +40,7 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
         this.application = (SmartPlacesClientApplication) getApplication();
-        this.detectedBeacons = new BeaconsCache();
+        this.detectedBeacons = new BeaconsCache(this);
         this.instancesFound = new HashMap<>();
         this.application.getBeaconsManager().startScan(this, this);
         this.application.getStatistics().startSession(this.application, this.application.getBeaconsManager(), detectedBeacons);
@@ -189,5 +190,11 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
         resultIntent.putExtra(Keys.BEACON, beacon.getId());
         resultIntent.putExtra(Keys.SMART_PLACE_CONFIGURATION, instance.getId());
         this.application.createNotification(this, name, message, resultIntent, SmartPlaceActivity.class);
+    }
+
+    @Override
+    public void onCacheClear() {
+        instancesFound.clear();
+        logToDisplay("Cache clear...");
     }
 }
