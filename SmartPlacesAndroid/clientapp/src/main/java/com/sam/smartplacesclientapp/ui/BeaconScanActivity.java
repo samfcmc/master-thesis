@@ -100,6 +100,9 @@ public class BeaconScanActivity extends AppCompatActivity implements BeaconScanC
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
         BeaconsManager beaconsManager = this.application.getBeaconsManager();
+        if (application.getStatistics().clearCache()) {
+            detectedBeacons.clear();
+        }
         if (!beacons.isEmpty()) {
             final BeaconInfo beacon = beaconsManager.getNearestBeacon(beacons);
             if (!detectedBeacons.contains(beacon)) {

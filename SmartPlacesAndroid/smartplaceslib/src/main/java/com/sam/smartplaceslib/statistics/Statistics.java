@@ -28,6 +28,7 @@ public class Statistics {
     private StopStatisticsAfterTimeThread stopThread;
     private boolean backgroundMode;
     private ClearCacheThread clearCacheThread;
+    private boolean clearCache;
 
     public Statistics(StatisticsReporter reporter) {
         this.reporter = reporter;
@@ -39,6 +40,7 @@ public class Statistics {
         this.events = new HashMap<>();
         this.stopThread = null;
         this.backgroundMode = false;
+        this.clearCache = false;
     }
 
     public Map<String, Value> getValues() {
@@ -88,16 +90,15 @@ public class Statistics {
             beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
             this.backgroundMode = jsonObject.get("backgroundMode").getAsBoolean();
             if (this.backgroundMode && cache != null) {
-                int clearCacheIntervalSeconds = jsonObject.get("clearCacheInterval").getAsInt();
-                if (clearCacheIntervalSeconds > 0) {
-                    long clearCacheInterval = clearCacheIntervalSeconds * 1000;
-                    this.clearCacheThread = new ClearCacheThread(clearCacheInterval, cache);
-                    this.clearCacheThread.start();
-                }
+                this.clearCache = jsonObject.get("clearCache").getAsBoolean();
             }
             this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
             this.stopThread.start();
         }
+    }
+
+    public boolean clearCache() {
+        return clearCache;
     }
 
     public boolean isBackgroundMode() {
