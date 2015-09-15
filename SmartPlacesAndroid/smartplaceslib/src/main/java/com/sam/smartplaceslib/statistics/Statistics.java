@@ -65,12 +65,13 @@ public class Statistics {
 
     public void startSession(Application application, BeaconsManager beaconsManager, BeaconsCache cache) {
         if (!pendingStatisticsThread.isAlive()) {
-            tryReadFromJsonFile(application, beaconsManager, cache);
-            if (pendingStatisticsThread.hasStarted()) {
-                pendingStatisticsThread.interrupt();
+            if (readFromJsonFile(application, beaconsManager, cache)) {
+                if (pendingStatisticsThread.hasStarted()) {
+                    pendingStatisticsThread.interrupt();
+                }
+                pendingStatisticsThread = new PendingStatisticsThread(this);
+                pendingStatisticsThread.start();
             }
-            pendingStatisticsThread = new PendingStatisticsThread(this);
-            pendingStatisticsThread.start();
         }
     }
 
@@ -78,23 +79,28 @@ public class Statistics {
         startSession(application, beaconsManager, null);
     }
 
-    private void tryReadFromJsonFile(Application application, BeaconsManager beaconsManager, BeaconsCache cache) {
+    private boolean readFromJsonFile(Application application, BeaconsManager beaconsManager, BeaconsCache cache) {
         int rawId = application.getResources().getIdentifier("statistics", "raw", application.getPackageName());
+        boolean statistics = false;
         if (rawId != 0) {
             JsonObject jsonObject = JsonUtils.readJsonFromRawResource(application, rawId);
-            int seconds = jsonObject.get("time").getAsInt();
-            long millis = seconds * 1000;
-            int scanIntervalSeconds = jsonObject.get("scanInterval").getAsInt();
-            long scanInterval = scanIntervalSeconds * 1000;
-            beaconsManager.updateScanPeriodInBackgroundMode(scanInterval);
-            beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
-            this.backgroundMode = jsonObject.get("backgroundMode").getAsBoolean();
-            if (this.backgroundMode && cache != null) {
-                this.clearCache = jsonObject.get("clearCache").getAsBoolean();
+            statistics = jsonObject.get("statistics").getAsBoolean();
+            if (statistics) {
+                int seconds = jsonObject.get("time").getAsInt();
+                long millis = seconds * 1000;
+                int scanIntervalSeconds = jsonObject.get("scanInterval").getAsInt();
+                long scanInterval = scanIntervalSeconds * 1000;
+                beaconsManager.updateScanPeriodInBackgroundMode(scanInterval);
+                beaconsManager.updateScanPeriodInForegroundMode(scanInterval);
+                this.backgroundMode = jsonObject.get("backgroundMode").getAsBoolean();
+                if (this.backgroundMode && cache != null) {
+                    this.clearCache = jsonObject.get("clearCache").getAsBoolean();
+                }
+                this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
+                this.stopThread.start();
             }
-            this.stopThread = new StopStatisticsAfterTimeThread(this, millis);
-            this.stopThread.start();
         }
+        return statistics;
     }
 
     public boolean clearCache() {
