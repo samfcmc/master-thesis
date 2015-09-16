@@ -1,0 +1,26 @@
+% Extra stuff file
+% This file is included before begin{document} environment
+% Use this to include extra packages and define your own commands
+% This way, you can easily grab a most recent version
+% of dissertation.tex file from the original repo
+\newcommand {\tm}[1] {#1\texttrademark{}}
+% Code snippets
+\usepackage[chapter]{minted}
+
+% For better looking tables
+\usepackage{booktabs}
+
+\input{config.tex}
+
+% Scientific notation
+\usepackage[scientific-notation=true, round-precision=2, round-mode=figures]{siunitx}
+
+% For tables
+\usepackage{multirow}
+
+%For symbols like trademark
+\usepackage{textcomp}
+
+% To improve captions of tables
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}

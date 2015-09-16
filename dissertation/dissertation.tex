@@ -15,26 +15,7 @@
 \usepackage{graphicx, helvet, hyperref, setspace}
 \usepackage[portuguese,english]{babel}
 \usepackage[acronym, toc]{glossaries}
-
-% Code snippets
-\usepackage[chapter]{minted}
-\usepackage{booktabs}
-
-\input{config.tex}
-
-% Scientific notation
-\usepackage[scientific-notation=true, round-precision=2, round-mode=figures]{siunitx}
-
-% For tables
-\usepackage{multirow}
-
-%For symbols like trademark
-\usepackage{textcomp}
-
-% To improve captions of tables
-\usepackage{caption}
-\captionsetup[table]{skip=10pt}
-
+\input{extra_stuff.tex}
 
 % Built the glossary when the main file is built.
 \makeglossaries
@@ -42,6 +23,12 @@
 \renewcommand{\familydefault}{\sfdefault}
 % Define keywords macro
 \providecommand{\keywords}[1]{\textbf{Keywords:} #1}
+% Define the NewPage macro
+\newcommand*\NewPage{\newpage\null\thispagestyle{empty}\cleardoublepage}
+% Abstract-en page numbering
+\newcommand {\abstractEnglishPageNumber} {\thispagestyle{plain}\setcounter{page}{\abstractEnglishPage}}
+% Abstract-pt page numbering
+\newcommand {\abstractPortuguesePageNumber} {\thispagestyle{plain}\setcounter{page}{\abstractPortuguesePage}}
 % Section numbering depth
 \setcounter{secnumdepth}{2}
 % Table of contents depth
@@ -67,45 +54,43 @@
 \input{variables.tex}
 
 \include{cover}
+\NewPage
+
+\pagenumbering{roman}
 
 \if\includeAcknowledgments 1
-\cleardoublepage
 \input{acknowledgments/acknowledgments.tex}
+\NewPage
 \fi
 
-\cleardoublepage
 \include{abstract/abstract-en}
-\cleardoublepage
+\NewPage
 \include{abstract/abstract-pt}
+\NewPage
 
 % Table of contents
-\cleardoublepage
 \tableofcontents
-\newpage
-\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+% A new page is necessary only if table of contents has an even number of pages
+\NewPage
 
 % List of tables
-\cleardoublepage
 \addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
+\NewPage
 
 % List of figures
-\cleardoublepage
 \addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
-
-\cleardoublepage
-\addcontentsline{toc}{chapter}{\listoflistingscaption}
-\listoflistings
+\NewPage
 
 % List of acronyms
-\cleardoublepage
 \printglossary[type=\acronymtype]
+\NewPage
 
-\cleardoublepage
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
+
 \input{chapters/main.tex}
 
-\cleardoublepage
 \bibliographystyle{ieeetr}
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{bibliography/dissertation}
