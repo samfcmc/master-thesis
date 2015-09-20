@@ -53,7 +53,7 @@ In this first set of experiments, the value d starts at 50 centimeters and is in
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.5\textwidth, keepaspectratio]{images/nearest_beacon}
-    \caption{Beacons with equal distance from each other}
+    \caption{Layout used for the experiments to get the accuracy of the distance value}
     \label{fig:layout_experiments_nearest_beacon}
 \end{figure}
 
@@ -84,10 +84,20 @@ Table~\ref{tab:experiments_battery} outlines the experiments performed to evalua
 
 \input{tables/experiments_battery.tex}
 
-Simillary to the experiments explained in section \ref{sub:methodology_resources_usage} it was used the same layout as shown in Figure~\ref{fig:experiments_resources_layout}. We performed six experiments. The first two used \gls{WiFi} data connection. The remaining used \gls{3G}.
+Figure~\ref{fig:layout_experiments_battery_consumption} shows the layout used for this group of experiments.
+There are the same three beacons, as in the the experiments described in section \ref{sub:methodology_nearest_beacon}. The beacons are equally distant, 25 cm, from each other.
+The smartphone is at the same distance from the beacon in the middle, the green one named mint.
+We performed six experiments. The first two used \gls{WiFi} data connection. The remaining used \gls{3G}.
 Using different data connection types allows us to understand if the battery consumption, when the user is not nearby a \gls{WiFi} \gls{AP}.
 We tested two values for the interval between each scan, 5 minutes, because it is the default value that the beacons library use in background mode, and 2 and half minutes.
 The second value is half the first and we used it to test the impact of this value on battery consumption.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/experiments_battery_layout}
+    \caption{Layout used for the experiments to get the battery consumption}
+    \label{fig:layout_experiments_battery_consumption}
+\end{figure}
 
 The following scenarios were tested:
 \begin{itemize}
