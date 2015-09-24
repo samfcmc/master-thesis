@@ -1,0 +1,19 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}|l|l|l|l|l|l|l|l|@{}}
+\toprule
+{\bf Technology}         & {\bf Techniques} & {\bf Type of location} & {\bf Computation}                                                                             & {\bf Scale}                                                                                 & {\bf Recognition} & {\bf Costs}                                                                                & {\bf Limitations}                                                                    \\ \midrule
+{\bf GPS}                & Triangulation    & Physical               & Device itself                                                                                 & \begin{tabular}[c]{@{}l@{}}24 sattelites serve\\ unlimited receivers\end{tabular}           & No                & \begin{tabular}[c]{@{}l@{}}Mainly the satellites\\ and acquiring the receiver\end{tabular} & \begin{tabular}[c]{@{}l@{}}Does not work properly\\ indoors\end{tabular}             \\ \midrule
+{\bf QR Codes}           & Proximity        & Symbolic               & External infrastructure                                                                       & \begin{tabular}[c]{@{}l@{}}Depends on the\\ external infrastructure\end{tabular}            & Yes               & Almost zero                                                                                & \begin{tabular}[c]{@{}l@{}}The user needs to be\\ aware of such codes\end{tabular}   \\ \midrule
+{\bf NFC}                & Proximity        & Symbolic               & External infrastructure                                                                       & \begin{tabular}[c]{@{}l@{}}Depends on the \\ external infrastructure\end{tabular}           & Yes               & Acquiring the receiver                                                                     & \begin{tabular}[c]{@{}l@{}}Device can only read\\ one tag at a time\end{tabular}     \\ \midrule
+{\bf Google Maps Indoor} & Triangulation    & Physical               & \begin{tabular}[c]{@{}l@{}}Device itself combined\\ with external infrastructure\end{tabular} & \begin{tabular}[c]{@{}l@{}}Depends on the device and\\ external infrastructure\end{tabular} & Yes               & Acquiring the receiver                                                                     & \begin{tabular}[c]{@{}l@{}}Building need to be\\ first mapped by Google\end{tabular} \\ \midrule
+{\bf BLE}                & Proximity        & Symbolic               & External infrastructure                                                                       & \begin{tabular}[c]{@{}l@{}}Depends on the\\ external infrastructure\end{tabular}            & Yes               & Acquiring the receiver                                                                     & \begin{tabular}[c]{@{}l@{}}Require the deployment\\ of extra hardware\end{tabular}   \\ \bottomrule
+\end{tabular}
+}
+\caption{Outlining the different location technologies}
+\label{tab:technologies}
+\end{table}
