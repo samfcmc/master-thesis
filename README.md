@@ -15,6 +15,10 @@ What is iBeacon?
 For more information check the
 [Wiki](https://github.com/samfcmc/master-thesis/wiki)
 
+## Deadline
+A count down timer, telling me, how much time is left to deliver this thesis.
+[It's the final countdown](http://tinyurl.com/om96bfz)
+
 ## Requirements:
 * An Android device
 * Android Studio
