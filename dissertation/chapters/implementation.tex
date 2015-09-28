@@ -24,7 +24,7 @@ some information about each beacon, such as, the \gls{UUID}, name, etc.
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.5\textwidth, keepaspectratio]{images/estimote}
-    \caption{Beacons from Estimote, that were used during the implementation}
+    \caption[Estimote beacons]{Beacons from Estimote, that were used during the implementation}
     \label{fig:estimote}
 \end{figure}
 
@@ -68,7 +68,7 @@ created, according to the data model in figure \ref{fig:backend_data_model}:
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.5\textwidth]{images/backend_data_model}
-    \caption{Data model stored in Parse \gls{BaaS}}
+    \caption[Data model]{Data model stored in Parse \gls{BaaS}}
     \label{fig:backend_data_model}
 \end{figure}
 
@@ -102,7 +102,7 @@ Its implementation is detailed in section \ref{sub:implementation_library}
   \centering
     \includegraphics[width=0.5\textwidth, height=0.15\textheight,
       keepaspectratio]{images/smartplaces_package}
-    \caption{Android project's structure}
+    \caption[Android project's structure]{Android project's structure}
     \label{fig:smartplaces_package}
 \end{figure}
 
@@ -132,7 +132,7 @@ Activity\footnote{http://developer.android.com/guide/components/activities.html}
     }
   })
   \end{minted}
-  \caption{Java code in an Android Activity to scan for nearby beacons}
+  \caption[Java code for beacon scanning]{Java code in an Android Activity to scan for nearby beacons}
   \label{code:java_scan_beacons}
 \end{listing}
 
@@ -181,7 +181,7 @@ This \gls{API} offer a global Object, which is SmartPlaces, with several methods
       // Code to handle when the mobile app detects a tag
     });
   \end{minted}
-  \caption{Javascript code to define a callback when a tag is found}
+  \caption[Tag found]{Javascript code to define a callback when a tag is found}
   \label{code:js_tag_found}
 \end{listing}
 

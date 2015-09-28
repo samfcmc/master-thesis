@@ -53,7 +53,7 @@ Finnaly, he just needs to type a title and a message, that will appear in the us
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth, keepaspectratio]{images/screenshots/ownersapp}
-    \caption{From left to right, the steps to create an instance of a given Smart Place}
+    \caption[Create a Smart Place Instance]{From left to right, the steps to create an instance of a given Smart Place}
     \label{fig:screenshot_ownersapp}
 \end{figure}
 
@@ -67,7 +67,7 @@ This interface is developed by the same developers that create the Smart Place, 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth, keepaspectratio]{images/screenshots/ownersapp_configure}
-    \caption{From left to right, the steps to configure an instance of a given Smart Place}
+    \caption[Configure a Smart Place Instance]{From left to right, the steps to configure an instance of a given Smart Place}
     \label{fig:screenshot_ownersapp_configure}
 \end{figure}
 
@@ -85,7 +85,7 @@ After installing the app, the first time the user opens it, the app ask the user
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.7\textwidth, keepaspectratio]{images/screenshots/clientapp_entry}
-    \caption{First time the user opens the mobile app}
+    \caption[Users mobile app]{First time the user opens the mobile app}
     \label{fig:screenshot_clientapp_entry}
 \end{figure}
 This app will scan for nearby beacons, periodically.
@@ -114,7 +114,7 @@ If a developer, using this tool, wants to install this library, he/she just need
   \begin{minted}{shell}
   bower install smartplaces-js --save
   \end{minted}
-  \caption{Command to install smartplaces-js library using bower}
+  \caption[Install library using Bower]{Command to install smartplaces-js library using bower}
   \label{code:bower_install}
 \end{listing}
 Then, he/she just needs to include the library and use the available functions.
@@ -126,7 +126,7 @@ In the part of the web app, that will be accessed by owners, developers first ne
       // Code after initialization of this Smart Place Instance
     });
   \end{minted}
-  \caption{Javascript library initialization}
+  \caption[Javascript library initialization]{Javascript library initialization}
   \label{code:smartplaces_initialization}
 \end{listing}
 The library is event-based, that is, the mobile app, described in section \ref{sec:solution_mobile_app_for_end_users} emits events to the library, such as, a nearby beacon is detected, to the web application running inside the embedded web browser.
@@ -139,7 +139,7 @@ Developers have to define the behaviour, when this event is emitted, as shown in
       // Code to handle beacons that were scanned
     });
   \end{minted}
-  \caption{Defining a callback function when beacons are scanned by the mobile app for owners}
+  \caption[Beacons scanned]{Defining a callback function when beacons are scanned by the mobile app for owners}
   \label{code:smartplaces_on_beacons_scanned}
 \end{listing}
 
@@ -169,7 +169,7 @@ Since this function makes a request to the backend, we need to pass, as an argum
       }
     });
   \end{minted}
-  \caption{Get beaon info from the backend}
+  \caption[Get beacon object]{Get beaon info from the backend}
   \label{code:smartplaces_get_beacon}
 \end{listing}
 
@@ -187,7 +187,7 @@ To do that, there is an ``associateTag'' function, which usage is illustrated in
       }
     });
   \end{minted}
-  \caption{Associate a tag to a given beacon}
+  \caption[Associate tag]{Associate a tag to a given beacon}
   \label{code:smartplaces_associate_tag}
 \end{listing}
 
@@ -204,7 +204,7 @@ It is also possible to update an existing tag. For that, developers can use the 
       }
     });
   \end{minted}
-  \caption{Update data of a given tag}
+  \caption[Update an existing tag]{Update data of a given tag}
   \label{code:smartplaces_update_tag}
 \end{listing}
 
@@ -220,7 +220,7 @@ The tag object, which is the argument of this callback function, is the \gls{JSO
       // Code to handle when the mobile app detects a tag
     });
   \end{minted}
-  \caption{Callback for when a nearby tag is found}
+  \caption[Tag found]{Callback for when a nearby tag is found}
   \label{code:smartplaces_tag_found}
 \end{listing}
 
@@ -261,7 +261,7 @@ We also added an option, to the backoffice's \gls{UI}, to manage the mapping bet
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.8\textwidth, keepaspectratio]{images/screenshots/smart_restaurant_app}
-    \caption{Steps to place an order in the Smart Restaurant app}
+    \caption[Smart Restaurant]{Steps to place an order in the Smart Restaurant app}
     \label{fig:smart_restaurant_app}
 \end{figure}
 
@@ -276,7 +276,7 @@ Figure~\ref{fig:smart_museum_app} shows a screen, in the mobile device, after th
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.4\textwidth, keepaspectratio]{images/screenshots/smart_museum_app}
-    \caption{Smart Museum app showing information}
+    \caption[Smart Museum]{Smart Museum app showing information}
     \label{fig:smart_museum_app}
 \end{figure}
 
