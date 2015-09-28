@@ -123,7 +123,7 @@ In the part of the web app, that will be accessed by owners, developers first ne
 \begin{listing}[H]
   \begin{minted}{javascript}
     SmartPlaces.onInit(function(smartPlaceInstance) {
-      console.log(smartPlaceInstance);
+      // Code after initialization of this Smart Place Instance
     });
   \end{minted}
   \caption{Javascript library initialization}
@@ -136,7 +136,7 @@ Developers have to define the behaviour, when this event is emitted, as shown in
 \begin{listing}[H]
   \begin{minted}{javascript}
     SmartPlaces.onBeaconsScanned(function(beacons) {
-      console.log(beacons);
+      // Code to handle beacons that were scanned
     });
   \end{minted}
   \caption{Defining a callback function when beacons are scanned by the mobile app for owners}
@@ -162,10 +162,10 @@ Since this function makes a request to the backend, we need to pass, as an argum
   \begin{minted}{javascript}
     SmartPlaces.getBeacon(beaconScanned, {
       success: function(beacon) {
-        console.log(beacon);
+        // Code to handle when a beacon object was retrieved successfully from the backend
       },
       error: function(error) {
-        console.log(error);
+        // Code to handle when an error occurrs when trying to get a beacon object from the backend
       }
     });
   \end{minted}
@@ -180,10 +180,10 @@ To do that, there is an ``associateTag'' function, which usage is illustrated in
   \begin{minted}{javascript}
     SmartPlaces.associateTag(beacon, tagData, {
       success: function(tag) {
-        console.log(tag);
+        // Code to handle when a tag is successfully associated to a beacon
       },
       error: function(error) {
-        console.log(error);
+        // Code to handle when an error occurrs trying to associate a tag to a beacon
       }
     });
   \end{minted}
@@ -197,10 +197,10 @@ It is also possible to update an existing tag. For that, developers can use the 
   \begin{minted}{javascript}
     SmartPlaces.updateTag(tag, newData, {
       success: function(updatedTag) {
-        console.log(updatedTag);
+        // Code to handle when the given tag is successfully updated
       },
       error: function(error) {
-        console.log(error);
+        // Code to handle when an error occurrs when trying to update the given tag
       }
     });
   \end{minted}
@@ -217,7 +217,7 @@ The tag object, which is the argument of this callback function, is the \gls{JSO
 \begin{listing}[H]
   \begin{minted}{javascript}
     SmartPlaces.onTagFound(function(tag) {
-      console.log(tag)
+      // Code to handle when the mobile app detects a tag
     });
   \end{minted}
   \caption{Callback for when a nearby tag is found}

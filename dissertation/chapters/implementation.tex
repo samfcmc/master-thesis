@@ -128,7 +128,7 @@ Activity\footnote{http://developer.android.com/guide/components/activities.html}
   manager.startScan(this, new BeaconScanCallback() {
     @Override
     public void beaconsFound(Collection<BeaconInfo> beacons) {
-      // Do something with beacons collection
+      // Code to be executed after beacons are found
     }
   })
   \end{minted}
@@ -178,7 +178,7 @@ This \gls{API} offer a global Object, which is SmartPlaces, with several methods
 \begin{listing}[H]
   \begin{minted}{javascript}
     SmartPlaces.onTagFound(function(tag) {
-      console.log(tag);
+      // Code to handle when the mobile app detects a tag
     });
   \end{minted}
   \caption{Javascript code to define a callback when a tag is found}
