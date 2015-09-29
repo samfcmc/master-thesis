@@ -3,9 +3,9 @@
 \chapter{Implementation}
 \label{chapter:implementation}
 In chapter \ref{chapter:solution}, we have presented the solution, that is,
-the mobile apps that owners and end users need and the API that developers use
+the mobile apps that owners and end users need and the \gls{API} that developers use
 to develop proximity-based mobile apps for this two kinds of users.
-Here, it will be explained the implementation of each part of the solution
+This chapter explaines the implementation of each part of the solution
 (tools, programming languages, etc). Since there are two examples that were
 created to test the concept, we will dive into their implementation also.
 The code is hosted on
@@ -38,11 +38,11 @@ some information about each beacon, such as, the \gls{UUID}, name, etc.
 Since this solution needs to store information about each beacon, we
 needed a backend to be able to change this information without having
 to change the mobile apps.
-However, this backend just had to be able to store data and retrieve that
+However, this backend just has to be able to store data and retrieve that
 data when client applications request it.
 Instead of implementing this component from the scratch, we used
-Parse\footnote{https://parse.com}, which is a \gls{BaaS}.
-It gives, to developers, a dashboard, where they can create classes
+Parse\footnote{https://parse.com}, which is a \glsfirst{BaaS}.
+It provides a dashboard, where developers can create classes
 and define their fields and the type of each field, which can be a string,
 a number, a boolean, a pointer to another object, a \gls{JSON} object, etc.
 In order to support the needs of this project, the following classes were
@@ -50,8 +50,9 @@ created, according to the data model in figure \ref{fig:backend_data_model}:
 \begin{description}
   \item[Beacon]: Stores the information according to ibeacon protocol,
   which is \gls{UUID}, major and minor values. It also has a pointer
-  to an instance of class User (already provided by Parse.com),
-  which represents the user that owns the beacon;
+  to an instance of class User, which is a class provided by Parse \gls{BaaS} and represents its users. Fields such as, username, password, name and email are already provided by this class.
+  Due to the existence of this class, the authentication mechanisms, such as, using username and password or using accounts from social networks, such as Facebook or Twitter, are already provided;
+  A pointer to an instance of class User represents the user that owns the beacon;
   \item[Smart Place]: Stores information all smart places available,
   such as, name and description. It has a pointer to an instance of
   User, which is the user that created it;
@@ -82,15 +83,14 @@ the Parse Android and Javascript \glspl{SDK} were used.
 \label{sec:mobile_applications}
 % Mobile apps: Tools used, programming languages,
 % -> Some kind of UML for each one
-There is a mobile app for owners and another one for end users.
-Each of these apps is an Android app. They were developed using Android
+The mobile apps were developed using Android
 Studio, which is an \gls{IDE}, based on
 IntelliJ\footnote{https://www.jetbrains.com/idea/},
 to develop Android
 applications and written in JAVA.
 The chosen development environment allows developers to create multiple
 apps and modules inside the same project.
-Taking that into account,
+Taking this into account,
 one project was created, with 2 apps and one library, as shown in figure
 \ref{fig:smartplaces_package}. Since both apps use the Bluetooth receiver
 of the mobile device and make requests to the backend, there is a library,
@@ -115,7 +115,7 @@ As already mentioned, a library, smartplaceslib, as shown in figure \ref{fig:sma
 use. Because, both apps use the Bluetooth receiver and interact with the backend, this library avoids having similar code in both apps. There are two important classes that this library offers:
 \begin{description}
   \item[IBeaconsManager]: Offers methods to start scanning for beacons and change some settings such as, interval between each scan;
-  \item[AbstractParseDataStore]: This class offers an abstraction of the Parse Android \gls{SDK}. It is extended by two classes, ClientParseDataStore, used in the end users mobile app, and OwnerParseDataStore, used in the owners mobile app. There are two different classes for each app because each app has different needs when interacting with the backend. There were common needs encapsulated in methods in the AbstractParseDataStore class.
+  \item[AbstractParseDataStore]: This class offers an abstraction of the Parse Android \gls{SDK}. It is extended by two classes, ClientParseDataStore, used in the end users mobile app, and OwnerParseDataStore, used in the owners mobile app. There are two different classes for each app because each app has different needs when interacting with the backend. Their common needs were encapsulated in methods in the AbstractParseDataStore class.
 \end{description}
 
 When IBeaconsManager class is used, it needs a BeaconScanCallback object, which overrides a method that is executed when beacons are scanned, because the scanning is an asynchronous process.
@@ -142,13 +142,15 @@ Activity\footnote{http://developer.android.com/guide/components/activities.html}
 % Brief description of its features
 % How it uses the library
 % Android Studio, part of the project
-As stated in chapter \ref{chapter:solution}, owners are who install beacons and configure Smart Places. This mobile Android app allows them to create an instance of a Smart Place.
+As stated in chapter \ref{chapter:solution}, owners are the people who install beacons and configure Smart Places. This mobile Android app allows them to create an instance of a Smart Place.
 In terms of backend, they are creating an instance of Smart Place Instance class, explained in \ref{sec:implementation_backend}.
 This app was developed using Android Studio.
 It is called ownersapp and it uses the library, smartplaceslib, as shown in Figure \ref{fig:smartplaces_package}.
 From the library, it uses the class IBeaconsManager to scan for nearby beacons and OwnersParseDataStore to allow owners to create Smart Place Instances and configure them.
-The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html}.
-Each \gls{UI} is implemented by a class that extends the Activity, provided by the Android API.
+The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html}, which is a design language, developed by \tm{Google}.
+This language states some conventions about how to design an \gls{UI}.
+Each \gls{UI} is implemented by a class that extends the Activity class, provided by the Android \gls{API}.
+An Activity represents a single task, that the user can do, in an Android app.
 
 \subsection{Mobile app for end users}
 \label{sub:implementation_mobile_app_for_end_users}
@@ -185,10 +187,8 @@ This \gls{API} offer a global Object, which is SmartPlaces, with several methods
   \label{code:js_tag_found}
 \end{listing}
 
-The line with the console.log can be replaced by anything useful that the developer wants to do with the given tag.
-
 This library was developed in a modular way, that is, there are multiple javascript files, that, in the end, in the build process, are compiled in just one file.
-To manage this build process, we use Grunt\footnote{http://gruntjs.com}, which is a tool, written in javascript, that allows developers to include tasks, or even create their own tasks. There is a task that compiles all javascript files in just one, performs minification of that file and create a new version, that is, create a new tag in the repository and push those changes to it.
+To manage this build process, we use Grunt\footnote{http://gruntjs.com}, which is a tool, written in javascript, that allows developers to include tasks, or even create their own tasks. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
 
 To make it easier to include as a dependency in any web application, it is available through bower\footnote{http://bower.io}, which is a tool to manage frontend dependencies in a web application.
 
@@ -210,7 +210,7 @@ The idea of this Smart Place is to offer an easy way for customers, in a restaur
 We have used an existing solution created in the scope of a Master Thesis \cite{SLOC}.
 It has a \gls{REST} \gls{API} written in \gls{PHP} language.
 Our work here, was to create a frontend, that uses the Smart Places Javascript \gls{API} and the provided \gls{API}.
-This frontend was written in \gls{HTML} and javascript.
+This frontend was written in \gls{HTML} and Javascript.
 It was deployed in the web server of \gls{IST}. Simillary to Smart Places Javascript \gls{API}, the build process is managed by Grunt and there is a task to deploy this web application in the mentioned web server.
 
 \subsection{Smart Museum}
@@ -220,7 +220,7 @@ It was deployed in the web server of \gls{IST}. Simillary to Smart Places Javasc
 % - programming languages;
 % - deployment;
 % - overview of its structure
-The Smart Museum is another example that was created to use the Javascript API and verify that we can apply it to multiple applications.
+The Smart Museum is another example that was created to use the Javascript \gls{API} and verify that we can apply it to multiple applications.
 The main goal was to show some information about some pieces in a museum. For that, the Walters \gls{API}\footnote{http://api.thewalters.org/} was used, in order to have information about a real museum instead having some kind of mock.
 
 This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework, that allow to create an \gls{HTTP} server using javascript.
