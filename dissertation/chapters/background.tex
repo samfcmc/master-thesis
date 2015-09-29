@@ -175,7 +175,7 @@ We are going to look at these technologies and see which one best fits our purpo
 \label{sub:background_gps}
 % What is it
 % How it works
-\gls{GPS} is a location system that uses 24 sattelites plus three backups.
+\glsfirst{GPS} is a location system that uses 24 sattelites plus three backups.
 Receivers send signals and sattelites answer back. Measurements are taken from this measurements in order to receivers be able to calculate their own location.
 An object, that we want to locate, only needs a \gls{GPS} receiver in order to be located using this technology.
 
@@ -207,7 +207,7 @@ Since the concept of Smart Place is a concept connected to an indoor space, the 
 \label{sub:background_qr_codes}
 % What is it
 % How it works
-\gls{QR} codes is a type of two dimensional barcode.
+\glsfirst{QR} codes is a type of two dimensional barcode.
 The user just needs an app that reads these codes.
 There are \gls{QR} readers available for all the three major mobile platforms, Android, iOS and Windows Phone.
 Whenever the user sees one of these codes, he/she opens the \gls{QR} code reader app, scan the code and see the content provided by it.
@@ -253,7 +253,7 @@ However, as already mentioned, it requires the users to be aware of such codes a
 \label{sub:background_near_field _communication}
 % What is it
 % How it works
-\gls{NFC} is a short distance radio communication technology.
+\glsfirst{NFC} is a short distance radio communication technology.
 The two devices communicating need to be of 10 cm or less distant from each other.
 Each \gls{NFC} device can work in one of three modes:
 \begin{description}
@@ -329,7 +329,7 @@ Unfortunately, as already mentioned, not all buildings are available.
 \label{sub:background_bluetooth_low_energy}
 % What is it
 % How it works
-\gls{BLE}\cite{ble} is a short range wireless communication technology, developed by Bluetooth \gls{SIG}\footnote{http://www.bluetooth.org}.
+\glsfirst{BLE}\cite{ble} is a short range wireless communication technology, developed by Bluetooth \gls{SIG}\footnote{http://www.bluetooth.org}.
 Unlike classic Bluetooth, it is focused on low power consumption.
 It is a feature of Bluetooth 4.0\cite{bluetooth_specification}.
 To take advantage of this technology, the mobile device needs to be equipped with Bluetooth, at least, version 4.0.
@@ -419,7 +419,7 @@ Three beacons, from \tm{Estimote} were used in the implementation of our solutio
 \label{sec:background_related_work}
 % Related work...
 Here we discuss some related work in order to have a good insight, about the possibilities and existing solutions, for the problem we are trying to solve.
-First, we take a look at some examples of proximity-based apps, in order to see what can be done when the user is in proximity of some \gls{POI}.
+First, we take a look at some examples of proximity-based apps, in order to see what can be done when the user is in proximity of a given point of interest.
 Since we tried to create a solution that provided an easy way of creating proximity-based services, there is a need to look at the state of the art of existing solutions of frameworks to develop context-aware applications. As already mentioned, proximity-based applications are a particular category of context-aware applications that take into account the user's location.
 
 \subsection{Proximity-based apps}
@@ -474,12 +474,12 @@ technology and the apps developed using it.
   will run in background.
   \item[BlueView\cite{Chen2013}]
   This one is a system to help
-  visually impaired people to perceive some \glspl{POI}.
+  visually impaired people to perceive some points of interest.
   This solution has two main components: The viewer device
   and the \glspl{BP}. The first one is a mobile phone,
   carried by the user, which is bluetooth enabled.
   The \glspl{BP} are just bluetooth tags instead of
-  \gls{BLE} Beacons. The name of a \gls{POI} is associated with
+  \gls{BLE} Beacons. The name of a point of interest is associated with
   \gls{MAC} address of the tag which it is associated to.
   The steps involved in using the system are the
   following: first, the viewer device will scan
