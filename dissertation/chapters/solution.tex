@@ -27,7 +27,33 @@ Owners have a mobile app that allow them to turn the places they manage into Sma
 There is another mobile app to allow anyone, with a mobile device, such as a smartphone, to use the services provided by Smart Places nearby.
 To develop these services our solution offers an \gls{API} that developers can integrate in their web applications to make them react to the presence of the user.
 
-\section{Mobile app for owners}
+\section{Solution Overview}
+\label{sec:solution_solution_overview}
+% Introduce solution
+% Smartphone
+% App for owners
+% App for users
+% API for developers
+% Beacons (Tags)
+% Backend
+Our solution is composed by several components, as shown in Figure~\ref{fig:solution_overview}:
+\begin{description}
+  \item[Beacons] are the small devices that will act as tags, according to our definition of a Smart Place;
+  \item[Backend] is where all the data is stored, that is, the Smart Places that are available, the Smart Places that each owner has configured, information about each beacon, etc;
+  \item[Owners Mobile App] is an Android mobile app that owners use to select which Smart Places they want to configure. It also allows to configure each individual beacon that belongs to a given Smart Place;
+  \item[End Users Mobile App] in another Android mobile app that allows users, with a mobile device, \gls{BLE} enabled, to have access to nearby Smart Places and to detect the beacons that belong to those Smart Places;
+  \item[Developers \gls{API}] provides the necessary methods that developers can use to create their proximity-based services, based on the concept of a Smart Place.
+\end{description}
+Each mentioned component is described, in further detail, in the next sections.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.7\textwidth, keepaspectratio]{images/smart_places_solution_overview}
+    \caption[Solution Overview]{Overview with the main components of our solution}
+    \label{fig:solution_overview}
+\end{figure}
+
+\section{Mobile App for Owners}
 \label{sec:solution_mobile_app_for_owners}
 % Who are the owners
 % What are the main features of the app
@@ -72,7 +98,7 @@ This interface is developed by the same developers that create the Smart Place, 
     \label{fig:screenshot_ownersapp_configure}
 \end{figure}
 
-\section{Mobile app for end users}
+\section{Mobile App for End Users}
 \label{sec:solution_mobile_app_for_end_users}
 % Who are end users
 % What are the main features of the app
