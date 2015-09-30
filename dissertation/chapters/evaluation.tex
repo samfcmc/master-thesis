@@ -7,9 +7,9 @@
 % Setup used
 
 After the implementation of this solution, explained in chapter \ref{chapter:implementation}, some experiments were performed in order to test it.
-The Restaurant and Smart Museum apps, described in section \ref{sec:solution_examples} were used in these experiments. In both, the app tries to scan for the nearest beacon, which means, somehow, it has into account the distance from the beacons.
+The Restaurant and Smart Museum apps, described in section \ref{sec:solution_examples} were used in these experiments. In both, the app tries to scan for the nearest beacon, which means, somehow, it has into account the physical distance between the device and the beacons.
 The library used to handle the beacons has a method to get the distance from a given beacon.
-There is a need to check if it is trustworthy the distance's value we get from this library.
+There is a need to check if the distance's value we get from this library is trustworthy.
 
 The app for end users, described in section \ref{sec:solution_mobile_app_for_end_users}, needs to run, in background, in order to let the user be notified when he/she is nearby any Smart Place, instead of requiring his/her interaction.
 However, as any service running in background, it can have a negative impact on the mobile device's resources usage, such as, battery.
@@ -43,12 +43,19 @@ The first set of experiments, summarized in Table~\ref{tab:experiments_nearest_b
 \input{tables/experiments_nearest_beacon.tex}
 
 In these experiments, the Smart Musem example was used.
-In each experiment, it ran for 5 minutes. Then, in Android Studio log output, it was possible to check how many times each beacon was detected as the nearest one.
+In each experiment, it ran for 5 minutes using 10 seconds as the interval between each scan.
+10 seconds was chose because it is a reasonable value to have enough time to perform any computation, that was needed, after each scan.
+In each scan, the app executes code that checks if the scanned beacons were already detected in a previous scan. If they were not, the data associated to those beacons is requested from the backend, which, depending on the internet connection, can take some time.
+This time interval between each scan seemed reasonable to make the request and compute the result until a new scan occurs.
+With a much lower value, we could have a situation where another scan occurs while the previous one was not computed yet.
+Running the experiment for 5 minutes, with the mentioned interval between each scan, allowed us to have more than 20 scans.
+
+Then, in Android Studio log output, it was possible to check how many times each beacon was detected as the nearest one.
 
 The smartphone and the three beacons were disposed in a layout, where each beacon was equally distant from each other and the smartphone was close to one of them, as shown in Figure~\ref{fig:layout_experiments_nearest_beacon}, where value d, is the distance between beacons.
-The names below each beacon (ice, blueberry and mint), were provided by \tm{Estimote} in the developer pack.
+The names below each beacon (ice, blueberry and mint), were defined by \tm{Estimote} in the developer pack.
 
-In this first set of experiments, the value d starts at 50 centimeters and is increased by 50 centimeters in each experiment until the 4th one where d is 2 meters.
+In this first set of experiments, the value d starts at 50 centimeters and is increased by 50 centimeters in each experiment until the 4th one where it is 2 meters.
 
 \begin{figure}[!ht]
   \centering
