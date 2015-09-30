@@ -221,7 +221,11 @@ It was deployed in the web server of \gls{IST}. Simillary to Smart Places Javasc
 % - deployment;
 % - overview of its structure
 The Smart Museum is another example that was created to use the Javascript \gls{API} and verify that we can apply it to multiple applications.
-The main goal was to show some information about some pieces in a museum. For that, the Walters \gls{API}\footnote{http://api.thewalters.org/} was used, in order to have information about a real museum instead having some kind of mock.
+The main goal was to show some information about some objects in a museum.
+
+To work with real data instead of creating our own museum we have used a real data source.
+The Walters Art Museum provides a \gls{REST} \gls{API} that any developer can use to get data about collections and objects.
+To use this \gls{API}, we created an account, in the \gls{API}'s website\footnote{http://api.thewalters.org} and requested to get a token. This token is used in any request to allow the \gls{REST} \gls{API} to identify each individual request.
 
 This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework, that allow to create an \gls{HTTP} server using javascript.
 It is currently deployed on Heroku\footnote{http://www.heroku.com} which is a cloud \gls{PaaS}, that supports many programming languages and development stacks.
