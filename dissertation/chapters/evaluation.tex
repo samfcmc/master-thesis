@@ -89,6 +89,12 @@ In all experiments, this beacon was detected, as the nearest one, at least 50\% 
 The only difference between all experiments is the distance between beacons.
 We can conclude that, it is recommended that the beacons are, at least, 1.5m or 2m distant from each other.
 
+In an environment, where the beacons are close to each other, our solution might not work as expected.
+For instance, in the previously described Smart Restaurant example,
+the tables should not be close to each other. This is not always possible because, some restaurants try to optimize space and have tables as much close to each other as possible.
+In the Smart Museum example, two objects, in a given exhibition, should not be close to each other.
+Otherwise, the visitor would be notified about an object and he might be looking to another one.
+
 \section{Energy Consumption}
 \label{sec:evaluation_energy_onsumption}
 One important aspect of this solution is the battery consumption.
@@ -102,7 +108,8 @@ Table~\ref{tab:experiments_battery} outlines the experiments performed to evalua
 \input{tables/experiments_battery.tex}
 
 Figure~\ref{fig:layout_experiments_battery_consumption} shows the layout used for this group of experiments.
-There are the same three beacons, as in the the experiments described in section \ref{sub:methodology_nearest_beacon}. The beacons are equally distant, 25 cm, from each other.
+We have used the same beacons, as in the experiments described in section \ref{sec:evaluation_nearest_beacon}.
+The beacons are equally distant, 25 cm, from each other.
 The smartphone is at the same distance from the beacon in the middle, the green one named mint.
 We performed six experiments. The first two used \gls{WiFi} data connection. The remaining used \gls{3G}.
 Using different data connection types allows us to understand if the battery consumption, when the user is not nearby a \gls{WiFi} \gls{AP}.
