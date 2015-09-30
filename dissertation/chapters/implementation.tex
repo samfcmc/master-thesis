@@ -12,21 +12,6 @@ The code is hosted on
 github\footnote{http://github.com/}, which is a hosting service for projects
 that use git\footnote{http://git-scm.com/}, as their \gls{VCS}.
 
-The technology chosen to support the proximity-based behaviour was
-\gls{BLE} Beacons.
-We have used three beacons from Estimote\footnote{http://estimote.com}
-(figure \ref{fig:estimote}), that come with a development kit.
-Besides the hardware, this product offers a \gls{SDK} for Android and
-iOS. It also has a cloud service where developers can set and get
-some information about each beacon, such as, the \gls{UUID}, name, etc.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/estimote}
-    \caption[Estimote beacons]{Beacons from Estimote, that were used during the implementation}
-    \label{fig:estimote}
-\end{figure}
-
 \section{Tools}
 \label{sec:implementation_tools}
 During the development of our solution, several tools were used.
@@ -58,8 +43,28 @@ However, besides these languages, we have used tools to manage the build process
   Also, it was used in our Javascript \gls{API} to allow this \gls{API} to be released as a library in order to make it avaible, to install, using this tool;
   \item[Grunt]\footnote{http://gruntjs.com} is another tool used in web applications, to manage the build process of frontend assets.
   It is based on tasks that are added depending on the needs of the project.
-  There are tasks available for concatenate all Javascript files in just one, minify Javascript files, copy files, etc.
+  There are tasks available to concatenate all Javascript files in just one, minify Javascript files, copy files, etc.
 \end{description}
+
+\section{Tags}
+\label{sec:implementation_tags}
+According to our definition of Smart Place, we need to tag objects to provide proximity-based services.
+Several location technologies were presented in chapter \ref{chapter:background}.
+To support the existence of tags, we chose \gls{BLE} Beacons using the ibeacon protocol.
+We have used three beacons from Estimote\footnote{http://estimote.com}
+(Figure \ref{fig:estimote}), that come with a development kit.
+In this kit, each beacon come with a name, defined by \tm{Estimote}.
+The blue, green and purple are named ice, mint and blueberry, respectively.
+Besides the hardware, this product offers a \gls{SDK} for Android and
+iOS. It also has a cloud service where developers can set and get
+some information about each beacon, such as, the \gls{UUID}, name, etc.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/estimote}
+    \caption[Estimote beacons]{Beacons from Estimote, that were used during the implementation}
+    \label{fig:estimote}
+\end{figure}
 
 \section{Backend}
 \label{sec:implementation_backend}
