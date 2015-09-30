@@ -19,7 +19,6 @@ We have used three beacons from Estimote\footnote{http://estimote.com}
 Besides the hardware, this product offers a \gls{SDK} for Android and
 iOS. It also has a cloud service where developers can set and get
 some information about each beacon, such as, the \gls{UUID}, name, etc.
-% Photo of the three beacons
 
 \begin{figure}[!ht]
   \centering
@@ -28,13 +27,11 @@ some information about each beacon, such as, the \gls{UUID}, name, etc.
     \label{fig:estimote}
 \end{figure}
 
-\section{Backend}
-\label{sec:implementation_backend}
-% BaaS, Parse.com
-% What it is
-% How it works
-% Collections created (UML?)
-% SDKs used
+\section{Tools}
+\label{sec:implementation_tools}
+During the development of our solution, several tools were used.
+The components, such as, the backend, mobile apps, the Developers \gls{API} and the examples, were developed using different tools, from development environments to build and dependency management tools.
+
 Since this solution needs to store information about each beacon, we
 needed a backend to be able to change this information without having
 to change the mobile apps.
@@ -45,7 +42,34 @@ Parse\footnote{https://parse.com}, which is a \glsfirst{BaaS}.
 It provides a dashboard, where developers can create classes
 and define their fields and the type of each field, which can be a string,
 a number, a boolean, a pointer to another object, a \gls{JSON} object, etc.
-In order to support the needs of this project, the following classes were
+
+For the Android apps, we have used the following tools:
+\begin{description}
+  \item[Android Studio] \footnote{http://developer.android.com/sdk/index.html} is an \gls{IDE}, based on IntelliJ\footnote{http://www.jetbrains.com/idea},
+  to develop Android
+  applications;
+  \item[Java] was the programming language that was used to write the code of the mobile apps.
+\end{description}
+
+The Javascript \gls{API} and the Smart Restaurant and Smart Museum examples were created using web technologies, such as \gls{HTML}, \gls{CSS} and Javascript.
+However, besides these languages, we have used tools to manage the build process and also the necessary dependencies:
+\begin{description}
+  \item[Bower]\footnote{http://bower.io} is a tool used in web applications, to manage frontend dependencies. It was used here to manage dependencies of our Smart Restaurant and Smart Museum examples.
+  Also, it was used in our Javascript \gls{API} to allow this \gls{API} to be released as a library in order to make it avaible, to install, using this tool;
+  \item[Grunt]\footnote{http://gruntjs.com} is another tool used in web applications, to manage the build process of frontend assets.
+  It is based on tasks that are added depending on the needs of the project.
+  There are tasks available for concatenate all Javascript files in just one, minify Javascript files, copy files, etc.
+\end{description}
+
+\section{Backend}
+\label{sec:implementation_backend}
+% BaaS, Parse.com
+% What it is
+% How it works
+% Collections created (UML?)
+% SDKs used
+As already mentioned, there was no implementation of the backend itself.
+Using Parse \gls{BaaS}, in order to support the needs of this project, the following classes were
 created, according to the data model in figure \ref{fig:backend_data_model}:
 \begin{description}
   \item[Beacon]: Stores the information according to ibeacon protocol,
@@ -83,12 +107,8 @@ the Parse Android and Javascript \glspl{SDK} were used.
 \label{sec:mobile_applications}
 % Mobile apps: Tools used, programming languages,
 % -> Some kind of UML for each one
-The mobile apps were developed using Android
-Studio, which is an \gls{IDE}, based on
-IntelliJ\footnote{https://www.jetbrains.com/idea/},
-to develop Android
-applications and written in JAVA.
-The chosen development environment allows developers to create multiple
+As already mentioned in section \ref{sec:implementation_tools}, we have used Android Studio to develop the mobile apps.
+This development environment allows developers to create multiple
 apps and modules inside the same project.
 Taking this into account,
 one project was created, with 2 apps and one library, as shown in figure
@@ -144,8 +164,7 @@ Activity\footnote{http://developer.android.com/guide/components/activities.html}
 % Android Studio, part of the project
 As stated in chapter \ref{chapter:solution}, owners are the people who install beacons and configure Smart Places. This mobile Android app allows them to create an instance of a Smart Place.
 In terms of backend, they are creating an instance of Smart Place Instance class, explained in \ref{sec:implementation_backend}.
-This app was developed using Android Studio.
-It is called ownersapp and it uses the library, smartplaceslib, as shown in Figure \ref{fig:smartplaces_package}.
+In the android project it is called ownersapp and it uses the library, smartplaceslib, as shown in Figure \ref{fig:smartplaces_package}.
 From the library, it uses the class IBeaconsManager to scan for nearby beacons and OwnersParseDataStore to allow owners to create Smart Place Instances and configure them.
 The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html}, which is a design language, developed by \tm{Google}.
 This language states some conventions about how to design an \gls{UI}.
@@ -175,7 +194,7 @@ each instance of Tag has a \gls{JSON} object. That object must be sent to a Java
 In this solution, developers create their Smart Places using web technologies, such as \gls{HTML}, \gls{CSS} and javascript, because they run inside a WebView in the clientapp, as mentioned in section \ref{sub:implementation_mobile_app_for_end_users}.
 This is separated from the Android project, because it does not have any dependency from it.
 
-This \gls{API} offer a global Object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write code as shown in Listing~\ref{code:js_tag_found}:
+This \gls{API} offer a global object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write code as shown in Listing~\ref{code:js_tag_found}:
 
 \begin{listing}[H]
   \begin{minted}{javascript}
@@ -188,15 +207,11 @@ This \gls{API} offer a global Object, which is SmartPlaces, with several methods
 \end{listing}
 
 This library was developed in a modular way, that is, there are multiple javascript files, that, in the end, in the build process, are compiled in just one file.
-To manage this build process, we use Grunt\footnote{http://gruntjs.com}, which is a tool, written in javascript, that allows developers to include tasks, or even create their own tasks. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
-
-To make it easier to include as a dependency in any web application, it is available through bower\footnote{http://bower.io}, which is a tool to manage frontend dependencies in a web application.
-
-To test this library we have created two examples of Smart Places, a restaurant and a museum, which are described in section \ref{sec:implementation_examples}.
+To manage this build process, we used Grunt. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
 
 \section{Examples}
 \label{sec:implementation_examples}
-In order to make sure that the javascript API works as expected and that it can be applied to multiple kinds of smart places, two examples were implemented.
+In order to make sure that the Javascript \gls{API} works as expected and that it can be applied to multiple kinds of smart places, two examples were implemented.
 These examples try to be a proof of concept, that is, demonstrate that, using the Javascript API, a web application can be aware of nearby tags, in the real world, and execute useful computation using those tags.
 
 \subsection{Smart Restaurant}
