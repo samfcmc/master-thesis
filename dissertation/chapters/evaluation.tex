@@ -27,18 +27,16 @@ Moto G\footnote{http://www.gsmarena.com/motorola\_moto\_g-5831.php} smartphone w
   \item[\gls{OS}:] Android 5.0.2 (Lollipop\footnote{https://www.android.com/versions/lollipop-5-0})
 \end{description}
 
-\section{Methodology}
-\label{sec:methodology}
-% Previous two problems raised
-% Two kinds of experiments
-% Tables outlining the experiments
-Previously, two problems were raised. First, our solution relies on a library, which its \gls{API} allows us to get the distance from a given beacon.
-Second, having the mobile app for end users scanning for beacons periodically can imply some overhead in terms of mobile device's resources usage, such as, battery.
-Two experiments were made in order to evaluate the impact of these two problems.
+\section{Nearest Beacon}
+\label{sec:evaluation_nearest_beacon}
+Our solution relies on a library, which its \gls{API} allows us to get the distance from a given beacon.
+However, this value is related to the signal's strength, that comes from the beacon.
+We performed a set of experiments to verify how reliable was this value and if we can use that value to compute which beacon is the nearest one.
+Next, related to this set of experiments, we describe the methodology used and outline the results.
 
-\subsection{Nearest beacon}
-\label{sub:methodology_nearest_beacon}
-The first set of experiments, summarized in Table~\ref{tab:experiments_nearest_beacon}, try to test if the mobile app can detect the nearest beacon.
+\subsection{Methodology}
+\label{sub:evaluation_nearest_beacon_methodology}
+The set of experiments, summarized in Table~\ref{tab:experiments_nearest_beacon}, try to test if the mobile app can detect the nearest beacon.
 
 \input{tables/experiments_nearest_beacon.tex}
 
@@ -64,29 +62,35 @@ In this first set of experiments, the value d starts at 50 centimeters and is in
     \label{fig:layout_experiments_nearest_beacon}
 \end{figure}
 
-% \subsection{Resources usage}
-% \label{sub:methodology_resources_usage}
-% The second set of experiments, aims to get a good insight about the overhead introduced by the mobile app that runs on background and scans for beacons periodically. Table~\ref{tab:experiments_resources} summarizes them.
-% Here, the three beacons were placed, in the same order as in the experiments described in sub section \ref{sub:methodology_nearest_beacon},
-% but the beacons were 25 cm distant from each other. Also, the smartphone was placed in front of the second beacon, as shown in Figure~\ref{fig:experiments_resources_layout}.
-%
-% \begin{figure}[!ht]
-%   \centering
-%     \includegraphics[width=0.5\textwidth, keepaspectratio]{images/experiments_battery_layout}
-%     \caption{Layout used for the second and third set of experiments}
-%     \label{fig:layout_experiments_resources_layout}
-% \end{figure}
-%
-% In the first half experiments, \gls{WiFi} connection was used and in the remaining ones, \gls{3G} connection was used. These two types of data connection are different, in terms of bandwith, speed, etc. Using these two different connections allowed us to understand if the resources usage is acceptable even if no \gls{WiFi} connection is available. Using Android Studio Device Monitor tool\footnote{http://developer.android.com/tools/help/monitor.html} we were able to collect metrics such as, memory consumption, data network traffic (received and transmitted) and latency of each request.
-% Different intervals between each scan were tested to see the impact of its value in the mobile device's resources usage.
-% The total experiment duration was ten minutes.
-%
-% \input{tables/experiments_resources.tex}
-%
-\subsection{Battery consumption}
-\label{sub:methodology_battery_consumption}
+\subsection{Results}
+\label{sub:evaluation_nearest_beacon_results}
+The mobile app for end users scans for beacons but only requests data for the nearest one. To get the nearest one, it has to rely on the signal strength to calculate the distance. We performed 4 experiments in order to try to get the accuracy of the mechanism that calculates the distance that the mobile device is from a given beacon.
+The results of these experiments are summarized in Table~\ref{tab:results_nearest_beacon}, where it is possible to see, for each beacon, how many times it was detected as the nearest one.
+
+Taking into account the layout that was used (see Figure~\ref{fig:layout_experiments_nearest_beacon}), the nearest beacon was the one with name ``ice'' (the blue one).
+From Table~\ref{tab:results_nearest_beacon}, it was possible to create the graphic shown in Figure~\ref{fig:results_experiments_nearest_beacon}, which shows that, as we increase the distance between beacons, the accuracy to detect the nearest beacon also increases.
+
+\input{tables/results_nearest_beacon.tex}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/results_nearest_beacon}
+    \caption[Distance between beacons vs Accuracy]{Relation between distance between beacons and accuracy to detect the nearest beacon}
+    \label{fig:results_experiments_nearest_beacon}
+\end{figure}
+
+In all experiments, this beacon was detected, as the nearest one, at least 50\% off all scans performed.
+The only difference between all experiments is the distance between beacons.
+We can conclude that, it is recommended that the beacons are, at least, 1.5m or 2m distant from each other.
+
+\section{Energy Consumption}
+\label{sec:evaluation_energy_onsumption}
 One important aspect of this solution is the battery consumption.
 Since our mobile app for end users runs on background to scan for nearby beacons, that can have a negative impact on the device's battery. If the user notice that the battery drains too fast, he/she will not use this solution.
+Simillary to section \ref{sec:evaluation_nearest_beacon}, in the next sub sections, we describe the metholodogy used and explain the results obtained in these experiments.
+
+\subsection{Methodology}
+\label{sub:evaluation_energy_consumption_methodology}
 Table~\ref{tab:experiments_battery} outlines the experiments performed to evaluate the battery consumption.
 
 \input{tables/experiments_battery.tex}
@@ -123,44 +127,8 @@ Doing this, we can guarantee that in most scans, the mobile app will request dat
 
 In order to get this data, Battery Historian\footnote{https://developer.android.com/tools/performance/batterystats-battery-historian/index.html} was used. This tool allows developers to get the percentage of power drain of any application.
 
-\section{Results}
-\label{sec:results}
-Previously, in section \ref{sec:methodology} we described the experiments that were used to evaluate the system.
-After performed the mentioned experiments, we have got data and taken some conclusions.
-
-\subsection{Nearest Beacon}
-\label{sub:results_nearest_beacon}
-The mobile app for end users scans for beacons but only requests data for the nearest one. To get the nearest one, it has to rely on the signal strength to calculate the distance. We performed 4 experiments in order to try to get the accuracy of the mechanism that calculates the distance that the mobile device is from a given beacon.
-The results of these experiments are summarized in Table~\ref{tab:results_nearest_beacon}, where it is possible to see, for each beacon, how many times it was detected as the nearest one.
-
-Taking into account the layout that was used (see Figure~\ref{fig:layout_experiments_nearest_beacon}), the nearest beacon was the one with name ``ice'' (the blue one).
-From Table~\ref{tab:results_nearest_beacon}, it was possible to create the graphic shown in Figure~\ref{fig:results_experiments_nearest_beacon}, which shows that, as we increase the distance between beacons, the accuracy to detect the nearest beacon also increases.
-
-\input{tables/results_nearest_beacon.tex}
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{images/results_nearest_beacon}
-    \caption[Distance between beacons vs Accuracy]{Relation between distance between beacons and accuracy to detect the nearest beacon}
-    \label{fig:results_experiments_nearest_beacon}
-\end{figure}
-
-In all experiments, this beacon was detected, as the nearest one, at least 50\% off all scans performed.
-The only difference between all experiments is the distance between beacons.
-We can conclude that, it is recommended that the beacons are, at least, 1.5m or 2m distant from each other.
-
-% \subsection{Resources usage}
-% \label{sub:resultsresources_usage}
-% We cannot conclude anything here...
-
-\subsection{Battery consumption}
-\label{sub:results_battery_consumption}
-% As already mentioned... Battery consumption
-% Introduce experiments
-% Remember the two scenarios
-% Results of each scenario
-% 3G drains more power
-% Results of power drain vs data
+\subsection{Results}
+\label{sub:evaluation_energy_consumption_results}
 As already mentioned, in our solution, there is a mobile app that periodically, scans for beacons, in backgrounds.
 As any service running in background, it can imply some overhead in terms of energy.
 Following the methodology, explained in section \ref{sub:methodology_battery_consumption}, we evaluated the battery consumption.
@@ -216,11 +184,3 @@ It is possible to conclude that, the more our mobile app needs to communicate wi
     \caption[Power drain vs Data transferred]{Relation between power drain and data transferred}
     \label{fig:results_battery_data}
 \end{figure}
-
-% \section{Conclusions}
-% \label{sec:conclusions}
-% % Outline experiments for nearest beacon
-% % Take care of distance
-% % Outline experiments for battery consumption
-% % In some cases, having the app always turned on, can be unnaceptable
-% In the solution we have been developing, there were two problems
