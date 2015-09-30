@@ -7,13 +7,22 @@
 % Setup used
 
 After the implementation of this solution, explained in chapter \ref{chapter:implementation}, some experiments were performed in order to test it.
-The Restaurant and Smart Museum apps, described in section \ref{sec:solution_examples} were used in these experiments. In both, the app tries to scan for the nearest beacon, which means, somehow, it has into account the physical distance between the device and the beacons.
+When the mobile app for end users,
+described in section \ref{sec:solution_mobile_app_for_end_users}, scans for beacons, it tries to find to which Smart Places they belong to and notifify the user if at least one was found.
+If the user touches one of those notifications, the interface to the selected Smart Place is shown and the user can start to interact with it.
+Then, the app will keep on scanning for beacons but now, only the nearest one is relevant and the app request the data, associated to that beacon in the context of the given Smart Place.
+This means that, somehow, it has into account the physical distance between the device and the beacons.
 The library used to handle the beacons has a method to get the distance from a given beacon.
 There is a need to check if the distance's value we get from this library is trustworthy.
-
-The app for end users, described in section \ref{sec:solution_mobile_app_for_end_users}, needs to run, in background, in order to let the user be notified when he/she is nearby any Smart Place, instead of requiring his/her interaction.
+The same app needs to run, in background, in order to let the user be notified when he/she is nearby any Smart Place, instead of requiring his/her interaction.
 However, as any service running in background, it can have a negative impact on the mobile device's resources usage, such as, battery.
 A set of experiments was performed to evaluate the overhead introduced by our solution and if it is acceptable, having an app, running in background, scanning for beacons.
+
+In the next sections, we describe the setup used, such as the mobile device and the set of beacons.
+Then, we present two sets of experiments.
+The first one was performed in order to get a good insight about the reliability of the distance value we get from the beacons library \gls{API}, to see if Smart Places that rely on the nearest beacon, would work as expected.
+The other set of experiments measured data transferred (sent and received) and power drain, to take conclusions about if the energy overhead, introduced by our solution, would be acceptable in a daily basis usage and the relation between the data transferred, due to requests to the backend, and the battery consumption.
+For each set of experiments, we present the methodology, such as the conditions and measures taken, and the results.
 
 \section{Setup}
 \label{sec:evalatuon_setup}
