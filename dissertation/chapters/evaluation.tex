@@ -15,8 +15,12 @@ The app for end users, described in section \ref{sec:solution_mobile_app_for_end
 However, as any service running in background, it can have a negative impact on the mobile device's resources usage, such as, battery.
 A set of experiments was performed to evaluate the overhead introduced by our solution and if it is acceptable, having an app, running in background, scanning for beacons.
 
-A \tm{Motorola}
-Moto G\footnote{http://www.gsmarena.com/motorola\_moto\_g-5831.php} smartphone was used to run the mobile application. This device has the following specifications:
+\section{Setup}
+\label{sec:evalatuon_setup}
+In the evaluation process, a smartphone and a set of three beacons were used.
+The smartphone was a \tm{Motorola}
+Moto G\footnote{http://www.gsmarena.com/motorola\_moto\_g-5831.php}.
+This device has the following specifications:
 \begin{description}
   \item[\gls{CPU}:] Quad-core 1.2 GHz Cortex-A7\footnote{http://www.arm.com/products/processors/cortex-a/cortex-a7.php}
   \item[\gls{GPU}:] Adreno 305
@@ -26,6 +30,8 @@ Moto G\footnote{http://www.gsmarena.com/motorola\_moto\_g-5831.php} smartphone w
   \item[Battery:] Non-removable Li-Ion 2070 \gls{mAh} battery
   \item[\gls{OS}:] Android 5.0.2 (Lollipop\footnote{https://www.android.com/versions/lollipop-5-0})
 \end{description}
+
+As already described, in chapter \ref{chapter:implementation}, we have used three beacons from \tm{Estimote}.
 
 \section{Nearest Beacon}
 \label{sec:evaluation_nearest_beacon}
