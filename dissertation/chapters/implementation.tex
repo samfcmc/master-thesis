@@ -12,6 +12,15 @@ The code is hosted on
 github\footnote{http://github.com/}, which is a hosting service for projects
 that use git\footnote{http://git-scm.com/}, as their \gls{VCS}.
 
+Next, in section \ref{sec:implementation_tools}, there is a summary of tools that were used in the development of the Smart Places solution.
+Then, section \ref{sec:implementation_tags}, explains the technology that was used to support the existence of tags, according to our definition of a Smart Place.
+Section \ref{sec:implementation_backend} presents the backend and the domain model that it is stored and managed.
+Each Smart Place has its own code and offers a proximity-based service, such as the ones provided by the Smart Restaurant and Smart Museum examples, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}.
+The way our solution allows the user to have access to Smart Places is described in section \ref{sec:implementation_smart_places}.
+The implementation of the mobile apps, for owners and end users, is presented in section \ref{sec:implementation_mobile_applications}.
+In section \ref{sec:implementation_developers_api} we describe the implementation of the \gls{API} for developers.
+Last, in section \ref{sec:implementation_examples} we explain how the Smart Restaurant and Smart Museum examples were developed.
+
 \section{Tools}
 \label{sec:implementation_tools}
 During the development of our solution, several tools were used.
@@ -234,8 +243,8 @@ In that Activity, there is an instance of the IBeaconsManager class that will sc
 each instance of Tag has a \gls{JSON} object. That object must be sent to a Javascript function, for which, developers have defined a callback that will handle it. The SmartPlacesWebView has methods to invoke javascript code running inside the webview.
 This way, the smart places app effectively combines the advantages of native apps with web apps, as compared in Section \ref{sec:implementation_smart_places}.
 
-\section{Javascript API}
-\label{sec:javascript_api}
+\section{Developers API}
+\label{sec:implementation_developers_api}
 % JS API
 % Tools used (grunt, what is it and tasks used)
 % Deployment process (using grunt)

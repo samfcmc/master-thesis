@@ -18,14 +18,14 @@ The same app needs to run, in background, in order to let the user be notified w
 However, as any service running in background, it can have a negative impact on the mobile device's resources usage, such as, battery.
 A set of experiments was performed to evaluate the overhead introduced by our solution and if it is acceptable, having an app, running in background, scanning for beacons.
 
-In the next sections, we describe the setup used, such as the mobile device and the set of beacons.
+In section \ref{sec:evaluation_setup}, we describe the setup used, such as the mobile device and the set of beacons.
 Then, we present two sets of experiments.
-The first one was performed in order to get a good insight about the reliability of the distance value we get from the beacons library \gls{API}, to see if Smart Places that rely on the nearest beacon, would work as expected.
-The other set of experiments measured data transferred (sent and received) and power drain, to take conclusions about if the energy overhead, introduced by our solution, would be acceptable in a daily basis usage and the relation between the data transferred, due to requests to the backend, and the battery consumption.
-For each set of experiments, we present the methodology, such as the conditions and measures taken, and the results.
+The first one, presented in section \ref{sec:evaluation_nearest_beacon}, was performed in order to get a good insight about the reliability of the distance value we get from the beacons library \gls{API}, to see if Smart Places that rely on the nearest beacon, would work as expected.
+The other set of experiments, introduced in section \ref{sec:evaluation_energy_consumption}, measured data transferred (sent and received) and power drain, to take conclusions about if the energy overhead, introduced by our solution, would be acceptable in a daily basis usage and the relation between the data transferred, due to requests to the backend, and the battery consumption.
+For each set of experiments, we present the methodology, such as the conditions and measures taken and the results.
 
 \section{Setup}
-\label{sec:evalatuon_setup}
+\label{sec:evaluation_setup}
 In the evaluation process, a smartphone and a set of three beacons were used.
 The smartphone was a \tm{Motorola}
 Moto G\footnote{http://www.gsmarena.com/motorola\_moto\_g-5831.php}.
@@ -105,7 +105,7 @@ In the Smart Museum example, two objects, in a given exhibition, should not be c
 Otherwise, the visitor would be notified about an object and he might be looking to another one.
 
 \section{Energy Consumption}
-\label{sec:evaluation_energy_onsumption}
+\label{sec:evaluation_energy_consumption}
 One important aspect of this solution is the battery consumption.
 Since our mobile app for end users runs on background to scan for nearby beacons, that can have a negative impact on the device's battery. If the user notice that the battery drains too fast, he/she will not use this solution.
 Simillary to section \ref{sec:evaluation_nearest_beacon}, in the next sub sections, we describe the metholodogy used and explain the results obtained in these experiments.
