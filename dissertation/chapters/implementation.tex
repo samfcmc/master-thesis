@@ -108,8 +108,42 @@ In order to be able to make requests to the backend from the mobile apps and
 from the Javascript API
 the Parse Android and Javascript \glspl{SDK} were used.
 
+\section{Smart Places}
+\label{sec:implementation_smart_places}
+% What are Smart Places
+% Where they Run
+A Smart Place has tags that provide a proximity-based service.
+The Smart Restaurant and Smart Museum, presented in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}, are examples of Smart Places.
+They were developed according to our definition of Smart Place.
+As also presented in chapter \ref{chapter:solution}, there is a mobile app that allows users to have access to these proximity-based services.
+However, these services could be mobile apps themselves.
+We could create an \gls{SDK}, for each platform, to allow developers to introduce proximity-based developers in their apps.
+Following this approach, we would have a situation where the users would need to install one app for each Smart Place they want to use.
+In order to understand why we have an app to access any Smart Place, we need first, to compare the possible approaches.
+
+% How can be done (native or web)
+% Compare both approaches
+% Choose web
+% Why
+We could allow Smart Places to be native mobile apps or web apps that run inside an embedded web browser.
+A native mobile app is an app, developed with the native tools, already provided by the platform.
+This kind of apps only run in the platform that they were created for.
+A web app is an application that runs inside a web browser. It can run in any platform that has a web browser available.
+Table~\ref{tab:native_vs_web} compares native and web apps, showing the advantages and limitations of each category of apps.
+If Smart Places were developed as native apps, users would need to install one app for each one.
+This approach would not allow them to discover new proximity-based services while they were walking.
+To circumvent this limitation, we decided that Smart Places would exist as web applications.
+This way, any web application can react to the existence of tags in a Smart Place. Also, it leads to a situation where the users only need one app to have access to any Smart Place, because, each one, is a web application that will run inside an embedded web browser in the users mobile app.
+
+\input{tables/native_vs_web}
+
+% WebView...
+% Data from native app to smart place running inside web view
+Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html}, which is a widget, provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
+Smart Places are web applications that run in a WebView in the users mobile app.
+
 \section{Mobile applications}
-\label{sec:mobile_applications}
+\label{sec:implementation_mobile_applications}
 % Mobile apps: Tools used, programming languages,
 % -> Some kind of UML for each one
 As already mentioned in section \ref{sec:implementation_tools}, we have used Android Studio to develop the mobile apps.
@@ -189,6 +223,7 @@ When the user click on the notification, the app calls an Activity that contains
 To ease that process, there is a class, SmartPlacesWebView that extends the original WebView class from the Android \gls{API}.
 In that Activity, there is an instance of the IBeaconsManager class that will scan for nearby beacons in order to try to find tags. As mentioned in section \ref{sec:implementation_backend},
 each instance of Tag has a \gls{JSON} object. That object must be sent to a Javascript function, for which, developers have defined a callback that will handle it. The SmartPlacesWebView has methods to invoke javascript code running inside the webview.
+This way, the smart places app effectively combines the advantages of native apps with web apps, as compared in Section \ref{sec:implementation_smart_places}.
 
 \section{Javascript API}
 \label{sec:javascript_api}
