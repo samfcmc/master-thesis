@@ -87,6 +87,11 @@
 % A new page is necessary only if list of figures has an odd number of pages
 \NewPage
 
+% List of listings
+\addcontentsline{toc}{chapter}{\listoflistingscaption}
+\listoflistings
+\NewPage
+
 % List of acronyms
 \printglossary[type=\acronymtype]
 
