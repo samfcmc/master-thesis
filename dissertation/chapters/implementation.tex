@@ -149,7 +149,7 @@ How can a web application, running in an embedded web browser inside a native mo
 Our approach is to handle the tags, that is, the \gls{BLE} beacons and to pass the relevant information to the web application running inside the embedded web browser.
 To do that, the native app invokes Javascript functions that exist in the embedded web browser, according to the \gls{API}, described in chapter \ref{chapter:solution}, section \ref{sec:solution_developers_api}.
 To invoke Javascript code from the native app, a special \gls{URL} is loaded to the WebView.
-The \gls{URL} is in the format: javascript:<functionToInvoke>(<arguments>), where ``<functionToInvoke>'' is the function we want to invoke inside the WebView and ``<arguments>'' is a list of arguments to pass to that function.
+The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', where ``functionToInvoke'' is the function we want to invoke inside the WebView and ``arguments'' is a list of arguments to pass to that function.
 
 \section{Mobile applications}
 \label{sec:implementation_mobile_applications}
