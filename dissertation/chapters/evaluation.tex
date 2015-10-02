@@ -153,7 +153,7 @@ In order to get this data, Battery Historian\footnote{https://developer.android.
 \label{sub:evaluation_energy_consumption_results}
 As already mentioned, in our solution, there is a mobile app that periodically, scans for beacons, in backgrounds.
 As any service running in background, it can imply some overhead in terms of energy.
-Following the methodology, explained in section \ref{sub:methodology_battery_consumption}, we evaluated the battery consumption.
+Following the methodology, explained before, we evaluated the battery consumption.
 For the first scenario, when the user stays in the same Smart Place, during each experiment, the results are summarized in Table~\ref{tab:results_battery_stopped}, where we can see, for each variation of data connection type (\gls{WiFi} and \gls{3G}) and interval between each scan, the values obtained for power drain and data transferred.
 From this table, it was possible to create the graphic, shown in Figure~\ref{fig:results_battery_stopped}.
 The battery consumption using \gls{WiFi} are almost zero.
@@ -206,3 +206,40 @@ It is possible to conclude that, the more our mobile app needs to communicate wi
     \caption[Power drain vs Data transferred]{Relation between power drain and data transferred}
     \label{fig:results_battery_data}
 \end{figure}
+
+\section{Summary}
+\label{sec:evaluation_summary}
+% Setup
+% -> Smartphone and 3 beacons of Estimote
+% Two kinds of experiments
+After developing the Smart Places solution, we performed an evaluation.
+In this chapter, first, we introduce the setup that was used in the evaluation process.
+We have used a \tm{Motorola} Moto G smartphone and three beacons from \tm{Estimote}.
+We performed two sets of experiments.
+
+% Nearest beacon
+% -> What and why
+% -> Comment results
+The mobile app for end users scans for nearby beacons and requests information, to the backend, about the one that is less distant to the mobile device.
+Somehow, the app needs to be able to get the distance from a given beacon.
+Our mobile apps project used a library to handle the \gls{BLE} beacons. This library has a method to get the distance, from a given beacon, that was previously scanned.
+However, we performed experiments in order to see if it is possible to thrust in this value.
+Our experiments showed that, to build applications that rely on detecting the nearest beacon, the beacons need to be, at least, 1.5m distant from each other.
+As we raise the distance between beacons, the nearest beacon is successfully detected.
+
+% Energy consumption
+% -> What and why
+% -> Comment results
+The mobile app for end users scans for nearby beacons in background.
+As any service running in background, it can introduce an overhead in terms of energy consumption.
+We performed a set of experiments to get the power drain and data transferred (sent and received) by the mobile app.
+To get the power drain and data transferred values we used Battery Historian tool.
+We have tested two different scenarios. A scenario where the user stays in the same Smart Place and another one where he is always moving from one Smart Place to another.
+Each experiment runned for one hour.
+For each scenario, we tested \gls{WiFi} and \gls{3G} as data connection means.
+The results showed that the power drain is bigger when using \gls{3G}. When using \gls{WiFi}, the power drain is almost zero.
+In the scneario where the user does not move, the power drain is less than 1\%.
+However, in the scenario where the user is always moving, which implies more requests to the backend, because new Smart Places are detected in each new scan, the power drain can be more than 2\%.
+This can compromise the usability of our solution because, assuming a linear growth of power drain, in 24 hours, our mobile app would drain 48\%.
+Having into account that most users already have apps that require a data connection, this can be unnaceptable in most cases.
+In the end, we related data transferred with power drain and the results showed that as more data is transferred (sent and received), more power is drained.

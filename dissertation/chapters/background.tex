@@ -622,3 +622,45 @@ context information to the apps will be presented.
   to access the device's sensors that could provide,
   to the applications, positioning data.
 \end{description}
+
+\section{Summary}
+\label{sec:background_summary}
+% Location
+% -> Introduced taxonomy (techniques, physical vs sumbolic, computation, scale, recognition, cost and limitations)
+In the previous chapter, we introduced the problem that this thesis tries to solve.
+However, before describing the solution, we need first to understand some concepts.
+In this chapter, in section \ref{sec:background_location}, we introduced a taxonomy to classify location systems, in terms of techniques, physical or symbolic location, computation, scale, recognition, cost and limitations.
+There are three types of techniques: Triangulation, proximity and scene analysis.
+Triangulation is based on measures, distance or angles, between two well known points, proximity takes into account the distance to a given point and scene analysis is based on an analysis of a view from a given point.
+The location can be physical, which refers to identifying where, exactly, the object is. In symbolic location, it is not possible to identify where the object is. Instead, its location depends on the context.
+Location information can be computed by the located object itself or by an external infrastructure.
+The scale of a location system refers to how many objects is possible to locate with a given amount of infrastructure or over a period of time.
+Recognition refers to if it is possible to recognize individual receivers.
+There are three main types of costs.
+Time costs represent the time needed for tasks, such as, installation or administration.
+Space costs are related to the area needed for the necessary infrastructure. Capital costs refer to the capital needed to install and maintain a location system.
+Also, there is no best location system. Each one has its own limitations.
+
+% Smart Place (based on taxonomy)
+The concept of Smart Place was defined as a place, with tags, that provide a service, to users, when they approach those tags.
+Using the taxonomy, introduced before, in order to support this concept, we need a location system that is based on the proximity technique and provides symbolic location.
+A Smart Place involves three groups of people: Owners, who are responsible for managing a Smart Place, developers, who develop proximity-based services and end users who are, anyone, with a mobile device, capable of detecting tags.
+
+% Technologies
+% -> GPS, QR Codes, NFC, GMI, BLE
+% -> Chose BLE because...
+In our solution, we need to choose a location system.
+We analyzed several technologies, such as, \gls{GPS}, \gls{QR} Codes, \gls{NFC}, Google Maps Indoor and \gls{BLE}, according to the taxonomy introduced before.
+We concluded that the \gls{BLE} using ibeacon protocol is the best option, because, it works well indoors, unlike \gls{GPS}.
+Also, it does not require user interaction, as it is in \gls{QR} Codes or \gls{NFC}.
+Using this technology, owners can place tags anywhere, without the need to, first, mapping the entire area, as it is needed in Google Maps Indoor.
+
+% Related work
+% -> Proximity-based apps (BlueSentinel and BlueVIew)
+% -> Context-awareness
+% -> Dynamix
+In order to get a good insight the potential of proximity-based services, we analyzed two applications.
+The BlueSentinel is a system that uses \gls{BLE} beacons to detect the presence of people in a building. It tries to optimize energy consumption based on people's presence.
+The other one, BlueView, is a system to help visually impaired people to be aware of some points of interest.
+Then, we introduce a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
+For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.

@@ -303,3 +303,68 @@ To use this \gls{API}, we created an account, in the \gls{API}'s website\footnot
 This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework, that allow to create an \gls{HTTP} server using javascript.
 It is currently deployed on Heroku\footnote{http://www.heroku.com} which is a cloud \gls{PaaS}, that supports many programming languages and development stacks.
 Simillary to the other example, in section \ref{sub:implementation_smart_restaurant}, this one also uses Grunt to manage the build process. Before the deployment, all javascript files that will run on the browser are concatenated in one file. Then, that file is minified.
+
+\section{Summary}
+\label{sec:implementation_summary}
+% Explained implementation of solution componens presented in previous chapter
+In the previous chapter, we introduced our solution and the main components that are part of it.
+Here, we looked at each component and described its implementation.
+
+% Tools
+% -> Java tools (Android Studio)
+% -> JS tools (Grunt, bower)
+First, there is a summary of the tools used in the development of this solution.
+Android Studio was used to develop the two mobile apps, for owners and end users.
+For the developers \gls{API} and the Smart Restaurant and Smart Museum examples, Grunt and Bower were used.
+Grunt is a tool to manage the build process of frontend assets, such as, Javascript files.
+There are many tasks to handle Javascript files concatenation and minification.
+Bower is a dependency management tool for frontend dependencies, that allows developers to specify the dependencies of their web applications instead of downloading each one manually.
+
+% Tags
+% -> Chose BLE beacons
+% -> why
+Another important component of our solution are the tags that are deployed in a given Smart Place.
+We decided to use \gls{BLE} beacons using ibeacon protocol, because nowadays, most of the smartphones are \gls{BLE} enabled.
+Our solution does not require the user to acquire any extra hardware, besides his mobile device.
+
+% Backend
+% -> Used Parse BaaS
+% -> Brief domain model
+Our solution stores information in a backend.
+Instead of developing this component from the scratch, we have used a \gls{BaaS}, which allowed us to only be concerned about the data model and not with the typical concerns of a distributed system, such as, scalability, performance and deployment.
+In our data model, there is the concept of Smart Place. When owners configure a given Smart Place, they are creating a Smart Place Instance.
+Smart Place Instances have tags, which are represented by beacons.
+
+% Smart Places
+% -> Native vs Web
+% -> Why web
+Smart Places provide proximity-based services, that could be supported through native or web apps.
+Native apps are installed on the mobile device's \gls{OS} and only run on the \gls{OS} they are developed for.
+Web apps run on any platform where a web browser can run.
+We discussed the advantages and limitations of native and web apps.
+The final decision was to have an embedded web browser, inside the mobile app for end users, that would allow to have access to any Smart Place without requiring users to install a native app for each one.
+The mobile app scans for nearby beacons and send the needed data to the Smart Place, running inside the embedded web browser.
+
+% Mobile applications
+% -> library (what and why)
+% -> Mobile app for owners (used library, Android Studio)
+% -> Mobile app for end users (used library, Android Studio)
+We have used Android Studio to develop the two mobile apps.
+However, both apps needed to scan for nearby beacons and make requests to the backend.
+Inside the same project, we create a library, from which the two apps depend, in order to avoid having repeated code in both apps.
+
+% Developers API
+% -> JS library
+% -> Why JS
+Since Smart Places are web apps, we have developed a Javascript library.
+This library offers an \gls{API} to handle the events sent by the mobile apps, for instance, when a tag is found.
+Due to the fact that the mobile apps send events to the Smart Place running in the embedded web browser, this \gls{API} is asynchronous and its methods require callback functions as arguments.
+
+% Examples
+% -> Introduced in previous chapters
+% -> Developed using web technologies
+The Smart Restaurant and Smart Museum were implemented using web technologies, such as, \gls{HTML}, \gls{CSS} and Javascript.
+These examples contributed to the development of Developers \gls{API}.
+While developing the Smart Restaurant, we wrote Javascript code to handle the events sent by the native mobile apps.
+From this code, it was possible to define an \gls{API} that was released as a separated library.
+This library was used successfully in the Smart Museum example.

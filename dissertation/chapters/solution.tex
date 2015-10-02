@@ -31,7 +31,7 @@ To develop these services our solution offers an \gls{API} that developers can i
 Section \ref{sec:solution_solution_overview} introduces the main components of the solution and how they relate with each other.
 Since we target owners and end users, we developed one Android app for each one, which are described in sections \ref{sec:solution_mobile_app_for_owners} and \ref{sec:solution_mobile_app_for_end_users}, respectively.
 Then, we present the \gls{API} for developers, in section \ref{sec:solution_developers_api}, from its installation to its usage.
-Finnaly, in section \ref{sec:solution_examples}, we describe two examples of Smart Places, the Smart Restaurant and the Smart Museum, including their main features and how they contributed to the development of our Developers \gls{API}. 
+Finnaly, in section \ref{sec:solution_examples}, we describe two examples of Smart Places, the Smart Restaurant and the Smart Museum, including their main features and how they contributed to the development of our Developers \gls{API}.
 
 \section{Solution Overview}
 \label{sec:solution_solution_overview}
@@ -259,6 +259,43 @@ The tag object, which is the argument of this callback function, is the \gls{JSO
   \caption[Tag found]{Callback for when a nearby tag is found}
   \label{code:smartplaces_tag_found}
 \end{listing}
+
+\section{Summary}
+\label{sec:solution_summary}
+% Targets owners, developers and end users
+% Solution overview
+% -> Components (Beacons, Backend, mobile apps, API)
+In this chapter, we presented our solution and its main components.
+There are the beacons, which act as tags in a Smart Place.
+The Backend is where the data, about each Smart Place and the tags, is stored.
+Since our solution targets owners and end users, there is a mobile app for each one, that offers features, according to their needs.
+Also, for developers, we introduced a Developers \gls{API}, that they can use to create proximity-based services according to the definition of a Smart Place.
+
+% Mobile App for Owners
+% -> What it is
+% -> Main features
+The mobile app for owners allows them to see a list of available smart places, configure an instance of a given Smart Place, delete an existing configuration or update an instance of a Smart Place they already provide.
+Owners deploy beacons in the right places and use the app to create an instance of a Smart Place and configure the tags according to what is requested by the Smart Place that he is configuring.
+
+% Mobile App for End Users
+% -> What it is
+% -> Main features
+Another app is the app for end users.
+As already stated, users are anyone with a mobile device that can detect tags in a given Smart Place.
+The user needs to install the app and turn on the device's Bluetooth receiver.
+Then, the app will scan for nearby beacons, in background.
+When a Smart Place is found, the app notifies the user.
+When the user touches a notifications, the app will perform a new scan, but this time, to find tags that belong to that Smart Place.
+
+% Developers API
+% Event based API
+% -> How to install
+% -> Overview of usage
+Developers are an important group, since, they are who develop the proximity-based services.
+We created an \gls{API}, for them to use to make easy the process of developing a Smart Place.
+Due to its asynchronous nature, each method of the \gls{API} receives a callback function.
+The reason why it is not synchronous is explained in chapter \ref{chapter:implementation}, section \ref{sec:implementation_smart_places}.
+Since this is a Javascript library, developers can use Bower, which is a dependency management tool, for frontend dependencies, in web applications, to use this library in their projects.
 
 \section{Examples}
 \label{sec:solution_examples}
