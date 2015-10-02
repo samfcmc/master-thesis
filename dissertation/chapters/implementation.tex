@@ -201,7 +201,7 @@ For instance, the code snippet in Listing~\ref{code:java_scan_beacons} illustrat
 Activity\footnote{http://developer.android.com/guide/components/activities.html}, to scan for nearby beacons.
 
 \begin{listing}[H]
-  \begin{minted}{java}
+  \begin{minted}[xleftmargin=.1\textwidth]{java}
   IBeaconsManager manager = new IBeaconsManager(this);
   manager.startScan(this, new BeaconScanCallback() {
     @Override
@@ -256,7 +256,7 @@ This is separated from the Android project, because it does not have any depende
 This \gls{API} offer a global object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write code as shown in Listing~\ref{code:js_tag_found}:
 
 \begin{listing}[H]
-  \begin{minted}{javascript}
+  \begin{minted}[xleftmargin=.1\textwidth]{javascript}
     SmartPlaces.onTagFound(function(tag) {
       // Code to handle when the mobile app detects a tag
     });
