@@ -1,0 +1,16 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}|c|c|c|c|c|@{}}
+\toprule
+\multicolumn{1}{|l|}{}                     & \multicolumn{4}{c|}{{\bf Experiments}}                                                                \\ \midrule
+{\bf Variables}                            & {\bf 1}                  & {\bf 2}                & {\bf 3}                  & {\bf 4}                \\ \midrule
+{\bf Data connection type}                 & \multicolumn{2}{c|}{WiFi}                         & \multicolumn{2}{c|}{3G}                           \\ \midrule
+{\bf Interval between each scan (minutes)} & \multicolumn{1}{r|}{2.5} & \multicolumn{1}{r|}{5} & \multicolumn{1}{r|}{2.5} & \multicolumn{1}{r|}{5} \\ \midrule
+{\bf Experiment duration (hours)}          & \multicolumn{4}{c|}{1}                                                                                \\ \bottomrule
+\end{tabular}
+\caption[Battery consumption results]{Summary of experiments to get the battery consumption when the mobile
+app is scanning for beacons in the background}
+\label{tab:experiments_battery}
+\end{table}

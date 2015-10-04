@@ -1,0 +1,15 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}|l|r|r|r|r|@{}}
+\toprule
+{\bf }                                        & \multicolumn{4}{c|}{{\bf Results}}                  \\ \midrule
+{\bf Data connection type}                    & \multicolumn{2}{c|}{WiFi} & \multicolumn{2}{c|}{3G} \\ \midrule
+{\bf Interval between each scan (minutes)}    & 2.5         & 5           & 2.5         & 5         \\ \midrule
+{\bf Computed power drain (\%)}               & 0.01        & 0.01        & 2.71        & 2.00      \\ \midrule
+{\bf Data transferred (KB sent and received)} & 71.44       & 67.86       & 229.96      & 138.26    \\ \bottomrule
+\end{tabular}
+\caption[Power drain when the user is moving]{Results of the experiments to get the battery consumption in the scenario where the user is moving along multiple Smart Places}
+\label{tab:results_battery_walking}
+\end{table}
