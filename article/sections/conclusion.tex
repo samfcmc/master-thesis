@@ -3,4 +3,93 @@
 % Conclusion
 \section{Conclusion}
 \label{sec:conclusion}
-Your conclusion here...
+% Established some goals (which ones)
+% Concept of Smart Place
+% Types of location (taxonomy)
+% Solution
+% Implementation
+% Evaluation
+In the end, we have accomplished some of our initial goals.
+However, our solution is not perfect and there are limitations, which can be improved in the future.
+In this chapter, we conclude this thesis, outlining the important conclusions of our work, in section \ref{sec:conclusion_contributions} and discussing some of the limitations and future work, in section \ref{sec:conclusion_future_work}.
+
+\subsection{Contributions}
+\label{sec:conclusion_contributions}
+A Smart Place is an area with tags, that mobile devices can detect and offer different possibilites, to the users, according to each tag.
+In this thesis, we introduced this concept, which we consider a simpler way to look at proximity-based applications.
+However, these tags need to be provided by a location technology.
+That technology should be compatible with most used smartphones.
+We analyzed some location technologies, using a taxonomy\cite{location}, in order to try to find a technology that would be a best fit for our concept of Smart Place.
+We chose \gls{BLE} beacons using iBeacon protocol, because it is compatible with any smartphone with Bluetooth version 4.0 or above.
+The owners of Smart Places are responsible to place those beacons in the right place.
+Users do not need any extra hardware.
+They only need to download a single app and turn on the Bluetooth receivers of their mobile devices.
+
+We have created a solution that allows developers, of Smart Places, that provide proximity-based services, using web technologies, such as, \gls{HTML}, \gls{CSS} and Javascript.
+With this tool, any web application can react to the presence of tags placed in a given Smart Place.
+There is a mobile app, for owners of Smart Places, that they can use to choose which proximity-based services they want to provide and configure the necessary tags.
+Another mobile app was developed.
+This one is for users, anyone with a mobile device, capable of reacting to tags in a Smart Place.
+Using this app, they can have access to any Smart Place, without the need to install one app for each one.
+
+Two examples of Smart Places were created, using our solution, a Smart Restaurant and a Smart Museum.
+In the first one, we created the experience of a museum, where visitors can have access to more information, of a piece that they are close to, in a art museum exhibition.
+The Smart Restaurant had the goal to allow customers, of a restaurant, to place their orders, after they took a sit, using their mobile devices.
+Using this solution, customers do not need to specify which table the orders belong to. Using the tag system, through \gls{BLE} beacons, the app automatically get the table's number and add that information when the customer places the final order.
+
+After the implementation phase, we evaluated the system.
+We performed two sets of experiments.
+Many times, the mobile apps try to detect the nearest tag.
+The library we have used in our mobile apps, have means to get the distance from the detected tags.
+The first set of experiments was performed in order to check if this distance value was thrustworthy.
+We have reached the conclusion that, if we want to rely on getting the nearest tag, they need to be, at least, 1.5m distant from each other.
+The other set of experiments was about battery consumption.
+Since our mobile app has a service, running in background, scanning for nearby tags, from time to time, we need to get a good insight about the impact, of that service, in terms of energy.
+Users will not use our solution if they run out of battery faster than if they are not using our solution.
+For each experiment, we have tried two different types of data connection, using \gls{WiFi} and \gls{3G}.
+Using \gls{WiFi} the power drain is almost zero.
+However, using \gls{3G}, the power drain was above 2\%, in just one hour.
+
+\subsection{Future Work}
+\label{sec:conclusion_future_work}
+% No way to use other technologies for tags
+% No interface for owners register beacons
+% It only works for web apps... (no integration with native apps)
+Our solution tries to target developers, owners and users of Smart Places.
+However, it is not perfect.
+There are some features that were not implemented. Also, our solution has some limitations that can be improved in the future.
+
+We picked \gls{BLE} as the technology to support tags in a given Smart Place.
+Developers that want to use our solution to develop Smart Places, cannot use other technology besides this one.
+This technology is a good fit because it allows to build proximity-based services where user interaction is not required, that is, users do not be aware the existence of tags.
+In the Smart Museum and Smart Restaurant examples that we have created, the user does not need to open the mobile app.
+The mobile device simply shows a notification with the relevant information. The user touches the notification and start interact with the Smart Place.
+However, developers might want to build Smart Places that make use of other location technology, such as, \gls{QR} codes or \gls{NFC}.
+Our solution is too attached to a particular technology instead of allowing to be extended in order to support more location technologies.
+
+Owners of Smart Places need to deploy tags and use the mobile app to configure those tags.
+However, there is not any interface, that they can use, to register themselves, as the owners of such tags.
+Unfortunately, anyone can use any tag as if it belongs to him/her.
+This can lead to a security problem, which is, people can associate other Smart Places to tags that already support other Smart Place.
+People that pass nearby those tags will start to get notifications of Smart Places that were not suppose to get.
+A future improvement could be a way of getting tags and register them as beloging to who ordered them.
+
+Another limitation is the fact that, using our solution, only web applications can have proximity-based.
+In one side, this is a good fit because this is what allows to have one app to access multiple Smart Places.
+On the other side, there could be developers that could use our solution to add proximity-based features in their existing native mobile apps.
+This could be solved having an \gls{SDK} available for the three most used mobile \glspl{OS}, iOS, Android and Windows Phone, to allow to integrate our functionality in existing apps.
+
+One issue with our solution is the energy consumption.
+As the evaluation shows, using \gls{3G}, our mobile app, for end users, drains more than 2\% of power in just one hour. This power drain value can be unacceptable and can demotivate the user.
+Unless the owners provide \gls{WiFi} \glspl{AP} in their Smart Places, this is an issue that need to be solved in order to make this solution usable.
+However, using \gls{4G} the battery consumption can be better.
+This data connection mean was not tested due to limitations in terms of resources available during the development of this master thesis.
+
+%\section{Final thoughts}
+%\label{sec:conclusion_final_thoughts}
+% Introduced the concept of Smart Place
+% Used ibeacon protocol
+% Internet connection required
+% Energy consumption can kill the whole idea but only using 3G
+% Nothing about 4G (could be better)
+% Owners should have WiFi APs
