@@ -180,7 +180,7 @@ Its implementation is detailed in section \ref{sub:implementation_library}
   \centering
     \includegraphics[width=0.5\textwidth, height=0.15\textheight,
       keepaspectratio]{images/smartplaces_package}
-    \caption[Android project's structure]{Android project's structure}
+    \caption[Android project structure]{Android project's structure}
     \label{fig:smartplaces_package}
 \end{figure}
 
@@ -253,18 +253,7 @@ This way, the smart places app effectively combines the advantages of native app
 In this solution, developers create their Smart Places using web technologies, such as \gls{HTML}, \gls{CSS} and javascript, because they run inside a WebView in the clientapp, as mentioned in section \ref{sub:implementation_mobile_app_for_end_users}.
 This is separated from the Android project, because it does not have any dependency from it.
 
-This \gls{API} offer a global object, which is SmartPlaces, with several methods that developers use to define callbacks for some events. For instance, to define what happens when a tag is found, developers need to write code as shown in Listing~\ref{code:js_tag_found}:
-
-\begin{listing}[H]
-  \begin{minted}[xleftmargin=.1\textwidth]{javascript}
-    SmartPlaces.onTagFound(function(tag) {
-      // Code to handle when the mobile app detects a tag
-    });
-  \end{minted}
-  \caption[Tag found]{Javascript code to define a callback when a tag is found}
-  \label{code:js_tag_found}
-\end{listing}
-
+This \gls{API} offer a global object, which is SmartPlaces, with several methods that developers use to define callbacks for some events.
 This library was developed in a modular way, that is, there are multiple javascript files, that, in the end, in the build process, are compiled in just one file.
 To manage this build process, we used Grunt. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
 
