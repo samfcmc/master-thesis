@@ -5,39 +5,30 @@
 % Growing use of mobile devices
 % Multiple sensors
 % Apps can adapt according to context
-The use of mobile devices have been increased in the last years.
-It is possible to use devices, such as, smartphones and tablets, to perform tasks that, previously, were only possible using a computer.
+The use of mobile devices has increased in the last years.
+It is possible to use devices such as smartphones and tablets to perform tasks that previously were only possible using a desktop computer.
 These devices are becoming more similar to computers than ever before.
-Not only they have powerful \glspl{CPU} and \glspl{GPU} but they are equipped with many sensors, such as, light sensor, \gls{GPS} and accelerometer.
-Also, these devices have access to multiple data sources, such as,
+Not only they have powerful \glspl{CPU} and \glspl{GPU} but they are also equipped with many sensors such as light sensor \gls{GPS} and accelerometer.
+Also, these devices have access to multiple data sources such as
 the user's activity on social networks and user's calendar.
 The applications (apps), that the user can install, have access to all this data, from the sensors and from the data sources.
 Using this data, the apps can adjust settings and allow users to perform tasks according to it.
-The mobile apps that use this information, which is called context, are named, context-aware applications.
-There are multiple apps that use context, specially, the ones that use location.
-Here, our focus will be on apps that depend on user's location.
-
-Next, in section \ref{sec:introduction_motivation}, we introduce the motivation behind this thesis.
-Then, in section \ref{sec:introduction_goals}, we establish some goals to meet with this thesis.
-After, we state our contributions that aim to meet our goals, in section \ref{sec:introduction_contributions}.
-Finnaly, in section \ref{sec:introduction_thesis_outline}, we outline this document's structure.
+The mobile apps that use this information, which is called \emph{context}, are named context-aware applications.
+For instance, an app that puts the phone in silent mode when the user is in a meeting is a context-aware app.
+The user's location is a particularly useful context information because it allows apps to offer the user special functionalities when they are in a specific place.
+The focus of this present work is location based applications.
 
 \section{Motivation}
 \label{sec:introduction_motivation}
 % Context-aware apps
 % Proximity-based
-There is a special kind of mobile app, which are, context-aware.
-These apps get context information, from the device's sensors, such as the accelerometer.
-It is also possible to get context information from data sources, such as, the user's calendar.
-Using this information it is possible to build mobile apps that offer different possibilities according to context.
-For instance, an app that puts the phone in silent mode when the user is in a meeting is a context-aware app.
 Proximity-based is a particular type of context-aware that takes into account users' location.
 These apps offer different possibilities, to the users, when they are in the proximity of a given point of interest.
 We can find multiple examples of such apps.
 Swarm\footnote{http://www.swarmapp.com} allows users to check-in in a given place or point of interest, according to user's location.
 For instance, if the user is in a restaurant, he can use the app to perform a check-in in that restaurant and share his/her location on social networks.
 Skout\footnote{http://www.skout.com}
-is another example. It allows to find nearby users and start talking to them.
+is another example app that allows finding nearby users and start talking to them.
 
 % Develop proximity-based
 To develop proximity-based apps we need to, somehow, get the device's location.
@@ -58,20 +49,21 @@ They should be able, by installing one app, to discover these promotions, or any
 \section{Goals}
 \label{sec:introduction_goals}
 % Tool to develop proximity-based services without worrying about technologies...
-As already mentioned, in order to create proximity-based services, available on mobile devices, developers need to build the mobile apps, choose the right technology for location and build the backend to maintain the data associated to each tag.
-Our main goal, in this thesis, is to create a tool to develop such services, eliminating the need to build a backend and to choose the technology.
+In order to create proximity-based services, available on mobile devices, developers need to build the mobile apps, choose the right technology for location and build the backend to maintain the data associated to each tag.
+Our main goal, in this dissertation, is to create a tool to develop such services%, eliminating the need to build a backend and to choose the technology.
+.
 With this tool, developers should be able to build the proximity-based services, without the need to develop their own backends and handle the location technology themselves.
 
 % Introduce the concept of Smart Place
-In this thesis, we want to introduce the concept of Smart Place, which is described, in further detail, in the next chapter.
-The idea is to have a place, which offers a proximity-based service due to existence of tags placed on objects that are relevant.
-For instance, the example of the store, introduced in section \ref{sec:introduction_motivation}, can be considered a Smart Place.
+In this dissertation, we want to introduce the concept of Smart Place, which is described in further detail in the next chapter.
+The idea is to have a physical place, which offers a proximity-based service due to existence of tags placed on objects that are relevant.
+For instance, the example of the store can be considered a Smart Place.
 The owner place some tags, inside the store, that will trigger a notification in the customers' mobile devices, such as, smartphones.
 
 % Owners and users solution
 Developers are not the only category of people we aim to target.
 Owners of places, where they want to provide a proximity-based service, should have a way to decide which services they want to provide and customize those services.
-For instance, in the example of the store, the owner should be able to get the service of advirtising promotions running and customize the promotions.
+For instance, in the example of the store, the owner should be able to get the service of promotions running and customize the promotions.
 Here, we try to offer an interface, to owners, where they can manage which services they want to provide.
 Also, users should be able to access these services without having to install, on their mobile devices, one app for each service they want to use.
 In the store example, users should be able to have access to the advertised promotions without the need of one app for each store.
@@ -86,7 +78,7 @@ One app should be enough, for anybody with a mobile device, such as, a smartphon
 % Concept of Smart Place
 % App for owners
 % App for users
-In the beginning of this thesis, we aimed to contribute in several ways.
+We aimed to contribute in several ways.
 First, the tool to develop proximity-based applications, that we designed and built, can be considered as a contribution.
 There are other tools that try to solve the same problem.
 We analyzed them in order to understand their advantages and limitations and built our own solution, which tries to make developers focus on their applications and not on the technology side, that is, the technology used to provide tags and make mobile apps being able to detect them.
@@ -107,19 +99,19 @@ This app allows to access instead any Smart Place, instead of users having to in
 \section{Thesis Outline}
 \label{sec:introduction_thesis_outline}
 % Outline all other chapters
-After getting the motivaton and established some goals, we stated the contributions of this master thesis.
+After getting the motivaton and established some goals, we stated the contributions of this dissertation.
 To be able to reach those contributions, a solution was implemented and evaluated.
 First, we give some background to have the necessary information to understand the solution and the decisions behind it.
 This document is organized as follows:
 \begin{description}
-  \item[Chapter \ref{chapter:background}]
-  provides background information, that is needed to understand the problem, this thesis tries to solve and the solution;
-  \item[Chapter \ref{chapter:solution}]
+  \item[\chapterRef{chapter:background}]
+  provides background information, that is needed to understand the problem, this dissertation tried to solve and the solution that is proposed;
+  \item[\chapterRef{chapter:solution}]
   introduces the solution and describes its main components;
-  \item[Chapter \ref{chapter:implementation}]
+  \item[\chapterRef{chapter:implementation}]
   presents the implementation process, the solution's architecture and all the tools used to create it;
-  \item[Chapter \ref{chapter:evaluation}]
-  shows the results, from the evaluation process, in order to get a good insight about the quality of the solution;
-  \item[Chapter \ref{chapter:conclusion}]
-  concludes this thesis and states the limitations and what can be done, in the future, to improve this solution.
+  \item[\chapterRef{chapter:evaluation}]
+  shows the results from the evaluation process in order to get a good insight about the quality of the solution;
+  \item[\chapterRef{chapter:conclusion}]
+  concludes this dissertation and states the what can be done in the future to improve this solution.
 \end{description}
