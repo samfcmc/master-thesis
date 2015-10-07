@@ -5,23 +5,56 @@
 % Context-aware applications
 % proximity-based apps
 % Technologies
-Before describing the solution, we need to get a good insight about concepts, such as, context-aware applications, technologies available and related work.
-We built a framework to develop proximity-based applications.
-However, we need to define the concept of proximity-based application.
-These are a particular kind of context-aware applications.
+Before describing the solution, we need to get a good insight about concepts, technologies available and related work.
+proximity-based applications are a particular kind of context-aware applications.
 An application is context-aware when it takes into account the context, such as, location, device's orientation, temperature, etc.
 Based on this definition, proximity-based applications are context-aware applications that take into account the user's location.
 They engage the user while they are on proximity of a given point of interest, which we will call a Tag.
-Someone installs tags in a given space.
-Then, users can interact with those tags when they are nearby them.
+Someone installs tags in a given space, then users can interact with those tags when they are nearby them.
+From the given definition of proximity-based application, the concept of Smart Place arises.
 
-From the given definition of proximity-based application, the concept of Smart Place arrises.
-However, since this work is based on location, we need to look at a taxonomy, described in section \ref{sec:background_location}, that allows us to classify the multiple kinds of location to justify our decisions in terms of solution and implementation.
+This work is based on location.
+We are going to look at a taxonomy, described in section \ref{sec:background_location}, that allows us to classify the multiple kinds of location to justify our decisions in terms of solution and implementation.
 Our solution is based on the concept of Smart Place, which we define, in further detail, below, in section \ref{sec:background_smart_places}.
 Then, we explore some technologies that could be used in our solution, in section \ref{sec:background_technologies}.
 We present related work,
 in section \ref{sec:background_related_work} that is, some existing solutions for the same problem we try to solve in this thesis.
 Section \ref{sec:background_summary} outlines all the important ideas in this chapter.
+
+\section{Smart Places}
+\label{sec:background_smart_places}
+% Popularity of proximity-based...
+% Based on proximity-based
+% Explain owners and users
+% Figure
+% Owner puts tags...
+% Relate with location characteristics
+A Smart Place is some place, with tags, which users can interact with, using a mobile device, such as, a smartphone.
+A place's owner installs tags and those tags offer some service to the users when they are nearby.
+For instance, a store owner could use these tags to advertise some promotion when the customers are nearby the store.
+However, Smart Places are not just about stores.
+This concept can be used to any kind of service that benefits from knowing the users to be nearby tags.
+For instance, it is possible to build a Smart Restaurant, where tags have the information about the table's number and the customers are allowed to call a waiter without requiring to type the table's number.
+
+Multiple kinds of people are involved in Smart Places.
+There are owners, developers and end users.
+Figure~\ref{fig:smart_places_overview} shows how these three kinds of users interact with a Smart Place.
+Owners are responsible for managing and installing tags in their places, where they want to offer a proximity-based service.
+Also, developers are needed to develop these services, for instance, the Smart Restaurant or the store promotions.
+Finally, the end users that interact with tags, that are installed in Smart Places, using their mobile devices.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/smart_places_overview}
+    \caption[Smart Places Overview]{Smart Places Overview}
+    \label{fig:smart_places_overview}
+\end{figure}
+
+In terms of classification, since Smart Places are about proximity, it is reasonable to pick proximity as the technique and symbolic location as the type of location.
+These are the main characteristics we need to take into consideration in order to choose one technology to support this concept.
+In section \ref{sec:background_technologies} it is provided an overview of existing technologies and which ones can be used based on the fact that we want to provide symbolic location.
+Also, cost and limitations need to be taken into account because we do not want a solution that implies a high cost for the user.
+We want the low cost as possible, in terms of time and capital, for owners and developers.
 
 \section{Location}
 \label{sec:background_location}
@@ -50,24 +83,20 @@ The techniques are the following:
   \item[Triangulation] It can be done via lateration or angulation. Lateration uses distance measurements between two well known points.
   Angulation uses measurements of angles relative to known points;
   \item[Proximity] As the name suggests, it measures how close the device is to a known point;
-  \item[Scene analysis] It consists in examining a view from a given point
+  \item[Scene analysis] It consists in examining a view from a given point.
 \end{description}
-
-As already mentioned, these techniques can be combined.
-For instance, \gls{GPS}, described in section \ref{sub:background_gps}, uses this technique.
-Systems based on tags, such as \gls{NFC}, explained in section \ref{sub:background_near_field _communication}, are based on Proximity.
 
 \subsection{Physical or Symbolic Position}
 \label{sub:background_physical_or_symbolic_position}
 The device's position can be classified in one of the two types:
 \begin{description}
-  \item[Physical position] This kind of position refers to a given set of coordinates that, identifies, unequivocally, a place, usually on Earth, where the device is. From this set of coordinates, we know, exactly, where the object is;
+  \item[Physical position] This kind of position refers to a given set of coordinates that, identifies, unequivocally, a place on Earth where the device is. From this set of coordinates, we know, exactly, where the object is;
   \item[Symbolic location] Unlike physical location, using this kind of positioning, it is not possible to identify where the object is. Symbolic can be, for instance, the object is in the kitchen, office, etc. The meaning of its position depends on the application.
 \end{description}
 
 One location system can only be classified in one of the two kinds of positioning.
 However, physical position can be augmented to also have symbolic information.
-For instance, we can have a system that stores \gls{GPS} coordinates and, for each set of coordinates, we store symbolic information.
+For instance, we can have a system that stores coordinates and for each set of coordinates we store symbolic information.
 A place on Earth could have symbolic information associated.
 
 \subsection{Computation}
@@ -81,12 +110,12 @@ This computation can be done in one of the two ways:
 \end{description}
 
 For instance, \gls{GPS} receivers compute their own location based on signals that come from satellites.
-In location systems based on tags, the location's computation is delegated to another, usually, more powerful machine.
+In location systems based on tags, the location's computation is delegated to another machine.
 
 \subsection{Scale}
 \label{sub:background_scale}
 The scale of a location system refers to the number of objects that is possible to locate using a certain amount of infrastructure or over a given period of time.
-For instance, in systems that rely on sattelites, such as the \gls{GPS}, with a fixed number of sattelites, it is possible to serve an unlimited number of receivers.
+For instance, in systems that rely on satelites with a fixed number of sattelites, it is possible to serve an unlimited number of receivers.
 In systems based on tags, a reader can read a limited number of tags.
 In this case, adding more tags can compromise the performance of the entire system.
 
@@ -96,8 +125,7 @@ Recognition refers to the hability, of a location system, to recognize individua
 Location systems based on tags, usually, have means of recognizing receivers.
 If we assign an \gls{ID} to each receiver, each time the receiver reads a tag, that information can be stored and it is possible to know which receiver communicated with that tag.
 There are systems without this capability.
-For instance, \gls{GPS} is a system that is not able to recognize receivers.
-The sattelites do not have any means to recognize receivers.
+For instance, \gls{GPS} is a system that is not able to recognize receivers as the satelites do not have any means to recognize receivers.
 
 \subsection{Cost}
 \label{sub:background_cost}
@@ -105,57 +133,20 @@ There are costs associated to any location system.
 It is possible to look at costs in three perspectives:
 \begin{description}
   \item[Time costs] Any location system needs time to be spent in installation, administration and other tasks related with its maintenance;
-  \item[Space costs] Its always some infrastructure associated with any location system. This infrastructure needs space. For instance, if servers are needed, we need to install them in some room;
+  \item[Space costs] There is always some infrastructure associated with any location system. This infrastructure needs space. For instance, if servers are needed, we need to install them in some room;
   \item[Capital costs] The processes and infrastructure associated to a location system requires capital.
   Each mobile unit or infrastructure element has its price. Also, sometimes, there are people involved. Their salaries are also a capital cost that needs to be taken into consideration.
 \end{description}
 
-When comparing multiple location systems, the costs can be a decisive factor. We need, not only to take into account the technology characteristics but also the costs.
+When comparing multiple location systems, the costs can be a decisive factor. We need not only to take into account the technology characteristics but also the costs.
 
 \subsection{Limitations}
 \label{sub:background_limitations}
 There are no perfect location systems. Every system has its own limitations.
 There are ones that do not work well indoors, such as, the \gls{GPS}, because it cannot get the sattelites' signal.
-If we want a location system that would work indoor, maybe a tag based system is a better fit.
-When choosing a system, this is important because, one might not require much hardware and it leads to a low cost system but, if the limitations compromise its performance, it is better to pick one with higher costs.
+If we want a location system that would work indoors, maybe a tag based system is a better fit.
+When choosing a system, this is important because one might not require much hardware and it leads to a low cost system but, if the limitations compromise its performance, it is better to pick one with higher costs.
 For instance, a tag based system might only work properly if only one tag is present.
-
-\section{Smart Places}
-\label{sec:background_smart_places}
-% Popularity of proximity-based...
-% Based on proximity-based
-% Explain owners and users
-% Figure
-% Owner puts tags...
-% Relate with location characteristics
-As already mentioned, proximity-based applications engage users while they are on proximity of some point of interest.
-Our solution is based on the concept of Smart Place.
-A Smart Place is some place, with tags, which users can interact with, using a mobile device, such as, a smartphone.
-Place's owner installs tags and those tags offer some service to the users when they are nearby.
-For instance, a store owner could use these tags to advertise some promotion when the customers are nearby the store.
-However, Smart Places are not just about stores.
-This concept can be used to any kind of service that requires the users to be nearby tags.
-For instance, it is possible to build a Smart Restaurant, where tags have the information about the table's number and the customers are allowed to call a waiter without requiring to type the table's number.
-
-Multiple kinds of people are involved in Smart Places.
-There are owners, developers and end users.
-Figure~\ref{fig:smart_places_overview} shows how these three kinds of users interact with a Smart Place.
-Owners are responsible for managing and installing tags in their places, where they want to offer a proximity-based service.
-Also, developers are needed to develop these services, for instance, the Smart Restaurant or the store promotions.
-Finally, the end users that interact with tags, that are installed in Smart Places, using their mobile devices.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/smart_places_overview}
-    \caption[Smart Places Overview]{Smart Places Overview}
-    \label{fig:smart_places_overview}
-\end{figure}
-
-In terms of classification, since Smart Places are about proximity, it is reasonable to pick proximity as the technique and symbolic location as the type of location.
-These are the main characteristics we need to take into consideration in order to choose one technology to support this concept.
-In section \ref{sec:background_technologies} it is provided an overview of existing technologies and which ones can be used based on the fact that we want to provide symbolic location.
-Also, cost and limitations need to be taken into account because we do not want a solution that implies a high cost for the user.
-We want the low cost as possible, in terms of time and capital, for owners and developers.
 
 \section{Location Detection Technologies}
 \label{sec:background_technologies}
@@ -176,16 +167,16 @@ We are going to look at these technologies and see which one best fits our purpo
 \label{sub:background_gps}
 % What is it
 % How it works
-\glsfirst{GPS} is a location system that uses 24 sattelites plus three backups.
-Receivers send signals and sattelites answer back. Measurements are taken from this measurements in order to receivers be able to calculate their own location.
+\glsfirst{GPS} is a location system that uses 24 sattelites plus 3 backups.
+Receivers send signals and sattelites answer back. Measurements are taken from this signals in order to receivers be able to calculate their own location.
 An object, that we want to locate, only needs a \gls{GPS} receiver in order to be located using this technology.
 
 % Classification
-Using the taxonomy, explained in section \ref{sec:background_location}, \gls{GPS} uses triangulation as the technique to get the location.
+\gls{GPS} uses triangulation as the technique to get the location.
 It computes physical location, that is, when an object is located, we can look at a map and see where it is.
-The located objects have means to compute their own location, based on measurements from the sattelites' signals.
-It is a scalable system because, the same number of sattelites can handle an unlimited number of \gls{GPS} receivers.
-The sattitles are not able to recognize individual receivers.
+The located objects have means to compute their own location, based on measurements from the satellites' signals.
+It is a scalable system because, the same number of satelites can handle an unlimited number of \gls{GPS} receivers.
+The satelites are not able to recognize individual receivers.
 In this system, the major cost is in maintaining the sattelites and, in the beginning, was launching the sattelites and, in the future, it might be necessary to replace the existing ones.
 It cost 12 billion dollars to put them in orbit. The annual operating cost is 750 million dollars\footnote{Source: http://nation.time.com/2012/05/21/how-much-does-gps-cost at 24, December, 2015}.
 One limitation of \gls{GPS} is that, it does not well indoors because the sattelite's signal can be really weak.
@@ -193,7 +184,7 @@ One limitation of \gls{GPS} is that, it does not well indoors because the sattel
 % Requirements
 % Advantages and disadvantages
 Objects to be located using \gls{GPS} only require an adequate receiver. Most of the mobile devices, nowadays, are already equipped with these receivers.
-This can be a really big advantage, because, it is a low cost solution for users.
+This can be a big advantage because it is a low cost solution for users.
 However, as already mentioned, it is not adequate to locate objects indoors.
 
 % Usage for Smart Places
@@ -208,10 +199,10 @@ Since the concept of Smart Place is a concept connected to an indoor space, the 
 \label{sub:background_qr_codes}
 % What is it
 % How it works
-\glsfirst{QR} codes is a type of two dimensional barcode.
-The user just needs an app that reads these codes.
+\gls{QR} codes is a type of two dimensional barcode.
+The user just needs a camera and software that read these codes.
 There are \gls{QR} readers available for all the three major mobile platforms, Android, iOS and Windows Phone.
-Whenever the user sees one of these codes, he/she opens the \gls{QR} code reader app, scan the code and see the content provided by it.
+Whenever the user sees one of these codes, he/she can open the \gls{QR} code reader app, scan the code and see the content provided by it.
 The content can be an \gls{URL}.
 Figure~\ref{fig:qr_code} shows an example of a \gls{QR} code.
 
@@ -226,12 +217,12 @@ Figure~\ref{fig:qr_code} shows an example of a \gls{QR} code.
 % Advantages and disadvantages
 It does not require more than a mobile device with a camera and a \gls{QR} code reader app, such as, QR Droid\footnote{http://play.google.com/store/apps/details?id=la.droid.qr} for Android, QR Reader\footnote{http://itunes.apple.com/pt/app/qr-reader-for-iphone/id368494609?mt=8} for iOS and QR Code Reader\footnote{http://www.microsoft.com/en-us/store/apps/qr-code-reader/9wzdncrfj1s9} for Windows Phone.
 There is no extra hardware involved.
-However, one big disadvantage of this technology is the fact that it requires the user interaction.
+However, one big disadvantage of this technology is the fact that it requires user interaction.
 The user needs to be aware of this kind of codes and also needs to see them wherever they are.
 Providing proximity-based services using \gls{QR} codes would be simply using the codes as tags and an app for users to scan these codes and have access to the particular service, that is, Smart Place.
 
 % Related work
-There are works that aim to use this technology as a mean to get the user's indoor location, such as, the one described in \cite{qr_indoor}.
+There are works that use this technology to to get the user's indoor location, such as, the one described in \cite{qr_indoor}.
 It uses \gls{QR} codes in combination with \tm{Google} Maps \gls{API}\footnote{http://developers.google.com/maps}.
 Others, try to use it to solve real world problems, such as, hospital overcrowding.
 In the work, presented in \cite{qr_hospital}, the authors try to use \gls{QR} Codes to identify patients, in an hospital.
@@ -255,11 +246,11 @@ However, as already mentioned, it requires the users to be aware of such codes a
 % What is it
 % How it works
 \glsfirst{NFC} is a short distance radio communication technology.
-The two devices communicating need to be of 10 cm or less distant from each other.
+The two devices communicating need to be at 10 cm or less distant from each other.
 Each \gls{NFC} device can work in one of three modes:
 \begin{description}
-  \item[Card Emulation] In this mode, devices act as they were smart cards, allowing to perform transactions, such as payments;
-  \item[Reader/Writer] Devices are enabled to read information from \gls{NFC} tags, embedded in other objects, such as, posters;
+  \item[Card Emulation] In this mode, devices act as if they were smart cards, allowing to perform transactions, such as payments;
+  \item[Reader/Writer] Devices are enabled to read information from \gls{NFC} tags, embedded in other objects such as posters;
   \item[Peer-to-peer] Devices exchange information with each order in an adhoc way.
 \end{description}
 
@@ -289,13 +280,12 @@ The user would need to be aware of \gls{NFC} tags.
 \label{sub:background_google_maps_indoor}
 % What is it
 % How it works
-Google Maps is a service, from \tm{Google}, to see maps.
-It allows users to navigate all over the world and even gives access to satellite images.
-There are mobile apps, for all most used mobile \glspl{OS}, Android, iOS and Windows Phone.
-With more than 1 000 000 000 installs on Google Play Store and an average rating of 4.3\footnote{Source: http://www.appannie.com/apps/google-play/app/com.google.android.apps.maps in 23 December 2015}, we can say it is a very popular and mainstream app.
+Google Maps allows users to navigate all over the world and gives access to satellite images.
+There are mobile apps for Android and iOS.
+With more than \num{1e9} installs on Google Play Store and an average rating of 4.3\footnote{Source: http://www.appannie.com/apps/google-play/app/com.google.android.apps.maps in 23 December 2015}, we can say it is a very popular and mainstream app.
 When installed on a smartphone, it uses multiple sensors, such as, \gls{GPS} and accelerometer, in order to get the user's location.
 However, since it relies on \gls{GPS}, it does not work well indoors.
-Google Maps has an extension wich is, Google Maps Indoor\footnote{http://www.google.com/maps/about/partners/indoormaps}, which allows the user to navigate inside a building.
+Google Maps Indoor\footnote{http://www.google.com/maps/about/partners/indoormaps} is an extension which allows the user to navigate inside a building.
 Figure~\ref{fig:google_maps_indoor} shows an example of Google Maps Indoor.
 
 \begin{figure}[!ht]
@@ -308,32 +298,29 @@ Figure~\ref{fig:google_maps_indoor} shows an example of Google Maps Indoor.
 % Requirements
 % Advantages and disadvantages
 This service uses sensors already provided by the mobile device and it does not require extra sensors inside the building.
-However, buildings' owners need to provide the necessary data to \tm{Google}.
-Not all buildings are available.
 
 % Classification
-Similary to \gls{GPS}, described in section \ref{sub:background_gps} Google Maps Indoor is based on triangulation technique.
+Similary to \gls{GPS} Google Maps Indoor is based on triangulation technique.
 It provides physical location, because it is possible to locate the device inside a building.
 To compute the location, it uses resources available on the device itself in combination with servers.
 Its scale depends on the external infrastructure, such as the servers where the computation is performed.
 It is possible to recognize individual devices.
-In terms of costs, there are no much costs for the user. The necessary infrastructure is the major cost here.
+The necessary infrastructure is the major cost here.
+In terms of costs, there are no costs for the user.
 The main limitation is that, it requires the building to be mapped by \tm{Google}. A team needs to go the building and get the necessary information to make it available.
 
 % Usage in Smart Places
 Smart Places could be implemented using this technology.
 This would lead to a solution where no extra hardware is needed.
 Google Maps Indoor provides physical location. However, as any physical location system, it can be augmented to provide symbolic location.
-Unfortunately, as already mentioned, not all buildings are available.
 
 \subsection{Bluetooth Low Energy}
 \label{sub:background_bluetooth_low_energy}
 % What is it
 % How it works
 \glsfirst{BLE}\cite{ble} is a short range wireless communication technology, developed by Bluetooth \gls{SIG}\footnote{http://www.bluetooth.org}.
-Unlike classic Bluetooth, it is focused on low power consumption.
-It is a feature of Bluetooth 4.0\cite{bluetooth_specification}.
-To take advantage of this technology, the mobile device needs to be equipped with Bluetooth, at least, version 4.0.
+It is more focused on low power consumption than classic Bluetooth.
+To take advantage of this technology, the mobile device needs to be equipped with Bluetooth, at least, version 4.0\cite{bluetooth_specification}.
 However, to be able to use it, in order to get the user's indoor location, a protocol is needed.
 There are two protocols that can be used: iBeacon\footnote{http://developer.apple.com/ibeacon}, developed by \tm{Apple} and Eddystone\footnote{http://github.com/google/eddystone}, developed by \tm{Google}.
 
@@ -358,29 +345,32 @@ In this protocol, location is reported to an application using one of the two op
     \label{fig:ibeacon_message}
 \end{figure}
 
-In the other mentioned protocol, Eddystone, simillary to iBeacon, the beacons also advertise a sequence of bytes.
+In the other mentioned protocol, Eddystone the beacons also advertise a sequence of bytes.
 However, there are three types of messages, that beacons can broadcast to mobile devices nearby\footnote{http://github.com/google/eddystone/blob/master/protocol-specification.md}:
 \begin{description}
-  \item[Eddystone-UID] It broadcasts an unique 16 byte (128 bits) identifier. The first 10 bytes are for the namespace, which is used to distinguish groups of beacons, and the remaining 6 are for the instance \gls{ID}, which is used to identify individual beacons, inside the same namespace;
-  \item[Eddystone-URL] As the name suggests, it broadcasts an \gls{URL};
-  \item[Eddystone-TLM] Here, telematry information about the beacon is transmitted, such as, battery voltage and device's temperature.
+  \item[Eddystone-UID]
+  It broadcasts an unique 16 byte (128 bits) identifier. The first 10 bytes are for the namespace, which is used to distinguish groups of beacons, and the remaining 6 are for the instance \gls{ID}, which is used to identify individual beacons, inside the same namespace;
+  \item[Eddystone-URL]
+  As the name suggests, it broadcasts an \gls{URL};
+  \item[Eddystone-TLM]
+  Here, telemetry information about the beacon is transmitted such as battery voltage and device's temperature.
 \end{description}
 
 % Requirements
 % Advantages and disadvantages
-The main advantage of this technology is that it only requires that the mobile device has Bluetooth, at least, version 4.0.
+The main advantage of this technology is that it only requires that the mobile device has Bluetooth 4.0.
 However, to develop proximity-based applications, we need to deploy some beacons that use the iBeacon or the Eddystone protocol.
 Fortunately, the extra hardware is the space owner's responsability.
 The user does not need anything else besides his/her mobile device.
+
 Using this technology, if developers want to map beacons to more kinds of information, only the mentioned protocols are not enough.
 We need a backend to store the mapping between the beacons and that information.
 Besides developing the application itself, developers also need to deal with the backend and all the concerns around any distributed system, such as, scalability, performance, etc.
 
 % Classification
-Since the device only can detect beacons when it is on proximity, this technology is based on proximity technique.
+Since the device can only detect beacons when it is on proximity, this technology is based on proximity technique.
 It can provide symbolic location using some external infrastructure.
 The device's location can be computed by that infrastructure.
-Its scale depends on hardware specifications of the servers where the needed information is stored.
 Also, using this information it is possible to recognize individual devices.
 Besides the cost of developing the mobile application and the needed infrastructure, there also costs for owners of places, because they need to deploy beacons in order to allow users' mobile devices to detect them.
 The main limitation is that, this solution requires the deployment of \gls{BLE} beacons.
@@ -413,15 +403,13 @@ However, they require the user interaction. He/she needs to be aware of the exis
 
 The final decision was to pick \gls{BLE} because it has the best tradeoff between cost and kind of location it provides. Using this technology we have symbolic location. With the adequated infrastructure it is possible to associate any kind of information to each tag.
 It requires extra hardware but this is the responsability of who manages the place where the tags will be deployed.
-The user does not anything else but a mobile device with Bluetooth, version 4.0 or later.
+The user does not need anything else but a mobile device with Bluetooth, version 4.0 or later.
 Three beacons, from \tm{Estimote} were used in the implementation of our solution, described in chapter \ref{chapter:implementation}.
 
 \section{Related Work}
 \label{sec:background_related_work}
 % Related work...
-Here we discuss some related work in order to have a good insight, about the possibilities and existing solutions, for the problem we are trying to solve.
-First, we take a look at some examples of proximity-based apps, in order to see what can be done when the user is in proximity of a given point of interest.
-Since we tried to create a solution that provided an easy way of creating proximity-based services, there is a need to look at the state of the art of existing solutions of frameworks to develop context-aware applications. As already mentioned, proximity-based applications are a particular category of context-aware applications that take into account the user's location.
+Here we discuss some related work in order to have a good insight about the possibilities and existing solutions for the problem we are trying to solve.
 
 \subsection{Proximity-based Apps}
 \label{sub:background_ble_beacons_applications}
@@ -474,7 +462,7 @@ technology and the apps developed using it.
   need to interact with it anymore, since it
   will run in background.
   \item[BlueView\cite{Chen2013}]
-  This one is a system to help
+  This is a system to help
   visually impaired people to perceive some points of interest.
   This solution has two main components: The viewer device
   and the \glspl{BP}. The first one is a mobile phone,
@@ -574,9 +562,9 @@ context information to the apps will be presented.
   information is stored;
   \item And, the Application Server, which provides web services for
   mobile clients. This server also communicates
-  with the Database Server;
+  with the Database Server.
   \end{itemize}
-  The mobile device get geographical coordinates
+  The mobile device gets geographical coordinates
   from any source and send that data, in a
   \gls{SOAP}\cite{Seely:2001:SCP:560836} message,
   to the appropriate web service in the Application
@@ -600,11 +588,11 @@ context information to the apps will be presented.
   instead.
   \item[Dynamix\cite{Carlson2012}]
   is a framework to develop
-  mobile native and web apps that allow them to receive
+  mobile native and web apps that allows them to receive
   context information, for instance, position and device's
   orientation. This framework has plugins that get
   one or more sensor's raw data and turn that into event
-  objects, that contain more high-level information.
+  objects that contain more high-level information.
   This framework supports many kinds of context information
   and it is possible to develop more plugins to allow the
   apps to generate additional events that are not
@@ -617,7 +605,7 @@ context information to the apps will be presented.
   using a backend. In this framework,
   the user needs to install an app, that manages the service
   that runs in background, and needs to define some
-  security policies. This could mean a big overhead since
+  security policies such as which information the app can have access to or which sensors it can use. This could mean a big overhead since
   we are more focused on developing proximity-based applications, that do not require such complex security
   policies because, in this kind of applications, there is only need
   to access the device's sensors that could provide,
@@ -628,9 +616,9 @@ context information to the apps will be presented.
 \label{sec:background_summary}
 % Location
 % -> Introduced taxonomy (techniques, physical vs sumbolic, computation, scale, recognition, cost and limitations)
-In the previous chapter, we introduced the problem that this thesis tries to solve.
+In the previous chapter, we introduced the problem that this work tries to solve.
 However, before describing the solution, we need first to understand some concepts.
-In this chapter, in section \ref{sec:background_location}, we introduced a taxonomy to classify location systems, in terms of techniques, physical or symbolic location, computation, scale, recognition, cost and limitations.
+In this chapter we introduced a taxonomy to classify location systems, in terms of techniques, physical or symbolic location, computation, scale, recognition, cost and limitations.
 There are three types of techniques: Triangulation, proximity and scene analysis.
 Triangulation is based on measures, distance or angles, between two well known points, proximity takes into account the distance to a given point and scene analysis is based on an analysis of a view from a given point.
 The location can be physical, which refers to identifying where, exactly, the object is. In symbolic location, it is not possible to identify where the object is. Instead, its location depends on the context.
