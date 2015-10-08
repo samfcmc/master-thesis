@@ -17,19 +17,19 @@ to use the same technologies that are used for any web application, such as \gls
 
 Before starting the description of our solution, we need to take a look at three kinds of users that will be part of it:
 \begin{description}
+  \item[End users:] Anyone with a mobile device that install an app to scan for nearby Smart Places;
   \item[Owners:] These users are the ones responsible for managing a given place that they want to turn into a Smart Place;
-  \item[Developers:] The users that develop the code of the Smart Places;
-  \item[End users:] Anyone with a mobile device that install an app to scan for nearby Smart Places.
+  \item[Developers:] The users that develop the code of the Smart Places.
 \end{description}
 
 Smart Places solution has a component that targets each one of the presented type of user.
+There is a mobile app to allow anyone, with a mobile device, such as a smartphone, to use the services provided by Smart Places nearby.
 Owners have a mobile app that allow them to turn the places they manage into Smart Places.
-There is another mobile app to allow anyone, with a mobile device, such as a smartphone, to use the services provided by Smart Places nearby.
 To develop these services our solution offers an \gls{API} that developers can integrate in their web applications to make them react to the presence of the user.
 
 % What comes next
 Section \ref{sec:solution_solution_overview} introduces the main components of the solution and how they relate with each other.
-Since we target owners and end users, we developed one Android app for each one, which are described in sections \ref{sec:solution_mobile_app_for_owners} and \ref{sec:solution_mobile_app_for_end_users}, respectively.
+Since we target end users and owners, we developed one Android app for each one, which are described in sections \ref{sec:solution_mobile_app_for_end_users} and \ref{sec:solution_mobile_app_for_owners}, respectively.
 Then, we present the \gls{API} for developers, in section \ref{sec:solution_developers_api}, from its installation to its usage.
 In section \ref{sec:solution_examples}, we describe two examples of Smart Places, the Smart Restaurant and the Smart Museum, including their main features and how they contributed to the development of our Developers \gls{API}.
 Finnaly, in section \ref{sec:solution_summary} there is a summary of the important aspects of our solution.
@@ -47,8 +47,8 @@ Our solution is composed by several components, as shown in Figure~\ref{fig:solu
 \begin{description}
   \item[Beacons] are the small devices that will act as tags, according to our definition of a Smart Place;
   \item[Backend] is where all the data is stored, that is, the Smart Places that are available, the Smart Places that each owner has configured, information about each beacon, etc;
-  \item[Owners Mobile App] is an Android mobile app that owners use to select which Smart Places they want to configure. It also allows to configure each individual beacon that belongs to a given Smart Place;
   \item[End Users Mobile App] in another Android mobile app that allows users, with a mobile device, \gls{BLE} enabled, to have access to nearby Smart Places and to detect the beacons that belong to those Smart Places;
+  \item[Owners Mobile App] is an Android mobile app that owners use to select which Smart Places they want to configure. It also allows to configure each individual beacon that belongs to a given Smart Place;
   \item[Developers \gls{API}] provides the necessary methods that developers can use to create their proximity-based services, based on the concept of a Smart Place.
 \end{description}
 Each mentioned component is described, in further detail, in the next sections.
@@ -59,6 +59,28 @@ Each mentioned component is described, in further detail, in the next sections.
     \caption[Solution Overview]{Overview with the main components of our solution}
     \label{fig:solution_overview}
 \end{figure}
+
+\section{Mobile App for End Users}
+\label{sec:solution_mobile_app_for_end_users}
+% Who are end users
+% What are the main features of the app
+% Workflow (whith some screenshots)
+Anyone that have a mobile device, such as a smartphone, can use the services provided by any Smart Place.
+In our solution, there is an Android app, different from the one described in section \ref{sec:solution_mobile_app_for_owners}, that notifies the user when he is nearby any Smart Place.
+When the mobile device approaches any Smart Place, the app notifies the user that he is near a Smart Place.
+When the user touches these notifications, the app shows an embedded web browser that contains a web page that can react to nearby objects, that is, beacons with meaning to the application.
+
+After installing the app, the first time the user opens it, the app ask the user to turn on the device's bluetooth, as shown in Figure~\ref{fig:screenshot_clientapp_entry}.
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.7\textwidth, keepaspectratio]{images/screenshots/clientapp_entry}
+    \caption[Users mobile app]{First time the user opens the mobile app}
+    \label{fig:screenshot_clientapp_entry}
+\end{figure}
+This app will scan for nearby beacons, periodically.
+Each time a beacon is scanned, the app shows a notification associated to a Smart Place.
+If the scanning period is small, the app can constantly notify the user. Otherwise, if this period is big, the user will receive less notifications.
+According to his preference, our app allows the user to change the scan periods in background and foreground modes.
 
 \section{Mobile App for Owners}
 \label{sec:solution_mobile_app_for_owners}
@@ -104,28 +126,6 @@ This interface is developed by the same developers that create the Smart Place, 
     \caption[Configure a Smart Place Instance]{From left to right, the steps to configure an instance of a given Smart Place}
     \label{fig:screenshot_ownersapp_configure}
 \end{figure}
-
-\section{Mobile App for End Users}
-\label{sec:solution_mobile_app_for_end_users}
-% Who are end users
-% What are the main features of the app
-% Workflow (whith some screenshots)
-Anyone that have a mobile device, such as a smartphone, can use the services provided by any Smart Place.
-In our solution, there is an Android app, different from the one described in section \ref{sec:solution_mobile_app_for_owners}, that notifies the user when he is nearby any Smart Place.
-When the mobile device approaches any Smart Place, the app notifies the user that he is near a Smart Place.
-When the user touches these notifications, the app shows an embedded web browser that contains a web page that can react to nearby objects, that is, beacons with meaning to the application.
-
-After installing the app, the first time the user opens it, the app ask the user to turn on the device's bluetooth, as shown in Figure~\ref{fig:screenshot_clientapp_entry}.
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.7\textwidth, keepaspectratio]{images/screenshots/clientapp_entry}
-    \caption[Users mobile app]{First time the user opens the mobile app}
-    \label{fig:screenshot_clientapp_entry}
-\end{figure}
-This app will scan for nearby beacons, periodically.
-Each time a beacon is scanned, the app shows a notification associated to a Smart Place.
-If the scanning period is small, the app can constantly notify the user. Otherwise, if this period is big, the user will receive less notifications.
-According to his preference, our app allows the user to change the scan periods in background and foreground modes.
 
 \section{Developers API}
 \label{sec:solution_developers_api}
