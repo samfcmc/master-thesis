@@ -5,7 +5,7 @@
 In chapter \ref{chapter:solution}, we have presented the solution, that is,
 the mobile apps that owners and end users need and the \gls{API} that developers use
 to develop proximity-based mobile apps for this two kinds of users.
-This chapter explaines the implementation of each part of the solution
+This chapter explains in detail the implementation of each part of the solution
 (tools, programming languages, etc). Since there are two examples that were
 created to test the concept, we will dive into their implementation also.
 The code is hosted on
@@ -15,12 +15,55 @@ that use git\footnote{http://git-scm.com/}, as their \gls{VCS}.
 Next, in section \ref{sec:implementation_tools}, there is a summary of tools that were used in the development of the Smart Places solution.
 Then, section \ref{sec:implementation_tags}, explains the technology that was used to support the existence of tags, according to our definition of a Smart Place.
 Section \ref{sec:implementation_backend} presents the backend and the domain model that it is stored and managed.
-Each Smart Place has its own code and offers a proximity-based service, such as the ones provided by the Smart Restaurant and Smart Museum examples, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}.
+Each Smart Place has its own code and offers a proximity-based service, such as the ones provided by the Smart Restaurant and Smart Museum examples.
 The way our solution allows the user to have access to Smart Places is described in section \ref{sec:implementation_smart_places}.
 The implementation of the mobile apps, for owners and end users, is presented in section \ref{sec:implementation_mobile_applications}.
 In section \ref{sec:implementation_developers_api} we describe the implementation of the \gls{API} for developers.
-In section \ref{sec:implementation_examples} we explain how the Smart Restaurant and Smart Museum examples were developed.
-Last, section \ref{sec:implementation_summary} concludes this chapter.
+Next, we explain how the Smart Restaurant and Smart Museum examples were developed.
+Last section concludes this chapter.
+
+\section{Smart Places}
+\label{sec:implementation_smart_places}
+% What are Smart Places
+% Where they Run
+A Smart Place has tags that provide a proximity-based service.
+The Smart Restaurant and Smart Museum, presented in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}, are examples of Smart Places.
+They were developed according to our definition of Smart Place.
+As also presented in chapter \ref{chapter:solution}, there is a mobile app that allows users to have access to these proximity-based services.
+However, these services could be mobile apps themselves.
+We could create an \gls{SDK}, for each platform, to allow developers to introduce proximity-based developers in their apps.
+Following this approach, we would have a situation where the users would need to install one app for each Smart Place they want to use.
+In order to understand why we have an app to access any Smart Place, we need first, to compare the possible approaches.
+
+% How can be done (native or web)
+% Compare both approaches
+% Choose web
+% Why
+We could allow Smart Places to be native mobile apps or web apps that run inside an embedded web browser.
+A native mobile app is an app, developed with the native tools, already provided by the platform.
+This kind of apps only run in the platform that they were created for.
+A web app is an application that runs inside a web browser. It can run in any platform that has a web browser available.
+Table~\ref{tab:native_vs_web} compares native and web apps, showing the advantages and limitations of each category of apps.
+If Smart Places were developed as native apps, users would need to install one app for each one.
+This approach would not allow them to discover new proximity-based services while they were walking.
+To circumvent this limitation, we decided that Smart Places would exist as web applications.
+This way, any web application can react to the existence of tags in a Smart Place. Also, it leads to a situation where the users only need one app to have access to any Smart Place, because, each one, is a web application that will run inside an embedded web browser in the users mobile app.
+
+\input{tables/native_vs_web}
+
+% WebView...
+Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html}, which is a widget, provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
+Smart Places are web applications that run in a WebView in the users mobile app.
+
+% Data from native app to smart place running inside web view
+Since we chose web apps as the mean to support Smart Places, somehow, they need to be able to detect nearby tags.
+As it is possible to see, from Table~\ref{tab:native_vs_web}, web apps have limited access to the device's resources.
+As described in section \ref{sec:implementation_tags}, \gls{BLE} beacons were used to support the existence of these tags.
+How can a web application, running in an embedded web browser inside a native mobile app, detect tags in a Smart Place?
+Our approach is to handle the tags, that is, the \gls{BLE} beacons and to pass the relevant information to the web application running inside the embedded web browser.
+To do that, the native app invokes Javascript functions that exist in the embedded web browser, according to the \gls{API}, described in chapter \ref{chapter:solution}, section \ref{sec:solution_developers_api}.
+To invoke Javascript code from the native app, a special \gls{URL} is loaded to the WebView.
+The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', where ``functionToInvoke'' is the function we want to invoke inside the WebView and ``arguments'' is a list of arguments to pass to that function.
 
 \section{Tools}
 \label{sec:implementation_tools}
@@ -38,14 +81,19 @@ It provides a dashboard, where developers can create classes
 and define their fields and the type of each field, which can be a string,
 a number, a boolean, a pointer to another object, a \gls{JSON} object, etc.
 
+\subsection{Android Apps}
+\label{sub:implementation_tools_android_apps}
 For the Android apps, we have used the following tools:
 \begin{description}
   \item[Android Studio] \footnote{http://developer.android.com/sdk/index.html} is an \gls{IDE}, based on IntelliJ\footnote{http://www.jetbrains.com/idea},
   to develop Android
   applications;
+  \item[Gradle] \footnote{http://gradle.org} is a build and dependency management tool for Java projects. Using Android Studio, any Android project already includes this tool and a configuration file where all the dependencies are specified.
   \item[Java] was the programming language that was used to write the code of the mobile apps.
 \end{description}
 
+\subsection{Developers \gls{API} and Examples}
+\label{sub:implementation_tools_developers_api_and_examples}
 The Javascript \gls{API} and the Smart Restaurant and Smart Museum examples were created using web technologies, such as \gls{HTML}, \gls{CSS} and Javascript.
 However, besides these languages, we have used tools to manage the build process and also the necessary dependencies:
 \begin{description}
@@ -63,11 +111,12 @@ Several location technologies were presented in chapter \ref{chapter:background}
 To support the existence of tags, we chose \gls{BLE} Beacons using the ibeacon protocol, because most smartphones are \gls{BLE} enabled and it does not require the user to acquire any extra hardware.
 We have used three beacons from Estimote\footnote{http://estimote.com}
 (Figure \ref{fig:estimote}), that come with a development kit.
-In this kit, each beacon come with a name, defined by \tm{Estimote}.
+In this kit, each beacon come with a predefined name.
 The blue, green and purple are named ice, mint and blueberry, respectively.
 Besides the hardware, this product offers a \gls{SDK} for Android and
 iOS. It also has a cloud service where developers can set and get
 some information about each beacon, such as, the \gls{UUID}, name, etc.
+However, instead of integrating this cloud service with our backend, we copied the name and the image \gls{URL} of each beacon to accelerate the development process.
 
 \begin{figure}[!ht]
   \centering
@@ -117,49 +166,6 @@ languages, such as, Android, iOS, Javascript, etc.
 In order to be able to make requests to the backend from the mobile apps and
 from the Javascript API
 the Parse Android and Javascript \glspl{SDK} were used.
-
-\section{Smart Places}
-\label{sec:implementation_smart_places}
-% What are Smart Places
-% Where they Run
-A Smart Place has tags that provide a proximity-based service.
-The Smart Restaurant and Smart Museum, presented in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}, are examples of Smart Places.
-They were developed according to our definition of Smart Place.
-As also presented in chapter \ref{chapter:solution}, there is a mobile app that allows users to have access to these proximity-based services.
-However, these services could be mobile apps themselves.
-We could create an \gls{SDK}, for each platform, to allow developers to introduce proximity-based developers in their apps.
-Following this approach, we would have a situation where the users would need to install one app for each Smart Place they want to use.
-In order to understand why we have an app to access any Smart Place, we need first, to compare the possible approaches.
-
-% How can be done (native or web)
-% Compare both approaches
-% Choose web
-% Why
-We could allow Smart Places to be native mobile apps or web apps that run inside an embedded web browser.
-A native mobile app is an app, developed with the native tools, already provided by the platform.
-This kind of apps only run in the platform that they were created for.
-A web app is an application that runs inside a web browser. It can run in any platform that has a web browser available.
-Table~\ref{tab:native_vs_web} compares native and web apps, showing the advantages and limitations of each category of apps.
-If Smart Places were developed as native apps, users would need to install one app for each one.
-This approach would not allow them to discover new proximity-based services while they were walking.
-To circumvent this limitation, we decided that Smart Places would exist as web applications.
-This way, any web application can react to the existence of tags in a Smart Place. Also, it leads to a situation where the users only need one app to have access to any Smart Place, because, each one, is a web application that will run inside an embedded web browser in the users mobile app.
-
-\input{tables/native_vs_web}
-
-% WebView...
-Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html}, which is a widget, provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
-Smart Places are web applications that run in a WebView in the users mobile app.
-
-% Data from native app to smart place running inside web view
-Since we chose web apps as the mean to support Smart Places, somehow, they need to be able to detect nearby tags.
-As it is possible to see, from Table~\ref{tab:native_vs_web}, web apps have limited access to the device's resources.
-As described in section \ref{sec:implementation_tags}, \gls{BLE} beacons were used to support the existence of these tags.
-How can a web application, running in an embedded web browser inside a native mobile app, detect tags in a Smart Place?
-Our approach is to handle the tags, that is, the \gls{BLE} beacons and to pass the relevant information to the web application running inside the embedded web browser.
-To do that, the native app invokes Javascript functions that exist in the embedded web browser, according to the \gls{API}, described in chapter \ref{chapter:solution}, section \ref{sec:solution_developers_api}.
-To invoke Javascript code from the native app, a special \gls{URL} is loaded to the WebView.
-The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', where ``functionToInvoke'' is the function we want to invoke inside the WebView and ``arguments'' is a list of arguments to pass to that function.
 
 \section{Mobile Applications}
 \label{sec:implementation_mobile_applications}
