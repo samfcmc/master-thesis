@@ -8,12 +8,6 @@
 % What was implemented for each one
 The main goal of our solution is to assist
 the development of proximity-based mobile applications.
-There are already some tools available for this purpose (presented in section \ref{sec:background_related_work}).
-However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
-This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
-In order to circumvent this limitation, this solution allows developers
-to use the same technologies that are used for any web application, such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
-
 Before starting the description of our solution, we need to take a look at three kinds of users that will be part of it:
 \begin{description}
   \item[End users:] Anyone with a mobile device that installs an app to scan for nearby Smart Places;
@@ -27,11 +21,218 @@ Owners have a mobile app that allows them to turn the places they manage into Sm
 To develop these services our solution offers an \gls{API} that developers can integrate in their web applications to make them react to the presence of the user.
 
 % What comes next
+Next, we present related work about existing proximity-based applications and tools to develop such applications.
 Section \ref{sec:solution_solution_overview} introduces the main components of the solution and how they relate with each other.
 Since we target end users and owners, we developed one Android app for each one, which are described in sections \ref{sec:solution_mobile_app_for_end_users} and \ref{sec:solution_mobile_app_for_owners}, respectively.
 Then, we present the \gls{API} for developers, in section \ref{sec:solution_developers_api}, from its installation to its usage.
 In section \ref{sec:solution_examples}, we describe two examples of Smart Places, the Smart Restaurant and the Smart Museum, including their main features and how they contributed to the development of our Developers \gls{API}.
 Finally, in section \ref{sec:solution_summary} there is a summary of the important aspects of our solution.
+
+\section{Related Work}
+\label{sec:background_related_work}
+% Related work...
+Here we discuss some related work in order to have a good insight about the possibilities and existing solutions for the problem we are trying to solve.
+
+\subsection{Proximity-based Apps}
+\label{sub:background_ble_beacons_applications}
+% Why
+% For each one: What, Pros, Cons
+\gls{BLE} Beacons were
+be used to develop our solution, based on the concept of Smart Places.
+Some
+applications, where this technology is used,
+are be presented here, to
+get good insights about the potential use cases of this
+technology and the apps developed using it.
+\begin{description}
+  \item[BlueSentinel\cite{Conte2014}]
+  This is a
+  occupancy detection system, for smart buildings,
+  that uses \gls{BLE} Beacons to detect the presence of
+  people. The concept of a smart building
+  is similar to Smart Place,
+  due to the existence of sensors and actuators.
+  It is focused on the power efficiency of the
+  building. The idea is to optimize energy
+  consumption according to people's presence.
+  For instance, if there are no people in a given room,
+  the heating system can be turned off.
+  In this solution, the users have to install
+  an app, that will get the beacons' signal and
+  send data to a server, which will process it
+  and send requests to actuators in order to
+  perform actions to optimize the
+  building's power efficiency.
+  Unfortunately, there is a limitation
+  of iBeacon protocol implementation
+  in iOS.
+  Beacons can be received, by the apps,
+  only when these are active. When the apps are in
+  background, they are waken up only to handle
+  enter/exit region events. To circumvent this
+  limitation, the authors developed custom
+  beacons, which advertise more than one region
+  in a cyclic sequence. These custom beacons
+  were created using an
+  Arduino\footnote{http://www.arduino.cc/}
+  and an Bluetooth \gls{USB} dongle.
+  Since this solution is a native app,
+  users have to install it in order
+  to make the smart building work to
+  optimize power efficiency.
+  Once the user starts the app, he/she does not
+  need to interact with it anymore, since it
+  will run in background.
+  \item[BlueView\cite{Chen2013}]
+  This is a system to help
+  visually impaired people to perceive some points of interest.
+  This solution has two main components: The viewer device
+  and the \glspl{BP}. The first one is a mobile phone,
+  carried by the user, which is bluetooth enabled.
+  The \glspl{BP} are just bluetooth tags instead of
+  \gls{BLE} Beacons. The name of a point of interest is associated with
+  \gls{MAC} address of the tag which it is associated to.
+  The steps involved in using the system are the
+  following: first, the viewer device will scan
+  for nearby \glspl{BP}; then, a list of the names of
+  \glspl{BP} is created. This list is refreshed anytime a new
+  \gls{BP} is detected and the user is informed through auditory
+  feedback. The second step consists of the user, using
+  the viewer's device, establishing a connection with a \gls{BP}
+  attached to an object. Finally, using audio prompt, the \gls{BP}
+  will assist the user in locating the object.
+  Despite of this solution being a mobile app, installed
+  in the viewer's device, the authors do not have in
+  consideration the typical concerns of any mobile app,
+  such as the energy consumption.
+  The authors tested the application, in 2013,
+  using Nokia N70 as the viewer device.
+  This solution could be implemented using \gls{BLE} Beacons
+  and the viewer device could be any Android, iOS or
+  Windows Phone smartphone.
+  \item[ContextCapture\cite{Antila2011}]
+  In this work, the authors try to use
+  context-based information to allow users to
+  add more information to their status updates
+  in the main social networks, such as
+  Facebook\footnote{http://www.facebook.com} and
+  Twitter\footnote{http://twitter.com}.
+  This work had two main goals: first, demonstrate technical
+  aspects of collaborative context, such as,
+  how to get contextual information from
+  surrounding devices and how they can be used
+  as a source of contextual information;
+  second, test and analyze the user experience of
+  context-aware systems.
+  The user can decide the abstraction level (coordinates,
+  address or semantic label).
+  The authors implemented a mobile app and a
+  server integrated with Facebook and Twitter.
+  Context information comes from the smartphone itself,
+  from its sensors and from the nearby devices through
+  Bluetooth.
+  Devices can be other smartphones or \gls{BLE} Beacons, which
+  are used for indoor location.
+  Similarly to \cite{BenAbdesslem2014}, devices communicate
+  with each other as a network.
+  Using this solution, the user can create status updates,
+  in the mentioned social networks, in the format shown Listing~\ref{lst:context_capture_status_update}:
+  \begin{listing}[H]
+      [User-defined message]
+
+      Sent from [Location] while [Activity]
+
+      [Description] [Topic] and [Applications Activity] with
+      [Friends].
+    \caption[ContextCapture update]{Format of status updates in ContextCapture}
+    \label{lst:context_capture_status_update}
+  \end{listing}
+\end{description}
+
+\subsection{Context-awareness}
+\label{sub:frameworks_context_aware}
+In this section we describe related work about the
+development of mobile native and web
+context-aware applications.
+Since we have created a framework to develop
+proximity-based services, the state
+of the art of existing frameworks, that deliver
+context information to the apps will be presented.
+\begin{description}
+  \item[Frameworks for developing distributed
+  location-based applications]
+  There are frameworks to develop location-based
+  applications.
+  In the work presented in Krevl et al.\cite{Krevl2006},
+  a framework
+  was developed to allow developers to build
+  location-based apps. Location information can come
+  from any source, such as \gls{GPS} receivers, Bluetooth
+  receivers and \gls{WiFi} receivers.
+  The authors discuss some benefits and limitations
+  of several technologies for getting the
+  user's positioning.
+  In terms of architecture, the main components
+  are:
+  \begin{itemize}
+  \item
+  Devices that are used to get location data, such as
+  the ones already mentioned;
+  \item The users' mobile devices;
+  \item The Database Server, which is where the mapping
+  between geographical coordinates and location
+  information is stored;
+  \item And, the Application Server, which provides web services for
+  mobile clients. This server also communicates
+  with the Database Server.
+  \end{itemize}
+  The mobile device gets geographical coordinates
+  from any source and send that data, in a
+  \gls{SOAP}\cite{Seely:2001:SCP:560836} message,
+  to the appropriate web service in the Application
+  Server. This server, communicates with the Database Server
+  to query the database, which sends back a response with
+  location information, if there is any, for that
+  particular group of geographical coordinates.
+  The authors did not evaluate the system.
+
+  This solution offers abstractions for the location
+  information sources. Geographical coordinates can
+  come from any source. It is a good approach for
+  mobile native apps, but, it does not support web apps.
+  The authors do not take into consideration
+  constraints in terms of resources, such as
+  lack of Internet connection and battery.
+  Since most users have limited data plans for
+  their smartphones and \gls{SOAP} messages can
+  grow, in size, due to its \gls{XML} format,
+  a more efficient message encoding could be used
+  instead.
+  \item[Dynamix\cite{Carlson2012}]
+  is a framework to develop
+  mobile native and web apps that allows them to receive
+  context information, for instance, position and device's
+  orientation. This framework has plugins that get
+  one or more sensor's raw data and turn that into event
+  objects that contain more high-level information.
+  This framework supports many kinds of context information
+  and it is possible to develop more plugins to allow the
+  apps to generate additional events that are not
+  already supported.
+
+  To achieve our goal, our framework could be just a
+  plugin for Dynamix. The plugin would
+  need to get the beacon's raw data and
+  turn that into a more high-level information
+  using a backend. In this framework,
+  the user needs to install an app, that manages the service
+  that runs in background, and needs to define some
+  security policies such as which information the app can have access to or which sensors it can use. This could mean a big overhead since
+  we are more focused on developing proximity-based applications, that do not require such complex security
+  policies because, in this kind of applications, there is only need
+  to access the device's sensors that could provide,
+  to the applications, positioning data.
+\end{description}
 
 \section{Solution Overview}
 \label{sec:solution_solution_overview}
@@ -42,6 +243,11 @@ Finally, in section \ref{sec:solution_summary} there is a summary of the importa
 % API for developers
 % Beacons (Tags)
 % Backend
+Previously, we presented tools available for developing proximity-based applications.
+However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
+This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
+In order to circumvent this limitation, this solution allows developers
+to use the same technologies that are used for any web application, such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
 The Smart Places solution developed in this work is composed by several components, as shown in Figure~\ref{fig:solution_overview}:
 \begin{description}
   \item[Beacons] are the small devices that will act as tags, according to our definition of a Smart Place;
@@ -355,10 +561,21 @@ The way we got the data about the collections and objects is detailed in chapter
 
 \section{Summary}
 \label{sec:solution_summary}
+% Related work
+% -> Proximity-based apps (BlueSentinel and BlueVIew)
+% -> Context-awareness
+% -> Dynamix
+In order to get a good insight the potential of proximity-based services, we analyzed three applications.
+The BlueSentinel is a system that uses \gls{BLE} beacons to detect the presence of people in a building. It tries to optimize energy consumption based on people's presence.
+Another one, BlueView, is a system to help visually impaired people to be aware of some points of interest.
+The third is the ContextCapture that allows users to create status updates on social networks using context information.
+Then, we introduce a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
+For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.
+
 % Targets owners, developers and end users
 % Solution overview
 % -> Components (Beacons, Backend, mobile apps, API)
-In this chapter, we presented our Smart Places solution and its main components.
+We presented our Smart Places solution and its main components.
 There are the beacons, which act as tags in a Smart Place.
 The Backend stores the data about each Smart Place and the tags.
 Since our solution targets owners and end users, there is a mobile app for each one, that offers features, according to their needs.
