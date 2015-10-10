@@ -65,6 +65,23 @@ To do that, the native app invokes Javascript functions that exist in the embedd
 To invoke Javascript code from the native app, a special \gls{URL} is loaded to the WebView.
 The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', where ``functionToInvoke'' is the function we want to invoke inside the WebView and ``arguments'' is a list of arguments to pass to that function.
 
+\section{Architecture}
+\label{sec:implementation_architecture}
+% TODO: Write this shit...
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/smart_places_architecture}
+    \caption[Smart Places Solution Architecture]{Architecture of Smart Places Solution showing its main components}
+    \label{fig:estimote}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/client_app_sequence}
+    \caption[Smart Places Sequence Diagram]{Sequence diagram showing the interaction between the Smart Places components}
+    \label{fig:estimote}
+\end{figure}
+
 \section{Tools}
 \label{sec:implementation_tools}
 During the development of our solution, several tools were used.
