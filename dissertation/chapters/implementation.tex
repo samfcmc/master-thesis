@@ -67,25 +67,67 @@ The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', wher
 
 \section{Architecture}
 \label{sec:implementation_architecture}
-% TODO: Write this...
 % Introduce architecture
 % Owners/Users app similar
 % Figure 1 shows...
 % Explain each component
+In the previous section, we described important decisions for the development of our Smart Places solution. Those decisions were taken into account while designing its architecture.
+As already mentioned, we have two mobile apps, each one for a different kind of user.
+One allows end users to have access to services provided by Smart Places and the other offers an interface for owners to manage their Smart Places.
+Both apps need to be able to detect tags and send and receive data to and from the backend.
+Between these two apps the difference is on the \gls{UI} that each one offers.
+Smart Places solution is composed by the following components, as shown in Figure~\ref{fig:smart_places_architecture}:
+\begin{description}
+  \item[Beacons]
+  are the hardware used to act as tags in Smart Places;
+  \item[Backend]
+  is where all the data is stored, including data about each Smart Place and each tag;
+  \item[Beacons Manager]
+  is an abstraction of the \gls{BLE} layer.
+  It offers a method to scan for nearby beacons. Once this component was created, we did not need to handle the \gls{BLE} communication each time a scan was necessary;
+  \item[Data Store]
+  is the Backend client for the mobile apps.
+  It has all the needed methods to get the information about Smart Places and tags from the beacons that were detected by the Beacons Manager;
+  \item[User Interface]
+  is the mean for the user to interact with the mobile app and calls the other components in order to provide the necessary features;
+  \item[Smart Places Web View]
+  is an instance of a Web View, available in the Android \gls{SDK}.
+  This is an extension of the default Web View because it has methods to call Javascript functions of the web application that is running here;
+  \item[Smart Places \gls{API}]
+  is the Javascript library that allows the web applications to react to the presence of tags.
+  It is described in further detail in section \ref{sec:implementation_developers_api}.
+  \item[Smart Place Instance]
+  is the instance of the proximity-based service developed according to the concept of Smart Place, that is running inside the Web View and uses the Smart Places \gls{API} to be able to execute code when a tag is detected.
+\end{description}
+
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.8\textwidth, keepaspectratio]{images/smart_places_architecture}
     \caption[Smart Places Solution Architecture]{Architecture of Smart Places Solution showing its main components}
-    \label{fig:estimote}
+    \label{fig:smart_places_architecture}
 \end{figure}
 
 % Explain the complete flow
 % Data Store communicates with the backend
+The different components interact with each other in order to provide the features for end users or owners depending on the app.
+Figure~\ref{fig:smart_places_sequence} shows how the components of our architecture communicate with each other in order to provide a proximity-based service for end users.
+First, the Beacons Manager is called in order to scan for nearby beacons and it returns the nearest one.
+The beacon itself only broadcasts an identifier.
+It does not have enough data to know which Smart Places it belongs to.
+Next, the Data Store component is called in order to get the information about the Smart Places that use that beacon as a tag.
+Data Store makes a request to the Backend in order to get this information.
+When the Backend returns a list of Smart Places, that list is used to notify the user about the Smart Places that were found.
+Then, if the user touches on of the notifications, a \gls{UI} with a Web View is shown.
+Since each Smart Place is a web application, the \gls{URL} of the Smart Place that the user previously selected, when he touched the notification, is loaded to the Web View.
+After the page finishes loading, the Beacons Manager is called again to perform another scan for nearby beacons and it returns the nearest one.
+The Data Store is called again but, this time, to get the tag associated to that beacon that belongs to the selected Smart Place.
+The data of this tag is sent to the Web View which calls the Smart Places \gls{API}, allowing the web application to react to the presence of this tag.
+
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.8\textwidth, keepaspectratio]{images/client_app_sequence}
     \caption[Smart Places Sequence Diagram]{Sequence diagram showing the interaction between the Smart Places components}
-    \label{fig:estimote}
+    \label{fig:smart_places_sequence}
 \end{figure}
 
 \section{Tools}
@@ -120,7 +162,7 @@ For the Android apps, we have used the following tools:
 The Javascript \gls{API} and the Smart Restaurant and Smart Museum examples were created using web technologies, such as \gls{HTML}, \gls{CSS} and Javascript.
 However, besides these languages, we have used tools to manage the build process and also the necessary dependencies:
 \begin{description}
-  \item[Bower]\footnote{http://bower.io} is a tool used in web applications, to manage frontend dependencies. It was used here to manage dependencies of our Smart Restaurant and Smart Museum examples.
+  \item[Bower]\footnote{http://bower.io} is a tool used in web applications, to manage dependencies. It was used here to manage dependencies of our Smart Restaurant and Smart Museum examples.
   Also, it was used in our Javascript \gls{API} to allow this \gls{API} to be released as a library in order to make it avaible, to install, using this tool;
   \item[Grunt]\footnote{http://gruntjs.com} is another tool used in web applications, to manage the build process of frontend assets.
   It is based on tasks that are added depending on the needs of the project.
