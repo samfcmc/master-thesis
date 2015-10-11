@@ -187,14 +187,6 @@ Objects to be located using \gls{GPS} only require an adequate receiver. Most of
 This can be a big advantage because it is a low cost solution for users.
 However, as already mentioned, it is not adequate to locate objects indoors.
 
-% Usage for Smart Places
-As already mentioned, the concept of Smart Place is based on proximity and symbolic location.
-Also, it is supposed to work indoors.
-\gls{GPS} is a location system that uses triangulation to provide physical location.
-It is possible to augment physical location in order to provide symbolic.
-However, it only works properly where it has a good receiption of the sattelites' signal.
-Since the concept of Smart Place is a concept connected to an indoor space, the \gls{GPS} is not a good option, even if we augment it to provide symbolic location, because it does not work properly indoors.
-
 \subsection{QR Codes}
 \label{sub:background_qr_codes}
 % What is it
@@ -238,9 +230,6 @@ It is possible to recognize individual receivers if we store enough information 
 The costs depend on the amount of external infrastructure. There are servers that need to be installed and maintained.
 Also, the app that handles the code scanning needs to be developed and maintained. The codes can be shown in just a piece of paper.
 
-This technology could be used in our solution.
-However, as already mentioned, it requires the users to be aware of such codes and start the scanning process themselves instead of being an automatic process happening in background.
-
 \subsection{NFC}
 \label{sub:background_near_field _communication}
 % What is it
@@ -269,12 +258,6 @@ Individual devices can be recognized if their are identified and that informatio
 The costs depend on the amount of infrastructure. Also, there is a need to install \gls{NFC} tags to be read by the readers installed on mobile devices.
 The main limitation is that it is only possible to read a tag at a time. It is not possible to read multiple tags in one reading.
 
-% Usage in Smart Places
-It could be used for Smart Places.
-It is based on proximity and it can provide symbolic location, which are the foundations of Smart Places.
-However, this would lead to a solution that would require the user interaction to discover proximity-based services.
-The user would need to be aware of \gls{NFC} tags.
-
 % Get references to this...
 \subsection{Google Maps Indoor}
 \label{sub:background_google_maps_indoor}
@@ -300,19 +283,14 @@ Figure~\ref{fig:google_maps_indoor} shows an example of Google Maps Indoor.
 This service uses sensors already provided by the mobile device and it does not require extra sensors inside the building.
 
 % Classification
-Similary to \gls{GPS} Google Maps Indoor is based on triangulation technique.
+Similary to \gls{GPS}, Google Maps Indoor is based on triangulation technique.
 It provides physical location, because it is possible to locate the device inside a building.
 To compute the location, it uses resources available on the device itself in combination with servers.
 Its scale depends on the external infrastructure, such as the servers where the computation is performed.
 It is possible to recognize individual devices.
-The necessary infrastructure is the m9ajor cost here.
+The necessary infrastructure is the major cost here.
 In terms of costs, there are no costs for the user.
 The main limitation is that, it requires the building to be mapped by \tm{Google}. A team needs to go the building and get the necessary information to make it available.
-
-% Usage in Smart Places
-Smart Places could be implemented using this technology.
-This would lead to a solution where no extra hardware is needed.
-Google Maps Indoor provides physical location. However, as any physical location system, it can be augmented to provide symbolic location.
 
 \subsection{Bluetooth Low Energy}
 \label{sub:background_bluetooth_low_energy}
@@ -375,13 +353,6 @@ Also, using this information it is possible to recognize individual devices.
 Besides the cost of developing the mobile application and the needed infrastructure, there also costs for owners of places, because they need to deploy beacons in order to allow users' mobile devices to detect them.
 The main limitation is that, this solution requires the deployment of \gls{BLE} beacons.
 
-% Usage in Smart Places
-This technology is a good fit for our purpose because, it is based on proximity and can be used to provide symbolic location.
-It does not have any costs for the users besides the acquisition of the mobile device.
-We can place the beacons wherever we want and where it makes sense for the service we want to provide.
-Also, using this technology, the mobile app that will handle the nearby beacons, can be running in background.
-This way, the user does not to be aware of any tags and he/she can be notified if a proximity-based service is found.
-
 \subsection{Overview}
 \label{sub:background_overview}
 % Main advantages of each one
@@ -396,11 +367,38 @@ This classification was made using the taxonomy introduced in section \ref{sec:b
 
 \input{tables/technologies}
 
-\gls{GPS} and Google Maps Indoor do not require extra hardware. However, they were created to provide physical location and not symbolic as it is needed for the concept of Smart Place.
-\gls{GPS} does not work properly indoors and not all buildings are mapped in Google Maps Indoor.
-\gls{QR} codes can be used for symbolic location. They do not need extra hardware and there tools to generate these codes\footnote{http://goqr.me}.
-However, they require the user interaction. He/she needs to be aware of the existence of these codes and use his/her mobile device to scan the code and get access to the content it provides.
+% Discussion of technologies
+The concept of Smart Place is based on proximity and symbolic location.
+Also, it is supposed to work indoors.
+% GPS
+\gls{GPS} is a location system that uses triangulation to provide physical location.
+It is possible to augment physical location in order to provide symbolic.
+However, it only works properly where it has a good receiption of the sattelites' signal.
+Since the concept of Smart Place is a concept connected to an indoor space, the \gls{GPS} is not a good option, even if we augment it to provide symbolic location, because it does not work properly indoors.
 
+% QR
+\gls{QR} Codes could be used in our solution.
+However, it requires the users to be aware of such codes and start the scanning process themselves instead of being an automatic process happening in background.
+
+% NFC
+\gls{NFC} is based on proximity and it can provide symbolic location, which are the foundations of Smart Places.
+However, this would lead to a solution that would require the user interaction to discover proximity-based services.
+The user would need to be aware of \gls{NFC} tags.
+
+% Google Maps Indoor
+Smart Places could be implemented using Google Maps Indoor.
+This would lead to a solution where no extra hardware is needed.
+It provides physical location. As any physical location system, it can be augmented to provide symbolic location.
+However, the buildings need to be first mapped by Google.
+
+% BLE
+\gls{BLE} is a good fit for our purpose because, it is based on proximity and can be used to provide symbolic location.
+It does not have any costs for the users besides the acquisition of the mobile device.
+We can place the beacons wherever we want and where it makes sense for the service we want to provide.
+Also, using this technology, the mobile app that will handle the nearby beacons, can be running in background.
+This way, the user does not to be aware of any tags and he/she can be notified if a proximity-based service is found.
+
+% Final decision -> BLE
 The final decision was to pick \gls{BLE} because it has the best tradeoff between cost and kind of location it provides. Using this technology we have symbolic location. With the adequated infrastructure it is possible to associate any kind of information to each tag.
 It requires extra hardware but this is the responsability of who manages the place where the tags will be deployed.
 The user does not need anything else but a mobile device with Bluetooth, version 4.0 or later.
