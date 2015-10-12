@@ -217,16 +217,6 @@ Others, try to use it to solve real world problems, such as, hospital overcrowdi
 In the work, presented in \cite{qr_hospital}, the authors try to use \gls{QR} Codes to identify patients, in an hospital.
 This information is used in a mobile application that the hospital's staff use to register activities related to the patient.
 
-% Classification
-If we look at \gls{QR} codes as tags, this can be considered as a location system.
-In terms of techniques, it uses proximity, because, only when the user approaches and scans the code the \gls{QR} code can be considered as a tag being read.
-It can provide symbolic location if information about each code is stored.
-In order to provide this kind of location, the computation needs to be performed in external infrastructure.
-In terms of scale, it depends on the characteristics of the infrastructure, such as, the hardware specifications of the servers where the location is computed.
-It is possible to recognize individual receivers if we store enough information for that.
-The costs depend on the amount of external infrastructure. There are servers that need to be installed and maintained.
-Also, the app that handles the code scanning needs to be developed and maintained. The codes can be shown in just a piece of paper.
-
 \subsection{NFC}
 \label{sub:background_near_field _communication}
 % What is it
@@ -246,14 +236,6 @@ Simillary to \gls{QR} Codes, described in section \ref{sub:background_qr_codes},
 Also, devices need to be equipped with \gls{NFC} readers.
 % Related work
 This technology is already being used for payments, such as \tm{Apple} Pay\footnote{http://www.apple.com/apple-pay/}.
-
-% Classification
-\gls{NFC} is based on the proximity technique and it can provide symbolic location if enough information is stored in external infrastructure.
-The location computation is delegated to that infrastructure.
-Since it is a tag based system, its scale is dictated by the infrastructure where the most computation is done and not by the device that is being located.
-Individual devices can be recognized if their are identified and that information is stored in the external infrastructure.
-The costs depend on the amount of infrastructure. Also, there is a need to install \gls{NFC} tags to be read by the readers installed on mobile devices.
-The main limitation is that it is only possible to read a tag at a time. It is not possible to read multiple tags in one reading.
 
 % Get references to this...
 \subsection{Google Maps Indoor}
@@ -278,16 +260,6 @@ Figure~\ref{fig:google_maps_indoor} shows an example of Google Maps Indoor.
 % Requirements
 % Advantages and disadvantages
 This service uses sensors already provided by the mobile device and it does not require extra sensors inside the building.
-
-% Classification
-Similary to \gls{GPS}, Google Maps Indoor is based on triangulation technique.
-It provides physical location, because it is possible to locate the device inside a building.
-To compute the location, it uses resources available on the device itself in combination with servers.
-Its scale depends on the external infrastructure, such as the servers where the computation is performed.
-It is possible to recognize individual devices.
-The necessary infrastructure is the major cost here.
-In terms of costs, there are no costs for the user.
-The main limitation is that, it requires the building to be mapped by \tm{Google}. A team needs to go the building and get the necessary information to make it available.
 
 \subsection{Bluetooth Low Energy}
 \label{sub:background_bluetooth_low_energy}
@@ -342,14 +314,6 @@ Using this technology, if developers want to map beacons to more kinds of inform
 We need a backend to store the mapping between the beacons and that information.
 Besides developing the application itself, developers also need to deal with the backend and all the concerns around any distributed system, such as, scalability, performance, etc.
 
-% Classification
-Since the device can only detect beacons when it is on proximity, this technology is based on proximity technique.
-It can provide symbolic location using some external infrastructure.
-The device's location can be computed by that infrastructure.
-Also, using this information it is possible to recognize individual devices.
-Besides the cost of developing the mobile application and the needed infrastructure, there also costs for owners of places, because they need to deploy beacons in order to allow users' mobile devices to detect them.
-The main limitation is that, this solution requires the deployment of \gls{BLE} beacons.
-
 \subsection{Overview}
 \label{sub:background_overview}
 % Main advantages of each one
@@ -373,21 +337,21 @@ It is possible to augment physical location in order to provide symbolic.
 However, it only works properly where it has a good receiption of the sattelites' signal.
 Since the concept of Smart Place is a concept connected to an indoor space, the \gls{GPS} is not a good option, even if we augment it to provide symbolic location, because it does not work properly indoors.
 
-% QR
-\gls{QR} Codes could be used in our solution.
-However, it requires the users to be aware of such codes and start the scanning process themselves instead of being an automatic process happening in background.
-
-% NFC
-\gls{NFC} is based on proximity and it can provide symbolic location, which are the foundations of Smart Places.
-However, this would lead to a solution that would require the user interaction to discover proximity-based services.
-The user would need to be aware of \gls{NFC} tags.
-
+% QR and NFC
+\gls{QR} Codes and \gls{NFC} are based on the proximity technique.
+They can provide symbolic location if enough data is stored in an external infrastructure.
+The scale is dictated by this infrastructure and not not by the device that is being located.
+The costs depend on the amount of infrastructure.
+The main limitation of both is that it is only possible to read a tag at a time.
+\gls{QR} Codes require that we spread codes which can be shown in a piece of paper.
+\gls{NFC} tags are more expensive.
+However, both would take us to a solution where the user interaction is required, that is, the user needs to be aware of existing tags and start the interaction instead of just being notified that a given proximity-based service is available at that location.
 % Google Maps Indoor
 Smart Places could be implemented using Google Maps Indoor.
+This technology is based on triangulation technique and provides physical location.
+Similar to \gls{GPS} it can be augmented to provide symbolic location requiring a given amount of external structure, which is what scale depends on and the major cost here.
 This would lead to a solution where no extra hardware is needed.
-It provides physical location. As any physical location system, it can be augmented to provide symbolic location.
-However, the buildings need to be first mapped by Google.
-
+However, it requires that a team from \tm{Google} maps the building first in order to be possible to navigate in it using Google Maps Indoor.
 % BLE
 \gls{BLE} is a good fit for our purpose because, it is based on proximity and can be used to provide symbolic location.
 It does not have any costs for the users besides the acquisition of the mobile device.
