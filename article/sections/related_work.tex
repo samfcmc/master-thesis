@@ -1,0 +1,105 @@
+%!TEX root = ../article.tex
+
+% A new section
+\section{Related Work}
+\label{sec:related_work}
+% Related work...
+Here we discuss some related work in order to have a good insight, about the possibilities and existing solutions, for the problem we are trying to solve.
+First, we take a look at some examples of proximity-based apps, in order to see what can be done when the user is in proximity of a given point of interest.
+Since we tried to create a solution that provides an easy way of creating proximity-based services, there is a need to look at the state of the art of existing solutions of frameworks to develop context-aware applications. As already mentioned, proximity-based applications are a particular category of context-aware applications that take into account the user's location.
+
+We present some
+applications, where \gls{BLE} beacons were used, to get good insights about the potential use cases of this
+technology:
+\begin{description}
+  \item[BlueSentinel\cite{Conte2014}]
+  This is a
+  occupancy detection system, for smart buildings,
+  that uses \gls{BLE} Beacons to detect the presence of
+  people. The concept of a smart building
+  is similar to Smart Place,
+  due to the existence of sensors and actuators.
+  It is focused on the power efficiency of the
+  building. The idea is to optimize energy
+  consumption according to people's presence.
+  For instance, if there are no people in a given room,
+  the heating system can be turned off.
+  \item[ContextCapture\cite{Antila2011}]
+  In this work, the authors try to use
+  context-based information to allow users to
+  add more information to their status updates
+  in the main social networks, such as
+  Facebook\footnote{http://www.facebook.com} and
+  Twitter\footnote{http://twitter.com}.
+  The authors implemented a mobile app and a
+  server integrated with Facebook and Twitter.
+  Context information comes from the smartphone itself,
+  from its sensors and from the nearby devices through
+  Bluetooth.
+  Devices can be other smartphones or \gls{BLE} Beacons, which
+  are used for indoor location.
+\end{description}
+
+Since we have created a framework to develop
+proximity-based services, the state
+of the art of existing frameworks, that deliver
+context information to the apps will be presented:
+\begin{description}
+  \item[Frameworks for developing distributed
+  location-based applications]
+  There are frameworks to develop location-based
+  applications.
+  In the work presented in Krevl et al.\cite{Krevl2006},
+  a framework
+  was developed to allow developers to build
+  location-based apps. Location information can come
+  from any source, such as \gls{GPS} receivers, Bluetooth
+  receivers and \gls{WiFi} receivers.
+  The authors discuss some benefits and limitations
+  of several technologies for getting the
+  user's positioning.
+  The mobile device get geographical coordinates
+  from any source and send that data, in a
+  \gls{SOAP}\cite{Seely:2001:SCP:560836} message,
+  to the appropriate web service in the Application
+  Server. This server, communicates with the Database Server
+  to query the database, which sends back a response with
+  location information, if there is any, for that
+  particular group of geographical coordinates.
+  The authors did not evaluate the system.
+  This solution offers abstractions for the location
+  information sources. Geographical coordinates can
+  come from any source.
+  The authors do not take into consideration
+  constraints in terms of resources, such as
+  lack of Internet connection and battery.
+  Since most users have limited data plans for
+  their smartphones and \gls{SOAP} messages can
+  grow, in size, due to its \gls{XML} format,
+  a more efficient message encoding could be used
+  instead.
+  \item[Dynamix\cite{Carlson2012}]
+  is a framework to develop
+  mobile native and web apps that allow them to receive
+  context information, for instance, position and device's
+  orientation. This framework has plugins that get
+  one or more sensor's raw data and turn that into event
+  objects, that contain more high-level information.
+  This framework supports many kinds of context information
+  and it is possible to develop more plugins to allow the
+  apps to generate additional events that are not
+  already supported.
+
+  To achieve our goal, our framework could be just a
+  plugin for Dynamix. The plugin would
+  need to get the beacon's raw data and
+  turn that into a more high-level information
+  using a backend. In this framework,
+  the user needs to install an app, that manages the service
+  that runs in background, and needs to define some
+  security policies. This could mean a big overhead since
+  we are more focused on developing proximity-based applications, that do not require such complex security
+  policies because, in this kind of applications, there is only need
+  to access the device's sensors that could provide,
+  to the applications, positioning data.
+\end{description}
