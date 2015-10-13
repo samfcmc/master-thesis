@@ -83,32 +83,29 @@ Multiple technologies can be used.
 Some of them require the user interaction.
 Others require the devices to be equipped with extra hardware.
 We can consider the following technologies:
-\begin{description}
-  \item[\glsfirst{GPS}]
+\begin{itemize}
+  \item \glsfirst{GPS}
   is a location system that uses 24 sattelites plus three backups.
   Receivers send signals and sattelites answer back. Measurements are taken from this signals in order to receivers be able to calculate their own location.
-  \item[\glsfirst{QR} Codes]
+  \item \glsfirst{QR} Codes
   is a type of two dimensional barcode.
   The user just needs an app that reads these codes.
   Whenever the user sees one of these codes, he/she opens the \gls{QR} code reader app, scan the code and see the content provided by it.
-  \item[\glsfirst{NFC}]
+  \item \glsfirst{NFC}
   is a short distance radio communication technology.
   The two devices communicating need to be of 10 cm or less distant from each other.
-  \item[Google Maps Indoor]
+  \item Google Maps Indoor
   allows the user to navigate inside a building using Google Maps.
-  \item[\glsfirst{BLE}]
+  \item \glsfirst{BLE}
   is a short range wireless communication technology, developed by Bluetooth \gls{SIG}\footnote{http://www.bluetooth.org}.
   Unlike classic Bluetooth, it is focused on low power consumption.
   It is a feature of Bluetooth 4.0\cite{bluetooth_specification}
-\end{description}
+\end{itemize}
 
-Table~\ref{tab:technologies} summarizes the characteristics of each location technologie, based on the taxonomy introduced in Section \ref{sec:background_location}.
 Some technologies are tag based, such as \gls{QR} Codes, \gls{NFC} and \gls{BLE} that can be used to provide symbolic location.
 Others, such as \gls{GPS} and Google Maps Indoor, are used to provide physical location but can be augmented to provide symbolic location.
 However, \gls{GPS} does not work properly indoors and Google Maps Indoor requires that buildings are mapped first by a team from \tm{Google}.
 Each technology was classified in terms of techniques, type of location (physical or symbolic), computation, scale, recognition of individual receivers, costs and limitations.
-
-\input{tables/technologies}
 
 \gls{GPS} and Google Maps Indoor do not require extra hardware. However, they were created to provide physical location and not symbolic as it is needed for the concept of Smart Place.
 \gls{GPS} does not work properly indoors and not all buildings are mapped in Google Maps Indoor.

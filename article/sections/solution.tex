@@ -17,11 +17,11 @@ In order to circumvent this limitation, this solution allows developers
 to use the same technologies that are used for any web application, such as \gls{HTML}, \gls{CSS} and Javascript.
 
 Before starting the description of our solution, we need to take a look at three kinds of users that will be part of it:
-\begin{description}
-  \item[End users:] Anyone with a mobile device that installs an app to scan for nearby Smart Places;
-  \item[Owners:] These users are the ones responsible for managing a given place that they want to turn into a Smart Place;
-  \item[Developers:] The users that develop the code of the Smart Places.
-\end{description}
+\begin{itemize}
+  \item End users: Anyone with a mobile device that installs an app to scan for nearby Smart Places;
+  \item Owners: These users are the ones responsible for managing a given place that they want to turn into a Smart Place;
+  \item Developers: The users that develop the code of the Smart Places.
+\end{itemize}
 % Introduce solution
 % Smartphone
 % App for owners
@@ -30,17 +30,17 @@ Before starting the description of our solution, we need to take a look at three
 % Beacons (Tags)
 % Backend
 Figure~\ref{fig:solution_overview} shows the main components of our solution, which are the following:
-\begin{description}
-  \item[Beacons]
+\begin{itemize}
+  \item Beacons
   are the small devices that will act as tags, according to our definition of a Smart Place;
-  \item[Backend]
+  \item Backend
   is where all the data is stored, that is, the Smart Places that are available, the Smart Places that each owner has configured, information about each beacon, etc;
-  \item[End Users Mobile App]
+  \item End Users Mobile App
   is another Android mobile app that allows users, with a mobile device, \gls{BLE} enabled, to have access to nearby Smart Places and to detect the beacons that belong to those Smart Places;
-  \item[Owners Mobile App]
+  \item Owners Mobile App
   is an Android mobile app that owners use to select which Smart Places they want to configure. It also allows to configure each individual beacon that belongs to a given Smart Place;
-  \item[Developers \gls{API}] provides the necessary methods that developers can use to create their proximity-based services, based on the concept of a Smart Place.
-\end{description}
+  \item Developers \gls{API} provides the necessary methods that developers can use to create their proximity-based services, based on the concept of a Smart Place.
+\end{itemize}
 
 \begin{figure}[!ht]
   \centering
@@ -74,7 +74,7 @@ Finnaly, the owner just needs to type a title and a message, that will appear in
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.6\textwidth, keepaspectratio]{figures/screenshots/ownersapp}
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{figures/screenshots/ownersapp}
     \caption[Create a Smart Place Instance]{From left to right, the steps to create an instance of a given Smart Place}
     \label{fig:screenshot_ownersapp}
 \end{figure}

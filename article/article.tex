@@ -1,4 +1,4 @@
-\documentclass{./llncs2e/llncs}
+\documentclass[journal,twocolumn,letterpaper,10pt]{ieee-sty/IEEEtran}
 \usepackage{graphicx}
 \usepackage{fixltx2e}
 \usepackage{mathtools}
@@ -34,33 +34,25 @@
 
 \begin{document}
 
-% -------------------------------------
-% Title
-% -------------------------------------
-\title{\Title}
+  % Article title
+  \title{\Title}
 
-\subtitle{\SubTitle}
-\author{\Author, \Email}
-\institute{\Institution}
+  % Author(s) Name
+  \author{\Author \\
+          \Email \\
+          \Institution}
 
-\maketitle
+  \maketitle
 
-% -------------------------------------
-% Abstract and keywords
-% -------------------------------------
+  % Abstract
+  \input{abstract}
 
-\input{abstract}
+  % Sections
+  \input{sections/main}
 
-% -------------------------------------
-% Sections
-% -------------------------------------
-\input{sections/main}
 
-% -------------------------------------
-% Bibliography
-% -------------------------------------
-\bibliographystyle{ieeetr}
-
-\bibliography{references.bib}
-
+  % Bibliography
+  \bibliographystyle{IEEEtran}
+  % Bibliography file
+  \bibliography{references}
 \end{document}
