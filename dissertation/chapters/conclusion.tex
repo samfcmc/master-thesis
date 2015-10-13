@@ -78,6 +78,12 @@ The Smart Restaurant and Smart Museum examples were introduced in the backend ma
 There is no way for developers to add a Smart Place to this list.
 A future improvement could be these missing interfaces.
 One that would allow owners to register the ownership of tags and another for owners that would use it to register the Smart Places they developed.
+
+% Security problem
+Each beacon has an owner.
+However, when the Backend receives a request to associate a tag to a given beacon, it does not perform any verification, that is, it is not taken into account if the user trying to make this association is the owner of the beacon.
+This introduce a security problem. Any user, using the mobile app for owners, can associate tags to beacons belonging to any Smart Place.
+In the future, the Backend needs to be improved in order to be more secure to not allow anyone to modify existing tags.
 %Unfortunately, anyone can use any tag as if it belongs to him/her.
 %This can lead to a security problem, which is, people can associate other Smart Places to tags that already support other Smart Place.
 %People that pass nearby those tags will start to get notifications of Smart Places that were not suppose to get.
