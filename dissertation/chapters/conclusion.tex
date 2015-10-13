@@ -17,9 +17,9 @@ In this chapter, we conclude this dissertation, summarizing the important conclu
 \section{Contributions}
 \label{sec:conclusion_contributions}
 A Smart Place is an area with tags, that mobile devices can detect and offer different possibilites, to the users, according to each tag.
-In this thesis, we introduced this concept, which we consider a simpler way to look at proximity-based applications.
+In this dissertation, we introduced this concept, which we consider a simpler way to look at proximity-based applications.
 However, these tags need to be provided by a location technology.
-That technology should be compatible with most used smartphones.
+That technology should be compatible with most used mobile devices.
 We analyzed some location technologies, using a taxonomy\cite{location}, in order to try to find a technology that would be a best fit for our concept of Smart Place.
 We chose \gls{BLE} beacons using iBeacon protocol, because it is compatible with any smartphone with Bluetooth version 4.0 or above.
 The owners of Smart Places are responsible to place those beacons in the right place.
@@ -40,10 +40,10 @@ Using this solution, customers do not need to specify which table the orders bel
 
 After the implementation phase, we evaluated the system.
 We performed two sets of experiments.
-Many times, the mobile apps try to detect the nearest tag.
-The library we have used in our mobile apps, have means to get the distance from the detected tags.
+Most times, the mobile apps try to detect the nearest tag.
+The library we have used in our mobile apps, have means to get the distance from the detected beacons.
 The first set of experiments was performed in order to check if this distance value was reliable.
-We have reached the conclusion that, if we want to rely on getting the nearest tag, they need to be, at least, 1.5m distant from each other.
+We have reached the conclusion that, if we want to rely on getting the nearest tag they need to be at least 1.5m distant from each other.
 The other set of experiments was about battery consumption.
 Since our mobile app has a service running in background scanning for nearby tags from time to time we need to get a good insight about the impact of that service in terms of energy.
 Users will not use our solution if they run out of battery faster than if they are not using our solution.
