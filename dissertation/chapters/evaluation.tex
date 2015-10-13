@@ -156,7 +156,7 @@ Data communications, \gls{WiFi} or \gls{3G}, are the major source of battery dra
 To test both scenarios, we would need more than three beacons spread along a big space.
 Instead, we simulated the user walking, passing by multiple Smart Places, just by cleaning the cache, at each two and half minutes.
 This forced the app to make requests to the backend each time the three beacons were detected, allowing us to understand the impact of these requests on the power drain.
-We used Battery Historian\footnote{https://developer.android.com/tools/performance/batterystats-battery-historian/index.html} to get the data about the data transferred (sent and received) and the power drain. This tool allows developers to get the percentage of power drain of any application.
+We used Battery Historian\footnote{https://developer.android.com/tools/performance/batterystats-battery-historian/index.html} to to measure the power drain and how much data was transferred (sent and received). This tool allows developers to get the percentage of power drain of any application.
 
 \subsection{Results}
 \label{sub:evaluation_energy_consumption_results}
@@ -165,7 +165,7 @@ As any service running in background, it can imply some overhead in terms of ene
 Following the methodology, explained before, we evaluated the battery consumption.
 For the first scenario, when the user stays in the same Smart Place, during each experiment, the results are summarized in Table~\ref{tab:results_battery_stopped}, where we can see, for each variation of data connection type (\gls{WiFi} and \gls{3G}) and interval between each scan, the values obtained for power drain and data transferred.
 From this table, it was possible to create the graphic, shown in Figure~\ref{fig:results_battery_stopped}.
-The battery consumption using \gls{WiFi} are almost zero.
+The battery consumption using \gls{WiFi} is almost zero.
 However, when using \gls{3G}, the battery consumption raises more than 30 times than using \gls{WiFi}.
 
 \input{tables/results_battery_stopped}
