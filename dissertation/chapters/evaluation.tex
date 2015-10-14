@@ -177,11 +177,21 @@ However, when using \gls{3G}, the battery consumption raises more than 30 times 
     \label{fig:results_battery_stopped}
 \end{figure}
 
-From this results, it is possible to conclude that, our solution, introduces the most overhead when using \gls{3G} as the mean to perform data communications, such as, communications with the backend.
+From this results, it is possible to conclude that, our solution introduces the most overhead when using \gls{3G} as the mean to perform data communications such as, requests to the backend.
 For each data connection type (\gls{WiFi} and \gls{3G}), we tested two values for the interval between each scan for nearby beacons.
 We can observe, when we decrease the interval between each scan in half, the battery consumption increases in 0.1\%.
 Taking into account that we spent one hour, in each experiment, assuming that the values, for the power drain, grow lineary, it is possible to say that, for two and half and five minutes, in interval between each scan, we would have 6.96\% and 9.6\%, in 24 hours, of power drain, respectively.
-The values are still low but these values can demotivate the usage of our solution because, it is very likely that the users already have mobile apps, that use mobile data, already installed in their devices.
+The values are still low but they can demotivate the usage of our solution because, it is very likely that the users already have mobile apps, that use mobile data, already installed in their devices.
+
+Since the power drain is higher when using \gls{3G}, we tested two of the most popular apps using this data connection type, Facebook\footnote{http://play.google.com/store/apps/details?id=com.facebook.katana} and Facebook Messenger\footnote{http://play.google.com/store/apps/details?id=com.facebook.orca} that also have services running in background and need to perform requests using an Internet connection.
+Table~\ref{tab:results_facebook} summarizes these tests.
+Each test ran in 1 hour.
+While running Facebook, we used it to check our news feed in 5 minutes. The rest of the time the app was running in background.
+With Facebook Messenger, we received three messages during the experiment.
+It is possible to say that most of the power drain was due to background activities.
+We will use these values as a reference to compare with the power drain in the second scenario, that is, at each scan the user moves from one place to another which implies more requests to the backend.
+
+\input{tables/results_facebook}
 
 Regarding the second scenario, where the user moves from one Smart Place to another, at each two and half minutes.
 Table~\ref{tab:results_battery_walking}, shows the results for this scenario. Here, we got more power drain than in the previous scenario.
@@ -190,9 +200,10 @@ Once more, using \gls{WiFi}, we have got almost zero power drain.
 However, simillary to the results in the previous scenario, there is more power drain using \gls{3G}.
 Graphic shown in Figure~\ref{fig:results_battery_walking} shows that, using two minutes and half of interval between each scan, we got more 0.71\% than using five minutes.
 As happened before, there is more power drain when we increase the interval between each scan.
-Assuming a linear growth of power drain, in the worst case, after 24 hours, there is 65.04\% of power drain.
-In this case, we got more than 60 times the power drain than the worst case in the previous scenario.
-With this value, our solution can be considered unacceptable for a daily basis usage, that is, having the mobile app always running in background.
+% Relate with Facebook and Messenger apps
+In the worst case we obtained a power drain of 2.71\% which is approximately 71\% less than using Facebook in the same period of time and more than 65\% of using Facebook Messenger.
+Using these two apps as a reference in terms of apps that run services in background, we can say that the battery consumption is acceptable for a daily basis usage.
+However, this is an aspect that needs to be improved.
 
 \input{tables/results_battery_walking}
 
@@ -201,19 +212,6 @@ With this value, our solution can be considered unacceptable for a daily basis u
     \includegraphics[width=0.8\textwidth, keepaspectratio]{images/results_battery_walking}
     \caption[Power drain when the user is moving]{Relation between power drain and interval between each scan in the scenario where the user moves along multiple Smart Places}
     \label{fig:results_battery_walking}
-\end{figure}
-
-Looking at the results, it is possible to establish a relation between power drain and data transferred (sent and received).
-In all experiments, we measured how many \gls{KB} were transferred.
-Since, when using \gls{WiFi}, the power drain was almost zero, we have focused in the relation between power drain and data transferred using \gls{3G}.
-As the graphic, in Figure~\ref{fig:results_battery_data}, shows, as more data is transferred, more power, of the mobile device, is drained.
-It is possible to conclude that, the more our mobile app needs to communicate with the backend, the more is the energy consumption.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.8\textwidth, keepaspectratio]{images/results_battery_data}
-    \caption[Power drain vs Data transferred]{Relation between power drain and data transferred}
-    \label{fig:results_battery_data}
 \end{figure}
 
 \section{Summary}
@@ -247,6 +245,7 @@ For each scenario, we tested \gls{WiFi} and \gls{3G} as data connection means.
 The results showed that the power drain is bigger when using \gls{3G}. When using \gls{WiFi}, the power drain is almost zero.
 In the scenario where the user does not move, the power drain is less than 1\%.
 However, in the scenario where the user is always moving, which implies more requests to the backend, because new Smart Places are detected in each new scan, the power drain can be more than 2\%.
-This can compromise the usability of our solution because, assuming a linear growth of power drain, in 24 hours, our mobile app would drain 48\%.
-Having into account that most users already have apps that require a data connection, this can be unnaceptable in most cases.
-In the end, we related data transferred with power drain and the results showed that unsurprisingly as more data is transferred (sent and received), more power is drained.
+% Compare with Facebook and Facebook Messenger
+We have measured the power drain of two popular apps, Facebook and Facebook Messenger, because these apps also have services running in background.
+The power drain of these apps was used as a reference in order to compare with our solution in the worst case, when it needs to make requests to the backend in each scan.
+Comparing the worst power drain in our solution with the two mentioned apps, we can say that the battery consumption of our solution is acceptable but needs to be improved.
