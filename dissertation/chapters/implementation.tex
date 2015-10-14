@@ -2,22 +2,22 @@
 
 \chapter{Implementation}
 \label{chapter:implementation}
-In chapter \ref{chapter:solution}, we have presented the solution, that is,
-the mobile apps that owners and end users need and the \gls{API} that developers use
+In chapter \ref{chapter:solution} we have presented the solution, that is,
+the mobile apps that end users and owners need and the \gls{API} that developers use
 to develop proximity-based mobile apps for this two kinds of users.
 This chapter explains in detail the implementation of each part of the solution
 (tools, programming languages, etc). Since there are two examples that were
 created to test the concept, we will dive into their implementation also.
 The code is hosted on
 github\footnote{http://github.com/}, which is a hosting service for projects
-that use git\footnote{http://git-scm.com/}, as their \gls{VCS}.
+that use git\footnote{http://git-scm.com/} as their \gls{VCS}.
 
 In the next section we describe the important decisions behind the implementation of our Smart Places solution.
 Then, in section \ref{sec:implementation_architecture} we introduce the solution's architecture, its main components and how they relate with each other.
 Next, we summarize the tools that were used in the development of this solution.
-Then, in section \ref{sec:implementation_tags}, it is explained the technology that was used to support the existence of tags, according to our definition of a Smart Place.
+Then, in section \ref{sec:implementation_tags}, it is explained the technology that was used to support the existence of tags according to our definition of a Smart Place.
 Section \ref{sec:implementation_backend} presents the backend and the data model that it is stored and managed.
-The implementation of the mobile apps, for end users and owners, is presented in section \ref{sec:implementation_mobile_applications}.
+The implementation of the mobile apps for end users and owners is presented in section \ref{sec:implementation_mobile_applications}.
 Then, we describe the implementation of the \gls{API} for developers.
 Next, we explain how the Smart Restaurant and Smart Museum examples were developed.
 Last section concludes this chapter.
@@ -27,42 +27,42 @@ Last section concludes this chapter.
 % What are Smart Places
 % Where they Run
 A Smart Place has tags that provide a proximity-based service.
-The Smart Restaurant and Smart Museum, presented in chapter \ref{chapter:solution}, section \ref{sec:solution_examples}, are examples of Smart Places.
+The Smart Restaurant and Smart Museum presented in chapter \ref{chapter:solution} section \ref{sec:solution_examples}, are examples of Smart Places.
 They were developed according to our definition of Smart Place.
-As also presented in chapter \ref{chapter:solution}, there is a mobile app that allows users to have access to these proximity-based services.
+As also presented in chapter \ref{chapter:solution} there is a mobile app that allows users to have access to these proximity-based services.
 However, these services could be mobile apps themselves.
-We could create an \gls{SDK}, for each platform, to allow developers to introduce proximity-based developers in their apps.
-Following this approach, we would have a situation where the users would need to install one app for each Smart Place they want to use.
-In order to understand why we have an app to access any Smart Place, we need first, to compare the possible approaches.
+We could create an \gls{SDK}, for each platform to allow developers to introduce proximity-based developers in their apps.
+Following this approach we would have a situation where the users would need to install one app for each Smart Place they want to use.
+In order to understand why we have an app to access any Smart Place we need first, to compare the possible approaches.
 
 % How can be done (native or web)
 % Compare both approaches
 % Choose web
 % Why
 We could allow Smart Places to be native mobile apps or web apps that run inside an embedded web browser.
-A native mobile app is an app, developed with the native tools, already provided by the platform.
+A native mobile app is an app, developed with the native tools already provided by the platform.
 This kind of apps only run in the platform that they were created for.
 A web app is an application that runs inside a web browser. It can run in any platform that has a web browser available.
 Table~\ref{tab:native_vs_web} compares native and web apps, showing the advantages and limitations of each category of apps.
-If Smart Places were developed as native apps, users would need to install one app for each one.
+If Smart Places were developed as native apps users would need to install one app for each one.
 This approach would not allow them to discover new proximity-based services while they were walking.
 To circumvent this limitation, we decided that Smart Places would exist as web applications.
-This way, any web application can react to the existence of tags in a Smart Place. Also, it leads to a situation where the users only need one app to have access to any Smart Place, because, each one, is a web application that will run inside an embedded web browser in the users mobile app.
+This way, any web application can react to the existence of tags in a Smart Place. Also, it leads to a situation where the users only need one app to have access to any Smart Place, because, each one is a web application that will run inside an embedded web browser in the users mobile app.
 
 \input{tables/native_vs_web}
 
 % WebView...
-Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution}, section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html}, which is a widget, provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
+Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution} section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html} which is a widget provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
 Smart Places are web applications that run in a WebView in the users mobile app.
 
 % Data from native app to smart place running inside web view
-Since we chose web apps as the mean to support Smart Places, somehow, they need to be able to detect nearby tags.
-As it is possible to see, from Table~\ref{tab:native_vs_web}, web apps have limited access to the device's resources.
+Since we chose web apps as the mean to support Smart Places somehow, they need to be able to detect nearby tags.
+As it is possible to see from Table~\ref{tab:native_vs_web}, web apps have limited access to the device's resources.
 As described in section \ref{sec:implementation_tags}, \gls{BLE} beacons were used to support the existence of these tags.
-How can a web application, running in an embedded web browser inside a native mobile app, detect tags in a Smart Place?
-Our approach is to handle the tags, that is, the \gls{BLE} beacons and to pass the relevant information to the web application running inside the embedded web browser.
-To do that, the native app invokes Javascript functions that exist in the embedded web browser, according to the \gls{API}, described in chapter \ref{chapter:solution}, section \ref{sec:solution_developers_api}.
-To invoke Javascript code from the native app, a special \gls{URL} is loaded to the WebView.
+How can a web application, running in an embedded web browser inside a native mobile app detect tags in a Smart Place?
+Our approach is to handle the tags, that is, the \gls{BLE} beacons in the native app and pass the relevant data to the web application running inside the embedded web browser.
+To do that, the native app invokes Javascript functions that exist in the embedded web browser according to the \gls{API}, described in chapter \ref{chapter:solution} section \ref{sec:solution_developers_api}.
+To invoke Javascript code from the native app a special \gls{URL} is loaded to the WebView.
 The \gls{URL} is in the format: ``javascript:functionToInvoke(arguments)'', where ``functionToInvoke'' is the function we want to invoke inside the WebView and ``arguments'' is a list of arguments to pass to that function.
 
 \section{Architecture}
@@ -84,7 +84,7 @@ Smart Places solution is composed by the following components, as shown in Figur
   is where all the data is stored, including data about each Smart Place and each tag;
   \item[Beacons Manager]
   is an abstraction of the \gls{BLE} layer.
-  It offers a method to scan for nearby beacons. Once this component was created, we did not need to handle the \gls{BLE} communication each time a scan was necessary;
+  It offers a method to scan for nearby beacons. Once this component was created we did not need to handle the \gls{BLE} communication each time a scan was necessary;
   \item[Data Store]
   is the Backend client for the mobile apps.
   It has all the needed methods to get the information about Smart Places and tags from the beacons that were detected by the Beacons Manager;
@@ -97,7 +97,7 @@ Smart Places solution is composed by the following components, as shown in Figur
   is the Javascript library that allows the web applications to react to the presence of tags.
   It is described in further detail in section \ref{sec:implementation_developers_api}.
   \item[Smart Place Instance]
-  is the instance of the proximity-based service developed according to the concept of Smart Place, that is running inside the Web View and uses the Smart Places \gls{API} to be able to execute code when a tag is detected.
+  is the instance of the proximity-based service developed according to the concept of Smart Place that is running inside the Web View and uses the Smart Places \gls{API} to be able to execute code when a tag is detected.
 \end{description}
 
 \begin{figure}[!ht]
@@ -116,12 +116,12 @@ The beacon itself only broadcasts an identifier.
 It does not have enough data to know which Smart Places it belongs to.
 Next, the Data Store component is called in order to get the information about the Smart Places that use that beacon as a tag.
 Data Store makes a request to the Backend in order to get this information.
-When the Backend returns a list of Smart Places, that list is used to notify the user about the Smart Places that were found.
-Then, if the user touches on of the notifications, a \gls{UI} with a Web View is shown.
-Since each Smart Place is a web application, the \gls{URL} of the Smart Place that the user previously selected, when he touched the notification, is loaded to the Web View.
+When the Backend returns a list of Smart Places that list is used to notify the user about the Smart Places that were found.
+Then, if the user touches on of the notifications a \gls{UI} with a Web View is shown.
+Since each Smart Place is a web application the \gls{URL} of the Smart Place that the user previously selected, when he touched the notification, is loaded to the Web View.
 After the page finishes loading, the Beacons Manager is called again to perform another scan for nearby beacons and it returns the nearest one.
-The Data Store is called again but, this time, to get the tag associated to that beacon that belongs to the selected Smart Place.
-The data of this tag is sent to the Web View which calls the Smart Places \gls{API}, allowing the web application to react to the presence of this tag.
+The Data Store is called again but this time, to get the tag associated to that beacon that belongs to the selected Smart Place.
+The data of this tag is sent to the Web View which calls the Smart Places \gls{API} allowing the web application to react to the presence of this tag.
 
 \begin{figure}[!ht]
   \centering
@@ -133,7 +133,7 @@ The data of this tag is sent to the Web View which calls the Smart Places \gls{A
 \section{Tools}
 \label{sec:implementation_tools}
 During the development of our solution, several tools were used.
-The components, such as, the backend, mobile apps, the Developers \gls{API} and the examples, were developed using different tools, from development environments to build and dependency management tools.
+The components such as, the backend, mobile apps, the Developers \gls{API} and the examples, were developed using different tools, from development environments to build and dependency management tools.
 
 Since this solution needs to store information about each beacon, we
 needed a backend to be able to change this information without having
@@ -141,9 +141,9 @@ to change the mobile apps.
 However, this backend just has to be able to store data and retrieve that
 data when client applications request it.
 Instead of implementing this component from the scratch, we used
-Parse\footnote{https://parse.com}, which is a \glsfirst{BaaS}.
+Parse\footnote{https://parse.com} which is a \glsfirst{BaaS}.
 It provides a dashboard, where developers can create classes
-and define their fields and the type of each field, which can be a string,
+and define their fields and the type of each field which can be a string,
 a number, a boolean, a pointer to another object, a \gls{JSON} object, etc.
 
 \subsection{Android Apps}
@@ -173,7 +173,7 @@ However, besides these languages, we have used tools to manage the build process
 \label{sec:implementation_tags}
 According to our definition of Smart Place, we need to tag objects to provide proximity-based services.
 Several location technologies were presented in chapter \ref{chapter:background}.
-To support the existence of tags, we chose \gls{BLE} Beacons using the ibeacon protocol, because most smartphones are \gls{BLE} enabled and it does not require the user to acquire any extra hardware.
+To support the existence of tags we chose \gls{BLE} Beacons using the ibeacon protocol because most smartphones are \gls{BLE} enabled and it does not require the user to acquire any extra hardware.
 We have used three beacons from Estimote\footnote{http://estimote.com}
 (Figure \ref{fig:estimote}), that come with a development kit.
 In this kit, each beacon come with a predefined name.
@@ -181,7 +181,7 @@ The blue, green and purple are named ice, mint and blueberry, respectively.
 Besides the hardware, this product offers a \gls{SDK} for Android and
 iOS. It also has a cloud service where developers can set and get
 some information about each beacon, such as, the \gls{UUID}, name, etc.
-However, instead of integrating this cloud service with our backend, we copied the name and the image \gls{URL} of each beacon to accelerate the development process.
+However, instead of integrating this cloud service with our backend, we copied the name and the image \gls{URL} of each beacon to our backend to accelerate the development process.
 
 \begin{figure}[!ht]
   \centering
@@ -198,24 +198,26 @@ However, instead of integrating this cloud service with our backend, we copied t
 % Collections created (UML?)
 % SDKs used
 As already mentioned, there was no implementation of the backend itself.
-Using Parse \gls{BaaS}, in order to support the needs of this project, the following classes were
+Using Parse \gls{BaaS} in order to support the needs of this project the following classes were
 created, according to the data model in figure \ref{fig:backend_data_model}:
 \begin{description}
   \item[Beacon]: Stores the information according to ibeacon protocol,
   which is \gls{UUID}, major and minor values. It also has a pointer
   to an instance of class User, which is a class provided by Parse \gls{BaaS} and represents its users. Fields such as, username, password, name and email are already provided by this class.
-  Due to the existence of this class, the authentication mechanisms, such as, using username and password or using accounts from social networks, such as Facebook or Twitter, are already provided;
+  Due to the existence of this class, the authentication mechanisms such as, using username and password or using accounts from social networks, such as Facebook or Twitter, are already provided;
   A pointer to an instance of class User represents the user that owns the beacon.
   Besides the existence of an owner, the Backend do not perform any verification when it receives a request to associate a tag to a given beacon introducing a security problem which is, any user can associate tags to any beacon without being its owner.
   This was not taken into account because it was out of the scope of this work;
-  \item[Smart Place]: Stores information all smart places available,
+  \item[Smart Place]:
+  Stores information about all smart places available,
   such as, name and description. It has a pointer to an instance of
   User, which is the user that created it;
   \item[Smart Place Instance]: When an owner wants to install a given
   Smart Place, he creates an instance of a Smart Place. Owners can
   customize the title and the message that appears in the users'
   mobile devices notifications;
-  \item[Tag]: A Tag has a \gls{JSON} object and has pointers to instances
+  \item[Tag]:
+  A Tag has a \gls{JSON} object and has pointers to instances
   of Smart Place Instance and Beacon classes. With this pointers, when
   the end users app detects a beacon, it is possible to send a query to
   the backend in order to get the tag that is associated to that beacon.
@@ -245,7 +247,7 @@ Taking this into account,
 one project was created, with 2 apps and one library, as shown in figure
 \ref{fig:smartplaces_package}. Since both apps use the Bluetooth receiver
 of the mobile device and make requests to the backend, there is a library,
-that both apps depend on, that offers some abstractions around the ibeacon
+that both apps depend on that offers some abstractions around the ibeacon
 protocol and the communication with Parse.
 Its implementation is detailed in section \ref{sub:implementation_library}
 
@@ -262,15 +264,15 @@ Its implementation is detailed in section \ref{sub:implementation_library}
 % Explain what the lib does
 % UML for the lib
 % Examples of its usage
-As already mentioned, a library, smartplaceslib, as shown in figure \ref{fig:smartplaces_package}, was created in order to provide \glspl{API} that mobile apps can
-use. Because, both apps use the Bluetooth receiver and interact with the backend, this library avoids having similar code in both apps. There are two important classes that this library offers:
+As already mentioned, a library \emph{smartplaceslib} as shown in figure \ref{fig:smartplaces_package} was created in order to provide \glspl{API} that mobile apps can
+use. Because both apps use the Bluetooth receiver and interact with the backend, this library avoids having similar code in both apps. There are two important classes that this library offers:
 \begin{description}
   \item[IBeaconsManager]: Offers methods to start scanning for beacons and change some settings such as, interval between each scan;
-  \item[AbstractParseDataStore]: This class offers an abstraction of the Parse Android \gls{SDK}. It is extended by two classes, ClientParseDataStore, used in the end users mobile app, and OwnerParseDataStore, used in the owners mobile app. There are two different classes for each app because each app has different needs when interacting with the backend. Their common needs were encapsulated in methods in the AbstractParseDataStore class.
+  \item[AbstractParseDataStore]: This class offers an abstraction of the Parse Android \gls{SDK}. It is extended by two classes, \emph{ClientParseDataStore} used in the end users mobile app and \emph{OwnerParseDataStore} used in the owners mobile app. There are two different classes for each app because each app has different needs when interacting with the backend. Their common needs were encapsulated in methods in the \emph{AbstractParseDataStore} class.
 \end{description}
 
-When IBeaconsManager class is used, it needs a BeaconScanCallback object, which overrides a method that is executed when beacons are scanned, because the scanning is an asynchronous process.
-For instance, the code snippet in Listing~\ref{code:java_scan_beacons} illustrates how to use IBeaconsManager class, in a given
+When IBeaconsManager class is used, it needs a BeaconScanCallback object which overrides a method that is executed when beacons are scanned because, the scanning is an asynchronous process.
+For instance, the code snippet in Listing~\ref{code:java_scan_beacons} illustrates how to use IBeaconsManager class in a given
 Activity\footnote{http://developer.android.com/guide/components/activities.html}, to scan for nearby beacons.
 
 \begin{listing}[H]
@@ -295,16 +297,16 @@ Activity\footnote{http://developer.android.com/guide/components/activities.html}
 % Android Studio, part of the project
 As stated in chapter \ref{chapter:solution}, owners are the people who install beacons and configure Smart Places. This mobile Android app allows them to create an instance of a Smart Place.
 In terms of backend, they are creating an instance of Smart Place Instance class, explained in \ref{sec:implementation_backend}.
-In the android project it is called \emph{ownersapp} and it uses the \emph{library}, smartplaceslib, as shown in Figure \ref{fig:smartplaces_package}.
+In the android project it is called \emph{ownersapp} and it uses the library \emph{smartplaceslib} as shown in Figure \ref{fig:smartplaces_package}.
 From the library, it uses the class IBeaconsManager to scan for nearby beacons and OwnersParseDataStore to allow owners to create Smart Place Instances and configure them.
-The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html}, which is a design language, developed by \tm{Google}.
+The user interface tries to follow the conventions of Material Design\footnote{https://www.google.com/design/spec/material-design/introduction.html} which is a design language developed by \tm{Google}.
 This language states some conventions about how to design an \gls{UI}.
-Each \gls{UI} is implemented by a class that extends the Activity class, provided by the Android \gls{API}.
-An Activity represents a single task, that the user can do, in an Android app.
+Each \gls{UI} is implemented by a class that extends the Activity class provided by the Android \gls{API}.
+An Activity represents a single task, that the user can do in an Android app.
 
-In our Backend, we have the User class and it has a relation with the class Beacon, which refers that the user owns beacons.
-Parse \gls{BaaS} already provides authentication mechanisms, using username and password or using social networks accounts such as Facebook and Twitter.
-To use this app, owners have to log in using their Facebook accounts.
+In our Backend, we have the User class and it has a relation with the class Beacon which refers that the user owns beacons.
+Parse \gls{BaaS} already provides authentication mechanisms using username and password or using social networks accounts such as Facebook and Twitter.
+To use this app owners have to log in using their Facebook accounts.
 To allow this authentication mechanis we just needed to include the Facebook \gls{SDK}\footnote{https://developers.facebook.com/docs/android}and generate a secret key for our app using Facebook Developers website.
 
 \subsection{Mobile App for End Users}
@@ -313,13 +315,13 @@ To allow this authentication mechanis we just needed to include the Facebook \gl
 % Brief description of its features
 % How it uses the library
 % Android Studio, part of the project
-End users are the ones who actually use the Smart Places, that is, the users that have, in their mobile devices, an app that scans for nearby beacons and offer services provided by the Smart Places that were found.
-It is part of the project, as clientapp, as shown in figure \ref{fig:smartplaces_package}. Simillary to the owners app, described in \ref{sub:implementation_mobile_app_for_owners}, it uses the smartplaceslib, to scan for nearby beacons and map them to the corresponding Smart Place Instances.
+End users are the ones who actually use the Smart Places, that is, the users that have in their mobile devices an app that scans for nearby beacons and offer services provided by the Smart Places that were found.
+It is part of the project, as \emph{clientapp}, as shown in figure \ref{fig:smartplaces_package}. Similar to the owners app, described in \ref{sub:implementation_mobile_app_for_owners}, it uses the \emph{smartplaceslib} to scan for nearby beacons and map them to the corresponding Smart Place Instances.
 When Smart Place Instances are found, the app shows a notification for each one.
-When the user click on the notification, the app calls an Activity that contains a WebView. This activity calls javascript functions on the WebView.
-To ease that process, there is a class, SmartPlacesWebView that extends the original WebView class from the Android \gls{API}.
-In that Activity, there is an instance of the IBeaconsManager class that will scan for nearby beacons in order to try to find tags. As mentioned in section \ref{sec:implementation_backend},
-each instance of Tag has a \gls{JSON} object. That object must be sent to a Javascript function, for which, developers have defined a callback that will handle it. The SmartPlacesWebView has methods to invoke javascript code running inside the webview.
+When the user click on the notification the app calls an Activity that contains a WebView. This Activity calls javascript functions on the WebView.
+To ease that process there is a class, SmartPlacesWebView that extends the original WebView class from the Android \gls{API}.
+In that Activity there is an instance of the IBeaconsManager class that will scan for nearby beacons in order to try to find tags. As mentioned in section \ref{sec:implementation_backend},
+each instance of Tag has a \gls{JSON} object. That object must be sent to a Javascript function, for which developers have defined a callback that will handle it. The SmartPlacesWebView has methods to invoke javascript code running inside the webview.
 This way, the smart places app effectively combines the advantages of native apps with web apps, as compared in Section \ref{sec:implementation_smart_places}.
 
 \section{Developers API}
@@ -331,14 +333,14 @@ This way, the smart places app effectively combines the advantages of native app
 In this solution, developers create their Smart Places using web technologies, such as \gls{HTML}, \gls{CSS} and javascript, because they run inside a WebView in the clientapp, as mentioned in section \ref{sub:implementation_mobile_app_for_end_users}.
 This is separated from the Android project, because it does not have any dependency from it.
 
-This \gls{API} offer a global object, which is SmartPlaces, with several methods that developers use to define callbacks for some events.
-This library was developed in a modular way, that is, there are multiple javascript files, that, in the end, in the build process, are compiled in just one file.
-To manage this build process, we used Grunt. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
+This \gls{API} offer a global object, which is \emph{SmartPlaces}, with several methods that developers use to define callbacks for some events.
+This library was developed in a modular way, that is, there are multiple javascript files that in the end, in the build process, are compiled in just one file.
+To manage this build process we used Grunt. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
 
 \section{Examples}
 \label{sec:implementation_examples}
 In order to make sure that the Javascript \gls{API} works as expected and that it can be applied to multiple kinds of smart places, two examples were implemented.
-These examples try to be a proof of concept, that is, demonstrate that, using the Javascript API, a web application can be aware of nearby tags, in the real world, and execute useful computation using those tags.
+These examples try to be a proof of concept, that is, demonstrate that using the Javascript API a web application can be aware of nearby tags, in the real world, and execute useful computation using those tags.
 
 \subsection{Smart Restaurant}
 \label{sub:implementation_smart_restaurant}
@@ -350,9 +352,9 @@ These examples try to be a proof of concept, that is, demonstrate that, using th
 The idea of this Smart Place is to offer an easy way for customers, in a restaurant, to place their orders using their mobile devices.
 We have used an existing solution created in the scope of a Master Thesis \cite{SLOC}.
 It has a \gls{REST} \gls{API} written in \gls{PHP} language.
-Our work here, was to create a frontend, that uses the Smart Places Javascript \gls{API} and the provided \gls{API}.
+Our work here was to create a frontend that uses the Smart Places Javascript \gls{API} and the provided \gls{API}.
 This frontend was written in \gls{HTML} and Javascript.
-It was deployed in the web server of \gls{IST}. Simillary to Smart Places Javascript \gls{API}, the build process is managed by Grunt and there is a task to deploy this web application in the mentioned web server.
+It was deployed in the web server of \gls{IST}. Similar to Smart Places Javascript \gls{API}, the build process is managed by Grunt and there is a task to deploy this web application in the mentioned web server.
 
 \subsection{Smart Museum}
 \label{sub:implementation_smart_museum}
@@ -366,11 +368,12 @@ The main goal was to show some information about some objects in a museum.
 
 To work with real data instead of creating our own museum we have used a real data source.
 The Walters Art Museum provides a \gls{REST} \gls{API} that any developer can use to get data about collections and objects.
-To use this \gls{API}, we created an account, in the \gls{API}'s website\footnote{http://api.thewalters.org} and requested to get a token. This token is used in any request to allow the \gls{REST} \gls{API} to identify each individual request.
+To use this \gls{API}, we created an account in the \gls{API}'s website\footnote{http://api.thewalters.org} and requested a token. This token is used in any request to allow the \gls{REST} \gls{API} to identify each individual request.
 
-This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework, that allow to create an \gls{HTTP} server using javascript.
-It is currently deployed on Heroku\footnote{http://www.heroku.com} which is a cloud \gls{PaaS}, that supports many programming languages and development stacks.
-Simillary to the other example, in section \ref{sub:implementation_smart_restaurant}, this one also uses Grunt to manage the build process. Before the deployment, all javascript files that will run on the browser are concatenated in one file. Then, that file is minified.
+This web application was created using NodeJS\footnote{http://nodejs.org} with Express\footnote{http://expressjs.com} framework that allows to create an \gls{HTTP} server using javascript.
+It is currently deployed on Heroku\footnote{http://www.heroku.com} which is a cloud \gls{PaaS} that supports many programming languages and development stacks.
+Simillary to the other example, in section \ref{sub:implementation_smart_restaurant}, this one also uses Grunt to manage the build process. Before the deployment, all javascript files that will run on the browser are concatenated in one file.
+Then, that file is minified.
 
 \section{Summary}
 \label{sec:implementation_summary}
@@ -381,32 +384,34 @@ Here, we looked at each component and described its implementation.
 % Tools
 % -> Java tools (Android Studio)
 % -> JS tools (Grunt, bower)
-First, there is a summary of the tools used in the development of this solution.
+First we introduced important decisions about the implementation of our Smart Places solution.
+Then, we described the architecture and its main components.
+We summarized the tools used in the development of this solution.
 Android Studio was used to develop the two mobile apps, for owners and end users.
 For the developers \gls{API} and the Smart Restaurant and Smart Museum examples, Grunt and Bower were used.
 Grunt is a tool to manage the build process of frontend assets, such as, Javascript files.
 There are many tasks to handle Javascript files concatenation and minification.
-Bower is a dependency management tool for frontend dependencies, that allows developers to specify the dependencies of their web applications instead of downloading each one manually.
+Bower is a dependency management tool for frontend dependencies that allows developers to specify the dependencies of their web applications instead of downloading each one manually.
 
 % Tags
 % -> Chose BLE beacons
 % -> why
 Another important component of our solution are the tags that are deployed in a given Smart Place.
-We decided to use \gls{BLE} beacons using ibeacon protocol, because nowadays, most of the smartphones are \gls{BLE} enabled.
-Our solution does not require the user to acquire any extra hardware, besides his mobile device.
+We decided to use \gls{BLE} beacons using ibeacon protocol because nowadays, most of the smartphones are \gls{BLE} enabled.
+Our solution does not require the user to acquire any extra hardware besides his mobile device.
 
 % Backend
 % -> Used Parse BaaS
 % -> Brief domain model
 Our solution stores information in a backend.
-Instead of developing this component from the scratch, we have used a \gls{BaaS}, which allowed us to only be concerned about the data model and not with the typical concerns of a distributed system, such as, scalability, performance and deployment.
-In our data model, there is the concept of Smart Place. When owners configure a given Smart Place, they are creating a Smart Place Instance.
-Smart Place Instances have tags, which are represented by beacons.
+Instead of developing this component from the scratch we have used a \gls{BaaS}, which allowed us to only be concerned about the data model and not with the typical concerns of a distributed system such as, scalability, performance and deployment.
+In our data model, there is the concept of Smart Place. When owners configure a given Smart Place they are creating a Smart Place Instance.
+Smart Place Instances have tags which are represented by beacons.
 
 % Smart Places
 % -> Native vs Web
 % -> Why web
-Smart Places provide proximity-based services, that could be supported through native or web apps.
+Smart Places provide proximity-based services that could be supported through native or web apps.
 Native apps are installed on the mobile device's \gls{OS} and only run on the \gls{OS} they are developed for.
 Web apps run on any platform where a web browser can run.
 We discussed the advantages and limitations of native and web apps.
