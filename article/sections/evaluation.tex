@@ -91,7 +91,7 @@ Different data connection means can lead to different energy consumptions.
 We need to understand which connection, \gls{WiFi} or \gls{3G}, drains more power.
 If it is \gls{3G}, the user might only use our solution if he/she is connected to a \gls{WiFi} \gls{AP}.
 We want our mobile app to be always turned on scanning for nearby Smart Places.
-Using it only when \gls{WiFi} is available would make its usage very limited and the user would not take the full advantage of it, because he/she needs be aware that a \gls{WiFi} \gls{AP} is available and turn the mobile app on again.
+Using it only when \gls{WiFi} is available would make its usage very limited and the user would not take the full advantage of it because he/she needs be aware that a \gls{WiFi} \gls{AP} is available and turn the mobile app on again.
 We tested two values for the interval between each scan, 5 minutes, because it is the default value that the beacons library use in background mode, and 2 and half minutes.
 The second value is half the first in order to see how much more power is drained when we set a smaller value for the interval between each scan.
 Trying to find a smaller interval is important because it will reduce the probability that the user was not able to discover a nearby Smart Place.
@@ -137,12 +137,24 @@ We can observe, when we decrease the interval between each scan in half, the bat
 Taking into account that we spent one hour, in each experiment, assuming that the values, for the power drain, grow lineary, it is possible to say that, for two and half and five minutes, in interval between each scan, we would have 6.96\% and 9.6\%, in 24 hours, of power drain, respectively.
 The values are still low but these values can demotivate the usage of our solution because, it is very likely that the users already have mobile apps, that use mobile data, already installed in their devices.
 
+% Facebook and F. Messenger
+Since the power drain is higher when using \gls{3G}, we tested two of the most popular apps using this data connection type, Facebook\footnote{http://play.google.com/store/apps/details?id=com.facebook.katana} and Facebook Messenger\footnote{http://play.google.com/store/apps/details?id=com.facebook.orca} that also have services running in background and need to perform requests using an Internet connection.
+Table~\ref{tab:results_facebook} summarizes these tests.
+Each test ran in 1 hour.
+While running Facebook, we used it to check our news feed in 5 minutes. The rest of the time the app was running in background.
+With Facebook Messenger, we received three messages during the experiment.
+It is possible to say that most of the power drain was due to background activities.
+We will use these values as a reference to compare with the power drain in the second scenario, that is, at each scan the user moves from one place to another which implies more requests to the backend.
+
+\input{tables/results_facebook}
+
 Regarding the second scenario, where the user moves from one Smart Place to another, Figure~\ref{fig:results_battery_walking} shows more power drain than in the previous scenario.
 Once more, we have much more power drain using \gls{3G}.
 Using two minutes and half of interval between each scan, we got more 0.71\% than using five minutes.
-Assuming a linear growth of power drain, in the worst case, after 24 hours, there is 65.04\% of power drain.
-In this case, we got more than 60 times the power drain than the worst case in the previous scenario.
-With this value, our solution can be considered unacceptable for a daily basis usage, that is, having the mobile app always running in background.
+% Relate with Facebook and Messenger apps
+In the worst case we obtained a power drain of 2.71\% which is approximately 71\% less than using Facebook in the same period of time and more than 65\% of using Facebook Messenger.
+Using these two apps as a reference in terms of apps that run services in background, we can say that the battery consumption is acceptable for a daily basis usage.
+However, this is an aspect that needs to be improved.
 
 \begin{figure}[!ht]
   \centering
@@ -150,6 +162,3 @@ With this value, our solution can be considered unacceptable for a daily basis u
     \caption[Power drain when the user is moving]{Relation between power drain and interval between each scan in the scenario where the user moves along multiple Smart Places}
     \label{fig:results_battery_walking}
 \end{figure}
-
-In the worst case, which is the user is always moving, the results can compromise the usability of our solution because, assuming a linear growth of power drain, in 24 hours, our mobile app would drain 48\%.
-Having into account that most users already have apps that require a data connection, this can be unnaceptable in most cases.
