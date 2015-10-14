@@ -21,7 +21,7 @@ In this dissertation, we introduced this concept, which we consider a simpler wa
 However, these tags need to be provided by a location technology.
 That technology should be compatible with most used mobile devices.
 We analyzed some location technologies, using a taxonomy\cite{location}, in order to try to find a technology that would be a best fit for our concept of Smart Place.
-We chose \gls{BLE} beacons using iBeacon protocol, because it is compatible with any smartphone with Bluetooth version 4.0 or above.
+We chose \gls{BLE} beacons using iBeacon protocol because it is compatible with any smartphone with Bluetooth version 4.0 or above.
 The owners of Smart Places are responsible to place those beacons in the right place.
 Users do not need any extra hardware.
 They only need to download a single app and turn on the Bluetooth receivers of their mobile devices.
@@ -34,14 +34,14 @@ Since each Smart Place is a web application they can run inside an embedded web 
 There is a mobile app for owners of Smart Places that they can use to choose which proximity-based services they want to provide and configure the necessary tags.
 
 Two examples of Smart Places were created, using our solution, a Smart Restaurant and a Smart Museum.
-In the first one we created the experience of a museum where visitors can have access to more information about an object that they are close to.
-The Smart Restaurant had the goal to allow customers, of a restaurant, to place their orders, after they take a sit, using their mobile devices.
-Using this solution, customers do not need to specify which table the orders belong to. Using the tag system, through \gls{BLE} beacons, the app automatically get the table's number and add that information when the customer places the final order.
+The Smart Restaurant had the goal to allow customers, of a restaurant, to place their orders, after they take a sit using their mobile devices.
+Using this solution, customers do not need to specify which table the orders belong to. Using the tag system through \gls{BLE} beacons, the app automatically get the table's number and add that information when the customer places the final order.
+In the Smart Museum we created the experience of a museum where visitors can have access to more information about an object that they are close to.
 
 After the implementation phase, we evaluated the system.
 We performed two sets of experiments.
 Most times, the mobile apps try to detect the nearest tag.
-The library we have used in our mobile apps, have means to get the distance from the detected beacons.
+The library we have used in our mobile apps have means to get the distance from the detected beacons.
 The first set of experiments was performed in order to check if this distance value was reliable.
 We have reached the conclusion that, if we want to rely on getting the nearest tag they need to be at least 1.5m distant from each other.
 The other set of experiments was about battery consumption.
