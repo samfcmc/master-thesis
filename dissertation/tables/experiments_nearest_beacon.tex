@@ -1,16 +1,16 @@
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
+% \usepackage{multirow}
 \begin{table}[]
 \centering
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-\multicolumn{1}{c}{\textbf{Variables}} & \multicolumn{4}{c}{\textbf{Experiments}}                                                                         \\ \cmidrule{2-5}
-\multicolumn{1}{c}{\textbf{}}          & \textbf{1}                  & \textbf{2}                & \textbf{3}                  & \textbf{4}               \\ \midrule
-Events                                 & \multicolumn{4}{c}{\begin{tabular}[c]{@{}c@{}}For each beacon, \\ how many times \\ it was scanned\end{tabular}} \\
-Number of beacons                      & \multicolumn{4}{c}{3}                                                                                            \\
-Interval between each scan             & \multicolumn{4}{c}{10s}                                                                                          \\
-Experiment duration                    & \multicolumn{4}{c}{5m}                                                                                           \\
-Distance between beacons (meters)      & \multicolumn{1}{r}{0.5}     & \multicolumn{1}{r}{1}     & \multicolumn{1}{r}{1.5}     & \multicolumn{1}{r}{2}    \\ \bottomrule
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{Variables}}} & \multicolumn{4}{c}{\textbf{Experiments}}                                                          \\ \cmidrule(l){2-5}
+\multicolumn{1}{c}{}                                    & \textbf{1}              & \textbf{2}            & \textbf{3}              & \textbf{4}            \\ \midrule
+\textbf{Number of beacons}                              & \multicolumn{4}{c}{3}                                                                             \\
+\textbf{Interval between each scan}                     & \multicolumn{4}{c}{10s}                                                                           \\
+\textbf{Experiment duration}                            & \multicolumn{4}{c}{5m}                                                                            \\
+\textbf{Distance between beacons (meters)}              & \multicolumn{1}{r}{0.5} & \multicolumn{1}{r}{1} & \multicolumn{1}{r}{1.5} & \multicolumn{1}{r}{2} \\ \bottomrule
 \end{tabular}
 \caption[Nearest beacon experiments summary]{Experiments to get the accuracy of the method to get the nearest beacon}
 \label{tab:experiments_nearest_beacon}

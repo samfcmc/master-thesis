@@ -1,14 +1,15 @@
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
+% \usepackage{multirow}
 \begin{table}[]
 \centering
-\begin{tabular}{@{}ccccc@{}}
+\begin{tabular}{@{}lcclcc@{}}
 \toprule
-\textbf{Variables}                  & \multicolumn{4}{c}{\textbf{Experiments}}                                                                \\ \cmidrule{2-5}
-\textbf{}                           & \textbf{1}                & \textbf{2}             & \textbf{3}                & \textbf{4}             \\ \midrule
-\textbf{Data connection type}       & \multicolumn{2}{c}{WiFi}                           & \multicolumn{2}{c}{3G}                             \\
-\textbf{Interval between each scan} & \multicolumn{1}{r}{2m30s} & \multicolumn{1}{r}{5m} & \multicolumn{1}{r}{2m30s} & \multicolumn{1}{r}{5m} \\
-\textbf{Experiment duration}        & \multicolumn{4}{c}{1h}                                                                                  \\ \bottomrule
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{Variables}}} & \multicolumn{5}{c}{\textbf{Experiments}}                                                                   \\ \cmidrule(l){2-6}
+\multicolumn{1}{c}{}                                    & \textbf{1}                & \textbf{2}             &  & \textbf{3}                & \textbf{4}             \\ \midrule
+\textbf{Data connection type}                           & \multicolumn{2}{c}{WiFi}                           &  & \multicolumn{2}{c}{3G}                             \\ \cmidrule(lr){2-3} \cmidrule(l){5-6}
+\textbf{Interval between each scan}                     & \multicolumn{1}{r}{2m30s} & \multicolumn{1}{r}{5m} &  & \multicolumn{1}{r}{2m30s} & \multicolumn{1}{r}{5m} \\
+\textbf{Experiment duration}                            & \multicolumn{5}{c}{1h}                                                                                     \\ \bottomrule
 \end{tabular}
 \caption[Battery consumption results]{Summary of experiments to get the battery consumption when the mobile
 app is scanning for beacons in the background}
