@@ -64,7 +64,7 @@ The names below each beacon (ice, blueberry and mint), were defined by \tm{Estim
 the developer pack.
 In this first set of experiments, the value d starts at 50 centimeters and is increased by 50 centimeters in each experiment until the 4th one where it is 2 meters.
 
-\input{tables/experiments_nearest_beacon.tex}
+\includeTable{experiments_nearest_beacon}
 
 \begin{figure}[!ht]
   \centering
@@ -84,7 +84,7 @@ In all experiments, this beacon was detected as the nearest one at least 50\% of
 The only difference between all experiments is the distance between beacons.
 We can conclude that, it is recommended that the beacons are at least, 1.5m or 2m distant from each other.
 
-\input{tables/results_nearest_beacon.tex}
+\includeTable{results_nearest_beacon}
 
 \begin{figure}[!ht]
   \centering
@@ -137,7 +137,7 @@ The following scenarios were tested:
   % Explain better
 \end{itemize}
 
-\input{tables/experiments_battery.tex}
+\includeTable{experiments_battery}
 
 \begin{figure}[!ht]
   \centering
@@ -163,7 +163,7 @@ From this table it was possible to create the graphic shown in Figure~\ref{fig:r
 The battery consumption using \gls{WiFi} is almost zero.
 However, when using \gls{3G}, the battery consumption raises more than 30 times than using \gls{WiFi}.
 
-\input{tables/results_battery_stopped}
+\includeTable{results_battery_stopped}
 
 \begin{figure}[!ht]
   \centering
@@ -186,7 +186,7 @@ With Facebook Messenger, we received three messages during the experiment.
 It is possible to say that most of the power drain was due to background activities.
 We will use these values as a reference to compare with the power drain in the second scenario, that is, at each scan the user moves from one place to another which implies more requests to the backend.
 
-\input{tables/results_facebook}
+\includeTable{results_facebook}
 
 Regarding the second scenario, where the user moves from one Smart Place to another, at each two and half minutes.
 Table~\ref{tab:results_battery_walking}, shows the results for this scenario. Here, we got more power drain than in the previous scenario.
@@ -200,7 +200,7 @@ In the worst case we obtained a power drain of 2.71\% which is approximately 71\
 Using these two apps as a reference in terms of apps that run services in background, we can say that the battery consumption is acceptable for a daily basis usage.
 However, this is an aspect that needs to be improved.
 
-\input{tables/results_battery_walking}
+\includeTable{results_battery_walking}
 
 \begin{figure}[!ht]
   \centering

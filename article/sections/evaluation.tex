@@ -42,11 +42,11 @@ In each experiment, it ran for 5 minutes using 10 seconds as the interval betwee
 Running the experiment for 5 minutes, with the mentioned interval between each scan, allowed us to have more than 20 scans.
 Then, in Android Studio log output, it was possible to check how many times each beacon was detected as the nearest one.
 
-\input{tables/experiments_nearest_beacon.tex}
+\includeTable{experiments_nearest_beacon}
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.4\textwidth, keepaspectratio]{figures/nearest_beacon}
+    \includegraphics[width=0.4\textwidth, keepaspectratio]{\figurePath{nearest_beacon}}
     \caption[Layout for experiments of nearest beacon]{Layout used for the experiments to get the accuracy of the distance value}
     \label{fig:layout_experiments_nearest_beacon}
 \end{figure}
@@ -61,7 +61,7 @@ From the results, we can conclude that it is recommended that the beacons are, a
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{figures/results_nearest_beacon}
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{\figurePath{results_nearest_beacon}}
     \caption[Distance between beacons vs Accuracy]{Relation between distance between beacons and accuracy to detect the nearest beacon}
     \label{fig:results_experiments_nearest_beacon}
 \end{figure}
@@ -105,11 +105,11 @@ The following scenarios were tested:
   This is done removing existing data about Smart Places already detected to force the app to request this data again from the Backend.
 \end{itemize}
 
-\input{tables/experiments_battery.tex}
+\includeTable{experiments_battery}
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.3\textwidth, keepaspectratio]{figures/experiments_battery_layout}
+    \includegraphics[width=0.3\textwidth, keepaspectratio]{\figurePath{experiments_battery_layout}}
     \caption[Layout for experiments of battery consumption]{Layout used for the experiments to get the battery consumption}
     \label{fig:layout_experiments_battery_consumption}
 \end{figure}
@@ -126,7 +126,7 @@ However, when using \gls{3G}, the battery consumption raises more than 30 times 
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{figures/results_battery_stopped}
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{\figurePath{results_battery_stopped}}
     \caption[Power drain when the user does not move]{Relation between power drain and interval between each scan in the scenario where the user stays in the same Smart Place}
     \label{fig:results_battery_stopped}
 \end{figure}
@@ -146,7 +146,7 @@ With Facebook Messenger, we received three messages during the experiment.
 It is possible to say that most of the power drain was due to background activities.
 We will use these values as a reference to compare with the power drain in the second scenario, that is, at each scan the user moves from one place to another which implies more requests to the backend.
 
-\input{tables/results_facebook}
+\includeTable{results_facebook}
 
 Regarding the second scenario, where the user moves from one Smart Place to another, Figure~\ref{fig:results_battery_walking} shows more power drain than in the previous scenario.
 Once more, we have much more power drain using \gls{3G}.
@@ -158,7 +158,7 @@ However, this is an aspect that needs to be improved.
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.5\textwidth, keepaspectratio]{figures/results_battery_walking}
+    \includegraphics[width=0.5\textwidth, keepaspectratio]{\figurePath{results_battery_walking}}
     \caption[Power drain when the user is moving]{Relation between power drain and interval between each scan in the scenario where the user moves along multiple Smart Places}
     \label{fig:results_battery_walking}
 \end{figure}
