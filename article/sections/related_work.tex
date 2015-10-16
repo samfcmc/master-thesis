@@ -89,17 +89,37 @@ context information to the apps will be presented:
   and it is possible to develop more plugins to allow the
   apps to generate additional events that are not
   already supported.
-
-  To achieve our goal, our framework could be just a
-  plugin for Dynamix. The plugin would
-  need to get the beacon's raw data and
-  turn that into a more high-level information
-  using a backend. In this framework,
-  the user needs to install an app, that manages the service
-  that runs in background, and needs to define some
-  security policies. This could mean a big overhead since
-  we are more focused on developing proximity-based applications, that do not require such complex security
-  policies because, in this kind of applications, there is only need
-  to access the device's sensors that could provide,
-  to the applications, positioning data.
 \end{itemize}
+
+In order to get a good insight about the potential of proximity-based services, we analyzed three applications.
+
+We introduced a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
+For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.
+However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
+This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
+In order to circumvent this limitation, this solution allows developers
+to use the same technologies that are used for any web application such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
+
+The framework described in Krevl et al.\cite{Krevl2006} offers abstractions for the location information sources.
+Geographical coordinates can
+come from any source.
+It is a good approach for
+mobile native apps but it does not support web apps.
+The authors do not take into consideration
+constraints in terms of resources, such as
+lack of Internet connection and battery.
+Since most users have limited data plans for
+their smartphones and \gls{SOAP} messages can
+grow in size due to its \gls{XML} format,
+a more efficient message encoding could be used
+instead, for instance \gls{REST} using \gls{JSON}.
+
+To achieve our goal, our framework could be just a
+plugin for Dynamix. The plugin would
+need to get the beacon's raw data and
+turn that into a more high-level information
+using a backend. In this framework,
+the user needs to install an app that manages the service
+that runs in background and needs to define some
+security policies such as which information the app can have access to or which sensors it can use.
+This could mean a big overhead since we are more focused on developing proximity-based applications that do not require such complex security policies because in this kind of applications, there is only need to access the device's sensors that could provide positioning data to the applications.

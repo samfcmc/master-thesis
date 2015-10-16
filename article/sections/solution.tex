@@ -8,7 +8,7 @@
 % For each one, who he is, what he does...
 % What was implemented for each one
 The main goal of our solution is to assist
-the development proximity-based mobile applications.
+the development of proximity-based mobile applications.
 There are already some tools available for this purpose (presented in section \ref{sec:related_work}).
 However, some of them are attached to a given platform, that is, developers
 need to write one proximity-based application for each platform they want
@@ -64,25 +64,25 @@ In our solution, there is an Android app, that notifies the user when he is near
 When the mobile device approaches any Smart Place, the app notifies the user that he is near a Smart Place.
 When the user touches these notifications, the app shows an embedded web browser that contains a web page that can react to nearby objects, that is, beacons with meaning to the application.
 
-The Smart Place owners manage one or more places where they want to provide some service to visitors, in their mobile devices.
-In order to make owners be able to offer this kind of services, an Android app, designed for them, is offered by this solution.
-This app offers features, such as, get a list of all available Smart Places and configure an instance of a Smart Place.
-In order to configure a Smart Place, first, owners need to tag physical objects.
+The Smart Places' owners manage one or more places where they want to provide some service to visitors in their mobile devices.
+In order to make owners be able to offer this kind of services an Android app designed for them is offered by this solution.
+This app offers features such as, get a list of all available Smart Places and configure an instance of a Smart Place.
+In order to configure a Smart Place first, owners need to tag physical objects.
 They need to deploy beacons in the right places.
 Then, they use the mobile app to create an instance of a Smart Place following a small set of steps.
 First, the app shows a list of all available Smart Places.
 Then, the owner selects one and he can see a text explaining what that Smart Place is about.
 Finnaly, the owner just needs to type a title and a message, that will appear in the users' mobile devices notifications when they are nearby
 
-Owners configure the data of a Smart Place and end users, who are anyone with a mobile device and the app, can interact with objects nearby.
-But, who will add behavior to these Smart Places, this kind of apps that can react to nearby objects with special tags?
+Owners configure the data of a Smart Place and end users can interact with objects nearby.
+But, who will add behavior to these Smart Places?
 Our solution offers a way for developers to create their Smart Places.
 Also, we want to avoid the user having to install one mobile app for each Smart Place.
-This is way, the app for end users,
-has an embedded web browser, so they can use any Smart Place, as they would use any web application, without the need to install one more mobile app.
+The app for end users has an embedded web browser, so they can use any Smart Place as they would use any web application without the need to install one more mobile app.
 That is why a Javascript library is part of our solution.
 This way, an existing web application can use this library and make it react to nearby objects tagged with \gls{BLE} beacons.
-The library was turned into an open-source project, hosted on a github repository\footnote{http://github.com/samfcmc/smartplaces-js} and it is available, to install, using bower\footnote{http://bower.io}, which is a tool to manage frontend dependencies in web applications.
+
+The library was turned into an open-source project, hosted on a github repository\footnote{http://github.com/samfcmc/smartplaces-js} and it is available to install using bower\footnote{http://bower.io}, which is a tool to manage dependencies in web applications.
 Then, developers just need to include the library and use the available functions.
 The library is event-based, that is, the mobile apps, for owners and end users emit events to the library such as, a nearby beacon is detected to the web application running inside a embedded web browser.
 In this library there is a global object, which is ``SmartPlaces'' with several methods.
