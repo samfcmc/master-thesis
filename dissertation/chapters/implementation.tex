@@ -54,6 +54,9 @@ This way, any web application can react to the existence of tags in a Smart Plac
 % WebView...
 Having Smart Places as web applications accessed by the users mobile app, introduced in chapter \ref{chapter:solution} section \ref{sec:solution_mobile_app_for_end_users}, is achieved by using the WebView\footnote{http://developer.android.com/guide/webapps/webview.html} which is a widget provided by the Android \gls{SDK} that allows to have web pages embedded inside any \gls{UI} in an Android application.
 Smart Places are web applications that run in a WebView in the users mobile app.
+For instance, the Smart Restaurant and Smart Museum examples run in this WebView.
+Users do not need to install two different apps.
+Using our mobile app they can access any of these examples.
 
 % Data from native app to smart place running inside web view
 Since we chose web apps as the mean to support Smart Places somehow, they need to be able to detect nearby tags.
@@ -150,11 +153,11 @@ a number, a boolean, a pointer to another object, a \gls{JSON} object, etc.
 \label{sub:implementation_tools_android_apps}
 For the Android apps, we have used the following tools:
 \begin{description}
+  \item[Java] was the programming language that was used to write the code of the mobile apps;
+  \item[Gradle] \footnote{http://gradle.org} is a build and dependency management tool for Java projects. Using Android Studio, any Android project already includes this tool and a configuration file where all the dependencies are specified;
   \item[Android Studio] \footnote{http://developer.android.com/sdk/index.html} is an \gls{IDE}, based on IntelliJ\footnote{http://www.jetbrains.com/idea},
   to develop Android
-  applications;
-  \item[Gradle] \footnote{http://gradle.org} is a build and dependency management tool for Java projects. Using Android Studio, any Android project already includes this tool and a configuration file where all the dependencies are specified.
-  \item[Java] was the programming language that was used to write the code of the mobile apps.
+  applications.
 \end{description}
 
 \subsection{Developers \gls{API} and Examples}
@@ -189,6 +192,10 @@ However, instead of integrating this cloud service with our backend, we copied t
     \caption[Estimote beacons]{Beacons from Estimote, that were used during the implementation}
     \label{fig:estimote}
 \end{figure}
+
+% Hugly Hack!
+% Just to force the next section to start only after the previous figure
+\vfill
 
 \section{Backend}
 \label{sec:implementation_backend}
@@ -249,7 +256,17 @@ one project was created, with 2 apps and one library, as shown in figure
 of the mobile device and make requests to the backend, there is a library,
 that both apps depend on that offers some abstractions around the ibeacon
 protocol and the communication with Parse.
-Its implementation is detailed in section \ref{sub:implementation_library}
+Its implementation is detailed in section \ref{sub:implementation_library}.
+This Android project depends on the following librarys:
+\begin{description}
+  \item[AltBeacon]\footnote{http://github.com/AltBeacon/android-beacon-library}
+  is a library that provides \glspl{API} to interact with beacons.
+  We used this in our \emph{smartplaceslib} to provide operations such as scanning for nearby beacons;
+  \item[Parse Android \gls{SDK}]\footnote{http://parse.com/docs/android/guide}
+  was used to interact with our Backend;
+  \item[Facebook \gls{SDK}]\footnote{http://developers.facebook.com/docs/android}
+  was used to provide authentication using user's Facebook account in the owners mobile app.
+\end{description}
 
 \begin{figure}[!ht]
   \centering
@@ -337,7 +354,7 @@ This \gls{API} offer a global object, which is \emph{SmartPlaces}, with several 
 This library was developed in a modular way, that is, there are multiple javascript files that in the end, in the build process, are compiled in just one file.
 To manage this build process we used Grunt. There is a task that compiles all javascript files in just one, performs minification of that file and creates a new version, that is, creates a new tag in the repository and pushes those changes to it.
 
-\section{Examples}
+\section{Implementation of Examples}
 \label{sec:implementation_examples}
 In order to make sure that the Javascript \gls{API} works as expected and that it can be applied to multiple kinds of smart places, two examples were implemented.
 These examples try to be a proof of concept, that is, demonstrate that using the Javascript API a web application can be aware of nearby tags, in the real world, and execute useful computation using those tags.
@@ -387,11 +404,6 @@ Here, we looked at each component and described its implementation.
 First we introduced important decisions about the implementation of our Smart Places solution.
 Then, we described the architecture and its main components.
 We summarized the tools used in the development of this solution.
-Android Studio was used to develop the two mobile apps, for owners and end users.
-For the developers \gls{API} and the Smart Restaurant and Smart Museum examples, Grunt and Bower were used.
-Grunt is a tool to manage the build process of frontend assets, such as, Javascript files.
-There are many tasks to handle Javascript files concatenation and minification.
-Bower is a dependency management tool for frontend dependencies that allows developers to specify the dependencies of their web applications instead of downloading each one manually.
 
 % Tags
 % -> Chose BLE beacons
@@ -403,8 +415,7 @@ Our solution does not require the user to acquire any extra hardware besides his
 % Backend
 % -> Used Parse BaaS
 % -> Brief domain model
-Our solution stores information in a backend.
-Instead of developing this component from the scratch we have used a \gls{BaaS}, which allowed us to only be concerned about the data model and not with the typical concerns of a distributed system such as, scalability, performance and deployment.
+Our solution stores information in a backend using Parse \gls{BaaS} allowing us to only be concerned about the data model and not with the typical concerns of a distributed system such as, scalability, performance and deployment.
 In our data model, there is the concept of Smart Place. When owners configure a given Smart Place they are creating a Smart Place Instance.
 Smart Place Instances have tags which are represented by beacons.
 
@@ -412,26 +423,13 @@ Smart Place Instances have tags which are represented by beacons.
 % -> Native vs Web
 % -> Why web
 Smart Places provide proximity-based services that could be supported through native or web apps.
-Native apps are installed on the mobile device's \gls{OS} and only run on the \gls{OS} they are developed for.
-Web apps run on any platform where a web browser can run.
 We discussed the advantages and limitations of native and web apps.
 The final decision was to have an embedded web browser, inside the mobile app for end users, that would allow to have access to any Smart Place without requiring users to install a native app for each one.
-The mobile app scans for nearby beacons and send the needed data to the Smart Place, running inside the embedded web browser.
-
-% Mobile applications
-% -> library (what and why)
-% -> Mobile app for owners (used library, Android Studio)
-% -> Mobile app for end users (used library, Android Studio)
-We have used Android Studio to develop the two mobile apps.
-However, both apps needed to scan for nearby beacons and make requests to the backend.
-Inside the same project, we create a library, from which the two apps depend, in order to avoid having repeated code in both apps.
 
 % Developers API
 % -> JS library
 % -> Why JS
-Since Smart Places are web apps, we have developed a Javascript library.
-This library offers an \gls{API} to handle the events sent by the mobile apps, for instance, when a tag is found.
-Due to the fact that the mobile apps send events to the Smart Place running in the embedded web browser, this \gls{API} is asynchronous and its methods require callback functions as arguments.
+We have developed a Javascript library that offers an \gls{API} to handle the events sent by the mobile apps, for instance, when a tag is found.
 
 % Examples
 % -> Introduced in previous chapters
