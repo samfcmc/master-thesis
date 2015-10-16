@@ -11,19 +11,19 @@ the development process of proximity-based mobile applications.
 Before starting the description of our solution we need to take a look at three kinds of users that will be part of it:
 \begin{description}
   \item[End users] are anyone with a mobile device that installs an app to scan for nearby Smart Places and interact with tags;
-  \item[Owners] are the ones responsible for managing a given place that they want to turn into a Smart Place;
-  \item[Developers] are who develop the code for the Smart Places.
+  \item[Owners] are responsible for managing a given place that they want to turn into a Smart Place;
+  \item[Developers] develop the code for the Smart Places.
 \end{description}
 
-Smart Places solution has a component that targets each one of the presented type of user.
-There is a mobile app to allow anyone with a mobile device such as a smartphone, to use the services provided by nearby Smart Places.
+The Smart Places solution has a component that targets each one of the presented type of user.
+There is a mobile app to allow anyone with a mobile device to use the services provided by nearby Smart Places.
 Owners have a mobile app that allows them to turn the places they manage into Smart Places.
 To develop these services our solution offers an \gls{API} that developers can integrate in their web applications to make them react to the presence of the user.
 
 % What comes next
-Next, we present related work about existing proximity-based applications and tools to develop such applications.
+Next, we present related work about existing proximity-based applications and tools.
 Section \ref{sec:solution_solution_overview} introduces the main components of the solution and how they relate with each other.
-Since we target end users and owners, we developed one Android app for each one, which are described in sections \ref{sec:solution_mobile_app_for_end_users} and \ref{sec:solution_mobile_app_for_owners}, respectively.
+The Android apps are described in sections \ref{sec:solution_mobile_app_for_end_users} and \ref{sec:solution_mobile_app_for_owners}, respectively.
 Then, we present the \gls{API} for developers in section \ref{sec:solution_developers_api}, from its installation to its usage.
 In section \ref{sec:solution_examples}, we describe two examples of Smart Places, the Smart Restaurant and the Smart Museum, including their main features and how they contributed to the development of our Developers \gls{API}.
 Finally, in section \ref{sec:solution_summary} there is a summary of the important aspects of our solution.
@@ -147,7 +147,7 @@ technology and the apps developed using it.
   \end{listing}
 \end{description}
 
-\subsection{Context-awareness}
+\subsection{Context-aware applications}
 \label{sub:frameworks_context_aware}
 In this section we describe related work about the
 development of mobile native and web
@@ -193,20 +193,7 @@ context information to the apps will be presented.
   location information, if there is any, for that
   particular group of geographical coordinates.
   The authors did not evaluate the system.
-
-  This solution offers abstractions for the location
-  information sources. Geographical coordinates can
-  come from any source. It is a good approach for
-  mobile native apps but, it does not support web apps.
-  The authors do not take into consideration
-  constraints in terms of resources, such as
-  lack of Internet connection and battery.
-  Since most users have limited data plans for
-  their smartphones and \gls{SOAP} messages can
-  grow in size due to its \gls{XML} format,
-  a more efficient message encoding could be used
-  instead.
-  \item[Dynamix\cite{Carlson2012}]
+  \item[Dynamix\cite{dynamix}]
   is a framework to develop
   mobile native and web apps that allows them to receive
   context information for instance, position and device's
@@ -217,20 +204,45 @@ context information to the apps will be presented.
   and it is possible to develop more plugins to allow the
   apps to generate additional events that are not
   already supported.
-
-  To achieve our goal, our framework could be just a
-  plugin for Dynamix. The plugin would
-  need to get the beacon's raw data and
-  turn that into a more high-level information
-  using a backend. In this framework,
-  the user needs to install an app that manages the service
-  that runs in background and needs to define some
-  security policies such as which information the app can have access to or which sensors it can use. This could mean a big overhead since
-  we are more focused on developing proximity-based applications that do not require such complex security
-  policies because in this kind of applications, there is only need
-  to access the device's sensors that could provide,
-  to the applications, positioning data.
 \end{description}
+
+\subsection{Discussion}
+\label{sub:solution_related_work_discussion}
+In order to get a good insight about the potential of proximity-based services, we analyzed three applications.
+The BlueSentinel is a system that uses \gls{BLE} beacons to detect the presence of people in a building. It tries to optimize energy consumption based on people's presence.
+Another one, BlueView, is a system to help visually impaired people to be aware of some points of interest.
+The third is the ContextCapture that allows users to create status updates on social networks using context information.
+
+We introduced a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
+For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.
+However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
+This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
+In order to circumvent this limitation, this solution allows developers
+to use the same technologies that are used for any web application such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
+
+The framework described in Krevl et al.\cite{Krevl2006} offers abstractions for the location information sources.
+Geographical coordinates can
+come from any source.
+It is a good approach for
+mobile native apps but it does not support web apps.
+The authors do not take into consideration
+constraints in terms of resources, such as
+lack of Internet connection and battery.
+Since most users have limited data plans for
+their smartphones and \gls{SOAP} messages can
+grow in size due to its \gls{XML} format,
+a more efficient message encoding could be used
+instead, for instance \gls{REST} using \gls{JSON}.
+
+To achieve our goal, our framework could be just a
+plugin for Dynamix. The plugin would
+need to get the beacon's raw data and
+turn that into a more high-level information
+using a backend. In this framework,
+the user needs to install an app that manages the service
+that runs in background and needs to define some
+security policies such as which information the app can have access to or which sensors it can use.
+This could mean a big overhead since we are more focused on developing proximity-based applications that do not require such complex security policies because in this kind of applications, there is only need to access the device's sensors that could provide positioning data to the applications.
 
 \section{Solution Overview}
 \label{sec:solution_solution_overview}
@@ -241,11 +253,6 @@ context information to the apps will be presented.
 % API for developers
 % Beacons (Tags)
 % Backend
-Previously, we presented tools available for developing proximity-based applications.
-However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
-This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
-In order to circumvent this limitation, this solution allows developers
-to use the same technologies that are used for any web application such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
 The Smart Places solution developed in this work is composed by several components, as shown in Figure~\ref{fig:solution_overview}:
 \begin{description}
   \item[Beacons]
@@ -347,7 +354,7 @@ Developers are responsible for creating these interfaces, using the developers \
 % Who
 % How to use it (with some code snippets)
 Owners configure the data of a Smart Place and end users can interact with objects nearby.
-But, who will add behavior to these Smart Places, apps that can react to nearby objects with special tags?
+But, who will add behavior to these Smart Places?
 Our solution offers a way for developers to create their Smart Places.
 Also, we want to avoid the user having to install one mobile app for each Smart Place.
 The app for end users has an embedded web browser, so they can use any Smart Place as they would use any web application without the need to install one more mobile app.
@@ -368,6 +375,7 @@ Then, he/she just needs to include the library and use the available functions.
 The library is event-based, that is, the mobile apps described in sections \ref{sec:solution_mobile_app_for_owners} and \ref{sec:solution_mobile_app_for_end_users} emit events to the library such as, a nearby beacon is detected, to the web application running inside a embedded web browser.
 In this library, there is a global object, which is ``SmartPlaces'' with several methods.
 All those methods need to receive a callback because because as already mentioned the library follows an event-based approach.
+The reason why it is not synchronous is explained in chapter \ref{chapter:implementation}, section \ref{sec:implementation_smart_places}.
 However, developers are also responsible for creating the interface to configure the Smart Place, that is, the steps that owners have to follow, as described in section \ref{sec:solution_mobile_app_for_owners} after they select the Smart Place they want.
 In the part of the web app that will be accessed by owners, developers first need to initialize the library, as shown in Listing~\ref{code:smartplaces_initialization}.
 \begin{listing}[H]
@@ -514,12 +522,12 @@ Instead, we tried to integrate the \gls{JS} \gls{API}, described in section \ref
 As already mentioned, two examples were created.
 The first, described in section \ref{sub:solution_smart_restaurant}, is a Smart Place for restaurants to allow customers to place their orders without the need to wait.
 The other one, is a proximity-based service for museums.
-It allows users, that have the mobile app described in section \ref{sec:solution_mobile_app_for_end_users}, to have access to more information about an object that they are close to in a museum exhibition.
+It allows users to have access to more information about an object that they are close to in a museum exhibition.
 Its features are described in section \ref{sub:smart_museum}.
 
 \subsection{Smart Restaurant}
 \label{sub:solution_smart_restaurant}
-The Smart Restaurant is one of the two examples of Smart Places that were created to show the usage of the entire solution.
+The Smart Restaurant was the first app created to show the usage of the entire solution.
 The main goal here is to allow restaurants' customers to place their orders, using their mobile devices, such as smartphones, without having to wait for an employee coming to them.
 When customers arrive at this Smart Restaurant, a notification shows up in their devices with a message saying that they can place their orders using the mobile app.
 Then, they touch the notification and a new \gls{UI} appears.
@@ -569,13 +577,7 @@ The way we got the data about the collections and objects is detailed in chapter
 % -> Proximity-based apps (BlueSentinel and BlueVIew)
 % -> Context-awareness
 % -> Dynamix
-In order to get a good insight about the potential of proximity-based services, we analyzed three applications.
-The BlueSentinel is a system that uses \gls{BLE} beacons to detect the presence of people in a building. It tries to optimize energy consumption based on people's presence.
-Another one, BlueView, is a system to help visually impaired people to be aware of some points of interest.
-The third is the ContextCapture that allows users to create status updates on social networks using context information.
-Then, we introduce a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
-For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.
-
+In this chapter we reviewed related work and identified desirable features for better proximity based solutions.
 % Targets owners, developers and end users
 % Solution overview
 % -> Components (Beacons, Backend, mobile apps, API)
@@ -607,8 +609,6 @@ Owners deploy beacons in the right places and use the app to create an instance 
 Developers implement the custom behaviors of proximity-based services.
 We created an \gls{API} for them to use to make the development of a Smart Place an easier process that without this \gls{API}.
 Due to its asynchronous nature, each method of the \gls{API} receives a callback function.
-The reason why it is not synchronous is explained in chapter \ref{chapter:implementation}, section \ref{sec:implementation_smart_places}.
-Since this is a Javascript library, developers can use Bower, which is a dependency management tool in web applications, to use this library in their projects.
 
 We created also two examples of Smart Places, the Smart Restaurant and the Smart Museum.
 The first allows customers of a restaurant to place their orders using their mobile devices when they arrive at the restaurant. Using the tags deployed in the restaurant, the table's number is automatically found allowing employees to know where the order comes from.
