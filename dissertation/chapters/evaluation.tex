@@ -5,17 +5,9 @@
 % Introduce evaluation...
 % Main goals
 % Setup used
-
-After the implementation of this solution some experiments were performed in order to test it.
-When the mobile app for end users scans for beacons, it tries to find the nearest one that belongs to one or more Smart Places and notifify the user if at least one was found.
-If the user touches one of those notifications, the interface to the selected Smart Place is shown and the user can start to interact with it.
-Then, the app will keep on scanning for the nearest beacon and request the data, associated to that beacon in the context of the given Smart Place.
-This means that somehow, it has into account the physical distance between the device and the beacons.
-The library used to handle the beacons has a method to get the distance from a given beacon.
-There is a need to check if the distance's value we get from this library is reliable.
-The same app needs to run in background in order to let the user be notified when he/she is nearby any Smart Place, instead of requiring his/her interaction.
-However, as any service running in background, it can have a negative impact on the mobile device's resources usage such as battery.
-A set of experiments was performed to evaluate the overhead introduced by our solution and if it is acceptable, having an app, running in background, scanning for beacons.
+The evaluation focused on two aspects.
+First, we need to verify if the method to get the distance from a given beacon is reliable.
+Second, since we have a service running in background scanning for beacons from time to time we evaluated our solution in terms of battery consumption.
 
 In section \ref{sec:evaluation_setup}, we describe the setup used, such as the mobile device and the set of beacons.
 Then, we present two sets of experiments.
@@ -53,6 +45,7 @@ The set of experiments, summarized in Table~\ref{tab:experiments_nearest_beacon}
 In these experiments, the Smart Musem example was used.
 In each experiment it ran for 5 minutes using 10 seconds as the interval between each scan.
 10 seconds was chosen because it is a reasonable value to walk in the museum to have enough time to perform any computation that was needed after each scan.
+
 In each scan, the app executes code that checks if the scanned beacons were already detected in a previous scan. If they were not, the data associated to those beacons is requested from the backend which, depending on the internet connection, can take some time.
 This time interval between each scan seemed reasonable to make the request and compute the result until a new scan occurs.
 With a much lower value, we could have a situation where another scan occurs while the previous one was not computed yet.
@@ -98,8 +91,12 @@ For instance, in the previously described Smart Restaurant example
 the tables should not be close to each other. This is not always possible because some restaurants try to optimize space and have tables as much close to each other as possible.
 In the Smart Museum example two objects in a given exhibition should not be close to each other.
 Otherwise, the visitor would be notified about an object and he might be looking at another one.
-This error can be avoided using solutions such as Estimote Indoor \gls{SDK}\footnote{http://github.com/Estimote/iOS-Indoor-SDK} that can be used to obtain the physical indoors positon of the user.
-However, it is only available for iOS.
+This error can be avoided using solutions such as Estimote Indoor \gls{SDK}\footnote{http://github.com/Estimote/iOS-Indoor-SDK} that can be used to obtain the physical location of the user inside a building or a room.
+% How it works
+However, using it requires the user to place beacons around the room.
+Then, he needs to walk through the room in order for the app that is using the \gls{SDK} to get the needed data to do the mapping.
+Only after this mapping it is possible to get the user's location.
+It is only available for iOS.
 
 \section{Energy Consumption}
 \label{sec:evaluation_energy_consumption}
@@ -152,16 +149,17 @@ Data communications, \gls{WiFi} or \gls{3G}, are the major source of battery dra
 To test both scenarios we would need more than three beacons spread along a big space.
 Instead, we simulated the user walking passing by multiple Smart Places just by cleaning the cache, at each scan process.
 This forced the app to make requests to the backend each time the three beacons were detected, allowing us to understand the impact of these requests on the power drain.
-We used Battery Historian\footnote{https://developer.android.com/tools/performance/batterystats-battery-historian/index.html} to measure the power drain and how much data was transferred (sent and received). This tool allows developers to get the percentage of power drain of any application.
+We used Battery Historian\footnote{https://developer.android.com/tools/performance/batterystats-battery-historian/index.html} to measure the power drain and how much data was transferred (sent and received). This tool allowed us to get the percentage of power drain.
 
 \subsection{Results}
 \label{sub:evaluation_energy_consumption_results}
-As any service running in background it can imply some overhead in terms of energy.
-Following the methodology, explained before, we evaluated the battery consumption.
-For the first scenario, when the user stays in the same Smart Place, during each experiment, the results are summarized in Table~\ref{tab:results_battery_stopped} where we can see, for each variation of data connection type (\gls{WiFi} and \gls{3G}) and interval between each scan, the values obtained for power drain and data transferred.
-From this table it was possible to create the graphic shown in Figure~\ref{fig:results_battery_stopped}.
-The battery consumption using \gls{WiFi} is almost zero.
-However, when using \gls{3G}, the battery consumption raises more than 30 times than using \gls{WiFi}.
+% Tested first scenario
+After we tested the first scenario, when the user stays in the same Smart Place we got the results shown in Table~\ref{tab:results_battery_stopped}, where we can see, for each variation of data connection type (\gls{WiFi} and \gls{3G}) and interval between each scan, the values obtained for power drain and data transferred.
+From these results we obtained the graphic in Figure~\ref{fig:results_battery_stopped}.
+% Concluded that the power drain is greater when using 3G
+It is possible to see that using \gls{WiFi} we got no power drain.
+However, using \gls{3G} it drained 0.29\% and 0,40\% of the total battery available.
+After these first results we concluded that the biggest overhead comes from using \gls{3G} connection.
 
 \includeTable{results_battery_stopped}
 
@@ -172,33 +170,29 @@ However, when using \gls{3G}, the battery consumption raises more than 30 times 
     \label{fig:results_battery_stopped}
 \end{figure}
 
-From this results, it is possible to conclude that, our solution introduces the most overhead when using \gls{3G} as the mean to perform data communications such as, requests to the backend.
-For each data connection type (\gls{WiFi} and \gls{3G}), we tested two values for the interval between each scan for nearby beacons.
-We can observe that, when we decrease the interval between each scan in half, the battery consumption increases in 0.1\%.
-Taking into account that we spent one hour in each experiment and assuming that the values for the power drain grow lineary, it is possible to say that, for two and half and five minutes in interval between each scan, we would have 6.96\% and 9.6\%, in 24 hours, of power drain, respectively.
-The values are still low but they can demotivate the usage of our solution because, it is very likely that the users already have mobile apps, that use mobile data, already installed in their devices.
-
-Since the power drain is higher when using \gls{3G}, we tested two of the most popular apps using this data connection type, Facebook\footnote{http://play.google.com/store/apps/details?id=com.facebook.katana} and Facebook Messenger\footnote{http://play.google.com/store/apps/details?id=com.facebook.orca} that also have services running in background and need to perform requests using an Internet connection.
-Table~\ref{tab:results_facebook} summarizes these tests.
-Each test ran in 1 hour.
+% Tested Facebook using 3G
+After the first set of experiments we tested Facebook\footnote{http://play.google.com/store/apps/details?id=com.facebook.katana} since it is one of the popular apps and also has services running in background.
+It is also known to be one of most power draining apps\footnote{http://www.forbes.com/sites/jaymcgregor/2014/11/06/facebook-and-instagram-are-killing-your-phones-battery-heres-a-simple-fix}.
+We let it ran for 1 hour as we did in our first experiments.
 While running Facebook, we used it to check our news feed in 5 minutes. The rest of the time the app was running in background.
-With Facebook Messenger, we received three messages during the experiment.
-It is possible to say that most of the power drain was due to background activities.
+Table~\ref{tab:results_facebook} summarizes the conditions and results of the test performed using Facebook app.
 We will use these values as a reference to compare with the power drain in the second scenario, that is, at each scan the user moves from one place to another which implies more requests to the backend.
 
 \includeTable{results_facebook}
 
-Regarding the second scenario, where the user moves from one Smart Place to another, at each two and half minutes.
+% Tested second scenario
+Then, we performed the second set of experiments, that is, the second scenario where the user moves from one Smart Place to another.
+Here, the app requests more data from the backend.
 Table~\ref{tab:results_battery_walking}, shows the results for this scenario. Here, we got more power drain than in the previous scenario.
 These results shows that, the more communication with the backend is required, more power our solution drains.
 Once more, using \gls{WiFi}, we have got almost zero power drain.
 However, similar to the results in the previous scenario, there is more power drain using \gls{3G}.
 Graphic shown in Figure~\ref{fig:results_battery_walking} shows that, using two minutes and half of interval between each scan, we got more 0.71\% than using five minutes.
 As happened before, there is more power drain when we increase the interval between each scan.
-% Relate with Facebook and Messenger apps
-In the worst case we obtained a power drain of 2.71\% which is approximately 71\% less than using Facebook in the same period of time and more than 65\% of using Facebook Messenger.
-Using these two apps as a reference in terms of apps that run services in background, we can say that the battery consumption is acceptable for a daily basis usage.
-However, this is an aspect that needs to be improved.
+
+% Compare with Facebook
+In the worst case we obtained a power drain of 2.71\% which is approximately 71\% less than using Facebook in the same period of time.
+Using this app as a reference in terms of apps that run services in background, we can say that the battery consumption is acceptable for a daily basis usage.
 
 \includeTable{results_battery_walking}
 
@@ -208,6 +202,9 @@ However, this is an aspect that needs to be improved.
     \caption[Power drain when the user is moving]{Relation between power drain and interval between each scan in the scenario where the user moves along multiple Smart Places}
     \label{fig:results_battery_walking}
 \end{figure}
+
+% Dirty Hack to only start next section after showing the figures
+\vfill
 
 \section{Summary}
 \label{sec:evaluation_summary}
@@ -220,10 +217,7 @@ We have used a \tm{Motorola} Moto G smartphone and three beacons from \tm{Estimo
 % Nearest beacon
 % -> What and why
 % -> Comment results
-The mobile app for end users scans for nearby beacons and requests information, to the backend, about the one that is less distant to the mobile device.
-Somehow, the app needs to be able to get the distance from a given beacon.
-Our mobile apps project used a library to handle the \gls{BLE} beacons. This library has a method to get the distance, from a given beacon, that was previously scanned.
-However, we performed experiments in order to see if it is possible to trust this value.
+The mobile app for end users scans for nearby beacons and requests information from the backend.
 Our experiments showed that, to build applications that rely on detecting the nearest beacon, the beacons need to be, at least, 1.5m distant from each other.
 As we raise the distance between beacons, the nearest beacon is successfully detected.
 
@@ -233,14 +227,13 @@ As we raise the distance between beacons, the nearest beacon is successfully det
 The mobile app for end users scans for nearby beacons in background.
 As any service running in background, it can introduce an overhead in terms of energy consumption.
 We performed a set of experiments to get the power drain and data transferred (sent and received) by the mobile app.
-To get the power drain and data transferred values we used Battery Historian tool.
 We have tested two different scenarios. A scenario where the user stays in the same Smart Place and another one where he is always moving from one Smart Place to another.
-Each experiment runned for one hour.
+Each experiment runned for one hour with a scanning period of 5 minutes or 2 and 30 seconds.
 For each scenario, we tested \gls{WiFi} and \gls{3G} as data connection means.
 The results showed that the power drain is bigger when using \gls{3G}. When using \gls{WiFi}, the power drain is almost zero.
 In the scenario where the user does not move, the power drain is less than 1\%.
 However, in the scenario where the user is always moving, which implies more requests to the backend, because new Smart Places are detected in each new scan, the power drain can be more than 2\%.
 % Compare with Facebook and Facebook Messenger
-We have measured the power drain of two popular apps, Facebook and Facebook Messenger, because these apps also have services running in background.
-The power drain of these apps was used as a reference in order to compare with our solution in the worst case, when it needs to make requests to the backend in each scan.
-Comparing the worst power drain in our solution with the two mentioned apps, we can say that the battery consumption of our solution is acceptable but needs to be improved.
+We have measured the power drain of Facebook app, because it is one of the popular apps and also have services running in background.
+The power drain of this app was used as a reference in order to compare with our solution in the worst case, when it needs to make requests to the backend in each scan.
+Comparing the worst power drain in our solution with the Facebook app, we can say that the battery consumption of our solution is acceptable but needs to be improved.
