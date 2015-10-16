@@ -10,9 +10,7 @@
 % Implementation
 % Evaluation
 We have developed the Smart Places solution which offers a tool, for developers, to allow them to create proximity-based services and an interface for end users and owners.
-Using our solution, end users have access to any proximity-based service based on the concept of Smart Place, which we introduced in this work and owners can manage their Smart Places.
-We introduced the concept of Smart Place which is an area with tags, that mobile devices can detect and offer different possibilites, to the users, according to each tag.
-We analyzed some location technologies, using a taxonomy\cite{location}, in order to try to find a technology that would be a best fit for our concept of Smart Place.
+We introduced the concept of Smart Place which is a pyshical space with tags that mobile devices can detect and offer different possibilites to the users, according to each tag.
 We chose \gls{BLE} beacons using iBeacon protocol because it is compatible with any smartphone with Bluetooth version 4.0 or above.
 The owners of Smart Places are responsible to place those beacons in the right place.
 Users do not need any extra hardware.
@@ -30,19 +28,18 @@ The Smart Restaurant had the goal to allow customers, of a restaurant, to place 
 Using this solution, customers do not need to specify which table the orders belong to. Using the tag system through \gls{BLE} beacons, the app automatically get the table's number and add that information when the customer places the final order.
 In the Smart Museum we created the experience of a museum where visitors can have access to more information about an object that they are close to.
 
-After the implementation phase, we evaluated the system.
-We performed two sets of experiments.
-Many times, the mobile apps try to detect the nearest tag.
-The library we have used in our mobile apps have means to get the distance from the detected tags.
-The first set of experiments was performed in order to check if this distance value was reliable.
-We have reached the conclusion that, if we want to rely on getting the nearest tag, they need to be, at least, 1.5m distant from each other.
-The other set of experiments was about battery consumption.
-Since our mobile app has a service running in background scanning for nearby tags from time to time we need to get a good insight about the impact of that service in terms of energy.
+We evaluated our solution in terms of battery consumption.
 Users will not use our solution if they run out of battery faster than if they are not using our solution.
 For each experiment, we have tried two different types of data connection, using \gls{WiFi} and \gls{3G}.
 Using \gls{WiFi} the power drain is almost zero.
 However, using \gls{3G}, the power drain was above 2\%, in just one hour.
-Comparing with the power drain of two popular apps, Facebook and Facebook Messenger, running in the same period we can conclude that the power drain is acceptable but there is room for improvement
+Comparing with the power drain of Facebook app running in the same period we can conclude that the power drain is acceptable but there is room for improvement.
+For instance, we could store geographical coordinates for each tag.
+When detecting a tag, the app could use these coordinates to fetch data about the other tags in the same area in just one request.
+This way, we need less requests to the backend which can result in less power drain than the actual solution.
+
+\subsection{Future Work}
+\label{sub:conclusion_future_work}
 
 There are aspects of our work that can be improved in the future.
 Owners of Smart Places need to deploy tags and use the mobile app to configure those tags.
@@ -66,7 +63,7 @@ Our work targets not only developers but also users and owners.
 A complete solution is needed because developers would not create proximity-based applications if there are no users.
 Also, users would not be engaged if developers do not have the tools to create these applications.
 Proximity-based applications can offer several possibilities.
-For instance, we can put a tag in our garbage can that will remind us to take out the garbage.
-We can have tags in our doors that would allow access only to authorized people.
-Another possibility is to spread tags in a building that will provide us useful information as we navigate through it.
+For instance, companies that have online and physical stores could achieve more integration of offers such as, customers have access to exclusive discounts when they approach a given tag or a set of tags.
+Another possibility is to have tags in a supermarket, which could trigger reminders in an app that customers use to store their shopping list.
+For instance, the customer approaches the section where there is milk and this is on his shopping list. The app would remind him that he needs milk.
 Our Smart Places solution and its evaluation can be considered a step forward to be able to use, develop and manage all these and many more possibilities.
