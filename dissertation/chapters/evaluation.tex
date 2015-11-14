@@ -102,6 +102,7 @@ It is only available for iOS.
 \label{sec:evaluation_energy_consumption}
 Another important aspect of this solution is the battery consumption.
 Since our mobile app for end users runs on background to scan for nearby beacons, that can have a negative impact on the device's battery. If the user notices that the battery drains too fast, he will not use this solution.
+We perfomed experiments to measure how much energy is drained only by our mobile app for end users.
 Similar to section \ref{sec:evaluation_nearest_beacon} in the next sub sections we describe the metholodogy used and explain the results obtained in these experiments.
 
 \subsection{Methodology}
@@ -188,7 +189,7 @@ These results shows that, the more communication with the backend is required, m
 Once more, using \gls{WiFi}, we have got almost zero power drain.
 However, similar to the results in the previous scenario, there is more power drain using \gls{3G}.
 Graphic shown in Figure~\ref{fig:results_battery_walking} shows that, using two minutes and half of interval between each scan, we got more 0.71\% than using five minutes.
-As happened before, there is more power drain when we increase the interval between each scan.
+As happened before, there is more power drain when we decrease the interval between each scan.
 
 % Compare with Facebook
 In the worst case we obtained a power drain of 2.71\% which is approximately 71\% less than using Facebook in the same period of time.
