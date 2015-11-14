@@ -62,7 +62,7 @@ Finally, the end users that interact with tags that are installed in Smart Place
 In order to better define what a Smart Place is, we need to have a good insight about concepts related to location.
 We have used a taxonomy\cite{location} to classify some properties about location which will allow us to have a better understanding about the concept of Smart Place, in section \ref{sec:background_smart_places}.
 Also, these properties are needed to be able to classify the technologies, described in section \ref{sec:background_technologies} and justify if they can be used in the implementation of the concept of a Smart Place.
-Using the taxonomy previously mentioned, it is possible to classify location systems in terms of techniques, physical position or symbolic location, absoulute or relative position, location computation, scale, recognition, cost and limitations.
+Using the taxonomy previously mentioned, it is possible to classify location systems in terms of techniques, physical position or symbolic location, absoulute or relative position, location computation, scale, cost and limitations.
 
 \subsection{Techniques}
 \label{sub:background_techniques}
@@ -73,7 +73,7 @@ The techniques are the following:
 \begin{description}
   \item[Triangulation] It can be done via lateration or angulation. Lateration uses distance measurements between two well known points.
   Angulation uses measurements of angles relative to known points;
-  \item[Proximity] As the name suggests, it measures how close the device is to a known point;
+  \item[Proximity] It takes into account the proximity of the user to a given point
   \item[Scene analysis] It consists in examining a view from a given point.
 \end{description}
 
@@ -111,13 +111,13 @@ For instance, in systems that rely on a fixed number of sattelites, it is possib
 In systems based on tags, a reader can read a limited number of tags.
 In this case, adding more tags can compromise the performance of the entire system.
 
-\subsection{Recognition}
-\label{sub:background_recognition}
-Recognition refers to the hability, of a location system to recognize individual receivers.
-Location systems based on tags usually have means of recognizing receivers.
-If we assign an \gls{ID} to each receiver each time the receiver reads a tag, that information can be stored and it is possible to know which receiver communicated with that tag.
-There are systems without this capability.
-For instance, \gls{GPS} is a system that is not able to recognize receivers as the satelites do not have any means to recognize receivers.
+%\subsection{Recognition}
+%\label{sub:background_recognition}
+%Recognition refers to the hability, of a location system to recognize individual receivers.
+%Location systems based on tags usually have means of recognizing receivers.
+%If we assign an \gls{ID} to each receiver each time the receiver reads a tag, that information can be stored and it is possible to know which receiver communicated with that tag.
+%There are systems without this capability.
+%For instance, \gls{GPS} is a system that is not able to recognize receivers as the satelites do not have any means to recognize receivers.
 
 \subsection{Cost}
 \label{sub:background_cost}
@@ -312,8 +312,8 @@ For instance, a tag based system might only work properly if only one tag is pre
 Multiple technologies were taken into consideration.
 Ones are tag based, such as \gls{QR} codes, \gls{NFC} and \gls{BLE} that can be used to provide symbolic location.
 Others, such as \gls{GPS} and Google Maps Indoor, are used to provide physical location but can be augmented to provide symbolic location.
-However, \gls{GPS} does not work properly indoors and Google Maps Indoor requires that buildings are mapped first by a team from \tm{Google}.
-Each technology was classified in terms of techniques, type of location (physical or symbolic), computation, scale, recognition of individual receivers and costs.
+However, \gls{GPS} does not work properly indoors and Google Maps Indoor requires that buildings are mapped first. This mapping can be performed by a team from \tm{Google} or by users.
+Each technology was classified in terms of techniques, type of location (physical or symbolic), computation, scale and costs.
 This classification was made using the taxonomy introduced in section \ref{sec:background_location} and is summarized in Table~\ref{tab:technologies}.
 
 \includeTable{technologies}
@@ -341,7 +341,7 @@ Smart Places could be implemented using Google Maps Indoor.
 This technology is based on triangulation technique and provides physical location.
 Similar to \gls{GPS} it can be augmented to provide symbolic location requiring a given amount of external structure, which is what scale depends on and the major cost here.
 This would lead to a solution where no extra hardware is needed.
-However, it requires that a team from \tm{Google} maps the building first in order to be possible to navigate in it using Google Maps Indoor.
+However, it requires a previous mapping of the building before users are able to navigate in it using Google Maps Indoor.
 % BLE
 \gls{BLE} is a good fit for our purpose because, it is based on proximity and can be used to provide symbolic location.
 It does not have any costs for the users besides the acquisition of the mobile device.
@@ -579,7 +579,7 @@ This could mean a big overhead since we are more focused on developing proximity
 Smart Places are based on the proximity technique and symbolic location.
 Also, we need to take into account the cost and limitations because we want a solution as low cost as possible, in terms of time and capital, for end users, owners and developers.
 
-In this chapter we introduced a taxonomy to classify location systems in terms of techniques, physical or symbolic location, computation, scale, recognition, cost and limitations.
+In this chapter we introduced a taxonomy to classify location systems in terms of techniques, physical or symbolic location, computation, scale, cost and limitations.
 
 % Smart Place (based on taxonomy)
 The concept of Smart Place was defined as a place with tags, that provides a service to users when they approach those tags.
