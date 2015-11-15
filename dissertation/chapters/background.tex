@@ -9,7 +9,8 @@ Before describing the solution we need to get a good insight about concepts, tec
 Proximity-based applications are a particular kind of context-aware applications.
 An application is context-aware when it takes into account the context such as, location, device's orientation, temperature, etc.
 Based on this definition, proximity-based applications are context-aware applications that take into account the user's location.
-They engage the user while they are on proximity of a given point of interest which we will call a Tag.
+They engage the user while they are on proximity of a given tag.
+A tag is a mark with meaning to a given application.
 Someone installs tags in a given space.
 Then, users can interact with those tags when they are nearby them.
 From the given definition of proximity-based application, the concept of Smart Place arises.
@@ -62,7 +63,7 @@ Finally, the end users that interact with tags that are installed in Smart Place
 In order to better define what a Smart Place is, we need to have a good insight about concepts related to location.
 We have used a taxonomy\cite{location} to classify some properties about location which will allow us to have a better understanding about the concept of Smart Place, in section \ref{sec:background_smart_places}.
 Also, these properties are needed to be able to classify the technologies, described in section \ref{sec:background_technologies} and justify if they can be used in the implementation of the concept of a Smart Place.
-Using the taxonomy previously mentioned, it is possible to classify location systems in terms of techniques, physical position or symbolic location, absoulute or relative position, location computation, scale, cost and limitations.
+Using the taxonomy previously mentioned, it is possible to classify location systems in terms of techniques, physical position or symbolic location, absolute or relative position, location computation, scale, cost and limitations.
 
 \subsection{Techniques}
 \label{sub:background_techniques}
@@ -71,7 +72,7 @@ These techniques are used to compute the location.
 A device can use one or combine two or all the three.
 The techniques are the following:
 \begin{description}
-  \item[Triangulation] It can be done via lateration or angulation. Lateration uses distance measurements between two well known points.
+  \item[Triangulation] It can be done via lateration or angulation. Lateration uses distance measurements between three well known points.
   Angulation uses measurements of angles relative to known points;
   \item[Proximity] It takes into account the proximity of the user to a given point
   \item[Scene analysis] It consists in examining a view from a given point.
@@ -132,7 +133,7 @@ It is possible to look at costs in three perspectives:
 
 When comparing multiple location systems, the costs can be a decisive factor. We need not only to take into account the technology characteristics but also the costs.
 
-\section{Location Detection Technologies}
+\section{Location Detection}
 \label{sec:background_technologies}
 % Possible technologies
 % GPS
@@ -140,7 +141,7 @@ When comparing multiple location systems, the costs can be a decisive factor. We
 % NFC
 % Google maps indoor
 % BLE
-Somehow, the mobile device needs to be able to detect the presence of these tags.
+Somehow, the mobile device needs to be able to detect the presence of tags that belong to a given Smart Place.
 Multiple technologies can be used.
 Some of them require the user interaction, such as the described in section \ref{sub:background_qr_codes}.
 Others require the devices to be equipped with extra hardware, such as the one in section \ref{sub:background_near_field _communication}.
@@ -152,7 +153,7 @@ We are going to look at these technologies and see which one best fits our purpo
 % How it works
 \glsfirst{GPS}\cite{gps} is a location system that uses 24 sattelites plus 3 backups.
 Receivers send signals and sattelites answer back. Measurements are taken from this signals in order to receivers be able to calculate their own location.
-An object, that we want to locate, only needs a \gls{GPS} receiver in order to be located using this technology.
+An object, that we want to locate, only needs a \gls{GPS} receiver in order to to determine its location using this technology.
 
 % Classification
 \gls{GPS} uses triangulation as the technique to get the location.
@@ -176,7 +177,8 @@ However, it is not adequate to locate objects indoors.
 % How it works
 \gls{QR} codes is a type of two dimensional barcode.
 The user just needs a camera and software that read these codes.
-There are \gls{QR} readers available for all the three major mobile platforms, Android, iOS and Windows Phone.
+There are \gls{QR} readers available,
+such as, QR Droid\footnote{http://play.google.com/store/apps/details?id=la.droid.qr} for Android, QR Reader\footnote{http://itunes.apple.com/pt/app/qr-reader-for-iphone/id368494609?mt=8} for iOS and QR Code Reader\footnote{http://www.microsoft.com/en-us/store/apps/qr-code-reader/9wzdncrfj1s9} for Windows Phone.
 Whenever the user sees one of these codes, he/she can open the \gls{QR} code reader app, scan the code and see the content provided by it.
 The content can be an \gls{URL}.
 Figure~\ref{fig:qr_code} shows an example of a \gls{QR} code.
@@ -190,14 +192,13 @@ Figure~\ref{fig:qr_code} shows an example of a \gls{QR} code.
 
 % Requirements
 % Advantages and disadvantages
-It does not require more than a mobile device with a camera and a \gls{QR} code reader app, such as, QR Droid\footnote{http://play.google.com/store/apps/details?id=la.droid.qr} for Android, QR Reader\footnote{http://itunes.apple.com/pt/app/qr-reader-for-iphone/id368494609?mt=8} for iOS and QR Code Reader\footnote{http://www.microsoft.com/en-us/store/apps/qr-code-reader/9wzdncrfj1s9} for Windows Phone.
 There is no extra hardware involved.
 However, one big disadvantage of this technology is the fact that it requires user interaction.
 The user needs to be aware of this kind of codes and also needs to see them wherever they are.
 Providing proximity-based services using \gls{QR} codes would be simply using the codes as tags and an app for users to scan these codes and have access to the particular service, that is, Smart Place.
 
 % Related work
-There are works that use this technology to to get the user's indoor location, such as, the one described in \cite{qr_indoor}.
+There are several applications that use this technology to to get the user's indoor location, such as, the one described in \cite{qr_indoor}.
 It uses \gls{QR} codes in combination with \tm{Google} Maps \gls{API}\footnote{http://developers.google.com/maps}.
 Others, try to use it to solve real world problems such as hospital overcrowding.
 In the work presented in \cite{qr_hospital}, the authors try to use \gls{QR} Codes to identify patients in an hospital.
@@ -208,11 +209,11 @@ This information is used in a mobile application that the hospital's staff use t
 % What is it
 % How it works
 \glsfirst{NFC}\cite{nfc} is a short distance radio communication technology.
-The two devices communicating need to be at 10 cm or less distant from each other.
+Its range is less than 10 cm.
 It can work in one of two modes
 \begin{description}
   \item[Active] mode. In this mode, both devices generate their own electromagnetic field alternatively to exchange information;
-  \item[Passive] mode. Here, one device generates an electromagnetic field and the other device uses that same field for data exchange.
+  \item[Passive] mode. Here, one device generates an electromagnetic field and the other device uses that same field for data transmission.
 \end{description}
 
 % Requirements
@@ -308,7 +309,6 @@ There are no perfect location systems. Every system has its own limitations.
 There are ones that do not work well indoors, such as the \gls{GPS} because it cannot get the sattelites' signal.
 If we want a location system that would work indoors, maybe a tag based system is a better fit.
 When choosing a system, this is important because one might not require extra hardware and it leads to a low cost system but, if the limitations compromise its performance it is better to pick one with higher costs.
-For instance, a tag based system might only work properly if only one tag is present.
 Multiple technologies were taken into consideration.
 Ones are tag based, such as \gls{QR} codes, \gls{NFC} and \gls{BLE} that can be used to provide symbolic location.
 Others, such as \gls{GPS} and Google Maps Indoor, are used to provide physical location but can be augmented to provide symbolic location.
@@ -542,9 +542,9 @@ The third is the ContextCapture that allows users to create status updates on so
 
 We introduced a framework to develop distributed location-based applications and a more generic one that targets the development of context-aware applications.
 For each one, we described the idea, its main components, in order to get an overview about their limitations, which we try to circumvent in our solution.
-However, most of them only helps developers to write native apps, that is, apps written for a specific platform that will run only on it.
+However, most of them only allow developers write native apps, that is, apps written for a specific platform that will run only on it.
 This leads to a situation where the user needs to install one app, in his/her mobile device, for each proximity-based service he/she wants to use.
-In order to circumvent this limitation, this solution allows developers
+In order to circumvent this limitation, our Smart Places solution allows developers
 to use the same technologies that are used for any web application such as \gls{HTML}, \gls{CSS} and Javascript to build Smart Places allowing them run on a web browser that can be embedded in a mobile app. This way, users only need to install one app to discover and use proximity-based services following the Smart Places approach.
 
 The framework described in Krevl et al.\cite{Krevl2006} offers abstractions for the location information sources.
@@ -554,7 +554,7 @@ It is a good approach for
 mobile native apps but it does not support web apps.
 The authors do not take into consideration
 constraints in terms of resources, such as
-lack of Internet connection and battery.
+Internet connection and battery.
 Since most users have limited data plans for
 their smartphones and \gls{SOAP} messages can
 grow in size due to its \gls{XML} format,

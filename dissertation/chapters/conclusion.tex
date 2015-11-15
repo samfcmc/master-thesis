@@ -63,10 +63,9 @@ Owners of Smart Places need to deploy tags and use the mobile app to configure t
 However, there is not any interface that they can use to register themselves as the owners of such tags.
 In the development of this work we introduced the needed data manually, that is,
 all the associations between tags and their owners.
-There is one more interface missing to allow developers to register the Smart Places they develop.
 When owners are configuring their Smart Places, they can choose from a list.
 The Smart Restaurant and Smart Museum examples were introduced in the backend manually using Parse dashboard.
-There is no way for developers to add a Smart Place to this list.
+There is no interface for developers to add a Smart Place to this list.
 A future improvement could be to develop these missing interfaces.
 One that would allow owners to register the ownership of tags and another for owners that would use it to register the Smart Places they developed.
 
@@ -96,7 +95,9 @@ In the future, the Backend needs to be improved in order to be more secure to no
 % More technologies
 We picked \gls{BLE} as the technology to support tags in a given Smart Place.
 However, developers might want to build Smart Places that make use of other location technologies such as, \gls{QR} codes or \gls{NFC}.
-Our solution is attached to a particular technology instead of allowing to be extended in order to support more location technologies.
+Our solution only supports \gls{BLE}.
+This might not be the right technology for some applications.
+One future improvement would be to add support for more technologies and let developers choose the right one for the application they are building
 
 % Only web apps
 Using our solution, only web applications can offer proximity-based services.

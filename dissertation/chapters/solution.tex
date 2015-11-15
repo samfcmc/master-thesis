@@ -42,7 +42,7 @@ The Smart Places solution developed in this work is composed by several componen
   \item[Beacons]
   are the small devices that will act as tags, according to our definition of a Smart Place;
   \item[Backend]
-  is where all the data about Smart Places is stored, that is, that are available and the ones tht the owner has configured, information about each beacon, etc;
+  is where all the data about Smart Places and tags is stored.
   \item[End Users Mobile App]
   is an Android mobile app that allows users with a mobile device \gls{BLE} enabled to have access to nearby Smart Places and to detect the beacons that belong to those Smart Places;
   \item[Owners Mobile App] is another Android mobile app that owners use to select which Smart Places they want to configure. It also allows to configure each individual beacon that belongs to a given Smart Place;
@@ -109,7 +109,7 @@ It does not have enough data to know which Smart Places it belongs to.
 Next, the Data Store component is called in order to get the information about the Smart Places that use that beacon as a tag.
 Data Store makes a request to the Backend in order to get this information.
 When the Backend returns a list of Smart Places that list is used to notify the user about the Smart Places that were found.
-Then, if the user touches on of the notifications a \gls{UI} with a Web View is shown.
+Then, if the user touches on the notifications a \gls{UI} with a Web View is shown.
 Since each Smart Place is a web application the \gls{URL} of the Smart Place that the user previously selected, when he touched the notification, is loaded to the Web View.
 After the page finishes loading, the Beacons Manager is called again to perform another scan for nearby beacons and it returns the nearest one.
 The Data Store is called again but this time, to get the tag associated to that beacon that belongs to the selected Smart Place.
@@ -166,9 +166,7 @@ They need to deploy beacons in the right places.
 Then, they use the mobile app to create an instance of a Smart Place following the steps shown in Figure~\ref{fig:screenshot_ownersapp}:
 \begin{itemize}
   \item First, the app asks owners to log in.
-  The app only allows log in using user's Facebook account.
-  Parse \gls{BaaS} already provides integration with social networks.
-  We did not need to ask for an username and password.
+  The app only allows users to log in using their Facebook account.
   \item The app shows a list of all available Smart Places that the owner can configure.
   For instance, the Smart Restaurant and Smart Museum examples described in section \ref{sec:solution_examples} are examples of Smart Places that can appear in this list;
   \item Then, the owner selects one and he can see a text explaining what that Smart Place is about;
@@ -418,7 +416,7 @@ Instead of creating a fake museum with mock data, we used real data from a real 
 The idea was to try to emulate the real experience.
 For that, we have used data from the Walters Art Museum\footnote{http://thewalters.org}, which is a public art museum, located in Mount Vernon-Belvedere, Baltimore, Maryland.
 It was founded in 1934 and its collection includes more than 30 000 objects.
-The way we got the data about the collections and objects is detailed in chapter \ref{chapter:implementation}, section \ref{sub:implementation_smart_museum}.
+The data was obtained using the Walters Art Museum \gls{API}\footnote{http://api.thewalters.org/} which provides methods to get collections and objects of each collection.
 
 \section{Summary}
 \label{sec:solution_summary}
