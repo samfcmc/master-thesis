@@ -42,7 +42,7 @@
 % ---------------------------------------------------------
 \begin{minipage}[t]{.5\textwidth}
   \begin{flushright}
-    {\large Advisor(s)/Supervisor(s):\:}
+    {\large Supervisor(s):\:}
   \end{flushright}
 \end{minipage}%
 \begin{minipage}[t]{.5\textwidth}
@@ -70,9 +70,9 @@
     \if\IsFinalVersion 1
     {\large Chairperson:\:}\\
     \fi
-    {\large Advisor:\:}\\
-    \if\HasCoAdvisor 1
-    {\large Co-Advisor:\:}\\
+    {\large Supervisor:\:}\\
+    \if\HasCoAdvisor 0
+    {\large Co-Supervisor:\:}\\
     \fi
     \if\IsFinalVersion 1
     {\large Members of the Committee:\:}
@@ -85,7 +85,7 @@
     {\Chairperson}\\
     \fi
     {\Advisor}\\
-    \if\HasCoAdvisor 1
+    \if\HasCoAdvisor 0
     {\CoAdvisor}\\
     \fi
     \if\IsFinalVersion 1
