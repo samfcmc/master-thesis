@@ -40,16 +40,22 @@
 % -----------------------------------------------------------------
 %  ADVISORS NAME
 % ---------------------------------------------------------
-\begin{minipage}[t]{.5\textwidth}
-  \begin{flushright}
-    {\large Supervisor(s):\:}
-  \end{flushright}
-\end{minipage}%
-\begin{minipage}[t]{.5\textwidth}
-  \begin{flushleft}
-    {\Supervisors}
-  \end{flushleft}
+
+\begin{minipage}[t]{1\textwidth}
+  \center
+  {\large Supervisors:}\\
+  {\Supervisors}
 \end{minipage}\\
+  %cenas
+  %\begin{flushright}
+  %  {\large Supervisor(s):\:}
+  %\end{flushright}
+%\end{minipage}%
+%\begin{minipage}[t]{.5\textwidth}
+%  \begin{flushleft}
+%    {\Supervisors}
+%  \end{flushleft}
+%\end{minipage}\\
 %
 \if\IsFinalVersion 1
   \vspace*{\finalAdvisorsSpacing}
@@ -64,35 +70,43 @@
 % ---------------------------------------------------------
 \if\IsFinalVersion 1
 %
-{\Large \textbf{Examination Committee}}\\[.25cm]
-\begin{minipage}[t]{.5\textwidth}
-  \begin{flushright}
-    \if\IsFinalVersion 1
-    {\large Chairperson:\:}\\
-    \fi
-    {\large Supervisor:\:}\\
-    \if\HasCoAdvisor 0
-    {\large Co-Supervisor:\:}\\
-    \fi
-    \if\IsFinalVersion 1
-    {\large Members of the Committee:\:}
-    \fi
-  \end{flushright}
-\end{minipage}%
-\begin{minipage}[t]{.5\textwidth}
-  \begin{flushleft}
-    \if\IsFinalVersion 1
-    {\Chairperson}\\
-    \fi
-    {\Advisor}\\
-    \if\HasCoAdvisor 0
-    {\CoAdvisor}\\
-    \fi
-    \if\IsFinalVersion 1
-    {\CommitteeMembers}
-    \fi
-  \end{flushleft}
+\begin{minipage}[t]{1\textwidth}
+  \center
+  {\Large \textbf{Examination Committee}}\\
+  {\large Chairperson: \Chairperson}\\
+  {\large Supervisor: \MainSupervisor}\\
+  {\large Member of the Committee: \CommitteeMembers}
+
 \end{minipage}\\[1.0cm]
+%
+%\]\begin{minipage}[t]{.5\textwidth}
+  %\begin{flushright}
+  %  \if\IsFinalVersion 1
+  %  {\large Chairperson:\:}\\
+  %  \fi
+  %  {\large Supervisor:\:}\\
+  %  \if\HasCoAdvisor 0
+  %  {\large Co-Supervisor:\:}\\
+  %  \fi
+  %  \if\IsFinalVersion 1
+  %  {\large Members of the Committee:\:}
+  %  \fi
+  %end{flushright}
+%\end{minipage}%
+%\begin{minipage}[t]{.5\textwidth}
+%  \begin{flushleft}
+%    \if\IsFinalVersion 1
+%    {\Chairperson}\\
+%    \fi
+%    {\Advisor}\\
+%    \if\HasCoAdvisor 0
+%    {\CoAdvisor}\\
+%    \fi
+%    \if\IsFinalVersion 1
+%    {\CommitteeMembers}
+%    \fi
+%  \end{flushleft}
+%\end{minipage}\\[1.0cm]
 %
 \fi
 
